@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BarangJasa\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,6 @@ Route::get('/home', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
+Route::prefix('barang-jasa')->middleware('auth')->group(function () {
+    Route::resource('supplier', SupplierController::class);
+});
