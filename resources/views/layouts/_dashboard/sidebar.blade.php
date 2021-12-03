@@ -85,10 +85,7 @@
         </a>
         <div class="menu-submenu">
             <div class="menu-item">
-                <a href="index.html" class="menu-link"><div class="menu-text">Jabatan</div></a>
-                <a href="index.html" class="menu-link"><div class="menu-text">Status Karyawan</div></a>
-                <a href="index.html" class="menu-link"><div class="menu-text">Divisi</div></a>
-                <a href="index.html" class="menu-link"><div class="menu-text">Lokasi Kerja</div></a>
+                <a href="" class="menu-link"><div class="menu-text">User</div></a>
             </div>
         </div>
     </div>

@@ -1,0 +1,4 @@
+<script src="{{ asset('template/assets/js/vendor.min.js') }}" type="c8b7670c166076c88715b305-text/javascript"></script>
+<script src="{{ asset('template/assets/js/app.min.js') }}" type="c8b7670c166076c88715b305-text/javascript"></script>
+<script src="{{ asset('template/assets/js/demo/login-v2.demo.js') }}" type="c8b7670c166076c88715b305-text/javascript"></script>
+<script src="../../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="c8b7670c166076c88715b305-|49" defer=""></script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v64f9daad31f64f81be21cbef6184a5e31634941392597" integrity="sha512-gV/bogrUTVP2N3IzTDKzgP0Js1gg4fbwtYB6ftgLbKQu/V8yH2+lrKCfKHelh4SO3DPzKj4/glTO+tNJGDnb0A==" data-cf-beacon='{"rayId":"6b731147af5e6bc3","version":"2021.11.0","r":1,"token":"4db8c6ef997743fda032d4f73cfeff63","si":100}' crossorigin="anonymous"></script>
