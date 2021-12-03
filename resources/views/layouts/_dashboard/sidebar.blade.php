@@ -17,6 +17,7 @@
                 </a>
             </div>
             <div class="menu-header">Navigation</div>
+
             {{-- home --}}
             <div class="menu-item">
                 <a href="{{ route('home') }}" class="menu-link">
@@ -26,6 +27,7 @@
                     <div class="menu-text">{{ trans('sidebar.word.home') }}</div>
                 </a>
             </div>
+
             {{-- Akuntansi --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -47,6 +49,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- kontak --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -67,6 +70,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- penjualan --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -87,6 +91,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- pembelian --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -104,6 +109,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- Inventory --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -121,6 +127,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- HR & Legal --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -138,6 +145,7 @@
                     </div>
                 </div>
             </div>
+
             {{-- master data --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -164,12 +172,13 @@
                         <a href="{{ route('category.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.kategori') }}</div>
                         </a>
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('unit.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.satuan') }}</div>
                         </a>
                     </div>
                 </div>
             </div>
+
             {{-- pengaturan --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
@@ -189,6 +198,11 @@
                         </a>
                     </div>
                 </div>
+            </div>
+
+            <div class="menu-item d-flex">
+                <a href="javascript:;" class="app-sidebar-minify-btn ms-auto" data-toggle="app-sidebar-minify"><i
+                        class="fa fa-angle-double-left"></i></a>
             </div>
         </div>
     </div>

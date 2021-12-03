@@ -28,6 +28,8 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'master-data.category.create',
             'master-data.category.edit',
+            'master-data.unit.create',
+            'master-data.unit.edit',
         ], function ($view) {
             return $view->with(
                 'status',

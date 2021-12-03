@@ -68,3 +68,19 @@ Breadcrumbs::for('category_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('category_index');
     $trail->push('Edit');
 });
+
+// Unit
+Breadcrumbs::for('unit_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Unit', route('unit.index'));
+});
+
+Breadcrumbs::for('unit_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('unit_index');
+    $trail->push('Create', route('unit.create'));
+});
+
+Breadcrumbs::for('unit_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('unit_index');
+    $trail->push('Edit');
+});
