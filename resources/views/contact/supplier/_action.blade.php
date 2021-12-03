@@ -1,5 +1,5 @@
 <td>
-    <a href="{{ route('supplier.edit', $model->id) }}" class="btn btn-primary btn-sm mb-1">
+    <a href="{{ route('supplier.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
         <i class="fas fa-edit"></i>
     </a>
 
@@ -8,8 +8,8 @@
         @csrf
         @method('delete')
 
-        <button class="btn btn-danger btn-sm mb-1">
-            <i class="fas fa-trash"></i>
+        <button class="btn btn-danger btn-xs mb-1">
+            <i class="fas fa-trash-alt"></i>
         </button>
     </form>
 </td>

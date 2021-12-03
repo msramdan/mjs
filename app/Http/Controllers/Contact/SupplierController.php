@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\BarangJasa;
+namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BarangJasa\StoreSupplierRequest;
-use App\Http\Requests\BarangJasa\UpdateSupplierRequest;
-use App\Models\BarangJasa\Supplier;
+use App\Http\Requests\Contact\StoreSupplierRequest;
+use App\Http\Requests\Contact\UpdateSupplierRequest;
+use App\Models\Contact\Supplier;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -21,7 +21,7 @@ class SupplierController extends Controller
         if (request()->ajax()) {
             return Datatables::of(Supplier::orderByDesc('updated_at'))
                 ->addIndexColumn()
-                ->addColumn('action', 'barang-jasa.supplier._action')
+                ->addColumn('action', 'contact.supplier._action')
                 ->addColumn('alamat', function ($row) {
                     return \Str::limit($row->alamat, 40);
                 })
@@ -34,7 +34,7 @@ class SupplierController extends Controller
                 ->toJson();
         }
 
-        return view('barang-jasa.supplier.index');
+        return view('contact.supplier.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('barang-jasa.supplier.create');
+        return view('contact.supplier.create');
     }
 
     /**
@@ -56,14 +56,16 @@ class SupplierController extends Controller
     public function store(StoreSupplierRequest $request)
     {
         Supplier::create($request->validated());
+
         Alert::success('Tambah Data', 'Berhasil');
+
         return redirect()->route('supplier.index');
     }
 
     // /**
     //  * Display the specified resource.
     //  *
-    //  * @param  \App\Models\BarangJasa\Supplier  $supplier
+    //  * @param  \App\Models\Contact\Supplier  $supplier
     //  * @return \Illuminate\Http\Response
     //  */
     // public function show(Supplier $supplier)
@@ -74,38 +76,42 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\BarangJasa\Supplier  $supplier
+     * @param  \App\Models\Contact\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
     public function edit(Supplier $supplier)
     {
-        return view('barang-jasa.supplier.edit', compact('supplier'));
+        return view('contact.supplier.edit', compact('supplier'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BarangJasa\Supplier  $supplier
+     * @param  \App\Models\Contact\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
         $supplier->update($request->validated());
+
         Alert::success('Update Data', 'Berhasil');
+
         return redirect()->route('supplier.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BarangJasa\Supplier  $supplier
+     * @param  \App\Models\Contact\Supplier  $supplier
      * @return \Illuminate\Http\Response
      */
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
+
         Alert::success('Hapus Data', 'Berhasil');
+
         return redirect()->route('supplier.index');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\BarangJasa;
+namespace App\Http\Requests\Contact;
 
 use Illuminate\Foundation\Http\FormRequest;
 
