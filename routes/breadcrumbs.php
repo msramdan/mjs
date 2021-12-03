@@ -84,3 +84,19 @@ Breadcrumbs::for('unit_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('unit_index');
     $trail->push('Edit');
 });
+
+// Lokasi
+Breadcrumbs::for('lokasi_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Lokasi', route('lokasi.index'));
+});
+
+Breadcrumbs::for('lokasi_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('lokasi_index');
+    $trail->push('Create', route('lokasi.create'));
+});
+
+Breadcrumbs::for('lokasi_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('lokasi_index');
+    $trail->push('Edit');
+});

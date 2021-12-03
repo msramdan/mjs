@@ -166,7 +166,7 @@
                         <a href="index.html" class="menu-link">
                             <div class="menu-text">Divisi</div>
                         </a>
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('lokasi.index') }}" class="menu-link">
                             <div class="menu-text">Lokasi Kerja</div>
                         </a>
                         <a href="{{ route('category.index') }}" class="menu-link">

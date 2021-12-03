@@ -30,6 +30,8 @@ class ViewServiceProvider extends ServiceProvider
             'master-data.category.edit',
             'master-data.unit.create',
             'master-data.unit.edit',
+            'master-data.lokasi.create',
+            'master-data.lokasi.edit',
         ], function ($view) {
             return $view->with(
                 'status',
