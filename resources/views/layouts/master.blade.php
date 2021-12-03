@@ -40,6 +40,7 @@
     @include('layouts._dashboard.script')
 
     @stack('js')
+    @include('sweetalert::alert')
 
 </body>
 

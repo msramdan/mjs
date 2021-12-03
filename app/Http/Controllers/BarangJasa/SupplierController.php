@@ -7,6 +7,7 @@ use App\Http\Requests\BarangJasa\StoreSupplierRequest;
 use App\Http\Requests\BarangJasa\UpdateSupplierRequest;
 use App\Models\BarangJasa\Supplier;
 use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class SupplierController extends Controller
 {
@@ -55,8 +56,8 @@ class SupplierController extends Controller
     public function store(StoreSupplierRequest $request)
     {
         Supplier::create($request->validated());
-
-        return redirect()->route('supplier.index')->with('success', 'Data supplier berhasil disimpan.');
+        Alert::success('Tambah Data', 'Berhasil');
+        return redirect()->route('supplier.index');
     }
 
     // /**
@@ -91,8 +92,8 @@ class SupplierController extends Controller
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {
         $supplier->update($request->validated());
-
-        return redirect()->route('supplier.index')->with('success', 'Data supplier berhasil diubah.');
+        Alert::success('Update Data', 'Berhasil');
+        return redirect()->route('supplier.index');
     }
 
     /**
@@ -104,7 +105,7 @@ class SupplierController extends Controller
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
-
-        return redirect()->route('supplier.index')->with('success', 'Data supplier berhasil dihapus.');
+        Alert::success('Hapus Data', 'Berhasil');
+        return redirect()->route('supplier.index');
     }
 }

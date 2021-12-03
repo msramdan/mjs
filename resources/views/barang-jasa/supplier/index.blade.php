@@ -13,9 +13,6 @@
             </a>
         </div>
 
-        {{-- resources/views/components/alert --}}
-        <x-alert></x-alert>
-
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title">Supplier</h4>
