@@ -8,9 +8,71 @@
         </button>
     </div>
     <div class="navbar-nav">
+        <div class="navbar-item navbar-form">
+            <script type="text/javascript">
+                function tampilkanwaktu(){
+                    var waktu = new Date();
+                    var sh = waktu.getHours() + "";
+                    var sm = waktu.getMinutes() + "";
+                    var ss = waktu.getSeconds() + "";
+                    document.getElementById("clock").innerHTML = (sh.length==1?"0"+sh:sh) + ":" + (sm.length==1?"0"+sm:sm) + ":" + (ss.length==1?"0"+ss:ss);
+                }
+            </script>
+
+            <body onload="tampilkanwaktu();setInterval('tampilkanwaktu()', 1000);">
+            <?php
+                $hari = date('l');
+                if ($hari=="Sunday") {
+                echo "Minggu";
+                }elseif ($hari=="Monday") {
+                echo "Senin";
+                }elseif ($hari=="Tuesday") {
+                echo "Selasa";
+                }elseif ($hari=="Wednesday") {
+                echo "Rabu";
+                }elseif ($hari=="Thursday") {
+                echo("Kamis");
+                }elseif ($hari=="Friday") {
+                echo "Jum'at";
+                }elseif ($hari=="Saturday") {
+                echo "Sabtu";
+                }
+            ?>,
+            <?php
+                $tgl =date('d');
+                echo $tgl;
+                $bulan =date('F');
+                if ($bulan=="January") {
+                echo " Januari ";
+                }elseif ($bulan=="February") {
+                echo " Februari ";
+                }elseif ($bulan=="March") {
+                echo " Maret ";
+                }elseif ($bulan=="April") {
+                echo " April ";
+                }elseif ($bulan=="May") {
+                echo " Mei ";
+                }elseif ($bulan=="June") {
+                echo " Juni ";
+                }elseif ($bulan=="July") {
+                echo " Juli ";
+                }elseif ($bulan=="August") {
+                echo " Agustus ";
+                }elseif ($bulan=="September") {
+                echo " September ";
+                }elseif ($bulan=="October") {
+                echo " Oktober ";
+                }elseif ($bulan=="November") {
+                echo " November ";
+                }elseif ($bulan=="December") {
+                echo " Desember ";
+                }
+                $tahun=date('Y');
+                echo $tahun;
+            ?>
+            <span id="clock"></span>
+    </div>
         <div class="navbar-item dropdown">
-
-
             @switch(app()->getLocale())
                     @case('id')
                         <a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon" aria-expanded="false">
