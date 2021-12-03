@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Contact\SupplierController;
+use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,4 +22,6 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::prefix('contact')->middleware('auth')->group(function () {
     Route::resource('supplier', SupplierController::class);
+
+    Route::resource('customer', CustomerController::class);
 });

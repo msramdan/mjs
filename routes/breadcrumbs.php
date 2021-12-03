@@ -24,3 +24,19 @@ Breadcrumbs::for('supplier_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('supplier_index');
     $trail->push('Edit');
 });
+
+// Customer
+Breadcrumbs::for('customer_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Customer', route('customer.index'));
+});
+
+Breadcrumbs::for('customer_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('customer_index');
+    $trail->push('Create', route('customer.create'));
+});
+
+Breadcrumbs::for('customer_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('customer_index');
+    $trail->push('Edit');
+});

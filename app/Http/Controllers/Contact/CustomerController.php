@@ -1,16 +1,17 @@
 <?php
 
+
 namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Contact\StoreSupplierRequest;
-use App\Http\Requests\Contact\UpdateSupplierRequest;
-use App\Models\Contact\Supplier;
+use App\Http\Requests\Contact\StoreCustomerRequest;
+use App\Http\Requests\Contact\UpdateCustomerRequest;
+use App\Models\Contact\Customer;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Str;
 
-class SupplierController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +21,9 @@ class SupplierController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(Supplier::orderByDesc('updated_at'))
+            return Datatables::of(Customer::orderByDesc('updated_at'))
                 ->addIndexColumn()
-                ->addColumn('action', 'contact.supplier._action')
+                ->addColumn('action', 'contact.customer._action')
                 ->addColumn('alamat', function ($row) {
                     return Str::limit($row->alamat, 40);
                 })
@@ -35,7 +36,7 @@ class SupplierController extends Controller
                 ->toJson();
         }
 
-        return view('contact.supplier.index');
+        return view('contact.customer.index');
     }
 
     /**
@@ -45,7 +46,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('contact.supplier.create');
+        return view('contact.customer.create');
     }
 
     /**
@@ -54,22 +55,22 @@ class SupplierController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StoreCustomerRequest $request)
     {
-        Supplier::create($request->validated());
+        Customer::create($request->validated());
 
         Alert::success('Tambah Data', 'Berhasil');
 
-        return redirect()->route('supplier.index');
+        return redirect()->route('customer.index');
     }
 
     // /**
     //  * Display the specified resource.
     //  *
-    //  * @param  \App\Models\Contact\Supplier  $supplier
+    //  * @param  \App\Models\Contact\Customer  $customer
     //  * @return \Illuminate\Http\Response
     //  */
-    // public function show(Supplier $supplier)
+    // public function show(Customer $customer)
     // {
     //     //
     // }
@@ -77,42 +78,42 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Contact\Supplier  $supplier
+     * @param  \App\Models\Contact\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function edit(Supplier $supplier)
+    public function edit(Customer $customer)
     {
-        return view('contact.supplier.edit', compact('supplier'));
+        return view('contact.customer.edit', compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Contact\Supplier  $supplier
+     * @param  \App\Models\Contact\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $supplier->update($request->validated());
+        $customer->update($request->validated());
 
         Alert::success('Update Data', 'Berhasil');
 
-        return redirect()->route('supplier.index');
+        return redirect()->route('customer.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Contact\Supplier  $supplier
+     * @param  \App\Models\Contact\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Customer $customer)
     {
-        $supplier->delete();
+        $customer->delete();
 
         Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('supplier.index');
+        return redirect()->route('customer.index');
     }
 }
