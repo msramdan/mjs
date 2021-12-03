@@ -145,7 +145,7 @@
                         </div>
                     </div>
 
-                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="reset" class="btn btn-secondary me-1">Reset</button>
                     <button type="submit" class="btn btn-success">Update</button>
                 </form>
             </div>

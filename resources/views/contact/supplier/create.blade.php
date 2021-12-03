@@ -110,7 +110,7 @@
                                 <label class="form-label" for="personal_kontak">Personal Kontak</label>
                                 <input class="form-control @error('personal_kontak') is-invalid @enderror" type="text"
                                     id="personal_kontak" name="personal_kontak" placeholder="Personal Kontak" value="
-                                                    {{ old('personal_kontak') }}" />
+                                                        {{ old('personal_kontak') }}" />
                                 @error('personal_kontak')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -137,7 +137,7 @@
                         </div>
                     </div>
 
-                    <button type="reset" class="btn btn-secondary">Reset</button>
+                    <button type="reset" class="btn btn-secondary me-1">Reset</button>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>

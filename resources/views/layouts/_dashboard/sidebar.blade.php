@@ -71,7 +71,7 @@
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">
                     <div class="menu-icon">
-                        <i class="fa fa-shopping-cart"></i>
+                        <i class="fa fa-shopping-basket"></i>
                     </div>
                     <div class="menu-text">{{ trans('sidebar.word.penjualan') }}</div>
                     <div class="menu-caret"></div>
@@ -161,7 +161,7 @@
                         <a href="index.html" class="menu-link">
                             <div class="menu-text">Lokasi Kerja</div>
                         </a>
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('category.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.kategori') }}</div>
                         </a>
                         <a href="index.html" class="menu-link">
