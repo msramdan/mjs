@@ -38,6 +38,11 @@
     <button type="submit" class="btn btn-success d-block w-100 h-45px btn-lg">
         {{ __('Login') }}
     </button>
+    {{-- <div class="text-gray-500">
+        @if (Route::has('password.request'))
+            Forgot password? Click <a class="text-white" href="{{ route('password.request') }}">here</a>to reset password.
+        @endif
+    </div> --}}
     </div>
 
     </form>
