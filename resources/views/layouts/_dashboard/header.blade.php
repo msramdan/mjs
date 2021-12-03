@@ -33,7 +33,7 @@
                     <div class="media-body">
                         <h6 class="media-heading">
                             <img src="{{ asset('img/id.png') }}" alt="" width="18px" />
-                            INA
+                            {{ trans('header.word.indonesia') }}
                         </h6>
                     </div>
                 </a>
@@ -41,7 +41,7 @@
                     <div class="media-body">
                         <h6 class="media-heading">
                             <img src="{{ asset('img/en.png') }}" alt="" width="18px" />
-                            ENG
+                            {{ trans('header.word.inggris') }}
                         </h6>
                     </div>
                 </a>
@@ -57,11 +57,11 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-end me-1">
-            <a href="javascript:;" class="dropdown-item">Edit Profile</a>
+            <a href="javascript:;" class="dropdown-item">{{ trans('header.word.profil') }}</a>
             <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">
-                {{ __('Logout') }}
+                {{ trans('header.word.keluar') }}
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                 @csrf

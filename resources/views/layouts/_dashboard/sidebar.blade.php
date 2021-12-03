@@ -22,7 +22,7 @@
             <div class="menu-icon">
                 <i class="fa fa-home"></i>
             </div>
-            <div class="menu-text">Home</div>
+            <div class="menu-text">{{ trans('sidebar.word.home') }}</div>
         </a>
     </div>
     <div class="menu-item has-sub">
@@ -30,12 +30,12 @@
             <div class="menu-icon">
                 <i class="fa fa-box"></i>
             </div>
-            <div class="menu-text">Barang & Jasa</div>
+            <div class="menu-text">{{ trans('sidebar.word.barang') }}</div>
             <div class="menu-caret"></div>
         </a>
         <div class="menu-submenu">
             <div class="menu-item">
-                <a href="index.html" class="menu-link"><div class="menu-text">Supllier</div></a>
+                <a href="index.html" class="menu-link"><div class="menu-text">{{ trans('sidebar.sub_menu.pemasok') }}</div></a>
                 <a href="index.html" class="menu-link"><div class="menu-text">Cuctomer</div></a>
             </div>
         </div>
@@ -46,13 +46,13 @@
             <div class="menu-icon">
                 <i class="fa fa-address-book"></i>
             </div>
-            <div class="menu-text">Kontak</div>
+            <div class="menu-text">{{ trans('sidebar.word.kontak') }}</div>
             <div class="menu-caret"></div>
         </a>
         <div class="menu-submenu">
             <div class="menu-item">
-                <a href="index.html" class="menu-link"><div class="menu-text">Supllier</div></a>
-                <a href="index.html" class="menu-link"><div class="menu-text">Cuctomer</div></a>
+                <a href="index.html" class="menu-link"><div class="menu-text">{{ trans('sidebar.sub_menu.pemasok') }}</div></a>
+                <a href="index.html" class="menu-link"><div class="menu-text">{{ trans('sidebar.sub_menu.pelanggan') }}</div></a>
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
             <div class="menu-icon">
                 <i class="fa fa-list"></i>
             </div>
-            <div class="menu-text">Master Data</div>
+            <div class="menu-text">{{ trans('sidebar.word.master_data') }}</div>
             <div class="menu-caret"></div>
         </a>
         <div class="menu-submenu">
@@ -80,7 +80,7 @@
             <div class="menu-icon">
                 <i class="fa fa-cogs"></i>
             </div>
-            <div class="menu-text">Pengaturan</div>
+            <div class="menu-text">{{ trans('sidebar.word.pengaturan') }}</div>
             <div class="menu-caret"></div>
         </a>
         <div class="menu-submenu">
