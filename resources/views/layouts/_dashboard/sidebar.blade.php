@@ -160,7 +160,7 @@
                         <a href="{{ route('jabatan.index') }}" class="menu-link">
                             <div class="menu-text">Jabatan</div>
                         </a>
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('status-karyawan.index') }}" class="menu-link">
                             <div class="menu-text">Status Karyawan</div>
                         </a>
                         <a href="index.html" class="menu-link">

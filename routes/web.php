@@ -3,7 +3,7 @@
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\Master\{UnitController, CategoryController, JabatanController, LokasiController};
+use App\Http\Controllers\Master\{UnitController, CategoryController, JabatanController, LokasiController, StatusKaryawanController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,4 +37,6 @@ Route::prefix('master')->middleware('auth')->group(function () {
     Route::resource('lokasi', LokasiController::class);
 
     Route::resource('jabatan', JabatanController::class);
+
+    Route::resource('status-karyawan', StatusKaryawanController::class);
 });

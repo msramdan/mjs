@@ -22,7 +22,6 @@ class LokasiController extends Controller
             $query = Lokasi::latest('updated_at');
 
             return Datatables::of($query)
-                ->addIndexColumn()
                 ->addColumn('action', 'master-data.lokasi._action')
                 ->toJson();
         }

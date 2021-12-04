@@ -117,3 +117,19 @@ Breadcrumbs::for('jabatan_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('jabatan_index');
     $trail->push('Edit');
 });
+
+// Status Karyawan
+Breadcrumbs::for('status_karyawan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Status Karyawan', route('status-karyawan.index'));
+});
+
+Breadcrumbs::for('status_karyawan_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('status_karyawan_index');
+    $trail->push('Create', route('status-karyawan.create'));
+});
+
+Breadcrumbs::for('status_karyawan_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('status_karyawan_index');
+    $trail->push('Edit');
+});
