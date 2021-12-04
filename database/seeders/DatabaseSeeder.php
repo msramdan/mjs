@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             UnitSeeder::class,
             LokasiSeeder::class,
+            JabatanSeeder::class,
         ]);
     }
 }

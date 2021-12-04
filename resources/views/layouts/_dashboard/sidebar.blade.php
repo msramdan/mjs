@@ -157,7 +157,7 @@
                 </a>
                 <div class="menu-submenu">
                     <div class="menu-item">
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('jabatan.index') }}" class="menu-link">
                             <div class="menu-text">Jabatan</div>
                         </a>
                         <a href="index.html" class="menu-link">

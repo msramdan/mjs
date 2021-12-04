@@ -100,3 +100,20 @@ Breadcrumbs::for('lokasi_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('lokasi_index');
     $trail->push('Edit');
 });
+
+
+// Jabatan
+Breadcrumbs::for('jabatan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Jabatan', route('jabatan.index'));
+});
+
+Breadcrumbs::for('jabatan_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('jabatan_index');
+    $trail->push('Create', route('jabatan.create'));
+});
+
+Breadcrumbs::for('jabatan_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('jabatan_index');
+    $trail->push('Edit');
+});

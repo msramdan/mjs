@@ -32,6 +32,8 @@ class ViewServiceProvider extends ServiceProvider
             'master-data.unit.edit',
             'master-data.lokasi.create',
             'master-data.lokasi.edit',
+            'master-data.jabatan.create',
+            'master-data.jabatan.edit',
         ], function ($view) {
             return $view->with(
                 'status',
