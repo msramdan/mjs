@@ -163,7 +163,7 @@
                         <a href="{{ route('status-karyawan.index') }}" class="menu-link">
                             <div class="menu-text">Status Karyawan</div>
                         </a>
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('divisi.index') }}" class="menu-link">
                             <div class="menu-text">Divisi</div>
                         </a>
                         <a href="{{ route('lokasi.index') }}" class="menu-link">

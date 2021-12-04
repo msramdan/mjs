@@ -133,3 +133,19 @@ Breadcrumbs::for('status_karyawan_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('status_karyawan_index');
     $trail->push('Edit');
 });
+
+// Divisi
+Breadcrumbs::for('divisi_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Divisi', route('status-karyawan.index'));
+});
+
+Breadcrumbs::for('divisi_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('divisi_index');
+    $trail->push('Create', route('status-karyawan.create'));
+});
+
+Breadcrumbs::for('divisi_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('divisi_index');
+    $trail->push('Edit');
+});

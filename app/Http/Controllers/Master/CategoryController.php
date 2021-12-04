@@ -20,7 +20,6 @@ class CategoryController extends Controller
     {
         if (request()->ajax()) {
             return Datatables::of(Category::orderByDesc('updated_at'))
-                ->addIndexColumn()
                 ->addColumn('action', 'master-data.category._action')
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d m Y H:i');
