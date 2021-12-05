@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Contact\Supplier;
+use App\Models\Contact\Customer;
 use Illuminate\Database\Seeder;
 
-class SupplierSeeder extends Seeder
+class CustomerSeeder extends Seeder
 {
-    protected $model = Supplier::class;
+    protected $model = Customer::class;
 
     /**
      * Run the database seeds.
@@ -16,6 +16,6 @@ class SupplierSeeder extends Seeder
      */
     public function run()
     {
-        Supplier::factory()->count(15)->create();
+        Customer::factory()->count(15)->create();
     }
 }

@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Contact\Supplier;
+use App\Models\Master\StatusKaryawan;
 use Illuminate\Database\Seeder;
 
-class SupplierSeeder extends Seeder
+class StatusKaryawanSeeder extends Seeder
 {
-    protected $model = Supplier::class;
-
     /**
      * Run the database seeds.
      *
@@ -16,6 +14,6 @@ class SupplierSeeder extends Seeder
      */
     public function run()
     {
-        Supplier::factory()->count(15)->create();
+        StatusKaryawan::factory()->count(7)->create();
     }
 }

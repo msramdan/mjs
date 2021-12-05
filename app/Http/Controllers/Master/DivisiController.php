@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Http\Controllers\Master;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Master\StoreDivisiRequest;
+use App\Http\Requests\Master\UpdateDivisiRequest;
+use App\Models\Master\Divisi;
+use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
+
+class DivisiController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        if (request()->ajax()) {
+            $query = Divisi::latest('updated_at');
+
+            return Datatables::of($query)
+                ->addColumn('action', 'master-data.divisi._action')
+                ->toJson();
+        }
+
+        return view('master-data.divisi.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('master-data.divisi.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreDivisiRequest $request)
+    {
+        Divisi::create($request->validated());
+
+        Alert::success('Tambah Data', 'Berhasil');
+
+        return redirect()->route('divisi.index');
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Master\Divisi  $divisi
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Divisi $divisi)
+    {
+        return view('master-data.divisi.edit', compact('divisi'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Master\Divisi  $divisi
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateDivisiRequest $request, Divisi $divisi)
+    {
+        $divisi->update($request->validated());
+
+        Alert::success('Update Data', 'Berhasil');
+
+        return redirect()->route('divisi.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Master\Divisi  $divisi
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Divisi $divisi)
+    {
+        $divisi->delete();
+
+        Alert::success('Hapus Data', 'Berhasil');
+
+        return redirect()->route('divisi.index');
+    }
+}

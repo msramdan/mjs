@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Contact\Supplier;
+use App\Models\Master\Divisi;
 use Illuminate\Database\Seeder;
 
-class SupplierSeeder extends Seeder
+class DivisiSeeder extends Seeder
 {
-    protected $model = Supplier::class;
-
     /**
      * Run the database seeds.
      *
@@ -16,6 +14,6 @@ class SupplierSeeder extends Seeder
      */
     public function run()
     {
-        Supplier::factory()->count(15)->create();
+        Divisi::factory()->count(5)->create();
     }
 }
