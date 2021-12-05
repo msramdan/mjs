@@ -90,10 +90,16 @@ class DivisiController extends Controller
      */
     public function destroy(Divisi $divisi)
     {
-        $divisi->delete();
+        try {
+            $divisi->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('divisi.index');
+            return redirect()->route('divisi.index');
+        } catch (\Throwable $th) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('divisi.index');
+        }
     }
 }

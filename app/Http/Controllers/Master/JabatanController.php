@@ -90,10 +90,16 @@ class JabatanController extends Controller
      */
     public function destroy(Jabatan $jabatan)
     {
-        $jabatan->delete();
+        try {
+            $jabatan->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('jabatan.index');
+            return redirect()->route('jabatan.index');
+        } catch (\Throwable $th) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('jabatan.index');
+        }
     }
 }

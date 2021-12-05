@@ -93,10 +93,16 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        try {
+            $category->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('category.index');
+            return redirect()->route('category.index');
+        } catch (\Throwable $th) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('category.index');
+        }
     }
 }
