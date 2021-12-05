@@ -93,10 +93,16 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        $unit->delete();
+        try {
+            $unit->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('unit.index');
+            return redirect()->route('unit.index');
+        } catch (\Throwable $th) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('unit.index');
+        }
     }
 }

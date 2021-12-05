@@ -89,10 +89,16 @@ class LokasiController extends Controller
      */
     public function destroy(Lokasi $lokasi)
     {
-        $lokasi->delete();
+        try {
+            $lokasi->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('lokasi.index');
+            return redirect()->route('lokasi.index');
+        } catch (\Throwable $th) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('lokasi.index');
+        }
     }
 }

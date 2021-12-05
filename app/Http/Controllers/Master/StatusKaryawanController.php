@@ -87,10 +87,16 @@ class StatusKaryawanController extends Controller
      */
     public function destroy(StatusKaryawan $statusKaryawan)
     {
-        $statusKaryawan->delete();
+        try {
+            $statusKaryawan->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
 
-        return redirect()->route('status-karyawan.index');
+            return redirect()->route('status-karyawan.index');
+        } catch (\Throwable $th) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('status-karyawan.index');
+        }
     }
 }
