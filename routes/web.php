@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{UnitController, CategoryController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
 use Illuminate\Support\Facades\Auth;
@@ -41,4 +42,9 @@ Route::prefix('master')->middleware('auth')->group(function () {
     Route::resource('status-karyawan', StatusKaryawanController::class);
 
     Route::resource('divisi', DivisiController::class);
+});
+
+// HR/Legal
+Route::prefix('legal')->middleware('auth')->group(function () {
+    Route::resource('karyawan', KaryawanController::class);
 });

@@ -19,6 +19,11 @@ Breadcrumbs::for('contact', function (BreadcrumbTrail $trail) {
     $trail->push('Contact');
 });
 
+// Legal
+Breadcrumbs::for('legal', function (BreadcrumbTrail $trail) {
+    $trail->push('HR-Legal');
+});
+
 
 // Supplier
 Breadcrumbs::for('supplier_index', function (BreadcrumbTrail $trail) {
@@ -147,5 +152,22 @@ Breadcrumbs::for('divisi_create', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('divisi_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('divisi_index');
+    $trail->push('Edit');
+});
+
+
+// karyawan
+Breadcrumbs::for('karyawan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Karyawan', route('karyawan.index'));
+});
+
+Breadcrumbs::for('karyawan_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('karyawan_index');
+    $trail->push('Create', route('karyawan.create'));
+});
+
+Breadcrumbs::for('karyawan_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('karyawan_index');
     $trail->push('Edit');
 });
