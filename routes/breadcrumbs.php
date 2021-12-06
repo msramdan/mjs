@@ -74,6 +74,55 @@ Breadcrumbs::for('category_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+// Category Request
+Breadcrumbs::for('category_request_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Category Request', route('category-request.index'));
+});
+
+Breadcrumbs::for('category_request_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_request_index');
+    $trail->push('Create', route('category-request.create'));
+});
+
+Breadcrumbs::for('category_request_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_request_index');
+    $trail->push('Edit');
+});
+
+// Category Potongan
+Breadcrumbs::for('category_potongan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Category Potongan', route('category-potongan.index'));
+});
+
+Breadcrumbs::for('category_potongan_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_potongan_index');
+    $trail->push('Create', route('category-potongan.create'));
+});
+
+Breadcrumbs::for('category_potongan_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_potongan_index');
+    $trail->push('Edit');
+});
+
+// Category Benefit
+Breadcrumbs::for('category_benefit_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Category Benefit', route('category-benefit.index'));
+});
+
+Breadcrumbs::for('category_benefit_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_benefit_index');
+    $trail->push('Create', route('category-benefit.create'));
+});
+
+Breadcrumbs::for('category_benefit_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_benefit_index');
+    $trail->push('Edit');
+});
+
+
 // Unit
 Breadcrumbs::for('unit_index', function (BreadcrumbTrail $trail) {
     $trail->parent('master_data');
