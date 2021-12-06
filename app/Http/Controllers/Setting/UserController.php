@@ -7,6 +7,7 @@ use App\Http\Requests\Setting\StoreUserRequest;
 use App\Http\Requests\Setting\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Yajra\DataTables\Facades\DataTables;
@@ -66,8 +67,6 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $attr = $request->validated();
-
         if ($request->file('foto') && $request->file('foto')->isValid()) {
             $filename = time()  . '.' . $request->foto->extension();
 
@@ -76,7 +75,11 @@ class UserController extends Controller
             $attr['foto'] = $filename;
         }
 
-        $user = User::create($attr);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
         $user->assignRole($request->role);
         $user->givePermissionTo($request->permissions);
 
@@ -157,6 +160,12 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->id == 1) {
+            Alert::error('Hapus Data', 'Gagal');
+
+            return redirect()->route('user.index');
+        }
+
         try {
             // delete old foto from storage
             if ($user->foto != null) {
@@ -166,12 +175,10 @@ class UserController extends Controller
             $user->delete();
 
             Alert::success('Hapus Data', 'Berhasil');
-
-            return redirect()->route('user.index');
         } catch (\Throwable $th) {
             Alert::error('Hapus Data', 'Gagal');
-
-            return redirect()->route('user.index');
         }
+
+        return redirect()->route('user.index');
     }
 }
