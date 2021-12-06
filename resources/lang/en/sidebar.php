@@ -17,6 +17,9 @@ return [
         'pelanggan' => 'Customer',
         'barang_jasa' => 'Goods & Services Data',
         'kategori' => 'Category',
+        'kategori_request' => 'Category Request',
+        'kategori_potongan' => 'Category Minus',
+        'kategori_benefit' => 'Category Benefit',
         'satuan' => 'Unit',
         'karyawan' => 'Employee data',
         'spal' => 'Spal',
@@ -25,6 +28,4 @@ return [
         'penjualan' => 'Sales',
         'pembelian' => 'Purchase',
     ],
-
-
 ];

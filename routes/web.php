@@ -4,7 +4,7 @@ use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\Master\{UnitController, CategoryController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
+use App\Http\Controllers\Master\{UnitController, CategoryController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +32,8 @@ Route::prefix('contact')->middleware('auth')->group(function () {
 // Master Data
 Route::prefix('master')->middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class);
+
+    Route::resource('category-request', CategoryRequestController::class);
 
     Route::resource('unit', UnitController::class);
 

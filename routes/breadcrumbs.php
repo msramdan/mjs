@@ -74,6 +74,23 @@ Breadcrumbs::for('category_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+// Category Request
+Breadcrumbs::for('category_request_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Category Request', route('category-request.index'));
+});
+
+Breadcrumbs::for('category_request_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_request_index');
+    $trail->push('Create', route('category-request.create'));
+});
+
+Breadcrumbs::for('category_request_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_request_index');
+    $trail->push('Edit');
+});
+
+
 // Unit
 Breadcrumbs::for('unit_index', function (BreadcrumbTrail $trail) {
     $trail->parent('master_data');
