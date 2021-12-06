@@ -6,6 +6,7 @@ use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Setting\PermissionController;
 use App\Http\Controllers\Setting\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -67,4 +68,6 @@ Route::middleware('auth')->group(function () {
 // Setting
 Route::middleware('auth')->prefix('setting')->group(function () {
     Route::resource('role', RoleController::class);
+
+    Route::resource('permission', PermissionController::class);
 });

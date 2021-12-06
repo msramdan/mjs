@@ -249,3 +249,19 @@ Breadcrumbs::for('role_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('role_index');
     $trail->push('Edit');
 });
+
+// Permission
+Breadcrumbs::for('permission_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('setting');
+    $trail->push('Permission', route('permission.index'));
+});
+
+Breadcrumbs::for('permission_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('permission_index');
+    $trail->push('Create', route('permission.create'));
+});
+
+Breadcrumbs::for('permission_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('permission_index');
+    $trail->push('Edit');
+});
