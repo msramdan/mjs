@@ -8,6 +8,7 @@ use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, Cate
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Setting\PermissionController;
 use App\Http\Controllers\Setting\RoleController;
+use App\Http\Controllers\Setting\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -70,4 +71,6 @@ Route::middleware('auth')->prefix('setting')->group(function () {
     Route::resource('role', RoleController::class);
 
     Route::resource('permission', PermissionController::class);
+
+    Route::resource('user', UserController::class);
 });

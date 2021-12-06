@@ -265,3 +265,19 @@ Breadcrumbs::for('permission_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('permission_index');
     $trail->push('Edit');
 });
+
+// User
+Breadcrumbs::for('user_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('setting');
+    $trail->push('User', route('user.index'));
+});
+
+Breadcrumbs::for('user_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('user_index');
+    $trail->push('Create', route('user.create'));
+});
+
+Breadcrumbs::for('user_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('user_index');
+    $trail->push('Edit');
+});

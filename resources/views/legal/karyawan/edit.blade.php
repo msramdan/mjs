@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Karyawan - ' . $karyawan->nama)
+@section('title', 'Edit Karyawan')
 
 @section('content')
     <div id="content" class="app-content">

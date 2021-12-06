@@ -207,7 +207,7 @@
                 </a>
                 <div class="menu-submenu">
                     <div class="menu-item">
-                        <a href="" class="menu-link">
+                        <a href="{{ route('user.index') }}" class="menu-link">
                             <div class="menu-text">User</div>
                         </a>
 
