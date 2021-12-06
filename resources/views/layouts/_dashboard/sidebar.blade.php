@@ -175,10 +175,10 @@
                         <a href="{{ route('category-request.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.kategori_request') }}</div>
                         </a>
-                        <a href="#" class="menu-link">
+                        <a href="{{ route('category-potongan.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.kategori_potongan') }}</div>
                         </a>
-                        <a href="#" class="menu-link">
+                        <a href="{{ route('category-request.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.kategori_benefit') }}</div>
                         </a>
                         <a href="{{ route('unit.index') }}" class="menu-link">

@@ -90,6 +90,22 @@ Breadcrumbs::for('category_request_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+// Category Potongan
+Breadcrumbs::for('category_potongan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('master_data');
+    $trail->push('Category Potongan', route('category-potongan.index'));
+});
+
+Breadcrumbs::for('category_potongan_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_potongan_index');
+    $trail->push('Create', route('category-potongan.create'));
+});
+
+Breadcrumbs::for('category_potongan_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_potongan_index');
+    $trail->push('Edit');
+});
+
 
 // Unit
 Breadcrumbs::for('unit_index', function (BreadcrumbTrail $trail) {
