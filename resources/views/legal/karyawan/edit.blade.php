@@ -201,8 +201,8 @@
                             <div class="form-group mb-2">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="{{ asset('storage/img/foto/' . $karyawan->foto) }}" alt="Foto Karyawan"
-                                            class="img-fluid rounded"
+                                        <img src="{{ asset('storage/img/karyawan/' . $karyawan->foto) }}"
+                                            alt="Foto Karyawan" class="img-fluid rounded"
                                             style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
                                     </div>
 

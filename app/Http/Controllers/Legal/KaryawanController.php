@@ -24,7 +24,7 @@ class KaryawanController extends Controller
 
             return Datatables::of($query)
                 ->addColumn('foto', function ($row) {
-                    return asset('storage/img/foto/' . $row->foto);
+                    return asset('storage/img/karyawan/' . $row->foto);
                 })
                 ->addColumn('divisi', function ($row) {
                     return $row->divisi->nama;
@@ -73,7 +73,7 @@ class KaryawanController extends Controller
         if ($request->file('foto') && $request->file('foto')->isValid()) {
             $filename = time()  . '.' . $request->foto->extension();
 
-            $request->foto->storeAs('public/img/foto/', $filename);
+            $request->foto->storeAs('public/img/karyawan/', $filename);
 
             $attr['foto'] = $filename;
         }
@@ -127,10 +127,10 @@ class KaryawanController extends Controller
         if ($request->file('foto') && $request->file('foto')->isValid()) {
             $filename = time()  . '.' . $request->foto->extension();
 
-            $request->foto->storeAs('public/img/foto/', $filename);
+            $request->foto->storeAs('public/img/karyawan/', $filename);
 
             // delete old foto from storage
-            Storage::delete('public/img/foto/' . $karyawan->foto);
+            Storage::delete('public/img/karyawan/' . $karyawan->foto);
 
             $attr['foto'] = $filename;
         }
@@ -151,7 +151,7 @@ class KaryawanController extends Controller
     public function destroy(Karyawan $karyawan)
     {
         // delete old foto from storage
-        Storage::delete('public/img/foto/' . $karyawan->foto);
+        Storage::delete('public/img/karyawan/' . $karyawan->foto);
 
         $karyawan->delete();
 

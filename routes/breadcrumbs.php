@@ -220,3 +220,10 @@ Breadcrumbs::for('karyawan_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('karyawan_index');
     $trail->push('Edit');
 });
+
+
+// Profile
+Breadcrumbs::for('profile_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Profile', route('profile.index'));
+});

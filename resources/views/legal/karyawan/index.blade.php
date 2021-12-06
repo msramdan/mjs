@@ -46,6 +46,7 @@
                                         <th>Status Karyawan</th>
                                         <th>Status Kawin</th>
                                         <th>Status Keaktifan</th>
+                                        <th>Alamat</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -122,6 +123,10 @@
                 {
                     data: 'status_keaktifan',
                     name: 'status_keaktifan'
+                },
+                {
+                    data: 'alamat',
+                    name: 'alamat'
                 },
                 {
                     data: 'created_at',
