@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Master\StoreCategoryPotonganRequest;
-use App\Http\Requests\Master\UpdateCategoryPotonganRequest;
-use App\Models\Master\CategoryPotongan;
+use App\Http\Requests\Master\StoreCategoryBenefitRequest;
+use App\Http\Requests\Master\UpdateCategoryBenefitRequest;
+use App\Models\Master\CategoryBenefit;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class CategoryPotonganController extends Controller
+class CategoryBenefitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +19,14 @@ class CategoryPotonganController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = CategoryPotongan::latest('updated_at');
+            $query = CategoryBenefit::latest('updated_at');
 
             return Datatables::of($query)
-                ->addColumn('action', 'master-data.category-potongan._action')
+                ->addColumn('action', 'master-data.category-benefit._action')
                 ->toJson();
         }
 
-        return view('master-data.category-potongan.index');
+        return view('master-data.category-benefit.index');
     }
 
     /**
@@ -36,7 +36,7 @@ class CategoryPotonganController extends Controller
      */
     public function create()
     {
-        return view('master-data.category-potongan.create');
+        return view('master-data.category-benefit.create');
     }
 
     /**
@@ -45,60 +45,60 @@ class CategoryPotonganController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryPotonganRequest $request)
+    public function store(StoreCategoryBenefitRequest $request)
     {
-        CategoryPotongan::create($request->validated());
+        CategoryBenefit::create($request->validated());
 
         Alert::success('Tambah Data', 'Berhasil');
 
-        return redirect()->route('category-potongan.index');
+        return redirect()->route('category-benefit.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Master\CategoryPotongan  $categoryPotongan
+     * @param  \App\Models\Master\CategoryBenefit  $categoryBenefit
      * @return \Illuminate\Http\Response
      */
-    public function edit(CategoryPotongan $categoryPotongan)
+    public function edit(CategoryBenefit $categoryBenefit)
     {
-        return view('master-data.category-potongan.edit', compact('categoryPotongan'));
+        return view('master-data.category-benefit.edit', compact('categoryBenefit'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Master\CategoryPotongan  $categoryPotongan
+     * @param  \App\Models\Master\CategoryBenefit  $categoryBenefit
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryPotonganRequest $request, CategoryPotongan $categoryPotongan)
+    public function update(UpdateCategoryBenefitRequest $request, CategoryBenefit $categoryBenefit)
     {
-        $categoryPotongan->update($request->validated());
+        $categoryBenefit->update($request->validated());
 
         Alert::success('Update Data', 'Berhasil');
 
-        return redirect()->route('category-potongan.index');
+        return redirect()->route('category-benefit.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Master\CategoryPotongan  $categoryPotongan
+     * @param  \App\Models\Master\CategoryBenefit  $categoryBenefit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CategoryPotongan $categoryPotongan)
+    public function destroy(CategoryBenefit $categoryBenefit)
     {
         try {
-            $categoryPotongan->delete();
+            $categoryBenefit->delete();
 
             Alert::success('Hapus Data', 'Berhasil');
 
-            return redirect()->route('category-potongan.index');
+            return redirect()->route('category-benefit.index');
         } catch (\Throwable $th) {
             Alert::error('Hapus Data', 'Gagal');
 
-            return redirect()->route('category-potongan.index');
+            return redirect()->route('category-benefit.index');
         }
     }
 }
