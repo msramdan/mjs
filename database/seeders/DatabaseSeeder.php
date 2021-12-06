@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             StatusKaryawanSeeder::class,
             DivisiSeeder::class,
             KaryawanSeeder::class,
+            CategoryRequestSeeder::class,
+            CategoryPotonganSeeder::class,
+            CategoryBenefitSeeder::class,
         ]);
     }
 }
