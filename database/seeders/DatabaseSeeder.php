@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CategoryRequestSeeder::class,
             CategoryPotonganSeeder::class,
             CategoryBenefitSeeder::class,
+            RoleAndPermissionSeeder::class,
         ]);
     }
 }

@@ -210,6 +210,11 @@
                         <a href="" class="menu-link">
                             <div class="menu-text">User</div>
                         </a>
+
+                         <a href="{{ route('role.index') }}" class="menu-link">
+                            <div class="menu-text">Role</div>
+                        </a>
+
                         <a href="" class="menu-link">
                             <div class="menu-text">Pengaturan Aplikasi</div>
                         </a>
