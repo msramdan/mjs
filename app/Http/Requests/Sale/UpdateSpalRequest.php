@@ -32,7 +32,7 @@ class UpdateSpalRequest extends FormRequest
             'pelabuhan_muat' => 'required|string|min:3|max:50',
             'pelabuhan_bongkar' => 'required|string|min:3|max:50',
             'harga_unit' => 'required|integer|min:1',
-            'file' => 'nullable|mimes:png,jpg,pdf,docx,doc|max:1024',
+            'file' => 'nullable|mimes:pdf,docx,doc|max:1024',
         ];
     }
 }
