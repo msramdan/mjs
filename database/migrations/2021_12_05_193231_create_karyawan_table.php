@@ -28,7 +28,7 @@ class CreateKaryawanTable extends Migration
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->enum('status_kawin', ['Menikah', 'Belum Menikah']);
             $table->enum('status_keaktifan', ['Masih Bekerja', 'Habis Kontrak']);
-            $table->string('foto', 200);
+            $table->string('foto', 200)->nullable();
             $table->timestamps();
         });
     }

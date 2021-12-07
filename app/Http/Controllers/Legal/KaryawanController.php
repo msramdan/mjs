@@ -24,7 +24,11 @@ class KaryawanController extends Controller
 
             return Datatables::of($query)
                 ->addColumn('foto', function ($row) {
-                    return asset('storage/img/karyawan/' . $row->foto);
+                    if ($row->foto != null) {
+                        return asset('storage/img/karyawan/' . $row->foto);
+                    } else {
+                        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($row->email))) . "&s=100";
+                    }
                 })
                 ->addColumn('divisi', function ($row) {
                     return $row->divisi->nama;
