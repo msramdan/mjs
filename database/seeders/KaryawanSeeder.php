@@ -29,7 +29,6 @@ class KaryawanSeeder extends Seeder
                 'jenis_kelamin' => 'Laki-laki',
                 'status_kawin' => 'Belum Menikah',
                 'status_keaktifan' => 'Masih Bekerja',
-                'foto' => '1638720230.png',
             ]
         );
     }

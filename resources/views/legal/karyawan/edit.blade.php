@@ -201,9 +201,15 @@
                             <div class="form-group mb-2">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <img src="{{ asset('storage/img/karyawan/' . $karyawan->foto) }}"
-                                            alt="Foto Karyawan" class="img-fluid rounded"
-                                            style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
+                                        @if ($karyawan->foto != null)
+                                            <img src="{{ asset('storage/img/karyawan/' . $karyawan->foto) }}"
+                                                alt="Foto Karyawan" class="img-fluid rounded"
+                                                style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
+                                        @else
+                                            <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($karyawan->email))) }}&s=150"
+                                                alt="Foto Karyawan" class="img-fluid rounded"
+                                                style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
+                                        @endif
                                     </div>
 
                                     <div class="col-md-9">

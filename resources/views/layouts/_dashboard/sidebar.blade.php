@@ -90,7 +90,7 @@
                 </a>
                 <div class="menu-submenu">
                     <div class="menu-item">
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('spal.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.spal') }}</div>
                         </a>
                         <a href="index.html" class="menu-link">
@@ -129,7 +129,7 @@
                 </a>
                 <div class="menu-submenu">
                     <div class="menu-item">
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('item.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.barang_jasa') }}</div>
                         </a>
                     </div>

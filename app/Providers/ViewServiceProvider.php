@@ -2,10 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Contact\Customer;
+use App\Models\Master\Category;
 use App\Models\Master\Divisi;
 use App\Models\Master\Jabatan;
 use App\Models\Master\Lokasi;
 use App\Models\Master\StatusKaryawan;
+use App\Models\Master\Unit;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Permission;
@@ -183,6 +186,39 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'permissions',
                 Permission::select('id', 'name')->get()
+            );
+        });
+
+        // list customer
+        View::composer([
+            'sale.spal.create',
+            'sale.spal.edit'
+        ], function ($view) {
+            return $view->with(
+                'customer',
+                Customer::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list category
+        View::composer([
+            'inventory.item.create',
+            'inventory.item.edit'
+        ], function ($view) {
+            return $view->with(
+                'category',
+                Category::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list unit
+        View::composer([
+            'inventory.item.create',
+            'inventory.item.edit'
+        ], function ($view) {
+            return $view->with(
+                'unit',
+                Unit::select('id', 'nama')->orderBy('nama')->get()
             );
         });
     }
