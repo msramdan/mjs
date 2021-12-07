@@ -24,6 +24,11 @@ Breadcrumbs::for('legal', function (BreadcrumbTrail $trail) {
     $trail->push('HR-Legal');
 });
 
+// setting
+Breadcrumbs::for('setting', function (BreadcrumbTrail $trail) {
+    $trail->push('Setting');
+});
+
 
 // Supplier
 Breadcrumbs::for('supplier_index', function (BreadcrumbTrail $trail) {
@@ -218,5 +223,61 @@ Breadcrumbs::for('karyawan_create', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('karyawan_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('karyawan_index');
+    $trail->push('Edit');
+});
+
+
+// Profile
+Breadcrumbs::for('profile_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Profile', route('profile.index'));
+});
+
+
+// Role
+Breadcrumbs::for('role_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('setting');
+    $trail->push('Role', route('role.index'));
+});
+
+Breadcrumbs::for('role_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('role_index');
+    $trail->push('Create', route('role.create'));
+});
+
+Breadcrumbs::for('role_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('role_index');
+    $trail->push('Edit');
+});
+
+// Permission
+Breadcrumbs::for('permission_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('setting');
+    $trail->push('Permission', route('permission.index'));
+});
+
+Breadcrumbs::for('permission_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('permission_index');
+    $trail->push('Create', route('permission.create'));
+});
+
+Breadcrumbs::for('permission_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('permission_index');
+    $trail->push('Edit');
+});
+
+// User
+Breadcrumbs::for('user_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('setting');
+    $trail->push('User', route('user.index'));
+});
+
+Breadcrumbs::for('user_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('user_index');
+    $trail->push('Create', route('user.create'));
+});
+
+Breadcrumbs::for('user_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('user_index');
     $trail->push('Edit');
 });

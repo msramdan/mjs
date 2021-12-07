@@ -2,11 +2,19 @@
     <div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
         <div class="menu">
             <div class="menu-profile">
-                <a href="javascript:;" class="menu-profile-link" data-toggle="app-sidebar-profile"
+                <a href="{{ route('profile.index') }}" class="menu-profile-link" data-toggle="app-sidebar-profile"
                     data-target="#appSidebarProfileMenu">
                     <div class="menu-profile-cover with-shadow"></div>
                     <div class="menu-profile-image">
-                        <img src="{{ asset('template/assets/img/user/user-2.jpg') }}" alt="" />
+                        @if (auth()->user()->foto != null)
+                            <img src="{{ asset('storage/img/user/' . auth()->user()->foto) }}" alt="Foto User"
+                                class="img-fluid rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        @else
+                            <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=200"
+                                alt="Foto User" class="img-fluid rounded-circle"
+                                style="width: 40px; height: 40px; object-fit: cover;">
+                        @endif
+                        {{-- <img src="{{ asset('template/assets/img/user/user-2.jpg') }}" alt="" /> --}}
                     </div>
                     <div class="menu-profile-info">
                         <div class="d-flex align-items-center">
@@ -199,9 +207,18 @@
                 </a>
                 <div class="menu-submenu">
                     <div class="menu-item">
-                        <a href="" class="menu-link">
+                        <a href="{{ route('user.index') }}" class="menu-link">
                             <div class="menu-text">User</div>
                         </a>
+
+                        <a href="{{ route('role.index') }}" class="menu-link">
+                            <div class="menu-text">Role</div>
+                        </a>
+
+                        <a href="{{ route('permission.index') }}" class="menu-link">
+                            <div class="menu-text">Permission</div>
+                        </a>
+
                         <a href="" class="menu-link">
                             <div class="menu-text">Pengaturan Aplikasi</div>
                         </a>

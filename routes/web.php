@@ -5,6 +5,10 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Setting\PermissionController;
+use App\Http\Controllers\Setting\RoleController;
+use App\Http\Controllers\Setting\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -53,4 +57,20 @@ Route::prefix('master')->middleware('auth')->group(function () {
 // HR/Legal
 Route::prefix('legal')->middleware('auth')->group(function () {
     Route::resource('karyawan', KaryawanController::class);
+});
+
+// Profile
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+    Route::put('/profile/{id}', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+// Setting
+Route::middleware('auth')->prefix('setting')->group(function () {
+    Route::resource('role', RoleController::class);
+
+    Route::resource('permission', PermissionController::class);
+
+    Route::resource('user', UserController::class);
 });

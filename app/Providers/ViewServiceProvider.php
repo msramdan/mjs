@@ -8,6 +8,8 @@ use App\Models\Master\Lokasi;
 use App\Models\Master\StatusKaryawan;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -159,6 +161,28 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'statusKaryawan',
                 StatusKaryawan::select('id', 'nama')->where('status', 'Aktif')->get()
+            );
+        });
+
+        // list roles
+        View::composer([
+            'setting.user.create',
+            'setting.user.edit'
+        ], function ($view) {
+            return $view->with(
+                'roles',
+                Role::select('id', 'name')->get()
+            );
+        });
+
+        // list permissions
+        View::composer([
+            'setting.user.create',
+            'setting.user.edit'
+        ], function ($view) {
+            return $view->with(
+                'permissions',
+                Permission::select('id', 'name')->get()
             );
         });
     }
