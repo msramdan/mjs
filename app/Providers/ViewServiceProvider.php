@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Contact\Customer;
 use App\Models\Master\Divisi;
 use App\Models\Master\Jabatan;
 use App\Models\Master\Lokasi;
@@ -183,6 +184,17 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'permissions',
                 Permission::select('id', 'name')->get()
+            );
+        });
+
+        // list customer
+        View::composer([
+            'sale.spal.create',
+            'sale.spal.edit'
+        ], function ($view) {
+            return $view->with(
+                'customer',
+                Customer::select('id', 'nama')->orderBy('nama')->get()
             );
         });
     }

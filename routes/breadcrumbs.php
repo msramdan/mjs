@@ -281,3 +281,20 @@ Breadcrumbs::for('user_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('user_index');
     $trail->push('Edit');
 });
+
+
+// Spal
+Breadcrumbs::for('spal_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Spal', route('spal.index'));
+});
+
+Breadcrumbs::for('spal_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('spal_index');
+    $trail->push('Create', route('spal.create'));
+});
+
+Breadcrumbs::for('spal_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('spal_index');
+    $trail->push('Edit');
+});

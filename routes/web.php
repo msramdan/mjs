@@ -6,6 +6,7 @@ use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Sale\SpalController;
 use App\Http\Controllers\Setting\PermissionController;
 use App\Http\Controllers\Setting\RoleController;
 use App\Http\Controllers\Setting\UserController;
@@ -58,6 +59,14 @@ Route::prefix('master')->middleware('auth')->group(function () {
 Route::prefix('legal')->middleware('auth')->group(function () {
     Route::resource('karyawan', KaryawanController::class);
 });
+
+// Sale
+Route::middleware('auth')->prefix('sale')->group(function () {
+    Route::resource('spal', SpalController::class);
+
+    Route::get('/spal/download/{file}', [SpalController::class, 'downloadFileSpal']);
+});
+
 
 // Profile
 Route::middleware('auth')->group(function () {

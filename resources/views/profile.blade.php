@@ -59,7 +59,7 @@
                                                     alt="Foto User" class="img-fluid rounded"
                                                     style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
                                             @else
-                                                <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=200"
+                                                <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=1000"
                                                     alt="Foto User" class="img-fluid rounded"
                                                     style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
                                             @endif
