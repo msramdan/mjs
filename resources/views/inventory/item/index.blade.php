@@ -1,13 +1,13 @@
 @extends('layouts.master')
-@section('title', 'Spal')
+@section('title', 'Item')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('spal_index') }}
+        {{ Breadcrumbs::render('item_index') }}
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('spal.create') }}" class="btn btn-primary mb-3">
+            <a href="{{ route('item.create') }}" class="btn btn-primary mb-3">
                 <i class="fas fa-plus me-1"></i>
                 Create
             </a>
@@ -15,7 +15,7 @@
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">Spal</h4>
+                <h4 class="panel-title">Item</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                             class="fa fa-redo"></i>
@@ -36,14 +36,16 @@
                                 <thead>
                                     <tr>
                                         <th>Kode</th>
-                                        <th>Customer</th>
-                                        <th>Nama Kapal</th>
-                                        <th>Nama Muatan</th>
-                                        <th>Jumlah Muatan</th>
-                                        <th>Pelabuhan Muat</th>
-                                        <th>Pelabuhan Bongkar</th>
-                                        <th>Harga/Unit</th>
-                                        <th>File</th>
+                                        <th>Nama</th>
+                                        <th>Category</th>
+                                        <th>Unit</th>
+                                        <th>Type</th>
+                                        <th>Stok</th>
+                                        <th>Deskripsi</th>
+                                        <th>Akun Beban</th>
+                                        <th>Akun Retur Pembelian</th>
+                                        <th>Akun Penjualan</th>
+                                        <th>Akun Retur Penjualan</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -70,47 +72,50 @@
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('spal.index') }}",
+            ajax: "{{ route('item.index') }}",
             columns: [{
                     data: 'kode',
                     name: 'kode'
                 },
                 {
-                    data: 'customer',
-                    name: 'customer'
+                    data: 'nama',
+                    name: 'nama'
                 },
                 {
-                    data: 'nama_kapal',
-                    name: 'nama_kapal'
+                    data: 'category',
+                    name: 'category'
                 },
                 {
-                    data: 'nama_muatan',
-                    name: 'nama_muatan'
+                    data: 'unit',
+                    name: 'unit'
                 },
                 {
-                    data: 'jml_muatan',
-                    name: 'jml_muatan'
+                    data: 'type',
+                    name: 'type'
                 },
                 {
-                    data: 'pelabuhan_muat',
-                    name: 'pelabuhan_muat'
+                    data: 'stok',
+                    name: 'stok'
                 },
                 {
-                    data: 'pelabuhan_bongkar',
-                    name: 'pelabuhan_bongkar'
+                    data: 'deskripsi',
+                    name: 'deskripsi'
                 },
                 {
-                    data: 'harga_unit',
-                    name: 'harga_unit'
+                    data: 'akun_beban',
+                    name: 'akun_beban'
                 },
                 {
-                    data: 'file',
-                    name: 'file',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return `<a href="/sale/spal/download/${data}" target="_blank">${data}</a>`;
-                    }
+                    data: 'akun_retur_pembelian',
+                    name: 'akun_retur_pembelian'
+                },
+                {
+                    data: 'akun_penjualan',
+                    name: 'akun_penjualan'
+                },
+                {
+                    data: 'akun_retur_penjualan',
+                    name: 'akun_retur_penjualan'
                 },
                 {
                     data: 'created_at',

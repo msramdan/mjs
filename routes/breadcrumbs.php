@@ -29,6 +29,12 @@ Breadcrumbs::for('setting', function (BreadcrumbTrail $trail) {
     $trail->push('Setting');
 });
 
+// Inventory
+Breadcrumbs::for('inventory', function (BreadcrumbTrail $trail) {
+    $trail->push('Inventory');
+});
+
+
 
 // Supplier
 Breadcrumbs::for('supplier_index', function (BreadcrumbTrail $trail) {
@@ -296,5 +302,22 @@ Breadcrumbs::for('spal_create', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('spal_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('spal_index');
+    $trail->push('Edit');
+});
+
+
+// Item/Good & Service
+Breadcrumbs::for('item_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('inventory');
+    $trail->push('item', route('item.index'));
+});
+
+Breadcrumbs::for('item_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('item_index');
+    $trail->push('Create', route('item.create'));
+});
+
+Breadcrumbs::for('item_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('item_index');
     $trail->push('Edit');
 });
