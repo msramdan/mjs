@@ -67,11 +67,6 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            <div class="form-group mb-3">
-                                <button type="reset" class="btn btn-secondary me-1">Reset</button>
-                                <button type="submit" class="btn btn-success">Update</button>
-                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -92,28 +87,6 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label" for="pelabuhan_muat">Pelabuhan Muat</label>
-                                <input class="form-control @error('pelabuhan_muat') is-invalid @enderror" type="text"
-                                    id="pelabuhan_muat" name="pelabuhan_muat" placeholder="Pelabuhan Muat"
-                                    value="{{ old('pelabuhan_muat') ? old('pelabuhan_muat') : $spal->pelabuhan_muat }}"
-                                    required />
-                                @error('pelabuhan_muat')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="pelabuhan_bongkar">Pelabuhan Bongkar</label>
-                                <input class="form-control @error('pelabuhan_bongkar') is-invalid @enderror" type="text"
-                                    id="pelabuhan_bongkar" name="pelabuhan_bongkar" placeholder="Pelabuhan Bongkar"
-                                    value="{{ old('pelabuhan_bongkar') ? old('pelabuhan_bongkar') : $spal->pelabuhan_bongkar }}"
-                                    required />
-                                @error('pelabuhan_bongkar')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
                                 <label class="form-label" for="harga_unit">Harga/Unit</label>
                                 <input class="form-control @error('harga_unit') is-invalid @enderror" type="number"
                                     id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
@@ -123,16 +96,53 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="file">File</label>
-                                <input class="form-control @error('file') is-invalid @enderror" type="file" id="file"
-                                    name="file" />
-                                @error('file')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="pelabuhan_muat">Pelabuhan Muat</label>
+                                    <input class="form-control @error('pelabuhan_muat') is-invalid @enderror" type="text"
+                                        id="pelabuhan_muat" name="pelabuhan_muat" placeholder="Pelabuhan Muat"
+                                        value="{{ old('pelabuhan_muat') ? old('pelabuhan_muat') : $spal->pelabuhan_muat }}"
+                                        required />
+                                    @error('pelabuhan_muat')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="pelabuhan_bongkar">Pelabuhan Bongkar</label>
+                                    <input class="form-control @error('pelabuhan_bongkar') is-invalid @enderror" type="text"
+                                        id="pelabuhan_bongkar" name="pelabuhan_bongkar" placeholder="Pelabuhan Bongkar"
+                                        value="{{ old('pelabuhan_bongkar') ? old('pelabuhan_bongkar') : $spal->pelabuhan_bongkar }}"
+                                        required />
+                                    @error('pelabuhan_bongkar')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 my-3 text-center">
+                                    <a href="/sale/spal/download/{{ $spal->file }}" target="_blank">
+                                        <img src="/img/document.png" alt="Gambar File" width="50">
+                                    </a>
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="file">File/Dokumen <small>(biarkan kosong jika
+                                                tidak ingin diupdate)</small></label>
+                                        <input class="form-control @error('file') is-invalid @enderror" type="file"
+                                            id="file" name="file" />
+                                        @error('file')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <button type="reset" class="btn btn-secondary me-1">Reset</button>
+                    <button type="submit" class="btn btn-success">Update</button>
                 </form>
             </div>
         </div>

@@ -66,11 +66,6 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            <div class="form-group mb-3">
-                                <button type="reset" class="btn btn-secondary me-1">Reset</button>
-                                <button type="submit" class="btn btn-success">Simpan</button>
-                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -89,26 +84,6 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label" for="pelabuhan_muat">Pelabuhan Muat</label>
-                                <input class="form-control @error('pelabuhan_muat') is-invalid @enderror" type="text"
-                                    id="pelabuhan_muat" name="pelabuhan_muat" placeholder="Pelabuhan Muat"
-                                    value="{{ old('pelabuhan_muat') }}" required autofocus />
-                                @error('pelabuhan_muat')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="pelabuhan_bongkar">Pelabuhan Bongkar</label>
-                                <input class="form-control @error('pelabuhan_bongkar') is-invalid @enderror" type="text"
-                                    id="pelabuhan_bongkar" name="pelabuhan_bongkar" placeholder="Pelabuhan Bongkar"
-                                    value="{{ old('pelabuhan_bongkar') }}" required autofocus />
-                                @error('pelabuhan_bongkar')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
                                 <label class="form-label" for="harga_unit">Harga/Unit</label>
                                 <input class="form-control @error('harga_unit') is-invalid @enderror" type="number"
                                     id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
@@ -116,6 +91,28 @@
                                 @error('harga_unit')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="pelabuhan_muat">Pelabuhan Muat</label>
+                                    <input class="form-control @error('pelabuhan_muat') is-invalid @enderror" type="text"
+                                        id="pelabuhan_muat" name="pelabuhan_muat" placeholder="Pelabuhan Muat"
+                                        value="{{ old('pelabuhan_muat') }}" required />
+                                    @error('pelabuhan_muat')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label" for="pelabuhan_bongkar">Pelabuhan Bongkar</label>
+                                    <input class="form-control @error('pelabuhan_bongkar') is-invalid @enderror" type="text"
+                                        id="pelabuhan_bongkar" name="pelabuhan_bongkar" placeholder="Pelabuhan Bongkar"
+                                        value="{{ old('pelabuhan_bongkar') }}" required />
+                                    @error('pelabuhan_bongkar')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="form-group mb-3">
@@ -128,6 +125,9 @@
                             </div>
                         </div>
                     </div>
+
+                    <button type="reset" class="btn btn-secondary me-1">Reset</button>
+                    <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
         </div>

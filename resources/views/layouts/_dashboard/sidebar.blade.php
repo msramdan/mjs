@@ -154,6 +154,28 @@
                 </div>
             </div>
 
+            {{-- Electronic Document --}}
+            <div class="menu-item has-sub">
+                <a href="javascript:;" class="menu-link">
+                    <div class="menu-icon">
+                        <i class="fa fa-file-alt"></i>
+                    </div>
+                    <div class="menu-text">{{ trans('sidebar.word.elektronik_dokumen') }}</div>
+                    <div class="menu-caret"></div>
+                </a>
+                <div class="menu-submenu">
+                    <div class="menu-item">
+                        <a href="{{ route('document.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.dokumen') }}</div>
+                        </a>
+
+                        <a href="{{ route('category-document.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.dokumen_kategori') }}</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             {{-- master data --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">

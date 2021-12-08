@@ -34,6 +34,10 @@ Breadcrumbs::for('inventory', function (BreadcrumbTrail $trail) {
     $trail->push('Inventory');
 });
 
+// Electronic Document
+Breadcrumbs::for('electronic_document', function (BreadcrumbTrail $trail) {
+    $trail->push('Electronic Document');
+});
 
 
 // Supplier
@@ -319,5 +323,39 @@ Breadcrumbs::for('item_create', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('item_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('item_index');
+    $trail->push('Edit');
+});
+
+
+// Document
+Breadcrumbs::for('document_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('electronic_document');
+    $trail->push('Document', route('document.index'));
+});
+
+Breadcrumbs::for('document_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('document_index');
+    $trail->push('Create', route('document.create'));
+});
+
+Breadcrumbs::for('document_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('document_index');
+    $trail->push('Edit');
+});
+
+
+// Category Document
+Breadcrumbs::for('category_document_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('electronic_document');
+    $trail->push('Category Document', route('category-document.index'));
+});
+
+Breadcrumbs::for('category_document_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_document_index');
+    $trail->push('Create', route('category-document.create'));
+});
+
+Breadcrumbs::for('category_document_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_document_index');
     $trail->push('Edit');
 });

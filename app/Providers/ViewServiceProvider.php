@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Contact\Customer;
+use App\Models\ElectronicDocument\CategoryDocument;
 use App\Models\Master\Category;
 use App\Models\Master\Divisi;
 use App\Models\Master\Jabatan;
@@ -219,6 +220,17 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'unit',
                 Unit::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list Category Document
+        View::composer([
+            'electronic-document.document.create',
+            'electronic-document.document.edit',
+        ], function ($view) {
+            return $view->with(
+                'categoryDocument',
+                CategoryDocument::select('id', 'nama')->orderBy('nama')->get()
             );
         });
     }
