@@ -141,8 +141,11 @@ class SpalController extends Controller
     {
         $path = public_path() . "/spal/$filename";
 
+        $extension = \File::extension($filename);
+
         $headers = array(
-            'Content-Type: application/pdf',
+            // type sesuai extension file
+            'Content-Type: application/' . $extension,
         );
 
         /**

@@ -35,6 +35,7 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>File</th>
                                         <th>Kode</th>
                                         <th>Customer</th>
                                         <th>Nama Kapal</th>
@@ -43,7 +44,6 @@
                                         <th>Pelabuhan Muat</th>
                                         <th>Pelabuhan Bongkar</th>
                                         <th>Harga/Unit</th>
-                                        <th>File</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -72,6 +72,17 @@
             serverSide: true,
             ajax: "{{ route('spal.index') }}",
             columns: [{
+                    data: 'file',
+                    name: 'file',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        return `<a href="/sale/spal/download/${data}" target="_blank">
+                            <img src="/img/document.png" alt="Gambar File" width="30">
+                        </a>`;
+                    }
+                },
+                {
                     data: 'kode',
                     name: 'kode'
                 },
@@ -102,15 +113,6 @@
                 {
                     data: 'harga_unit',
                     name: 'harga_unit'
-                },
-                {
-                    data: 'file',
-                    name: 'file',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return `<a href="/sale/spal/download/${data}" target="_blank">${data}</a>`;
-                    }
                 },
                 {
                     data: 'created_at',
