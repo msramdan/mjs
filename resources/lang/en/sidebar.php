@@ -11,7 +11,8 @@ return [
         'penjualan' => 'Sale',
         'pembelian' => 'Purchase',
         'gudang' => 'Inventory',
-        'elektronik_dokumen' => 'Electronic Document'
+        'elektronik_dokumen' => 'Electronic Document',
+        'request_form' => 'Request Form',
     ],
     'sub_menu' => [
         'pemasok' => 'Supplier',
@@ -29,6 +30,6 @@ return [
         'penjualan' => 'Sales',
         'pembelian' => 'Purchase',
         'dokumen' => 'Document',
-        'dokumen_kategori' => 'Category Document'
+        'dokumen_kategori' => 'Category Document',
     ],
 ];
