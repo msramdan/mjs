@@ -10,6 +10,7 @@ return [
         'penjualan' => 'Penjualan',
         'pembelian' => 'Pembelian',
         'gudang' => 'Gudang',
+        'elektronik_dokumen' => 'Elektronik Dokumen'
     ],
     'sub_menu' => [
         'pemasok' => 'Pemasok',
@@ -26,6 +27,7 @@ return [
         'billing' => 'Penagihan',
         'penjualan' => 'Data Penjualan',
         'pembelian' => 'Data Pembelian',
-
+        'dokumen' => 'Dokumen',
+        'dokumen_kategori' => 'Kategori Dokumen'
     ],
 ];

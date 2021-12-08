@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
+use App\Http\Controllers\ElectronicDocument\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Inventory\ItemController;
 use App\Http\Controllers\Legal\KaryawanController;
@@ -69,6 +70,13 @@ Route::middleware('auth')->prefix('sale')->group(function () {
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::resource('item', ItemController::class);
+});
+
+// Elecronic Document
+Route::middleware('auth')->prefix('electronic-document')->group(function () {
+    Route::resource('document', DocumentController::class);
+
+    Route::get('/document/download/{file}', [DocumentController::class, 'download']);
 });
 
 

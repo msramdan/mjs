@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Sale\StoreSpalRequest;
-use App\Http\Requests\Sale\UpdateSpalRequest;
+use App\Http\Requests\Sale\{StoreSpalRequest, UpdateSpalRequest};
 use App\Models\Sale\Spal;
-use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class SpalController extends Controller
 {
@@ -55,7 +54,7 @@ class SpalController extends Controller
         $attr['customer_id'] = $request->customer;
 
         if ($request->file('file') && $request->file('file')->isValid()) {
-            $filename = $request->kode . '-' . time() . '.' . $request->file->extension();
+            $filename = Str::slug($request->kode) . '-' . time() . '.' . $request->file->extension();
 
             // upload file
             // public/spal/
@@ -95,7 +94,7 @@ class SpalController extends Controller
         $attr['customer_id'] = $request->customer;
 
         if ($request->file('file') && $request->file('file')->isValid()) {
-            $filename = $request->kode . '-' . time() . '.' . $request->file->extension();
+            $filename = Str::slug($request->kode) . '-' . time() . '.' . $request->file->extension();
 
             // hapus file lama
             unlink(public_path("/spal/$spal->file"));
