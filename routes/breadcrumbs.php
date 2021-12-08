@@ -342,3 +342,20 @@ Breadcrumbs::for('document_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('document_index');
     $trail->push('Edit');
 });
+
+
+// Category Document
+Breadcrumbs::for('category_document_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('electronic_document');
+    $trail->push('Category Document', route('category-document.index'));
+});
+
+Breadcrumbs::for('category_document_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_document_index');
+    $trail->push('Create', route('category-document.create'));
+});
+
+Breadcrumbs::for('category_document_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('category_document_index');
+    $trail->push('Edit');
+});

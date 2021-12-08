@@ -169,7 +169,7 @@
                             <div class="menu-text">{{ trans('sidebar.sub_menu.dokumen') }}</div>
                         </a>
 
-                        <a href="{{ route('item.index') }}" class="menu-link">
+                        <a href="{{ route('category-document.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.dokumen_kategori') }}</div>
                         </a>
                     </div>

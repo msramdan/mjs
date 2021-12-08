@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
+use App\Http\Controllers\ElectronicDocument\CategoryDocumentController;
 use App\Http\Controllers\ElectronicDocument\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Inventory\ItemController;
@@ -77,6 +78,8 @@ Route::middleware('auth')->prefix('electronic-document')->group(function () {
     Route::resource('document', DocumentController::class);
 
     Route::get('/document/download/{file}', [DocumentController::class, 'download']);
+
+    Route::resource('category-document', CategoryDocumentController::class);
 });
 
 
