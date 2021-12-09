@@ -359,3 +359,24 @@ Breadcrumbs::for('category_document_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('category_document_index');
     $trail->push('Edit');
 });
+
+
+// Request Form
+Breadcrumbs::for('request_form_index', function (BreadcrumbTrail $trail) {
+    $trail->push('Request Form', route('request-form.index'));
+});
+
+Breadcrumbs::for('request_form_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('request_form_index');
+    $trail->push('Create', route('request-form.create'));
+});
+
+Breadcrumbs::for('request_form_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('request_form_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('request_form_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('request_form_index');
+    $trail->push('Detail');
+});

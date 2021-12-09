@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\ElectronicDocument\CategoryDocument;
 use Illuminate\Database\Seeder;
 
-class CategoryDocumentSeeder extends Seeder
+class RequestFormSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +13,6 @@ class CategoryDocumentSeeder extends Seeder
      */
     public function run()
     {
-        CategoryDocument::factory()->count(3)->create();
+        //
     }
 }

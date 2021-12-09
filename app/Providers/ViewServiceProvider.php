@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Contact\Customer;
 use App\Models\ElectronicDocument\CategoryDocument;
 use App\Models\Master\Category;
+use App\Models\Master\CategoryRequest;
 use App\Models\Master\Divisi;
 use App\Models\Master\Jabatan;
 use App\Models\Master\Lokasi;
@@ -48,6 +49,8 @@ class ViewServiceProvider extends ServiceProvider
             'master-data.status-karyawan.edit',
             'master-data.divisi.create',
             'master-data.divisi.edit',
+            'form-request.form.create',
+            'form-request.form.edit',
         ], function ($view) {
             return $view->with(
                 'status',
@@ -231,6 +234,17 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'categoryDocument',
                 CategoryDocument::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list Category Request
+        View::composer([
+            'form-request.form.create',
+            'form-request.form.edit',
+        ], function ($view) {
+            return $view->with(
+                'categoryRequest',
+                CategoryRequest::select('id', 'nama')->orderBy('nama')->get()
             );
         });
     }

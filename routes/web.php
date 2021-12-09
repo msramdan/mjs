@@ -9,6 +9,7 @@ use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RequestForm\RequestFormController;
 use App\Http\Controllers\Sale\SpalController;
 use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController};
 use Illuminate\Support\Facades\Auth;
@@ -82,7 +83,6 @@ Route::middleware('auth')->prefix('electronic-document')->group(function () {
     Route::resource('category-document', CategoryDocumentController::class);
 });
 
-
 // Profile
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -98,3 +98,8 @@ Route::middleware('auth')->prefix('setting')->group(function () {
 
     Route::resource('user', UserController::class);
 });
+
+// Request Form
+Route::middleware('auth')->resource('/request-form', RequestFormController::class);
+
+Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');

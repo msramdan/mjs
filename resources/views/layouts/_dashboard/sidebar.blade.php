@@ -36,6 +36,16 @@
                 </a>
             </div>
 
+            {{-- request_form --}}
+            <div class="menu-item">
+                <a href="{{ route('request-form.index') }}" class="menu-link">
+                    <div class="menu-icon">
+                        <i class="fab fa-wpforms"></i>
+                    </div>
+                    <div class="menu-text">{{ trans('sidebar.word.request_form') }}</div>
+                </a>
+            </div>
+
             {{-- Akuntansi --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">

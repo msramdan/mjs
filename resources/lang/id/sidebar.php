@@ -10,7 +10,8 @@ return [
         'penjualan' => 'Penjualan',
         'pembelian' => 'Pembelian',
         'gudang' => 'Gudang',
-        'elektronik_dokumen' => 'Elektronik Dokumen'
+        'elektronik_dokumen' => 'Elektronik Dokumen',
+        'request_form' => 'Request Form',
     ],
     'sub_menu' => [
         'pemasok' => 'Pemasok',
