@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Accounting\Coa;
 use App\Models\Contact\Customer;
 use App\Models\ElectronicDocument\CategoryDocument;
 use App\Models\Master\Category;
@@ -245,6 +246,29 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'categoryRequest',
                 CategoryRequest::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list Parent COA
+        View::composer([
+            'accounting.coa.create',
+            'accounting.coa.edit',
+        ], function ($view) {
+            return $view->with(
+                'parentCoa',
+                Coa::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+
+        // list list COA
+        View::composer([
+            'accounting.coa.create',
+            'accounting.coa.edit',
+        ], function ($view) {
+            return $view->with(
+                'listCoa',
+                Coa::select('id', 'nama')->orderBy('nama')->where('parent', null)->get()
             );
         });
     }

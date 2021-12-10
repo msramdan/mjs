@@ -63,7 +63,9 @@
                         <a href="index.html" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.billing') }}</div>
                         </a>
-
+                        <a href="{{ route('coa.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.coa') }}</div>
+                        </a>
                     </div>
                 </div>
             </div>

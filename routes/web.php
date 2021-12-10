@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounting\CoaController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\CategoryDocumentController;
 use App\Http\Controllers\ElectronicDocument\DocumentController;
@@ -103,3 +104,8 @@ Route::middleware('auth')->prefix('setting')->group(function () {
 Route::middleware('auth')->resource('/request-form', RequestFormController::class);
 
 Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
+
+// COA
+Route::middleware('auth')->prefix('accounting')->group(function () {
+    Route::resource('coa', CoaController::class);
+});

@@ -29,6 +29,7 @@ return [
         'penjualan' => 'Data Penjualan',
         'pembelian' => 'Data Pembelian',
         'dokumen' => 'Dokumen',
-        'dokumen_kategori' => 'Kategori Dokumen'
+        'dokumen_kategori' => 'Kategori Dokumen',
+        'coa' => 'COA'
     ],
 ];
