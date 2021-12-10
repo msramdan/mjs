@@ -3,11 +3,11 @@
         {{-- orang tua --}}
         <ul>
             <li data-jstree='{"opened":true}'>
-                {{ $parent->nama }}
+                {{ $parent->kode . ' - ' . $parent->nama }}
 
                 @php
                     $childs = \DB::table('coas')
-                        ->select('id', 'nama')
+                        ->select('id', 'kode', 'nama')
                         ->where('parent', $parent->id)
                         ->get();
                 @endphp
@@ -16,11 +16,11 @@
                     {{-- anak --}}
                     <ul>
                         <li data-jstree='{"opened":true}'>
-                            {{ $child->nama }}
+                            {{ $child->kode . ' - ' . $child->nama }}
 
                             @php
                                 $grandChilds = \DB::table('coas')
-                                    ->select('id', 'nama')
+                                    ->select('id', 'kode', 'nama')
                                     ->where('parent', $child->id)
                                     ->get();
                             @endphp
@@ -29,11 +29,11 @@
                                 {{-- cucu --}}
                                 <ul>
                                     <li>
-                                        {{ $gc->nama }}
+                                        {{ $gc->kode . ' - ' . $gc->nama }}
 
                                         @php
                                             $greatGrandChilds = \DB::table('coas')
-                                                ->select('id', 'nama')
+                                                ->select('id', 'kode', 'nama')
                                                 ->where('parent', $gc->id)
                                                 ->get();
                                         @endphp
@@ -41,7 +41,7 @@
                                         @foreach ($greatGrandChilds as $ggc)
                                             {{-- cicit --}}
                                             <ul>
-                                                <li>{{ $ggc->nama }}</li>
+                                                <li>{{ $ggc->kode . ' - ' . $ggc->nama }}</li>
                                             </ul>
                                             {{-- end of cicit --}}
                                         @endforeach

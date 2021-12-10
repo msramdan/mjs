@@ -268,7 +268,7 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'listCoa',
-                Coa::select('id', 'nama')->orderBy('nama')->where('parent', null)->get()
+                Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
             );
         });
     }
