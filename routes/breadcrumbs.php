@@ -39,6 +39,12 @@ Breadcrumbs::for('electronic_document', function (BreadcrumbTrail $trail) {
     $trail->push('Electronic Document');
 });
 
+// Accounting
+Breadcrumbs::for('accounting', function (BreadcrumbTrail $trail) {
+    $trail->push('Accounting');
+});
+
+
 
 // Supplier
 Breadcrumbs::for('supplier_index', function (BreadcrumbTrail $trail) {
@@ -378,5 +384,27 @@ Breadcrumbs::for('request_form_edit', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('request_form_show', function (BreadcrumbTrail $trail) {
     $trail->parent('request_form_index');
+    $trail->push('Detail');
+});
+
+
+// COA
+Breadcrumbs::for('coa_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push('COA', route('coa.index'));
+});
+
+Breadcrumbs::for('coa_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('coa_index');
+    $trail->push('Create', route('coa.create'));
+});
+
+Breadcrumbs::for('coa_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('coa_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('coa_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('coa_index');
     $trail->push('Detail');
 });

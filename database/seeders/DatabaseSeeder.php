@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             CategoryBenefitSeeder::class,
             RoleAndPermissionSeeder::class,
             CategoryDocumentSeeder::class,
+            CoaSeeder::class,
         ]);
     }
 }

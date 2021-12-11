@@ -31,5 +31,6 @@ return [
         'pembelian' => 'Purchase',
         'dokumen' => 'Document',
         'dokumen_kategori' => 'Category Document',
+        'coa' => 'COA'
     ],
 ];
