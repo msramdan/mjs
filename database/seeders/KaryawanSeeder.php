@@ -20,7 +20,7 @@ class KaryawanSeeder extends Seeder
                 'jabatan_id' => 1,
                 'status_karyawan_id' => 1,
                 'lokasi_id' => 1,
-                'nama' => 'Bruno Bucciarai',
+                'nama' => 'Bruno Bucciarati',
                 'email' => 'bruno@gmail.com',
                 'nik' => '317123123123',
                 'alamat' => 'Bekasi',

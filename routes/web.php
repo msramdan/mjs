@@ -2,19 +2,17 @@
 
 use App\Http\Controllers\Accounting\CoaController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
-use App\Http\Controllers\ElectronicDocument\CategoryDocumentController;
-use App\Http\Controllers\ElectronicDocument\DocumentController;
+use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Inventory\ItemController;
-use App\Http\Controllers\Legal\KaryawanController;
+use App\Http\Controllers\Legal\{KaryawanController, BerkasKaryawanController};
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestForm\RequestFormController;
 use App\Http\Controllers\Sale\SpalController;
 use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController};
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\{Route, Auth};
 
 
 // untuk nonaktifkan route register
@@ -61,6 +59,10 @@ Route::prefix('master')->middleware('auth')->group(function () {
 // HR/Legal
 Route::prefix('legal')->middleware('auth')->group(function () {
     Route::resource('karyawan', KaryawanController::class);
+
+    Route::get('/berkas-karyawan/download/{file}', [BerkasKaryawanController::class, 'download'])->name('berkas-karyawan.download');
+
+    Route::resource('berkas-karyawan', BerkasKaryawanController::class);
 });
 
 // Sale

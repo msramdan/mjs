@@ -157,6 +157,11 @@ class KaryawanController extends Controller
         // delete old foto from storage
         Storage::delete('public/img/karyawan/' . $karyawan->foto);
 
+        // hapus file
+        foreach ($karyawan->berkas_karyawan as $detail) {
+            unlink(public_path("/berkas-karyawan/$detail->file"));
+        }
+
         $karyawan->delete();
 
         Alert::success('Hapus Data', 'Berhasil');

@@ -242,6 +242,23 @@ Breadcrumbs::for('karyawan_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+// Karyawan File
+Breadcrumbs::for('berkas_karyawan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Karyawan File');
+});
+
+Breadcrumbs::for('berkas_karyawan_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('berkas_karyawan_index');
+    $trail->push('Create', route('berkas-karyawan.create'));
+});
+
+Breadcrumbs::for('berkas_karyawan_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('berkas_karyawan_index');
+    $trail->push('Edit');
+});
+
+
 
 // Profile
 Breadcrumbs::for('profile_index', function (BreadcrumbTrail $trail) {
