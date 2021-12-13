@@ -156,4 +156,9 @@ class SpalController extends Controller
          */
         return response()->download($path, $filename, $headers);
     }
+
+    public function getSpalById($id)
+    {
+        return Spal::with('customer:id,nama')->findOrFail($id);
+    }
 }

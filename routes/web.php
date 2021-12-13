@@ -11,7 +11,7 @@ use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, Cate
 use App\Http\Controllers\Payroll\{PotonganController,BenefitController};
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestForm\RequestFormController;
-use App\Http\Controllers\Sale\SpalController;
+use App\Http\Controllers\Sale\{SpalController, SaleController};
 use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController,SettingAppController};
 use Illuminate\Support\Facades\{Route, Auth};
 
@@ -68,13 +68,19 @@ Route::prefix('legal')->middleware('auth')->group(function () {
 
 // Sale
 Route::middleware('auth')->prefix('sale')->group(function () {
+    Route::resource('sale', SaleController::class);
+
     Route::resource('spal', SpalController::class);
 
     Route::get('/spal/download/{file}', [SpalController::class, 'downloadFileSpal']);
+
+    Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
 });
 
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
+    Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
+
     Route::resource('item', ItemController::class);
 });
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\StoreItemRequest;
 use App\Http\Requests\Inventory\UpdateItemRequest;
 use App\Models\Inventory\Item;
+use PDO;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -104,5 +105,10 @@ class ItemController extends Controller
         Alert::success('Hapus Data', 'Berhasil');
 
         return redirect()->route('item.index');
+    }
+
+    public function getItemById($id)
+    {
+        return Item::with('unit:id,nama')->select('id', 'unit_id', 'kode', 'nama', 'stok')->findOrFail($id);
     }
 }

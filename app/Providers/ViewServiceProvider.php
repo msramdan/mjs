@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Accounting\Coa;
 use App\Models\Contact\Customer;
 use App\Models\ElectronicDocument\CategoryDocument;
+use App\Models\Inventory\Item;
 use App\Models\Master\Category;
 use App\Models\Master\CategoryRequest;
 use App\Models\Master\Divisi;
@@ -12,6 +13,7 @@ use App\Models\Master\Jabatan;
 use App\Models\Master\Lokasi;
 use App\Models\Master\StatusKaryawan;
 use App\Models\Master\Unit;
+use App\Models\Sale\Spal;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Permission;
@@ -260,7 +262,6 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-
         // list list COA
         View::composer([
             'accounting.coa.create',
@@ -269,6 +270,28 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'listCoa',
                 Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
+            );
+        });
+
+        // list spal
+        View::composer([
+            'sale.sale.create',
+            'sale.sale.edit',
+        ], function ($view) {
+            return $view->with(
+                'spal',
+                Spal::select('id', 'kode')->orderBy('kode')->get()
+            );
+        });
+
+        // list produk
+        View::composer([
+            'sale.sale.create',
+            'sale.sale.edit',
+        ], function ($view) {
+            return $view->with(
+                'produk',
+                Item::select('id', 'nama', 'kode')->orderBy('nama')->get()
             );
         });
     }
