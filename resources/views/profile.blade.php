@@ -57,11 +57,11 @@
                                             @if (auth()->user()->foto != null)
                                                 <img src="{{ asset('storage/img/user/' . auth()->user()->foto) }}"
                                                     alt="Foto User" class="img-fluid rounded"
-                                                    style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
+                                                     style="width: 150px;height: 150px;border-radius: 10%;">
                                             @else
                                                 <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim(auth()->user()->email))) }}&s=1000"
                                                     alt="Foto User" class="img-fluid rounded"
-                                                    style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
+                                                     style="width: 150px;height: 150px;border-radius: 10%;">
                                             @endif
                                         </div>
 

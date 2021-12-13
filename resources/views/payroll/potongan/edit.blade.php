@@ -41,7 +41,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="besar_potongan">Besar Potongan</label>
                                 <input class="form-control @error('besar_potongan') is-invalid @enderror" type="number" id="besar_potongan"
-                                    name="besar_potongan" placeholder="Besar Potongan" value="{{ old('besar_potongan') }}"
+                                    name="besar_potongan" autocomplete="off" placeholder="Besar Potongan" value="{{ old('besar_potongan') }}"
                                      />
                                 @error('besar_potongan')
                                     <div class="invalid-feedback">{{ $message }}</div>
