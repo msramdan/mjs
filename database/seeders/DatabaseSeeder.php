@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             CoaSeeder::class,
             DataPotonganSeeder::class,
             DataBenefitSeeder::class,
+            SettingAppSeeder::class,
         ]);
     }
 }

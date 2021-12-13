@@ -274,7 +274,7 @@
                             <div class="menu-text">Permission</div>
                         </a>
 
-                        <a href="" class="menu-link">
+                        <a href="{{ route('setting_app.index') }}" class="menu-link">
                             <div class="menu-text">Pengaturan Aplikasi</div>
                         </a>
                     </div>
