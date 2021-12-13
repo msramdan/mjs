@@ -33,11 +33,6 @@ class BenefitController extends Controller
         return view('payroll.benefit.index');
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreBenefitRequest $request)
     {
         Benefit::create($request->validated());
@@ -74,11 +69,6 @@ class BenefitController extends Controller
             'kategori' => $CategoryBenefit,
             'karyawan_id' => $karyawan_id
         ]);
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     public function destroy(Benefit $benefit)

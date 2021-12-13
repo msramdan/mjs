@@ -115,7 +115,7 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
 
 // Payroll
 Route::prefix('payroll')->middleware('auth')->group(function () {
-    Route::resource('potongan', PotonganController::class);
-    Route::resource('benefit', BenefitController::class);
+    Route::resource('potongan', PotonganController::class)->except(['update','create']);
+    Route::resource('benefit', BenefitController::class)->except(['update','create']);
 });
 
