@@ -28,6 +28,7 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>Foto</th>
                                         <th>Nama Karyawan</th>
                                         <th>NIK</th>
                                         <th>Action</th>
@@ -49,19 +50,28 @@
 
 @push('js')
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
-{{--
     <script>
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('benefit') }}",
-            columns: [{
-                    data: 'kode',
-                    name: 'kode'
+            ajax: "{{ route('benefit.index') }}",
+            columns: [
+                {
+                    data: 'foto',
+                    name: 'foto',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        return `<img src="${data}" alt="Foto Karyawan" class="rounded h-30px"> `;
+                    }
                 },
                 {
                     data: 'nama',
                     name: 'nama'
+                },
+                {
+                    data: 'nik',
+                    name: 'nik'
                 },
                 {
                     data: 'action',
@@ -71,5 +81,5 @@
                 }
             ],
         });
-    </script> --}}
+    </script>
 @endpush

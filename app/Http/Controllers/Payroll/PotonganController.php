@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Payroll;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Legal\KaryawanController;
 use App\Http\Requests\Payroll\StorePotonganRequest;
 use App\Models\Legal\Karyawan;
-use App\Models\Master\CategoryPotongan;
 use App\Models\Payroll\Potongan;
-use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -39,7 +36,7 @@ class PotonganController extends Controller
     public function store(StorePotonganRequest $request)
     {
         Potongan::create($request->validated());
-        // Alert::success('Tambah Data', 'Berhasil');
+        Alert::success('Tambah Data', 'Berhasil');
         return redirect()->route('potongan.edit' , $request->karyawan_id);
     }
 
@@ -78,7 +75,7 @@ class PotonganController extends Controller
     {
         try {
             $potongan->delete();
-            // Alert::success('Hapus Data', 'Berhasil');
+            Alert::success('Hapus Data', 'Berhasil');
             return redirect()->route('potongan.edit' , $potongan->karyawan_id);
         } catch (\Throwable $th) {
             Alert::error('Hapus Data', 'Gagal');

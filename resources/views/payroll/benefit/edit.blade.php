@@ -1,15 +1,15 @@
 @extends('layouts.master')
-@section('title','Tambah Data Potongan' )
+@section('title','Tambah Data benefit' )
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('potongan_index') }}
+        {{ Breadcrumbs::render('benefit_index') }}
         <div class="row">
             <div class="col-md-6">
                 <div class="panel panel-inverse">
                     <div class="panel-heading">
-                        <h4 class="panel-title">{{ trans('potongan.edit.daftar_potongan') }}</h4>
+                        <h4 class="panel-title">{{ trans('benefit.edit.daftar_benefit') }}</h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                                     class="fa fa-redo"></i>
@@ -23,32 +23,32 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{route('potongan.store')}}" method="POST">
+                        <form action="{{route('benefit.store')}}" method="POST">
                             @csrf
                             <div class="form-group mb-3">
-                                <label class="form-label" for="category_potongan_id">Kategori Potongan</label>
-                                <select class="form-select @error('category_potongan_id') is-invalid @enderror " id="category_potongan_id" name="category_potongan_id" >
+                                <label class="form-label" for="category_benefit_id">Kategori Benefit</label>
+                                <select class="form-select @error('category_benefit_id') is-invalid @enderror " id="category_benefit_id" name="category_benefit_id" >
                                     <option value="" disabled="" selected="">-- Pilih --</option>
                                     @foreach ($kategori as $item)
-                                        <option value="{{ $item->category_potongan_id }}" {{ old('category_potongan_id') && old('category_potongan_id') == $item->category_potongan_id ? 'selected' : $item->category_potongan_id }}>{{ $item->nama }}</option>
+                                        <option value="{{ $item->category_benefit_id }}" {{ old('category_benefit_id') && old('category_benefit_id') == $item->category_benefit_id ? 'selected' : $item->category_benefit_id }}>{{ $item->nama }}</option>
                                     @endforeach
                                 </select>
-                                @error('category_potongan_id')
+                                @error('category_benefit_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="form-group mb-3">
-                                <label class="form-label" for="besar_potongan">Besar Potongan</label>
-                                <input class="form-control @error('besar_potongan') is-invalid @enderror" type="number" id="besar_potongan"
-                                    name="besar_potongan" placeholder="Besar Potongan" value="{{ old('besar_potongan') }}"
+                                <label class="form-label" for="besar_benefit">Besar Benefit</label>
+                                <input class="form-control @error('besar_benefit') is-invalid @enderror" type="number" id="besar_benefit"
+                                    name="besar_benefit" placeholder="Besar Benefit" value="{{ old('besar_benefit') }}"
                                      />
-                                @error('besar_potongan')
+                                @error('besar_benefit')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                                 <input class="form-control @error('karyawan_id') is-invalid @enderror" type="hidden" id="karyawan_id"
-                                    name="karyawan_id" placeholder="Besar Potongan" value="{{$karyawan_id}}"
+                                    name="karyawan_id" placeholder="Besar benefit" value="{{$karyawan_id}}"
                                      />
 
                             <button type="reset" class="btn btn-secondary me-1">Reset</button>
@@ -61,7 +61,7 @@
             <div class="col-md-6">
                 <div class="panel panel-inverse">
                     <div class="panel-heading">
-                        <h4 class="panel-title">{{ trans('potongan.edit.ditambahakan') }}</h4>
+                        <h4 class="panel-title">{{ trans('benefit.edit.ditambahakan') }}</h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                                     class="fa fa-redo"></i>
@@ -79,12 +79,12 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Kategori Potongan</th>
-                                        <th>Besar Potongan</th>
+                                        <th>Kategori Benefit</th>
+                                        <th>Besar Benefit</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="daftar_potongan"></tbody>
+                                <tbody id="daftar_benefit"></tbody>
                             </table>
                         </div>
                     </div>
@@ -101,11 +101,11 @@
       var karyawan_id = $("#karyawan_id").val();
 
       $.ajax({
-             url:'{{url("payroll/potongan")}}' + '/' + karyawan_id,
+             url:'{{url("payroll/benefit")}}' + '/' + karyawan_id,
              method:"GET",
              data:{},
              success:function(data){
-              $('#daftar_potongan').html(data);
+              $('#daftar_benefit').html(data);
              }
             })
     });
