@@ -57,6 +57,7 @@ class ItemController extends Controller
         $attr = $request->validated();
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
+        $attr['stok'] = 0;
 
         Item::create($attr);
 

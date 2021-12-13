@@ -34,5 +34,11 @@ return [
         'coa' => 'COA',
         'potongan' => 'Potongan Penghasilan',
         'benefit' => 'Benefit',
+        'jabatan' => 'Jabatan',
+        'status_karyawan' => 'Status Karyawan',
+        'divisi' => 'Divisi',
+        'lokasi_kerja' => 'Lokasi Kerja',
+        'pengaturan_app' => 'Pengaturan Aplikasi',
+        'user' => 'Pengguna',
     ],
 ];

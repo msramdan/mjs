@@ -45,16 +45,6 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="stok">Stok</label>
-                                <input class="form-control @error('stok') is-invalid @enderror" type="number" id="stok"
-                                    name="stok" placeholder="Stok" value="{{ old('stok') }}" required />
-                                @error('stok')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
                             <div class="form-group mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
                                 <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"

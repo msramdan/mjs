@@ -35,5 +35,12 @@ return [
         'coa' => 'COA',
         'potongan' => 'Income Deduction',
         'benefit' => 'Benefits',
+        'jabatan' => 'Designation',
+        'status_karyawan' => 'Employee Status',
+        'divisi' => 'Division',
+        'lokasi_kerja' => 'Work Location',
+        'pengaturan_app' => 'App settings',
+        'user' => 'Users',
+
     ],
 ];
