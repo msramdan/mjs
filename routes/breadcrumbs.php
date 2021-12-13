@@ -332,6 +332,28 @@ Breadcrumbs::for('spal_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+// sale
+Breadcrumbs::for('sale_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Sale', route('sale.index'));
+});
+
+Breadcrumbs::for('sale_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('sale_index');
+    $trail->push('Create', route('sale.create'));
+});
+
+Breadcrumbs::for('sale_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('sale_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('sale_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('sale_index');
+    $trail->push('Detail');
+});
+
+
 
 // Item/Good & Service
 Breadcrumbs::for('item_index', function (BreadcrumbTrail $trail) {
