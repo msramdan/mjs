@@ -52,6 +52,11 @@ class Karyawan extends Model
         return $this->belongsTo(Lokasi::class);
     }
 
+    public function berkas_karyawan()
+    {
+        return $this->hasMany(BerkasKaryawan::class);
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::createFromTimeString($value)->format('d m Y H:i');

@@ -1,4 +1,8 @@
 <td>
+    <a href="{{ route('berkas-karyawan.create') }}?karyawan={{ $model->id }}" class="btn btn-info btn-xs mb-1">
+        <i class="fas fa-upload"></i>
+    </a>
+
     <a href="{{ route('karyawan.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
         <i class="fas fa-edit"></i>
     </a>
