@@ -12,12 +12,13 @@ return [
         'gudang' => 'Gudang',
         'elektronik_dokumen' => 'Elektronik Dokumen',
         'request_form' => 'Request Form',
+        'payroll' => 'Penggajian',
     ],
     'sub_menu' => [
         'pemasok' => 'Pemasok',
         'pelanggan' => 'Pelanggan',
         'barang_jasa' => 'Data Barang & Jasa',
-        'kategori' => 'Kategori',
+        'kategori' => 'Kategori Barang',
         'kategori_request' => 'Kategori Request',
         'kategori_potongan' => 'Kategori Potongan',
         'kategori_benefit' => 'Kategori Benefit',
@@ -30,6 +31,8 @@ return [
         'pembelian' => 'Data Pembelian',
         'dokumen' => 'Dokumen',
         'dokumen_kategori' => 'Kategori Dokumen',
-        'coa' => 'COA'
+        'coa' => 'COA',
+        'potongan' => 'Potongan Penghasilan',
+        'benefit' => 'Benefit',
     ],
 ];

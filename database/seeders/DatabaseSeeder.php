@@ -30,6 +30,8 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             CategoryDocumentSeeder::class,
             CoaSeeder::class,
+            DataPotonganSeeder::class,
+            DataBenefitSeeder::class,
         ]);
     }
 }

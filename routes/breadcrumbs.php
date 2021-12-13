@@ -44,6 +44,10 @@ Breadcrumbs::for('accounting', function (BreadcrumbTrail $trail) {
     $trail->push('Accounting');
 });
 
+// Payroll
+Breadcrumbs::for('payroll', function (BreadcrumbTrail $trail) {
+    $trail->push('Payroll');
+});
 
 
 // Supplier
@@ -425,3 +429,16 @@ Breadcrumbs::for('coa_show', function (BreadcrumbTrail $trail) {
     $trail->parent('coa_index');
     $trail->push('Detail');
 });
+
+//potongan
+Breadcrumbs::for('potongan_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('payroll');
+    $trail->push('Data Potongan', route('potongan.index'));
+});
+//benefit
+Breadcrumbs::for('benefit_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('payroll');
+    $trail->push('Data Benefit', route('benefit.index'));
+});
+
+

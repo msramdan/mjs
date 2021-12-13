@@ -8,6 +8,7 @@ use App\Http\Controllers\Inventory\ItemController;
 use App\Http\Controllers\Legal\{KaryawanController, BerkasKaryawanController};
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
+use App\Http\Controllers\Payroll\{PotonganController,BenefitController};
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestForm\RequestFormController;
 use App\Http\Controllers\Sale\SpalController;
@@ -111,3 +112,10 @@ Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormCont
 Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::resource('coa', CoaController::class);
 });
+
+// Payroll
+Route::prefix('payroll')->middleware('auth')->group(function () {
+    Route::resource('potongan', PotonganController::class);
+    Route::resource('benefit', BenefitController::class);
+});
+

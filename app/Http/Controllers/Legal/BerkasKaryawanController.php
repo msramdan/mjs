@@ -28,12 +28,6 @@ class BerkasKaryawanController extends Controller
         return view('legal.berkas.create', compact('karyawan'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreBerkasKaryawanRequest $request)
     {
         $karyawan = Karyawan::findOrFail($request->karyawan);

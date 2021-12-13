@@ -148,6 +148,27 @@
                 </div>
             </div>
 
+            {{-- payroll --}}
+            <div class="menu-item has-sub">
+                <a href="javascript:;" class="menu-link">
+                    <div class="menu-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div class="menu-text">{{ trans('sidebar.word.payroll') }}</div>
+                    <div class="menu-caret"></div>
+                </a>
+                <div class="menu-submenu">
+                    <div class="menu-item">
+                        <a href="{{ route('potongan.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.potongan') }}</div>
+                        </a>
+                        <a href="{{ route('benefit.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.benefit') }}</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             {{-- HR & Legal --}}
             <div class="menu-item has-sub">
                 <a href="javascript:;" class="menu-link">

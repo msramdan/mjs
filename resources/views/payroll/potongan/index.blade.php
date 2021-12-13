@@ -1,21 +1,14 @@
 @extends('layouts.master')
-@section('title', 'Karyawan')
+@section('title','Data Potongan' )
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('karyawan_index') }}
-
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('karyawan.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        {{ Breadcrumbs::render('potongan_index') }}
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">Karyawan</h4>
+                <h4 class="panel-title">{{ trans('sidebar.sub_menu.potongan') }}</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                             class="fa fa-redo"></i>
@@ -36,19 +29,8 @@
                                 <thead>
                                     <tr>
                                         <th>Foto</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
+                                        <th>Nama Karyawan</th>
                                         <th>NIK</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Tanggal Masuk</th>
-                                        <th>Divisi</th>
-                                        <th>Jabatan</th>
-                                        <th>Status Karyawan</th>
-                                        <th>Status Kawin</th>
-                                        <th>Status Keaktifan</th>
-                                        <th>Alamat</th>
-                                        <th>Created At</th>
-                                        <th>Updated At</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -68,13 +50,13 @@
 
 @push('js')
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
-
     <script>
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('karyawan.index') }}",
-            columns: [{
+            ajax: "{{ route('potongan.index') }}",
+            columns: [
+                {
                     data: 'foto',
                     name: 'foto',
                     orderable: false,
@@ -88,52 +70,8 @@
                     name: 'nama'
                 },
                 {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
                     data: 'nik',
                     name: 'nik'
-                },
-                {
-                    data: 'jenis_kelamin',
-                    name: 'jenis_kelamin'
-                },
-                {
-                    data: 'tgl_masuk',
-                    name: 'tgl_masuk'
-                },
-                {
-                    data: 'divisi',
-                    name: 'divisi'
-                },
-                {
-                    data: 'jabatan',
-                    name: 'jabatan'
-                },
-                {
-                    data: 'status_karyawan',
-                    name: 'status_karyawan'
-                },
-                {
-                    data: 'status_kawin',
-                    name: 'status_kawin'
-                },
-                {
-                    data: 'status_keaktifan',
-                    name: 'status_keaktifan'
-                },
-                {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
                 },
                 {
                     data: 'action',
