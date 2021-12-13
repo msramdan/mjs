@@ -215,6 +215,7 @@
 
                 generateNo()
                 hitungTotal()
+                hitungDiskon()
                 clearForm()
                 cekTableLength()
 
@@ -317,6 +318,7 @@
 
                 clearForm()
                 hitungTotal()
+                hitungDiskon()
                 generateNo()
 
                 btnUpdate.hide()
@@ -348,6 +350,7 @@
 
             generateNo()
             hitungTotal()
+            hitungDiskon()
             cekTableLength()
         })
 
@@ -415,7 +418,11 @@
         })
 
         diskon.on('change keyup', function() {
-            xDiskon = (parseInt($('#total-hidden').val()) - parseInt($(this).val()))
+            hitungDiskon()
+        })
+
+        function hitungDiskon() {
+            xDiskon = (parseInt($('#total-hidden').val()) - parseInt($('#diskon').val()))
 
             if (Number.isNaN(xDiskon)) {
                 grandTotal.val(formatRibuan(parseInt($('#total-hidden').val())))
@@ -426,8 +433,7 @@
 
                 $('#grand-total-hidden').val(xDiskon)
             }
-
-        })
+        }
 
         function cekTableLength() {
             let cek = tblCart.find('tbody tr').length

@@ -147,7 +147,7 @@
 
             {{-- subtotal, diskon, note --}}
             <div class="row mt-4">
-                <div class="col-md-{{ !$show ? '3' : '4' }}">
+                <div class="col-md-{{ !$show ? '4' : '4' }}">
                     <div class="form-group mb-2">
                         <label class="form-label" for="total">Total</label>
                         <input class="form-control disabled" type="text" id="total" name="total" placeholder="Total"
