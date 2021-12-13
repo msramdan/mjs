@@ -33,6 +33,7 @@
                                 <select class="form-select @error('parent') is-invalid @enderror" id="parent" name="parent"
                                     required>
                                     <option value="" disabled selected>-- Pilih --</option>
+                                    <option value="">Parent</option>
                                     @forelse ($parentCoa as $item)
                                         <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                     @empty
