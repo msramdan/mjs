@@ -12,7 +12,7 @@ use App\Http\Controllers\Payroll\{PotonganController,BenefitController};
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RequestForm\RequestFormController;
 use App\Http\Controllers\Sale\{SpalController, SaleController};
-use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController};
+use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController,SettingAppController};
 use Illuminate\Support\Facades\{Route, Auth};
 
 
@@ -107,6 +107,10 @@ Route::middleware('auth')->prefix('setting')->group(function () {
     Route::resource('permission', PermissionController::class);
 
     Route::resource('user', UserController::class);
+
+    Route::get('/setting_app', [SettingAppController::class, 'index'])->name('setting_app.index');
+
+    Route::put('/setting_app/{id}', [SettingAppController::class, 'update'])->name('setting_app.update');
 });
 
 // Request Form
