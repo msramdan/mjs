@@ -51,7 +51,7 @@ class SaleController extends Controller
      */
     public function create()
     {
-        $sale = null;
+        $sale = false;
         $show = false;
 
         return view('sale.sale.create', compact('sale', 'show'));
@@ -80,14 +80,14 @@ class SaleController extends Controller
                 $detailSale[] = new DetailSale([
                     'item_id' => $prd,
                     'harga' => $request->harga[$i],
-                    'qty' => $request->qty[$i],
-                    'sub_total' => $request->subtotal[$i],
+                    // 'qty' => $request->qty[$i],
+                    // 'sub_total' => $request->subtotal[$i],
                 ]);
 
                 // Update stok barang
-                $produkQuery = Item::whereId($prd);
-                $getProduk = $produkQuery->first();
-                $produkQuery->update(['stok' => ($getProduk->stok + $request->qty[$i])]);
+                // $produkQuery = Item::whereId($prd);
+                // $getProduk = $produkQuery->first();
+                // $produkQuery->update(['stok' => ($getProduk->stok + $request->qty[$i])]);
             }
 
             $sale->detail_sale()->saveMany($detailSale);
@@ -151,14 +151,14 @@ class SaleController extends Controller
         $sale->load('detail_sale');
 
         // kembalikan stok
-        foreach ($sale->detail_sale as $detail) {
+        // foreach ($sale->detail_sale as $detail) {
 
-            $produkQuery = Item::whereId($detail->item_id);
+        //     $produkQuery = Item::whereId($detail->item_id);
 
-            $getProduk = $produkQuery->first();
+        //     $getProduk = $produkQuery->first();
 
-            $produkQuery->update(['stok' => ($getProduk->stok + $detail->qty)]);
-        }
+        //     $produkQuery->update(['stok' => ($getProduk->stok + $detail->qty)]);
+        // }
 
         DB::transaction(function () use ($request, $sale) {
             // hapus detail sale lama
@@ -179,14 +179,14 @@ class SaleController extends Controller
                 $detailSale[] = new DetailSale([
                     'item_id' => $prd,
                     'harga' => $request->harga[$i],
-                    'qty' => $request->qty[$i],
-                    'sub_total' => $request->subtotal[$i],
+                    // 'qty' => $request->qty[$i],
+                    // 'sub_total' => $request->subtotal[$i],
                 ]);
 
                 // Update stok barang
-                $produkQuery = Item::whereId($prd);
-                $getProduk = $produkQuery->first();
-                $produkQuery->update(['stok' => ($getProduk->stok - $request->qty[$i])]);
+                // $produkQuery = Item::whereId($prd);
+                // $getProduk = $produkQuery->first();
+                // $produkQuery->update(['stok' => ($getProduk->stok - $request->qty[$i])]);
             }
 
             $sale->detail_sale()->saveMany($detailSale);

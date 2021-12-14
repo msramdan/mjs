@@ -208,4 +208,11 @@ class RequestFormController extends Controller
          */
         return response()->download($path, $filename, $headers);
     }
+
+    public function getRequestFormById($id)
+    {
+        abort_if(!request()->ajax(), 403);
+
+        return RequestForm::with('user:id,name', 'category_request:id,nama')->findOrFail($id);
+    }
 }

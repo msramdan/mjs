@@ -357,6 +357,27 @@ Breadcrumbs::for('sale_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
+// purchase
+Breadcrumbs::for('purchase_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Purchase', route('purchase.index'));
+});
+
+Breadcrumbs::for('purchase_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('purchase_index');
+    $trail->push('Create', route('purchase.create'));
+});
+
+Breadcrumbs::for('purchase_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('purchase_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('purchase_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('purchase_index');
+    $trail->push('Detail');
+});
+
 
 
 // Item/Good & Service
@@ -462,5 +483,3 @@ Breadcrumbs::for('benefit_index', function (BreadcrumbTrail $trail) {
     $trail->parent('payroll');
     $trail->push('Data Benefit', route('benefit.index'));
 });
-
-

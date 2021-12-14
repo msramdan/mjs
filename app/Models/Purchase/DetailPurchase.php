@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Sale;
+namespace App\Models\Purchase;
 
 use App\Models\Inventory\Item;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DetailSale extends Model
+class DetailPurchase extends Model
 {
     use HasFactory;
 
@@ -14,13 +14,13 @@ class DetailSale extends Model
         'sale_id',
         'item_id',
         'harga',
-        // 'qty',
-        // 'sub_total'
+        'qty',
+        'sub_total'
     ];
 
-    public function sale()
+    public function purchase()
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(Purchase::class);
     }
 
     public function item()

@@ -37,9 +37,9 @@
         const produk = $('#produk')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
-        const stok = $('#stok')
+        // const stok = $('#stok')
         const harga = $('#harga')
-        const qty = $('#qty')
+        // const qty = $('#qty')
         const diskon = $('#diskon')
         const catatan = $('#catatan')
         const total = $('#total')
@@ -81,37 +81,72 @@
         })
 
         produk.change(function() {
-            harga.prop('type', 'text')
-            harga.prop('disabled', true)
-            harga.val('Loading...')
+            if (!spal.val()) {
+                spal.focus()
+                produk.val('')
 
-            qty.prop('type', 'text')
-            qty.prop('disabled', true)
-            qty.val('Loading...')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Spal tidak boleh kosong'
+                })
 
-            $.ajax({
-                url: '/inventory/item/get-item-by-id/' + $(this).val(),
-                method: 'get',
-                success: function(res) {
-                    stok.val(res.stok)
-                    kodeProduk.val(res.kode)
-                    unitProduk.val(res.unit.nama)
+            } else {
+                harga.prop('type', 'text')
+                harga.prop('disabled', true)
+                harga.val('Loading...')
 
-                    setTimeout(() => {
-                        harga.prop('type', 'number')
-                        harga.prop('disabled', false)
-                        harga.val(parseInt(hargaUnit.text()))
+                // qty.prop('type', 'text')
+                // qty.prop('disabled', true)
+                // qty.val('Loading...')
 
-                        qty.prop('type', 'number')
-                        qty.prop('disabled', false)
-                        qty.val('')
-                        qty.focus()
-                    }, 500)
-                }
-            })
+                $.ajax({
+                    url: '/inventory/item/get-item-by-id/' + $(this).val(),
+                    method: 'get',
+                    success: function(res) {
+                        // stok.val(res.stok)
+                        kodeProduk.val(res.kode)
+                        unitProduk.val(res.unit.nama)
+
+                        setTimeout(() => {
+                            harga.prop('type', 'number')
+                            harga.prop('disabled', false)
+                            harga.val(parseInt(hargaUnit.text()))
+
+                            // qty.prop('type', 'number')
+                            // qty.prop('disabled', false)
+                            // qty.val('')
+                            harga.focus()
+                        }, 500)
+                    }
+                })
+            }
         })
 
         btnAdd.click(function() {
+
+            // else if (!produk.val() || !harga.val() || !qty.val()) {
+            //     produk.focus()
+
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Error',
+            //         text: 'Data produk & harga tidak boleh kosong'
+            //     })
+
+            // } else if (parseInt(qty.val()) >= parseInt(stok.val())) {
+            //     qty.val('')
+            //     qty.focus()
+            //     btnAdd.prop('disabled', true)
+
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Error',
+            //         text: `Stok ${produk.find('option:selected').text()} hanya tersisa ${stok.val()}`
+            //     })
+
+            // }
+
             if (!spal.val()) {
                 spal.focus()
 
@@ -139,24 +174,13 @@
                     text: 'Attn. tidak boleh kosong'
                 })
 
-            } else if (!produk.val() || !harga.val() || !qty.val()) {
+            } else if (!produk.val() || !harga.val()) {
                 produk.focus()
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data (produk, harga, & qty) tidak boleh kosong'
-                })
-
-            } else if (parseInt(qty.val()) >= parseInt(stok.val())) {
-                qty.val('')
-                qty.focus()
-                btnAdd.prop('disabled', true)
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: `Stok ${produk.find('option:selected').text()} hanya tersisa ${stok.val()}`
+                    text: 'Data produk & harga tidak boleh kosong'
                 })
 
             } else {
@@ -174,7 +198,18 @@
                     }
                 })
 
-                let subtotal = harga.val() * qty.val()
+                // let subtotal = harga.val() * qty.val()
+                // <td>
+                //             ${formatRibuan(subtotal)}
+                //             <input type="hidden" class="harga-hidden" name="subtotal[]" value="${subtotal}">
+                //         </td>
+
+                // <td>
+                //             ${qty.val()}
+                //             <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
+                //             <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
+                //             <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
+                //         </td>
 
                 tblCart.find('tbody').append(`
                     <tr>
@@ -187,17 +222,8 @@
                         <td>
                             ${formatRibuan(harga.val())}
                             <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
-                        </td>
-                        <td>
-                            ${qty.val()}
-                            <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
-                            <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
                             <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
                         </td>
-                        <td>
-                            ${formatRibuan(subtotal)}
-                            <input type="hidden" class="harga-hidden" name="subtotal[]" value="${subtotal}">
-                            </td>
                         <td>
                             <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
                                 <i class="fas fa-edit"></i>
@@ -250,24 +276,13 @@
                     text: 'Attn. tidak boleh kosong'
                 })
 
-            } else if (!produk.val() || !harga.val() || !qty.val()) {
+            } else if (!produk.val() || !harga.val()) {
                 produk.focus()
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data (produk, harga, & qty) tidak boleh kosong'
-                })
-
-            } else if (parseInt(qty.val()) >= parseInt(stok.val())) {
-                qty.val('')
-                qty.focus()
-                btnAdd.prop('disabled', true)
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: `Stok ${produk.find('option:selected').text()} hanya tersisa ${stok.val()}`
+                    text: 'Data produk & harga tidak boleh kosong'
                 })
 
             } else {
@@ -279,7 +294,7 @@
                     }
                 })
 
-                let subtotal = harga.val() * qty.val()
+                // let subtotal = harga.val() * qty.val()
 
                 $('#tbl-cart tbody tr:eq(' + index + ')').html(`
                     <td></td>
@@ -291,16 +306,7 @@
                     <td>
                         ${formatRibuan(harga.val())}
                         <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
-                    </td>
-                    <td>
-                        ${qty.val()}
-                        <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
-                        <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
                         <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
-                    </td>
-                    <td>
-                        ${formatRibuan(subtotal)}
-                        <input type="hidden" class="harga-hidden" name="subtotal[]" value="${subtotal}">
                     </td>
                     <td>
                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
@@ -335,8 +341,8 @@
 
             produk.val($('.produk-hidden:eq(' + index + ')').val())
             harga.val($('.harga-hidden:eq(' + index + ')').val())
-            qty.val($('.qty-hidden:eq(' + index + ')').val())
-            stok.val($('.stok-hidden:eq(' + index + ')').val())
+            // qty.val($('.qty-hidden:eq(' + index + ')').val())
+            // stok.val($('.stok-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
 
             $('#index-tr').val(index)
@@ -373,12 +379,12 @@
                 harga: $('input[name="harga[]"]').map(function() {
                     return $(this).val()
                 }).get(),
-                qty: $('input[name="qty[]"]').map(function() {
-                    return $(this).val()
-                }).get(),
-                subtotal: $('input[name="subtotal[]"]').map(function() {
-                    return $(this).val()
-                }).get(),
+                // qty: $('input[name="qty[]"]').map(function() {
+                //     return $(this).val()
+                // }).get(),
+                // subtotal: $('input[name="subtotal[]"]').map(function() {
+                //     return $(this).val()
+                // }).get(),
             }
 
             $.ajax({
@@ -401,7 +407,7 @@
                     })
                 },
                 error: function(xhr, status, error) {
-                    // console.error(xhr.responseText)
+                    console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
@@ -417,12 +423,13 @@
         })
 
         function hitungDiskon() {
-            xDiskon = (parseInt($('#total-hidden').val()) - parseInt($('#diskon').val()))
+            xTotal = parseInt($('#total-hidden').val())
+            xDiskon = (xTotal - parseInt($('#diskon').val()))
 
             if (Number.isNaN(xDiskon)) {
-                grandTotal.val(formatRibuan(parseInt($('#total-hidden').val())))
+                grandTotal.val(formatRibuan(xTotal))
 
-                $('#grand-total-hidden').val(parseInt($('#total-hidden').val()))
+                $('#grand-total-hidden').val(xTotal)
             } else {
                 grandTotal.val(formatRibuan(xDiskon))
 
@@ -447,7 +454,7 @@
             produk.val('')
             unitProduk.val('')
             harga.val('')
-            qty.val('')
+            // qty.val('')
         }
 
         function generateNo() {
@@ -462,7 +469,7 @@
         function hitungTotal() {
             let xTotal = 0
 
-            $('input[name="subtotal[]"]').map(function() {
+            $('input[name="harga[]"]').map(function() {
                 xTotal += parseInt($(this).val())
             }).get()
 
