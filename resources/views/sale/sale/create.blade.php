@@ -81,34 +81,46 @@
         })
 
         produk.change(function() {
-            harga.prop('type', 'text')
-            harga.prop('disabled', true)
-            harga.val('Loading...')
+            if (!spal.val()) {
+                spal.focus()
+                produk.val('')
 
-            // qty.prop('type', 'text')
-            // qty.prop('disabled', true)
-            // qty.val('Loading...')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Spal tidak boleh kosong'
+                })
 
-            $.ajax({
-                url: '/inventory/item/get-item-by-id/' + $(this).val(),
-                method: 'get',
-                success: function(res) {
-                    // stok.val(res.stok)
-                    kodeProduk.val(res.kode)
-                    unitProduk.val(res.unit.nama)
+            } else {
+                harga.prop('type', 'text')
+                harga.prop('disabled', true)
+                harga.val('Loading...')
 
-                    setTimeout(() => {
-                        harga.prop('type', 'number')
-                        harga.prop('disabled', false)
-                        harga.val(parseInt(hargaUnit.text()))
+                // qty.prop('type', 'text')
+                // qty.prop('disabled', true)
+                // qty.val('Loading...')
 
-                        // qty.prop('type', 'number')
-                        // qty.prop('disabled', false)
-                        // qty.val('')
-                        harga.focus()
-                    }, 500)
-                }
-            })
+                $.ajax({
+                    url: '/inventory/item/get-item-by-id/' + $(this).val(),
+                    method: 'get',
+                    success: function(res) {
+                        // stok.val(res.stok)
+                        kodeProduk.val(res.kode)
+                        unitProduk.val(res.unit.nama)
+
+                        setTimeout(() => {
+                            harga.prop('type', 'number')
+                            harga.prop('disabled', false)
+                            harga.val(parseInt(hargaUnit.text()))
+
+                            // qty.prop('type', 'number')
+                            // qty.prop('disabled', false)
+                            // qty.val('')
+                            harga.focus()
+                        }, 500)
+                    }
+                })
+            }
         })
 
         btnAdd.click(function() {
@@ -119,7 +131,7 @@
             //     Swal.fire({
             //         icon: 'error',
             //         title: 'Error',
-            //         text: 'Data (produk, harga, & qty) tidak boleh kosong'
+            //         text: 'Data produk & harga tidak boleh kosong'
             //     })
 
             // } else if (parseInt(qty.val()) >= parseInt(stok.val())) {
@@ -168,7 +180,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data (produk, harga, & qty) tidak boleh kosong'
+                    text: 'Data produk & harga tidak boleh kosong'
                 })
 
             } else {
@@ -270,7 +282,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data (produk, harga, & qty) tidak boleh kosong'
+                    text: 'Data produk & harga tidak boleh kosong'
                 })
 
             } else {

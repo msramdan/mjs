@@ -1,10 +1,10 @@
 <div class="col-md-9">
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <h4 class="panel-title">Sale</h4>
+            <h4 class="panel-title">Purchase</h4>
             <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
-                        class="fa fa-redo"></i>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
+                    <i class="fa fa-redo"></i>
                 </a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse">
                     <i class="fa fa-minus"></i>
@@ -20,14 +20,20 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="tanggal">Tanggal</label>
                         <input class="form-control" type="date" id="tanggal" name="tanggal" placeholder="tanggal"
-                            value="{{ $sale ? $sale->tanggal->format('Y-m-d') : '' }}" required
+                            value="{{ $purchase ? $purchase->tanggal->format('Y-m-d') : '' }}" required
                             {{ $show ? 'disabled' : '' }} />
                     </div>
 
                     <div class="form-group mb-2">
-                        <label class="form-label" for="customer">Customer</label>
-                        <input class="form-control" type="text" id="customer" name="customer" placeholder="Customer"
-                            value="{{ $sale ? $sale->spal->customer->nama : '' }}" required disabled />
+                        <label class="form-label" for="user">User</label>
+                        <input class="form-control" type="text" id="user" name="user" placeholder="User"
+                            value="{{ $purchase ? $purchase->request_form->user->name : '' }}" required disabled />
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label class="form-label" for="attn">Attn.</label>
+                        <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
+                            value="{{ $purchase ? $purchase->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
                     </div>
                 </div>
 
@@ -42,7 +48,7 @@
                             <label class="form-label" for="produk">Produk</label>
                             <select class="form-select" id="produk" name="produk">
                                 <option value="" disabled selected>-- Pilih --</option>
-                                @foreach ($produk as $item)
+                                @foreach ($consumable as $item)
                                     <option value="{{ $item->id }}">{{ $item->kode . ' - ' . $item->nama }}
                                     </option>
                                 @endforeach
@@ -54,18 +60,12 @@
                             <input class="form-control" type="number" id="harga" name="Harga" placeholder="Harga" />
                         </div>
 
-                        {{-- <div class="form-group mb-2">
+                        <div class="form-group mb-2">
                             <label class="form-label" for="qty">Qty</label>
                             <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
-                        </div> --}}
+                        </div>
                     </div>
                 @endif
-            </div>
-
-            <div class="form-group mb-2">
-                <label class="form-label" for="attn">Attn.</label>
-                <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
-                    value="{{ $sale ? $sale->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
             </div>
 
             <div class="d-flex justify-content-end my-3">
@@ -90,14 +90,16 @@
                         <th>Kode - Nama</th>
                         <th>Unit</th>
                         <th>Harga</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
                         @if (!$show)
                             <th>Action</th>
                         @endif
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($sale)
-                        @foreach ($sale->detail_sale as $detail)
+                    @if ($purchase)
+                        @foreach ($purchase->detail_purchase as $detail)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
@@ -113,21 +115,20 @@
                                     <input type="hidden" class="unit-hidden" name="unit[]"
                                         value="{{ $detail->item->unit->nama }}">
                                 </td>
-                                {{-- <td>
+                                <td>
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
-                                        value=" {{ $detail->qty }}">
+                                        value="{{ $detail->qty }}">
                                     <input type="hidden" class="stok-hidden" name="stok[]"
-                                        value=" {{ $detail->stok }}">
+                                        value="{{ $detail->item->stok }}">
                                 </td>
                                 <td>
                                     {{ number_format($detail->sub_total) }}
-                                    <input type="hidden" class="harga-hidden" name="subtotal[]"
+                                    <input type="hidden" class="subtotal-hidden" name="subtotal[]"
                                         value="{{ $detail->sub_total }}">
-                                </td> --}}
+                                </td>
                                 @if (!$show)
                                     <td>
-
                                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
                                             <i class="fas fa-edit"></i>
                                         </button>
@@ -149,25 +150,25 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="total">Total</label>
                         <input class="form-control disabled" type="text" id="total" name="total" placeholder="Total"
-                            value="{{ $sale ? number_format($sale->total) : '' }}" required disabled />
+                            value="{{ $purchase ? number_format($purchase->total) : '' }}" required disabled />
                     </div>
 
                     <div class="form-group mb-2">
                         <label class="form-label" for="diskon">Diskon</label>
                         <input class="form-control" type="number" id="diskon" name="diskon" placeholder="Diskon"
-                            value="{{ $sale ? $sale->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
+                            value="{{ $purchase ? $purchase->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
                     </div>
 
                     <div class="form-group mb-2">
                         <label class="form-label" for="grand-total">Grand Total</label>
                         <input class="form-control disabled" type="text" id="grand-total" name="grand_total"
-                            placeholder="Grand Total" value="{{ $sale ? number_format($sale->grand_total) : '' }}"
-                            required disabled />
+                            placeholder="Grand Total"
+                            value="{{ $purchase ? number_format($purchase->grand_total) : '' }}" required disabled />
 
                         <input type="hidden" id="grand-total-hidden" name="grand_total_hidden"
-                            value="{{ $sale ? $sale->grand_total : '' }}" />
+                            value="{{ $purchase ? $purchase->grand_total : '' }}" />
                         <input type="hidden" id="total-hidden" name="total_hidden"
-                            value="{{ $sale ? $sale->total : '' }}" {{ $show ? 'disabled' : '' }} />
+                            value="{{ $purchase ? $purchase->total : '' }}" {{ $show ? 'disabled' : '' }} />
                     </div>
                 </div>
 
@@ -175,7 +176,8 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="catatan">Catatan</label>
                         <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan"
-                            rows="8" {{ $show ? 'disabled' : '' }}>{{ $sale ? $sale->catatan : '' }}</textarea>
+                            rows="8"
+                            {{ $show ? 'disabled' : '' }}>{{ $purchase ? $purchase->catatan : '' }}</textarea>
                     </div>
                 </div>
 
@@ -186,16 +188,16 @@
                             <br>
 
                             <button type="submit" class="btn btn-success d-block w-100 mb-2" id="btn-save"
-                                {{ !$sale ? 'disabled' : '' }}>
-                                @if (!$sale)
+                                {{ !$purchase ? 'disabled' : '' }}>
+                                @if (!$purchase)
                                     Simpan
                                 @else
                                     Update
                                 @endif
                             </button>
 
-                            <a href="{{ route('sale.index') }}" class="btn btn-secondary d-block w-100"
-                                id="btn-cancel" {{ !$sale ? 'disabled' : '' }}>Cancel</a>
+                            <a href="{{ route('purchase.index') }}" class="btn btn-secondary d-block w-100"
+                                id="btn-cancel" {{ !$purchase ? 'disabled' : '' }}>Cancel</a>
                         </div>
                     </div>
                 @endif

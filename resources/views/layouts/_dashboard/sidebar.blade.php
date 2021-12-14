@@ -123,7 +123,7 @@
                 </a>
                 <div class="menu-submenu">
                     <div class="menu-item">
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('purchase.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.pembelian') }}</div>
                         </a>
                     </div>

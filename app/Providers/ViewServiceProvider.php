@@ -13,6 +13,7 @@ use App\Models\Master\Jabatan;
 use App\Models\Master\Lokasi;
 use App\Models\Master\StatusKaryawan;
 use App\Models\Master\Unit;
+use App\Models\RequestForm\RequestForm;
 use App\Models\Sale\Spal;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -291,7 +292,29 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'produk',
-                Item::select('id', 'nama', 'kode')->orderBy('nama')->get()
+                Item::select('id', 'nama', 'kode')->where('type', 'Services')->orderBy('nama')->get()
+            );
+        });
+
+        // list requestForm
+        View::composer([
+            'purchase.create',
+            'purchase.edit',
+        ], function ($view) {
+            return $view->with(
+                'requestForm',
+                RequestForm::select('id', 'kode')->orderBy('kode')->get()
+            );
+        });
+
+        // list consumable
+        View::composer([
+            'purchase.create',
+            'purchase.edit',
+        ], function ($view) {
+            return $view->with(
+                'consumable',
+                Item::select('id', 'nama', 'kode')->where('type', 'Consumable')->orderBy('nama')->get()
             );
         });
     }

@@ -1,18 +1,18 @@
 @extends('layouts.master')
-@section('title', 'Edit Sale')
+@section('title', 'Create purchase')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('sale_edit') }}
+        {{ Breadcrumbs::render('purchase_create') }}
 
-        <form action="{{ route('sale.update', $sale->id) }}" method="POST" id="form-sale">
+        <form action="{{ route('purchase.store') }}" method="POST" id="form-purchase">
             @csrf
             @method('POST')
             <div class="row">
-                @include('sale.sale.include.spal-info')
+                @include('purchase.include.request-info')
 
-                @include('sale.sale.include.cart')
+                @include('purchase.include.cart')
             </div>
         </form>
     </div>
@@ -22,24 +22,23 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        const spal = $('#spal')
-        const namaKapal = $('#nama-kapal')
-        const namaMuatan = $('#nama-muatan')
-        const jmlMuatan = $('#jml-muatan')
-        const pelabuhanMuat = $('#pelabuhan-muat')
-        const pelabuhanBongkar = $('#pelabuhan-bongkar')
-        const hargaUnit = $('#harga-unit')
+        const requestForm = $('#request-form')
+        const kodeRequest = $('#kode')
+        const category = $('#category')
+        const tglRequest = $('#tanggal-request')
+        const status = $('#status')
+        // const hargaUnit = $('#harga-unit')
 
         const tanggal = $('#tanggal')
         const attn = $('#attn')
-        const customer = $('#customer')
+        const user = $('#user')
 
         const produk = $('#produk')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
-        // const stok = $('#stok')
+        const stok = $('#stok')
         const harga = $('#harga')
-        // const qty = $('#qty')
+        const qty = $('#qty')
         const diskon = $('#diskon')
         const catatan = $('#catatan')
         const total = $('#total')
@@ -52,43 +51,47 @@
 
         const tblCart = $('#tbl-cart')
 
-        spal.change(function() {
-            customer.val('Loading...')
-
-            namaKapal.text('Loading...')
-            namaMuatan.text('Loading...')
-            jmlMuatan.text('Loading...')
-            pelabuhanMuat.text('Loading...')
-            pelabuhanBongkar.text('Loading...')
-            hargaUnit.text('Loading...')
+        requestForm.change(function() {
+            user.val('Loading...')
+            kodeRequest.text('Loading...')
+            category.text('Loading...')
+            tglRequest.text('Loading...')
+            status.text('Loading...')
+            // hargaUnit.text('Loading...')
 
             $.ajax({
-                url: '/sale/spal/get-spal-by-id/' + $(this).val(),
+                url: '/purchase/get-request-form-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
+                    console.log(res)
                     setTimeout(() => {
-                        customer.val(res.customer.nama)
+                        user.val(res.user.name)
 
-                        namaKapal.text(res.nama_kapal)
-                        namaMuatan.text(res.nama_muatan)
-                        jmlMuatan.text(res.jml_muatan)
-                        pelabuhanMuat.text(res.pelabuhan_muat)
-                        pelabuhanBongkar.text(res.pelabuhan_bongkar)
-                        hargaUnit.text(res.harga_unit)
+                        kodeRequest.text(res.kode)
+                        category.text(res.category_request.nama)
+                        status.text(res.status)
+
+                        let dateString = res.tanggal
+
+                        let dateObject = new Date(dateString)
+
+                        tglRequest.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
+                            .join('/'))
+                        // hargaUnit.text(res.harga_unit)
                     }, 500)
                 },
             })
         })
 
         produk.change(function() {
-            if (!spal.val()) {
-                spal.focus()
+            if (!requestForm.val()) {
+                requestForm.focus()
                 produk.val('')
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Spal tidak boleh kosong'
+                    text: 'requestForm tidak boleh kosong'
                 })
 
             } else {
@@ -96,9 +99,9 @@
                 harga.prop('disabled', true)
                 harga.val('Loading...')
 
-                // qty.prop('type', 'text')
-                // qty.prop('disabled', true)
-                // qty.val('Loading...')
+                qty.prop('type', 'text')
+                qty.prop('disabled', true)
+                qty.val('Loading...')
 
                 $.ajax({
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
@@ -111,11 +114,11 @@
                         setTimeout(() => {
                             harga.prop('type', 'number')
                             harga.prop('disabled', false)
-                            harga.val(parseInt(hargaUnit.text()))
+                            harga.val('')
 
-                            // qty.prop('type', 'number')
-                            // qty.prop('disabled', false)
-                            // qty.val('')
+                            qty.prop('type', 'number')
+                            qty.prop('disabled', false)
+                            qty.val('')
                             harga.focus()
                         }, 500)
                     }
@@ -124,36 +127,13 @@
         })
 
         btnAdd.click(function() {
-
-            // else if (!produk.val() || !harga.val() || !qty.val()) {
-            //     produk.focus()
-
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Error',
-            //         text: 'Data (produk, harga) tidak boleh kosong'
-            //     })
-
-            // } else if (parseInt(qty.val()) >= parseInt(stok.val())) {
-            //     qty.val('')
-            //     qty.focus()
-            //     btnAdd.prop('disabled', true)
-
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: 'Error',
-            //         text: `Stok ${produk.find('option:selected').text()} hanya tersisa ${stok.val()}`
-            //     })
-
-            // }
-
-            if (!spal.val()) {
-                spal.focus()
+            if (!requestForm.val()) {
+                requestForm.focus()
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Spal tidak boleh kosong'
+                    text: 'requestForm tidak boleh kosong'
                 })
 
             } else if (!tanggal.val()) {
@@ -198,18 +178,7 @@
                     }
                 })
 
-                // let subtotal = harga.val() * qty.val()
-                // <td>
-                //             ${formatRibuan(subtotal)}
-                //             <input type="hidden" class="harga-hidden" name="subtotal[]" value="${subtotal}">
-                //         </td>
-
-                // <td>
-                //             ${qty.val()}
-                //             <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
-                //             <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
-                //             <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
-                //         </td>
+                let subtotal = harga.val() * qty.val()
 
                 tblCart.find('tbody').append(`
                     <tr>
@@ -223,6 +192,15 @@
                             ${formatRibuan(harga.val())}
                             <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
                             <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
+                        </td>
+                        <td>
+                            ${qty.val()}
+                            <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
+                            <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
+                        </td>
+                        <td>
+                            ${formatRibuan(subtotal)}
+                            <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${subtotal}">
                         </td>
                         <td>
                             <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
@@ -249,13 +227,13 @@
         btnUpdate.click(function() {
             let index = $('#index-tr').val()
 
-            if (!spal.val()) {
-                spal.focus()
+            if (!requestForm.val()) {
+                requestForm.focus()
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Spal tidak boleh kosong'
+                    text: 'requestForm tidak boleh kosong'
                 })
 
             } else if (!tanggal.val()) {
@@ -282,7 +260,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data (produk, harga) tidak boleh kosong'
+                    text: 'Data produk & harga tidak boleh kosong'
                 })
 
             } else {
@@ -294,7 +272,7 @@
                     }
                 })
 
-                // let subtotal = harga.val() * qty.val()
+                let subtotal = harga.val() * qty.val()
 
                 $('#tbl-cart tbody tr:eq(' + index + ')').html(`
                     <td></td>
@@ -307,6 +285,15 @@
                         ${formatRibuan(harga.val())}
                         <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
                         <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
+                    </td>
+                    <td>
+                        ${qty.val()}
+                        <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
+                        <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
+                    </td>
+                    <td>
+                        ${formatRibuan(subtotal)}
+                        <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${subtotal}">
                     </td>
                     <td>
                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
@@ -341,8 +328,8 @@
 
             produk.val($('.produk-hidden:eq(' + index + ')').val())
             harga.val($('.harga-hidden:eq(' + index + ')').val())
-            // qty.val($('.qty-hidden:eq(' + index + ')').val())
-            // stok.val($('.stok-hidden:eq(' + index + ')').val())
+            qty.val($('.qty-hidden:eq(' + index + ')').val())
+            stok.val($('.stok-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
 
             $('#index-tr').val(index)
@@ -357,7 +344,7 @@
             cekTableLength()
         })
 
-        $('#form-sale').submit(function(e) {
+        $('#form-purchase').submit(function(e) {
             e.preventDefault()
             btnSave.prop('disabled', true)
             btnSave.text('loading...')
@@ -365,8 +352,8 @@
             btnCancel.prop('disabled', true)
             btnCancel.text('loading...')
 
-            let sale = {
-                spal: spal.val(),
+            let purchase = {
+                request_form: requestForm.val(),
                 tanggal: tanggal.val(),
                 attn: attn.val(),
                 diskon: diskon.val(),
@@ -379,30 +366,30 @@
                 harga: $('input[name="harga[]"]').map(function() {
                     return $(this).val()
                 }).get(),
-                // qty: $('input[name="qty[]"]').map(function() {
-                //     return $(this).val()
-                // }).get(),
-                // subtotal: $('input[name="subtotal[]"]').map(function() {
-                //     return $(this).val()
-                // }).get(),
+                qty: $('input[name="qty[]"]').map(function() {
+                    return $(this).val()
+                }).get(),
+                subtotal: $('input[name="subtotal[]"]').map(function() {
+                    return $(this).val()
+                }).get(),
             }
 
             $.ajax({
-                type: 'PUT',
-                url: '{{ route('sale.update', $sale->id) }}',
+                type: 'POST',
+                url: '{{ route('purchase.store') }}',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
-                data: sale,
+                data: purchase,
                 success: function(res) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Update data',
+                        title: 'Simpan data',
                         text: 'Berhasil'
                     }).then(function() {
                         setTimeout(() => {
                             window.location =
-                                '{{ route('sale.index') }}'
+                                '{{ route('purchase.index') }}'
                         }, 500)
                     })
                 },
@@ -454,7 +441,7 @@
             produk.val('')
             unitProduk.val('')
             harga.val('')
-            // qty.val('')
+            qty.val('')
         }
 
         function generateNo() {
@@ -469,7 +456,7 @@
         function hitungTotal() {
             let xTotal = 0
 
-            $('input[name="harga[]"]').map(function() {
+            $('input[name="subtotal[]"]').map(function() {
                 xTotal += parseInt($(this).val())
             }).get()
 

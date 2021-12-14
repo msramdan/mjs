@@ -8,11 +8,12 @@ use App\Http\Controllers\Inventory\ItemController;
 use App\Http\Controllers\Legal\{KaryawanController, BerkasKaryawanController};
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
-use App\Http\Controllers\Payroll\{PotonganController,BenefitController};
+use App\Http\Controllers\Payroll\{PotonganController, BenefitController};
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\RequestForm\RequestFormController;
 use App\Http\Controllers\Sale\{SpalController, SaleController};
-use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController,SettingAppController};
+use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController, SettingAppController};
 use Illuminate\Support\Facades\{Route, Auth};
 
 
@@ -77,6 +78,13 @@ Route::middleware('auth')->prefix('sale')->group(function () {
     Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
 });
 
+// Purchase
+Route::middleware('auth')->group(function () {
+    Route::resource('purchase', PurchaseController::class);
+
+    Route::get('/purchase/get-request-form-by-id/{id}', [RequestFormController::class, 'getRequestFormById']);
+});
+
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
@@ -125,7 +133,6 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
 
 // Payroll
 Route::prefix('payroll')->middleware('auth')->group(function () {
-    Route::resource('potongan', PotonganController::class)->except(['update','create']);
-    Route::resource('benefit', BenefitController::class)->except(['update','create']);
+    Route::resource('potongan', PotonganController::class)->except(['update', 'create']);
+    Route::resource('benefit', BenefitController::class)->except(['update', 'create']);
 });
-
