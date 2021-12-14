@@ -29,12 +29,6 @@
                         <input class="form-control" type="text" id="customer" name="customer" placeholder="Customer"
                             value="{{ $sale ? $sale->spal->customer->nama : '' }}" required disabled />
                     </div>
-
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="attn">Attn.</label>
-                        <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
-                            value="{{ $sale ? $sale->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
-                    </div>
                 </div>
 
                 @if (!$show)
@@ -60,15 +54,21 @@
                             <input class="form-control" type="number" id="harga" name="Harga" placeholder="Harga" />
                         </div>
 
-                        <div class="form-group mb-2">
+                        {{-- <div class="form-group mb-2">
                             <label class="form-label" for="qty">Qty</label>
                             <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
-                        </div>
+                        </div> --}}
                     </div>
                 @endif
             </div>
 
-            <div class="d-flex justify-content-end">
+            <div class="form-group mb-2">
+                <label class="form-label" for="attn">Attn.</label>
+                <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
+                    value="{{ $sale ? $sale->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
+            </div>
+
+            <div class="d-flex justify-content-end my-3">
                 @if (!$show)
                     <button type="button" class="btn btn-info" id="btn-update" style="display: none;">
                         <i class="fas fa-save me-1"></i>
@@ -90,8 +90,6 @@
                         <th>Kode - Nama</th>
                         <th>Unit</th>
                         <th>Harga</th>
-                        <th>Qty</th>
-                        <th>Subtotal</th>
                         @if (!$show)
                             <th>Action</th>
                         @endif
@@ -113,7 +111,7 @@
                                     <input type="hidden" class="harga-hidden" name="harga[]"
                                         value="{{ $detail->harga }}">
                                 </td>
-                                <td>
+                                {{-- <td>
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
                                         value=" {{ $detail->qty }}">
@@ -126,7 +124,7 @@
                                     {{ number_format($detail->sub_total) }}
                                     <input type="hidden" class="harga-hidden" name="subtotal[]"
                                         value="{{ $detail->sub_total }}">
-                                </td>
+                                </td> --}}
                                 @if (!$show)
                                     <td>
 
@@ -187,16 +185,17 @@
                             <label class="form-label" for="button">Button</label>
                             <br>
 
-                            <button type="submit" class="btn btn-success d-block w-100 mb-2" id="btn-save" disabled>
-                                @if ($sale == null)
+                            <button type="submit" class="btn btn-success d-block w-100 mb-2" id="btn-save"
+                                {{ !$sale ? 'disabled' : '' }}>
+                                @if (!$sale)
                                     Simpan
                                 @else
                                     Update
                                 @endif
                             </button>
 
-                            <button type="button" class="btn btn-secondary d-block w-100" id="btn-cancel"
-                                disabled>Cancel</button>
+                            <a href="{{ route('sale.index') }}" class="btn btn-secondary d-block w-100"
+                                id="btn-cancel" {{ !$sale ? 'disabled' : '' }}>Cancel</a>
                         </div>
                     </div>
                 @endif

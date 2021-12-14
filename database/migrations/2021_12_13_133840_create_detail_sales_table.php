@@ -18,8 +18,8 @@ class CreateDetailSalesTable extends Migration
             $table->foreignId('sale_id')->constrained('sales')->cascadeOnDelete();
             $table->foreignId('item_id')->constrained('items');
             $table->integer('harga');
-            $table->integer('qty');
-            $table->integer('sub_total');
+            // $table->integer('qty');
+            // $table->integer('sub_total');
             $table->timestamps();
         });
     }
