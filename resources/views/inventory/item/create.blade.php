@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form action="{{ route('item.store') }}" method="POST">
+                <form action="{{ route('item.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
 
@@ -66,6 +66,14 @@
                             <div class="form-check form-check-inline mb-3">
                                 <input class="form-check-input" type="radio" name="type" id="services" value="Services" />
                                 <label class="form-check-label" for="services">Services</label>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="foto">Foto</label>
+                                <input class="form-control @error('foto') is-invalid @enderror" type="file" id="foto"
+                                    name="foto" placeholder="Foto" value="{{ old('foto') }}" />
+                                @error('nama')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 

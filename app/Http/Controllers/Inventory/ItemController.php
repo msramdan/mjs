@@ -23,6 +23,14 @@ class ItemController extends Controller
             $query = Item::with('category:id,nama', 'unit:id,nama')->latest('updated_at');
 
             return DataTables::of($query)
+                ->addColumn('foto', function ($row) {
+                    if ($row->foto != null) {
+                        return asset('storage/item/' . $row->foto);
+                    } else {
+                        // return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($row->email))) . "&s=100";
+                    }
+                })
+
                 ->addColumn('category', function ($row) {
                     return $row->category->nama;
                 })
@@ -54,15 +62,30 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        $attr = $request->validated();
-        $attr['category_id'] = $request->category;
-        $attr['unit_id'] = $request->unit;
-        $attr['stok'] = 0;
+        $request->validated();
+        $foto = $request->file('foto');
+        $item = Item::create([
+            'kode'     => $request->kode,
+            'nama'     => $request->nama,
+            'type'     => $request->type,
+            'deskripsi'     => $request->deskripsi,
+            'akun_beban'     => $request->akun_beban,
+            'akun_retur_pembelian'     => $request->akun_retur_pembelian,
+            'akun_penjualan'     => $request->akun_penjualan,
+            'akun_retur_penjualan'     => $request->akun_retur_penjualan,
+            'foto'     => $foto->hashName(),
+            'category_id'     => $request->category,
+            'unit_id'     => $request->unit,
+            'stok'   => 0
+        ]);
 
-        Item::create($attr);
-
-        Alert::success('Tambah Data', 'Berhasil');
-
+        if($item){
+             //upload image
+            $foto->storeAs('public/item', $foto->hashName());
+            Alert::success('Tambah Data', 'Berhasil');
+        }else{
+            Alert::error('Tambah Data', 'Berhasil');
+        }
         return redirect()->route('item.index');
     }
 

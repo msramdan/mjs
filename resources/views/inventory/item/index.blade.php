@@ -35,6 +35,7 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>Foto</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Category</th>
@@ -74,6 +75,15 @@
             serverSide: true,
             ajax: "{{ route('item.index') }}",
             columns: [{
+                    data: 'foto',
+                    name: 'foto',
+                    searchable: false,
+                    orderable: false,
+                    render: function(data, type, full, meta) {
+                        return `<img src="${data}" alt="Foto Item" class="rounded h-30px">`;
+                    }
+                },
+                {
                     data: 'kode',
                     name: 'kode'
                 },

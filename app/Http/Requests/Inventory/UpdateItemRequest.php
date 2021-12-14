@@ -34,6 +34,7 @@ class UpdateItemRequest extends FormRequest
             'akun_retur_pembelian' => 'required',
             'akun_penjualan' => 'required',
             'akun_retur_penjualan' => 'required',
+            // 'foto' => 'required',
         ];
     }
 }

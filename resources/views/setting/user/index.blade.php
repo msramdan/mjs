@@ -71,7 +71,7 @@
                     searchable: false,
                     orderable: false,
                     render: function(data, type, full, meta) {
-                        return `<img src="${data}" alt="Foto Karyawan" class="img-fluid rounded-circle" style="width: 30px;height: 30px;object-fit: cover;">`;
+                        return `<img src="${data}" alt="Foto User" class="rounded h-30px">`;
                     }
                 },
                 {
