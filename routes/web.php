@@ -90,10 +90,10 @@ Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
 
     Route::get('/bac-terima/download/{file}', [BacTerimaController::class, 'download'])->name('bac-terima.download');
-
     Route::get('/bac-pakai/download/{file}', [BacPakaiController::class, 'download'])->name('bac-pakai.download');
 
     Route::get('/bac-pakai/generate-kode/{tanggal}', [BacPakaiController::class, 'generateKode']);
+    Route::get('/bac-terima/generate-kode/{tanggal}', [BacTerimaController::class, 'generateKode']);
 
     Route::resource('item', ItemController::class);
 

@@ -10,7 +10,6 @@
             enctype="multipart/form-data">
             @csrf
             @method('PUT')
-
             @include('inventory.bac-terima.include.cart')
         </form>
     </div>
@@ -37,7 +36,11 @@
 
         const tblCart = $('#tbl-cart')
 
-        btnSave.prop('disabled', false)
+        tanggal.change(function() {
+            kode.val('Loading...')
+
+            getKode()
+        })
 
         produk.change(function() {
             if (!kode.val()) {
@@ -67,7 +70,7 @@
 
                 $.ajax({
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
-                    method: 'get',
+                    method: 'GET',
                     success: function(res) {
                         kodeProduk.val(res.kode)
                         unitProduk.val(res.unit.nama)
@@ -118,6 +121,16 @@
                     icon: 'error',
                     title: 'Error',
                     text: 'Data produk & qty tidak boleh kosong'
+                })
+
+            } else if (qty.val() < 1) {
+                qty.focus()
+                qty.val('')
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Qty minimal 1'
                 })
 
             } else {
@@ -209,6 +222,16 @@
                     text: 'Data produk & qty tidak boleh kosong'
                 })
 
+            } else if (qty.val() < 1) {
+                qty.focus()
+                qty.val('')
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Qty minimal 1'
+                })
+
             } else {
                 // cek duplikasi pas update
                 $('input[name="produk[]"]').each(function(i) {
@@ -277,13 +300,16 @@
 
         $('#form-bac').submit(function(e) {
             e.preventDefault()
+
             btnSave.prop('disabled', true)
+            btnSave.addClass('disabled')
             btnSave.text('loading...')
 
             btnCancel.prop('disabled', true)
+            btnCancel.addClass('disabled')
             btnCancel.text('loading...')
 
-            BAC = new FormData(this)
+            let BAC = new FormData(this)
             BAC.append('_method', 'PUT')
 
             $.ajax({
@@ -304,8 +330,23 @@
                         window.location = '{{ route('bac-terima.index') }}'
                     })
                 },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText)
+                error: function(xhr) {
+                    btnSave.prop('disabled', false)
+                    btnSave.removeClass('disabled')
+                    btnSave.text('Update')
+
+                    btnCancel.prop('disabled', false)
+                    btnCancel.removeClass('disabled')
+                    btnCancel.text('Cancel')
+
+                    $('#p-msg').text(xhr.responseJSON.message)
+
+                    let errorMsg = []
+                    $.each(xhr.responseJSON.errors, function(index, value) {
+                        errorMsg.push(`<li><p class="mb-0">${value}</p></li>`)
+                    })
+
+                    $('#ul-msg').html(errorMsg)
 
                     Swal.fire({
                         icon: 'error',
@@ -321,13 +362,25 @@
             // cekTableLength()
         })
 
-        $('#file-attc').on('mouseover mouseenter mouseleave mousemove', function() {
+        $('#area-button').on('mouseover mouseenter mouseleave mousemove', function() {
             cekForm()
             // cekTableLength()
         })
 
+        function getKode() {
+            $.ajax({
+                url: '/inventory/bac-terima/generate-kode/' + tanggal.val(),
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        kode.val(res.kode)
+                    }, 500)
+                }
+            })
+        }
+
         function cekForm() {
-            if (!$('.nama:eq(1)').val() ||
+            if (!$('#nama').val() ||
                 !$('#kode').val() ||
                 !$('#tanggal').val() ||
                 !$('#keterangan').val()

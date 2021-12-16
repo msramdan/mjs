@@ -49,7 +49,6 @@ class BacPakaiController extends Controller
     {
         $show = false;
         $bacPakai = false;
-        // $kode = $this->generateKode(date('Y-m-d'));
 
         return view('inventory.bac-pakai.create', compact('show', 'bacPakai'));
     }
@@ -255,6 +254,12 @@ class BacPakaiController extends Controller
         return response()->download($path, $filename, $headers);
     }
 
+    /**
+     * Generate unique & auto increment code by date.
+     *
+     * @param  String $tanggal
+     * @return \Illuminate\Http\Response
+     */
     public function generateKode($tanggal)
     {
         // kalo diakses lewat browser/url/bukan ajax

@@ -26,10 +26,10 @@ class UpdateBacTerimaRequest extends FormRequest
         return [
             'kode' => 'required|unique:bac_terima,kode,' . $this->bac_terima->id,
             'tanggal' => 'required|date',
-            'keterangan' => 'required|string',
+            'keterangan' => 'required|string|min:2',
             'produk.*' => 'required|integer',
             'qty.*' => 'required|integer|min:1',
-            'nama.*' => 'nullable|string|min:2',
+            'nama.*' => 'required|string|min:2|max:30',
             'file.*' => 'nullable|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
         ];
     }

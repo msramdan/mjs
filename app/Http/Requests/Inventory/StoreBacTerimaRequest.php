@@ -26,10 +26,10 @@ class StoreBacTerimaRequest extends FormRequest
         return [
             'kode' => 'required|unique:bac_terima,kode',
             'tanggal' => 'required|date',
-            'keterangan' => 'required|string',
+            'keterangan' => 'required|string|min:2',
             'produk.*' => 'required|integer',
             'qty.*' => 'required|integer|min:1',
-            'nama.*' => 'required|string|min:3',
+            'nama.*' => 'required|string|min:2|max:30',
             'file.*' => 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
         ];
     }

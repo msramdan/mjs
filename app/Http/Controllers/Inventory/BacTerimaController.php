@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Inventory\StoreBacTerimaRequest;
-use App\Http\Requests\Inventory\UpdateBacTerimaRequest;
-use App\Models\Inventory\BacTerima;
-use App\Models\Inventory\DetailBacTerima;
-use App\Models\Inventory\FileBacTerima;
+use App\Http\Requests\Inventory\{UpdateBacTerimaRequest, StoreBacTerimaRequest};
+use App\Models\Inventory\{BacTerima, DetailBacTerima, FileBacTerima};
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -181,7 +177,7 @@ class BacTerimaController extends Controller
 
                 $bacTerima->file_bac_terima()->delete();
 
-                // inser file baru
+                // insert file baru
                 foreach ($request->file as $key => $file) {
                     $filename[$key] = Str::slug($request->nama[$key]) . '-' . time() . '.' . $file->extension();
 
@@ -252,5 +248,47 @@ class BacTerimaController extends Controller
          * 3:header(optional, default: pdf)
          */
         return response()->download($path, $filename, $headers);
+    }
+
+    /**
+     * Generate unique & auto increment code by date.
+     *
+     * @param  String $tanggal
+     * @return \Illuminate\Http\Response
+     */
+    public function generateKode($tanggal)
+    {
+        // kalo diakses lewat browser/url/bukan ajax
+        abort_if(!request()->ajax(), 403);
+
+        $tahun = date('Y', strtotime($tanggal));
+        $bulan = date('m', strtotime($tanggal));
+        $hari = date('d', strtotime($tanggal));
+
+        $kode = 'BACT-' . $tahun . '-' . $bulan . '-' . $hari  . '-';
+
+        $checkLatestKode = BacTerima::select('id', 'tanggal', 'kode')
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulan)
+            ->whereDay('tanggal', $hari)
+            ->latest()
+            ->first();
+
+        if ($checkLatestKode == null) {
+            $kode = $kode . '0001';
+        } else {
+            // hapus "BACT-XXXX-XX-XX-" dan ambil angka buat ditambahin
+            $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
+
+            if ($onlyNumberKode < 100) {
+                $kode = $kode . '000' . ($onlyNumberKode + 1);
+            } elseif ($onlyNumberKode >= 100 && $onlyNumberKode < 1000) {
+                $kode =  $kode . '0' . ($onlyNumberKode + 1);
+            } else {
+                $kode = $kode . ($onlyNumberKode + 1);
+            }
+        }
+
+        return response()->json(['kode' => $kode], 200);
     }
 }

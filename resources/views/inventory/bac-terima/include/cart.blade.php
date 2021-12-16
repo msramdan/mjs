@@ -20,8 +20,8 @@
                 <div class="form-group mb-2">
                     <label class="form-label" for="kode">Kode</label>
                     <input class="form-control @error('kode') is-invalid @enderror" type="text" id="kode" name="kode"
-                        placeholder="Kode" value="{{ $bacTerima ? $bacTerima->kode : '' }}" required
-                        {{ $show ? 'disabled' : '' }} />
+                        placeholder="Kode" value="{{ $bacTerima ? $bacTerima->kode : 'Loading...' }}" required
+                        {{ $show ? 'disabled' : 'readonly' }} />
                     @error('kode')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -31,7 +31,7 @@
                     <label class="form-label" for="tanggal">Tanggal</label>
                     <input class="form-control @error('tanggal') is-invalid @enderror" type="date" id="tanggal"
                         name="tanggal" placeholder="Tanggal"
-                        value="{{ $bacTerima ? $bacTerima->tanggal->format('Y-m-d') : '' }}" required
+                        value="{{ $bacTerima ? $bacTerima->tanggal->format('Y-m-d') : date('Y-m-d') }}" required
                         {{ $show ? 'disabled' : '' }} />
                     @error('tanggal')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -128,11 +128,15 @@
                                     <input type="hidden" class="produk-hidden" name="produk[]"
                                         value="{{ $detail->item_id }}">
                                 </td>
-                                <td>{{ $detail->item->unit->nama }}</td>
+                                <td>
+                                    {{ $detail->item->unit->nama }}
+                                    <input type="hidden" class="unit-hidden" name="unit[]"
+                                        value="{{ $detail->item->unit->nama }}">
+                                </td>
                                 <td>
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
-                                        value=" {{ $detail->qty }}">
+                                        value="{{ $detail->qty }}">
                                 </td>
                                 @if (!$show)
                                     <td>
@@ -182,7 +186,7 @@
                     </thead>
                     <tbody>
                         @if ($bacTerima)
-                            @forelse ($bacTerima->file_bac_terima as $detail)
+                            @foreach ($bacTerima->file_bac_terima as $detail)
                                 <tr>
                                     <td>
                                         <div class="form-group">
@@ -226,33 +230,33 @@
                                         </a>
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <input class="form-control @error('nama') is-invalid @enderror nama"
-                                                type="text" name="nama[]" id="nama" placeholder="Nama File" required />
-                                            @error('nama')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input class="form-control @error('file') is-invalid @enderror file"
-                                                type="file" name="file[]" id="file" required />
-                                            @error('file')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger disabled btn-delete-file" type="button" disabled>
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforelse
+                            @endforeach
+                        @else
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control @error('nama') is-invalid @enderror nama" type="text"
+                                            name="nama[]" id="nama" placeholder="Nama File" required />
+                                        @error('nama')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input class="form-control @error('file') is-invalid @enderror file" type="file"
+                                            name="file[]" id="file" required />
+                                        @error('file')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger disabled btn-delete-file" type="button" disabled>
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>
@@ -286,6 +290,11 @@
             @else
                 <a href="{{ route('bac-terima.index') }}" class="btn btn-secondary float-end">Back</a>
             @endif
+        </div>
+
+        <div id="validation" class="text-danger">
+            <h5 id="p-msg" class="mb-1"></h5>
+            <ul id="ul-msg"></ul>
         </div>
     </div>
 </div>
