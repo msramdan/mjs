@@ -313,6 +313,8 @@ class ViewServiceProvider extends ServiceProvider
             'purchase.edit',
             'inventory.bac-terima.create',
             'inventory.bac-terima.edit',
+            'inventory.bac-pakai.create',
+            'inventory.bac-pakai.edit',
         ], function ($view) {
             return $view->with(
                 'consumable',

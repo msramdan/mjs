@@ -416,6 +416,26 @@ Breadcrumbs::for('bac_terima_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
+// BAC Pakai
+Breadcrumbs::for('bac_pakai_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('inventory');
+    $trail->push('BAC Pakai', route('bac-pakai.index'));
+});
+
+Breadcrumbs::for('bac_pakai_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('bac_pakai_index');
+    $trail->push('Create', route('bac-pakai.create'));
+});
+
+Breadcrumbs::for('bac_pakai_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('bac_pakai_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('bac_pakai_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('bac_pakai_index');
+    $trail->push('Detail');
+});
 
 // Document
 Breadcrumbs::for('document_index', function (BreadcrumbTrail $trail) {

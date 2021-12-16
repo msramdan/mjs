@@ -35,6 +35,7 @@ return [
         'coa' => 'COA',
         'potongan' => 'Income Deduction',
         'benefit' => 'Benefits',
-        'bac_terima' => 'Recevied BAC'
+        'bac_terima' => 'Recevied BAC',
+        'bac_pakai' => 'Used BAC'
     ],
 ];
