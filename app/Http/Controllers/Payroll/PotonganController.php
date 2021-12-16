@@ -36,7 +36,7 @@ class PotonganController extends Controller
     public function store(StorePotonganRequest $request)
     {
         Potongan::create($request->validated());
-        Alert::success('Tambah Data', 'Berhasil');
+        toast(''.trans('notif.pesan_berhasil.ditambahkan').'','success');
         return redirect()->route('potongan.edit' , $request->karyawan_id);
     }
 
@@ -75,10 +75,10 @@ class PotonganController extends Controller
     {
         try {
             $potongan->delete();
-            Alert::success('Hapus Data', 'Berhasil');
+            toast(''.trans('notif.pesan_berhasil.dihapus').'','success');
             return redirect()->route('potongan.edit' , $potongan->karyawan_id);
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            toast(''.trans('notif.pesan_gagal.dihapus').'','error');
             return redirect()->route('potongan.edit' , $potongan->karyawan_id);
         }
 

@@ -36,7 +36,7 @@ class BenefitController extends Controller
     public function store(StoreBenefitRequest $request)
     {
         Benefit::create($request->validated());
-        Alert::success('Tambah Data', 'Berhasil');
+        toast(''.trans('notif.pesan_berhasil.ditambahkan').'','success');
         return redirect()->route('benefit.edit' , $request->karyawan_id);
     }
 
@@ -75,10 +75,10 @@ class BenefitController extends Controller
     {
         try {
             $benefit->delete();
-            Alert::success('Hapus Data', 'Berhasil');
+            toast(''.trans('notif.pesan_berhasil.dihapus').'','success');
             return redirect()->route('benefit.edit' , $benefit->karyawan_id);
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            toast(''.trans('notif.pesan_gagal.dihapus').'','error');
             return redirect()->route('benefit.edit' , $benefit->karyawan_id);
         }
 

@@ -30,11 +30,11 @@ class StoreItemRequest extends FormRequest
             'nama' => 'required|string|min:3|max:50',
             'type' => 'required|in:Consumable,Services',
             'deskripsi' => 'required|string|min:3',
-            'stok' => 'required|integer',
             'akun_beban' => 'required',
             'akun_retur_pembelian' => 'required',
             'akun_penjualan' => 'required',
             'akun_retur_penjualan' => 'required',
+            // 'foto' => 'required',
         ];
     }
 }

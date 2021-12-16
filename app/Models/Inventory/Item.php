@@ -19,6 +19,7 @@ class Item extends Model
         'type',
         'deskripsi',
         'stok',
+        'foto',
         'akun_beban',
         'akun_retur_pembelian',
         'akun_penjualan',
