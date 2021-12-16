@@ -229,16 +229,16 @@
                 <div class="menu-submenu">
                     <div class="menu-item">
                         <a href="{{ route('jabatan.index') }}" class="menu-link">
-                            <div class="menu-text">Jabatan</div>
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.jabatan') }}</div>
                         </a>
                         <a href="{{ route('status-karyawan.index') }}" class="menu-link">
-                            <div class="menu-text">Status Karyawan</div>
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.status_karyawan') }}</div>
                         </a>
                         <a href="{{ route('divisi.index') }}" class="menu-link">
-                            <div class="menu-text">Divisi</div>
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.divisi') }}</div>
                         </a>
                         <a href="{{ route('lokasi.index') }}" class="menu-link">
-                            <div class="menu-text">Lokasi Kerja</div>
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.lokasi_kerja') }}</div>
                         </a>
                         <a href="{{ route('category.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.kategori') }}</div>
@@ -271,7 +271,7 @@
                 <div class="menu-submenu">
                     <div class="menu-item">
                         <a href="{{ route('user.index') }}" class="menu-link">
-                            <div class="menu-text">User</div>
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.user') }}</div>
                         </a>
 
                         <a href="{{ route('role.index') }}" class="menu-link">
@@ -283,7 +283,7 @@
                         </a>
 
                         <a href="{{ route('setting_app.index') }}" class="menu-link">
-                            <div class="menu-text">Pengaturan Aplikasi</div>
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.pengaturan_app') }}</div>
                         </a>
                     </div>
                 </div>

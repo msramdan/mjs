@@ -26,6 +26,7 @@ class CreateItemsTable extends Migration
             $table->string('akun_retur_pembelian');
             $table->string('akun_penjualan');
             $table->string('akun_retur_penjualan');
+            $table->string('foto');
             $table->timestamps();
         });
     }

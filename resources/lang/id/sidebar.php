@@ -35,6 +35,12 @@ return [
         'potongan' => 'Potongan Penghasilan',
         'benefit' => 'Benefit',
         'bac_terima' => 'BAC Terima',
-        'bac_pakai' => 'BAC Pakai'
+        'bac_pakai' => 'BAC Pakai',
+        'jabatan' => 'Jabatan',
+        'status_karyawan' => 'Status Karyawan',
+        'divisi' => 'Divisi',
+        'lokasi_kerja' => 'Lokasi Kerja',
+        'pengaturan_app' => 'Pengaturan Aplikasi',
+        'user' => 'Pengguna',
     ],
 ];

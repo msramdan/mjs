@@ -36,6 +36,12 @@ return [
         'potongan' => 'Income Deduction',
         'benefit' => 'Benefits',
         'bac_terima' => 'Recevied BAC',
-        'bac_pakai' => 'Used BAC'
+        'bac_pakai' => 'Used BAC',
+        'jabatan' => 'Designation',
+        'status_karyawan' => 'Employee Status',
+        'divisi' => 'Division',
+        'lokasi_kerja' => 'Work Location',
+        'pengaturan_app' => 'App settings',
+        'user' => 'Users',
     ],
 ];

@@ -50,11 +50,11 @@ class SettingAppController extends Controller
 
         if($settingApp){
             //redirect dengan pesan sukses
-            Alert::success('Update Data', 'Berhasil');
+            toast(''.trans('notif.pesan_berhasil.diupdate').'','success');
             return redirect()->route('setting_app.index');
         }else{
             //redirect dengan pesan error
-            Alert::error('Update Data', 'Gagal');
+            toast(''.trans('notif.pesan_gagal.diupdate').'','error');
             return redirect()->route('setting_app.index');
         }
 
