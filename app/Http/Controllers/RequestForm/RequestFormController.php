@@ -22,7 +22,7 @@ class RequestFormController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = RequestForm::with('category_request:id,nama')->latest('updated_at');
+            $query = RequestForm::with('category_request:id,nama', 'user:id,name')->latest('updated_at');
 
             return DataTables::of($query)
                 ->addColumn('category_request', function ($row) {
@@ -121,6 +121,8 @@ class RequestFormController extends Controller
      */
     public function update(UpdateRequestFormRequest $request, RequestForm $requestForm)
     {
+        $requestForm->load('detail_request_form');
+
         DB::transaction(function () use ($request, $requestForm) {
             $attr = $request->validated();
             $attr['category_request_id'] = $request->category_request;
@@ -137,8 +139,6 @@ class RequestFormController extends Controller
                         'nama' => $request->nama[$key],
                         'file' => $filename[$key]
                     ]);
-
-                    // unlink(public_path("/form-request/$requestForm->detail_request_form[$key]->file"));
                 }
 
                 // hapus file

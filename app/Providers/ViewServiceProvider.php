@@ -311,6 +311,8 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'purchase.create',
             'purchase.edit',
+            'inventory.bac-terima.create',
+            'inventory.bac-terima.edit',
         ], function ($view) {
             return $view->with(
                 'consumable',

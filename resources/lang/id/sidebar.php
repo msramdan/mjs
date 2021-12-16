@@ -34,5 +34,6 @@ return [
         'coa' => 'COA',
         'potongan' => 'Potongan Penghasilan',
         'benefit' => 'Benefit',
+        'bac_terima' => 'BAC Terima'
     ],
 ];

@@ -379,7 +379,6 @@ Breadcrumbs::for('purchase_show', function (BreadcrumbTrail $trail) {
 });
 
 
-
 // Item/Good & Service
 Breadcrumbs::for('item_index', function (BreadcrumbTrail $trail) {
     $trail->parent('inventory');
@@ -394,6 +393,27 @@ Breadcrumbs::for('item_create', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('item_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('item_index');
     $trail->push('Edit');
+});
+
+// BAC Terima
+Breadcrumbs::for('bac_terima_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('inventory');
+    $trail->push('BAC Terima', route('bac-terima.index'));
+});
+
+Breadcrumbs::for('bac_terima_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('bac_terima_index');
+    $trail->push('Create', route('bac-terima.create'));
+});
+
+Breadcrumbs::for('bac_terima_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('bac_terima_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('bac_terima_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('bac_terima_index');
+    $trail->push('Detail');
 });
 
 

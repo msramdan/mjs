@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Accounting\CoaController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Inventory\ItemController;
+use App\Http\Controllers\Inventory\{ItemController, BacTerimaController};
 use App\Http\Controllers\Legal\{KaryawanController, BerkasKaryawanController};
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
@@ -89,7 +89,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
 
+    Route::get('/bac-terima/download/{file}', [BacTerimaController::class, 'download'])->name('bac-terima.download');
+
     Route::resource('item', ItemController::class);
+
+    Route::resource('bac-terima', BacTerimaController::class);
 });
 
 // Elecronic Document

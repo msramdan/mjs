@@ -109,6 +109,10 @@ class ItemController extends Controller
 
     public function getItemById($id)
     {
-        return Item::with('unit:id,nama')->select('id', 'unit_id', 'kode', 'nama', 'stok')->findOrFail($id);
+        abort_if(!request()->ajax(), 403);
+
+        return Item::with('unit:id,nama')
+            ->select('id', 'unit_id', 'kode', 'nama', 'stok')
+            ->findOrFail($id);
     }
 }
