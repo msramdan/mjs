@@ -2,8 +2,9 @@
 
 namespace App\Models\Purchase;
 
-use App\Models\RequestForm\RequestForm;
 use Carbon\Carbon;
+use App\Models\Contact\Supplier;
+use App\Models\RequestForm\RequestForm;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,7 @@ class Purchase extends Model
 
     protected $fillable = [
         'request_form_id',
+        'supplier_id',
         'tanggal',
         'attn',
         'total',
@@ -26,6 +28,11 @@ class Purchase extends Model
     public function request_form()
     {
         return $this->belongsTo(RequestForm::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
     }
 
     public function detail_purchase()

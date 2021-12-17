@@ -16,6 +16,7 @@ class CreatePurchasesTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('request_form_id')->constrained('request_forms');
+            $table->foreignId('supplier_id')->constrained('suppliers');
             $table->date('tanggal');
             $table->string('attn', 50);
             $table->integer('total');

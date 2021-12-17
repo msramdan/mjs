@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Inventory\StoreItemRequest;
-use App\Http\Requests\Inventory\UpdateItemRequest;
+use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
 use App\Models\Inventory\Item;
-use PDO;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -20,19 +19,33 @@ class ItemController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Item::with('category:id,nama', 'unit:id,nama')->latest('updated_at');
+            $query = Item::with(
+                'category:id,nama',
+                'unit:id,nama',
+                'akun_beban:id,nama',
+                'akun_retur_pembelian:id,nama',
+                'akun_retur_penjualan:id,nama',
+                'akun_penjualan:id,nama',
+            );
 
             return DataTables::of($query)
                 ->addColumn('foto', function ($row) {
-                    if ($row->foto != null) {
-                        return asset('storage/item/' . $row->foto);
-                    } else {
-                        // return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($row->email))) . "&s=100";
-                    }
+                    return asset("storage/img/item/$row->foto");
                 })
-
                 ->addColumn('category', function ($row) {
                     return $row->category->nama;
+                })
+                ->addColumn('akun_beban', function ($row) {
+                    return $row->akun_beban->nama;
+                })
+                ->addColumn('akun_retur_pembelian', function ($row) {
+                    return $row->akun_retur_pembelian->nama;
+                })
+                ->addColumn('akun_penjualan', function ($row) {
+                    return $row->akun_penjualan->nama;
+                })
+                ->addColumn('akun_retur_penjualan', function ($row) {
+                    return $row->akun_retur_penjualan->nama;
                 })
                 ->addColumn('unit', function ($row) {
                     return $row->unit->nama;
@@ -62,30 +75,26 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        $request->validated();
-        $foto = $request->file('foto');
-        $item = Item::create([
-            'kode'     => $request->kode,
-            'nama'     => $request->nama,
-            'type'     => $request->type,
-            'deskripsi'     => $request->deskripsi,
-            'akun_beban'     => $request->akun_beban,
-            'akun_retur_pembelian'     => $request->akun_retur_pembelian,
-            'akun_penjualan'     => $request->akun_penjualan,
-            'akun_retur_penjualan'     => $request->akun_retur_penjualan,
-            'foto'     => $foto->hashName(),
-            'category_id'     => $request->category,
-            'unit_id'     => $request->unit,
-            'stok'   => 0
-        ]);
+        $attr = $request->validated();
+        $attr['category_id'] = $request->category;
+        $attr['unit_id'] = $request->unit;
+        $attr['akun_beban_id'] = $request->akun_beban;
+        $attr['akun_retur_pembelian_id'] = $request->akun_retur_pembelian;
+        $attr['akun_penjualan_id'] = $request->akun_penjualan;
+        $attr['akun_retur_penjualan_id'] = $request->akun_retur_penjualan;
 
-        if($item){
-             //upload image
-            $foto->storeAs('public/item', $foto->hashName());
-            Alert::success('Tambah Data', 'Berhasil');
-        }else{
-            Alert::error('Tambah Data', 'Berhasil');
+        if ($request->file('foto') && $request->file('foto')->isValid()) {
+            $filename = time()  . '.' . $request->foto->extension();
+
+            $request->foto->storeAs('public/img/item/', $filename);
+
+            $attr['foto'] = $filename;
         }
+
+        Item::create($attr);
+
+        Alert::success('Simpan Data', 'Berhasil');
+
         return redirect()->route('item.index');
     }
 
@@ -109,7 +118,27 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        $item->update($request->validated());
+        $attr = $request->validated();
+        $attr['category_id'] = $request->category;
+        $attr['unit_id'] = $request->unit;
+        $attr['akun_beban_id'] = $request->akun_beban;
+        $attr['akun_retur_pembelian_id'] = $request->akun_retur_pembelian;
+        $attr['akun_penjualan_id'] = $request->akun_penjualan;
+        $attr['akun_retur_penjualan_id'] = $request->akun_retur_penjualan;
+        $attr['foto'] = $item->foto;
+
+        if ($request->file('foto') && $request->file('foto')->isValid()) {
+            // delete old foto from storage
+            Storage::delete('public/img/item/' . $item->foto);
+
+            $filename = time()  . '.' . $request->foto->extension();
+
+            $request->foto->storeAs('public/img/item/', $filename);
+
+            $attr['foto'] = $filename;
+        }
+
+        $item->update($attr);
 
         Alert::success('Update Data', 'Berhasil');
 

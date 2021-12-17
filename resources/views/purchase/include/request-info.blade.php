@@ -52,6 +52,11 @@
                         <td id="kode">{{ $purchase ? $purchase->request_form->kode : '' }}</td>
                     </tr>
                     <tr>
+                        <td width="35">User</td>
+                        <td>:</td>
+                        <td id="user">{{ $purchase ? $purchase->request_form->user->name : '' }}</td>
+                    </tr>
+                    <tr>
                         <td width="35">Category</td>
                         <td>:</td>
                         <td id="category">{{ $purchase ? $purchase->request_form->category_request->nama : '' }}</td>

@@ -33,6 +33,8 @@
         const attn = $('#attn')
         const user = $('#user')
 
+        const supplier = $('#supplier')
+
         const produk = $('#produk')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
@@ -57,17 +59,16 @@
             category.text('Loading...')
             tglRequest.text('Loading...')
             status.text('Loading...')
+            user.text('Loading...')
             // hargaUnit.text('Loading...')
 
             $.ajax({
                 url: '/purchase/get-request-form-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
-                    console.log(res)
                     setTimeout(() => {
-                        user.val(res.user.name)
-
                         kodeRequest.text(res.kode)
+                        user.text(res.user.name)
                         category.text(res.category_request.nama)
                         status.text(res.status)
 
@@ -133,7 +134,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'requestForm tidak boleh kosong'
+                    text: 'Request Form tidak boleh kosong'
                 })
 
             } else if (!tanggal.val()) {
@@ -145,6 +146,15 @@
                     text: 'Tanggal tidak boleh kosong'
                 })
 
+            } else if (!supplier.val()) {
+                supplier.focus()
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'supplier tidak boleh kosong'
+                })
+
             } else if (!attn.val()) {
                 attn.focus()
 
@@ -154,13 +164,32 @@
                     text: 'Attn. tidak boleh kosong'
                 })
 
-            } else if (!produk.val() || !harga.val()) {
+            } else if (!produk.val()) {
                 produk.focus()
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data produk & harga tidak boleh kosong'
+                    text: 'Produk tidak boleh kosong'
+                })
+
+            } else if (!harga.val() || harga.val() < 1) {
+                harga.focus()
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Harga tidak boleh kosong dan minimal 1'
+                })
+
+            } else if (!qty.val() || qty.val() < 1) {
+                qty.focus()
+                qty.val('')
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Qty tidak boleh kosong dan minimal 1'
                 })
 
             } else {
@@ -233,7 +262,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'requestForm tidak boleh kosong'
+                    text: 'Request Form tidak boleh kosong'
                 })
 
             } else if (!tanggal.val()) {
@@ -245,6 +274,15 @@
                     text: 'Tanggal tidak boleh kosong'
                 })
 
+            } else if (!supplier.val()) {
+                supplier.focus()
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'supplier tidak boleh kosong'
+                })
+
             } else if (!attn.val()) {
                 attn.focus()
 
@@ -254,13 +292,32 @@
                     text: 'Attn. tidak boleh kosong'
                 })
 
-            } else if (!produk.val() || !harga.val()) {
+            } else if (!produk.val()) {
                 produk.focus()
 
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data produk & harga tidak boleh kosong'
+                    text: 'Produk tidak boleh kosong'
+                })
+
+            } else if (!harga.val() || harga.val() < 1) {
+                harga.focus()
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Harga tidak boleh kosong dan minimal 1'
+                })
+
+            } else if (!qty.val() || qty.val() < 1) {
+                qty.focus()
+                qty.val('')
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Qty tidak boleh kosong dan minimal 1'
                 })
 
             } else {
@@ -355,6 +412,7 @@
             let purchase = {
                 request_form: requestForm.val(),
                 tanggal: tanggal.val(),
+                supplier: supplier.val(),
                 attn: attn.val(),
                 diskon: diskon.val(),
                 catatan: catatan.val(),
@@ -387,10 +445,7 @@
                         title: 'Simpan data',
                         text: 'Berhasil'
                     }).then(function() {
-                        setTimeout(() => {
-                            window.location =
-                                '{{ route('purchase.index') }}'
-                        }, 500)
+                        window.location = '{{ route('purchase.index') }}'
                     })
                 },
                 error: function(xhr, status, error) {

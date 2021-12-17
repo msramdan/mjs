@@ -20,14 +20,27 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="tanggal">Tanggal</label>
                         <input class="form-control" type="date" id="tanggal" name="tanggal" placeholder="tanggal"
-                            value="{{ $purchase ? $purchase->tanggal->format('Y-m-d') : '' }}" required
+                            value="{{ $purchase ? $purchase->tanggal->format('Y-m-d') : date('Y-m-d') }}" required
                             {{ $show ? 'disabled' : '' }} />
                     </div>
 
                     <div class="form-group mb-2">
-                        <label class="form-label" for="user">User</label>
-                        <input class="form-control" type="text" id="user" name="user" placeholder="User"
-                            value="{{ $purchase ? $purchase->request_form->user->name : '' }}" required disabled />
+                        <label class="form-label" for="supplier">Supplier</label>
+                        <select class="form-select" id="supplier" name="supplier" {{ $show ? 'readonly' : '' }}>
+                            @if (!$show)
+                                <option value="" disabled selected>-- Pilih --</option>
+                                @forelse ($supplier as $item)
+                                    <option value="{{ $item->id }}"
+                                        {{ $purchase && $purchase->supplier_id == $item->id ? 'selected' : '' }}>
+                                        {{ $item->nama }}
+                                    </option>
+                                @empty
+                                    <option value="" disabled>Data tidak ditemukan</option>
+                                @endforelse
+                            @else
+                                <option value="" disabled selected>{{ $purchase->supplier->nama }}</option>
+                            @endif
+                        </select>
                     </div>
 
                     <div class="form-group mb-2">
