@@ -21,11 +21,14 @@ class PurchaseController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Purchase::with('request_form:id,kode')->latest('updated_at');
+            $query = Purchase::with('request_form:id,kode', 'supplier:id,nama');
 
             return DataTables::of($query)
                 ->addColumn('request_form', function ($row) {
                     return $row->request_form->kode;
+                })
+                ->addColumn('supplier', function ($row) {
+                    return $row->supplier->nama;
                 })
                 ->addColumn('tanggal', function ($row) {
                     return $row->tanggal->format('d M Y');
@@ -61,6 +64,7 @@ class PurchaseController extends Controller
         DB::transaction(function () use ($request) {
             $purchase = Purchase::create([
                 'request_form_id' => $request->request_form,
+                'supplier_id' => $request->supplier,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
                 'grand_total' => $request->grand_total,
@@ -78,9 +82,9 @@ class PurchaseController extends Controller
                 ]);
 
                 // Update stok barang
-                $produkQuery = Item::whereId($prd);
-                $getProduk = $produkQuery->first();
-                $produkQuery->update(['stok' => ($getProduk->stok + $request->qty[$i])]);
+                // $produkQuery = Item::whereId($prd);
+                // $getProduk = $produkQuery->first();
+                // $produkQuery->update(['stok' => ($getProduk->stok + $request->qty[$i])]);
             }
 
             $purchase->detail_purchase()->saveMany($detailPurch);
@@ -124,7 +128,8 @@ class PurchaseController extends Controller
             'request_form.user:id,name',
             'request_form.category_request:id,nama',
             'detail_purchase.item:id,unit_id,kode,nama,stok',
-            'detail_purchase.item.unit:id,nama'
+            'detail_purchase.item.unit:id,nama',
+            'supplier:id,nama'
         );
         $show = false;
 
@@ -143,11 +148,11 @@ class PurchaseController extends Controller
         $purchase->load('detail_purchase');
 
         // kembalikan stok
-        foreach ($purchase->detail_purchase as $detail) {
-            $produkQuery = Item::whereId($detail->item_id);
-            $getProduk = $produkQuery->first();
-            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
-        }
+        // foreach ($purchase->detail_purchase as $detail) {
+        //     $produkQuery = Item::whereId($detail->item_id);
+        //     $getProduk = $produkQuery->first();
+        //     $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+        // }
 
         DB::transaction(function () use ($request, $purchase) {
             // hapus detail sale lama
@@ -155,6 +160,7 @@ class PurchaseController extends Controller
 
             $purchase->update([
                 'request_form_id' => $request->request_form,
+                'supplier_id' => $request->supplier,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
                 'grand_total' => $request->grand_total,
@@ -172,9 +178,9 @@ class PurchaseController extends Controller
                 ]);
 
                 // Update stok barang
-                $produkQuery = Item::whereId($prd);
-                $getProduk = $produkQuery->first();
-                $produkQuery->update(['stok' => ($getProduk->stok + $request->qty[$i])]);
+                // $produkQuery = Item::whereId($prd);
+                // $getProduk = $produkQuery->first();
+                // $produkQuery->update(['stok' => ($getProduk->stok + $request->qty[$i])]);
             }
 
             $purchase->detail_purchase()->saveMany($detailPurch);

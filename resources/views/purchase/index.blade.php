@@ -36,6 +36,7 @@
                                 <thead>
                                     <tr>
                                         <th>Form Request</th>
+                                        <th>Supplier</th>
                                         <th>Attn.</th>
                                         <th>Tangal</th>
                                         <th>Total</th>
@@ -71,6 +72,10 @@
             columns: [{
                     data: 'request_form',
                     name: 'request_form'
+                },
+                {
+                    data: 'supplier',
+                    name: 'supplier'
                 },
                 {
                     data: 'attn',

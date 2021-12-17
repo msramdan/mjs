@@ -30,11 +30,12 @@ class StoreItemRequest extends FormRequest
             'nama' => 'required|string|min:3|max:50',
             'type' => 'required|in:Consumable,Services',
             'deskripsi' => 'required|string|min:3',
-            'akun_beban' => 'required',
-            'akun_retur_pembelian' => 'required',
-            'akun_penjualan' => 'required',
-            'akun_retur_penjualan' => 'required',
-            // 'foto' => 'required',
+            'akun_beban' => 'required|integer',
+            'akun_retur_pembelian' => 'required|integer',
+            'akun_penjualan' => 'required|integer',
+            'akun_retur_penjualan' => 'required|integer',
+            'foto' => 'required|image|max:1024',
+            'stok' => 'required_if:type,Consumable'
         ];
     }
 }

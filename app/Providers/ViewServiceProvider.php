@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Accounting\Coa;
 use App\Models\Contact\Customer;
+use App\Models\Contact\Supplier;
 use App\Models\ElectronicDocument\CategoryDocument;
 use App\Models\Inventory\Item;
 use App\Models\Master\Category;
@@ -200,11 +201,21 @@ class ViewServiceProvider extends ServiceProvider
         // list customer
         View::composer([
             'sale.spal.create',
-            'sale.spal.edit'
+            'sale.spal.edit',
         ], function ($view) {
             return $view->with(
                 'customer',
                 Customer::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list supplier
+        View::composer([
+            'purchase.include.cart',
+        ], function ($view) {
+            return $view->with(
+                'supplier',
+                Supplier::select('id', 'nama')->orderBy('nama')->get()
             );
         });
 
@@ -256,6 +267,8 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.coa.create',
             'accounting.coa.edit',
+            'inventory.item.create',
+            'inventory.item.edit'
         ], function ($view) {
             return $view->with(
                 'parentCoa',
