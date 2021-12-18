@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Create purchase')
+@section('title', 'Create Purchase')
 
 @section('content')
     <div id="content" class="app-content">

@@ -6,6 +6,7 @@ use App\Models\Accounting\Coa;
 use App\Models\Contact\Customer;
 use App\Models\Contact\Supplier;
 use App\Models\ElectronicDocument\CategoryDocument;
+use App\Models\Inventory\BacPakai;
 use App\Models\Inventory\Item;
 use App\Models\Master\Category;
 use App\Models\Master\CategoryRequest;
@@ -331,7 +332,24 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'consumable',
-                Item::select('id', 'nama', 'kode')->where('type', 'Consumable')->orderBy('nama')->get()
+                Item::select('id', 'nama', 'kode')
+                    ->where('type', 'Consumable')
+                    ->orderBy('nama')
+                    ->get()
+            );
+        });
+
+        // list bacPakai
+        View::composer([
+            'inventory.aso.create',
+            'inventory.aso.edit',
+        ], function ($view) {
+            return $view->with(
+                'bacPakaiBT',
+                BacPakai::select('id', 'kode', 'status')
+                    ->where('status', 'Belum Tervalidasi')
+                    ->orderByDesc('kode')
+                    ->get()
             );
         });
     }

@@ -437,6 +437,29 @@ Breadcrumbs::for('bac_pakai_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
+// ASO
+Breadcrumbs::for('aso_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('inventory');
+    $trail->push('ASO', route('aso.index'));
+});
+
+Breadcrumbs::for('aso_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('aso_index');
+    $trail->push('Create', route('aso.create'));
+});
+
+Breadcrumbs::for('aso_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('aso_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('aso_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('aso_index');
+    $trail->push('Detail');
+});
+
+
+
 // Document
 Breadcrumbs::for('document_index', function (BreadcrumbTrail $trail) {
     $trail->parent('electronic_document');

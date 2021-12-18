@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-between my-2">
+        <div class="d-flex justify-content-between my-3">
             <div>
                 <h5 class="pt-2">Items</h5>
             </div>
@@ -106,7 +106,7 @@
 
         <div id="items">
             {{-- cart --}}
-            <table class="table table-striped table-hover table-bordered mt-2" id="tbl-cart">
+            <table class="table table-striped table-hover table-bordered mt-3" id="tbl-cart">
                 <thead>
                     <tr>
                         <th width="40">#</th>

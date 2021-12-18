@@ -42,5 +42,6 @@ return [
         'lokasi_kerja' => 'Lokasi Kerja',
         'pengaturan_app' => 'Pengaturan Aplikasi',
         'user' => 'Pengguna',
+        'aso' => 'ASO'
     ],
 ];

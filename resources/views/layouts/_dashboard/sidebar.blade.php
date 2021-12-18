@@ -152,6 +152,10 @@
                         <a href="{{ route('bac-pakai.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.bac_pakai') }}</div>
                         </a>
+
+                        <a href="{{ route('aso.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.aso') }}</div>
+                        </a>
                     </div>
                 </div>
             </div>
