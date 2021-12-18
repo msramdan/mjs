@@ -92,7 +92,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'kode tidak boleh kosong'
+                    text: 'Kode tidak boleh kosong'
                 })
 
             } else if (!tanggal.val()) {
@@ -119,7 +119,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data produk & qty tidak boleh kosong'
+                    text: 'Produk & qty tidak boleh kosong'
                 })
 
             } else if (qty.val() < 1) {
@@ -191,7 +191,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'kode tidak boleh kosong'
+                    text: 'Kode tidak boleh kosong'
                 })
 
             } else if (!tanggal.val()) {
@@ -218,7 +218,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Data produk & qty tidak boleh kosong'
+                    text: 'Produk & qty tidak boleh kosong'
                 })
 
             } else if (qty.val() < 1) {

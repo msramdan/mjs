@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('title', 'Create Purchase')
+@section('title', 'Edit purchase')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('purchase_create') }}
+        {{ Breadcrumbs::render('purchase_edit') }}
 
-        <form action="{{ route('purchase.store') }}" method="POST" id="form-purchase">
+        <form action="{{ route('purchase.update', $purchase->id) }}" method="POST" id="form-purchase">
             @csrf
-            @method('POST')
+            @method('PUT')
             <div class="row">
                 @include('purchase.include.request-info')
 
@@ -20,6 +20,7 @@
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
 
     <script>
         const requestForm = $('#request-form')
@@ -433,8 +434,8 @@
             }
 
             $.ajax({
-                type: 'POST',
-                url: '{{ route('purchase.store') }}',
+                type: 'PUT',
+                url: '{{ route('purchase.update', $purchase->id) }}',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                 },
@@ -442,7 +443,7 @@
                 success: function(res) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Simpan data',
+                        title: 'Update data',
                         text: 'Berhasil'
                     }).then(function() {
                         window.location = '{{ route('purchase.index') }}'

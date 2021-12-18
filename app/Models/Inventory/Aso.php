@@ -7,35 +7,28 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BacPakai extends Model
+class Aso extends Model
 {
     use HasFactory;
 
-    protected $table = 'bac_pakai';
+    protected $table = 'aso';
 
     protected $fillable = [
-        'kode',
-        'user_id',
-        'tanggal',
-        'keterangan',
-        'status',
+        'bac_pakai_id',
+        'tanggal_validasi',
+        'validasi_by'
     ];
 
-    protected $casts = ['tanggal' => 'date'];
+    protected $casts = ['tanggal_validasi' => 'date'];
 
-    public function detail_bac_pakai()
+    public function bac_pakai()
     {
-        return $this->hasMany(DetailBacPakai::class);
+        return $this->belongsTo(BacPakai::class);
     }
 
-    public function file_bac_pakai()
+    public function divalidasi_oleh()
     {
-        return $this->hasMany(FileBacPakai::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'validasi_by', 'id');
     }
 
     public function getCreatedAtAttribute($value)

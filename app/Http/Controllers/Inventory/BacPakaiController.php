@@ -296,4 +296,15 @@ class BacPakaiController extends Controller
 
         return response()->json(['kode' => $kode], 200);
     }
+
+    public function getBacById($id)
+    {
+        return BacPakai::with(
+            'detail_bac_pakai:bac_pakai_id,id,item_id,qty,qty_validasi',
+            'detail_bac_pakai.item:unit_id,id,nama,kode',
+            'detail_bac_pakai.item.unit:id,nama',
+            'file_bac_pakai:bac_pakai_id,id,nama,file',
+            'user:id,name'
+        )->findOrFail($id);
+    }
 }
