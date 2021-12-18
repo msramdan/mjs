@@ -187,7 +187,7 @@
                                 @endif
                             </button>
 
-                            <a href="{{ route('bac-pakai.index') }}" class="btn btn-secondary" id="btn-cancel"
+                            <a href="{{ route('aso.index') }}" class="btn btn-secondary" id="btn-cancel"
                                 {{ !$aso ? 'disabled' : '' }}>Cancel</a>
                         </div>
                     </div>

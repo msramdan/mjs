@@ -10,6 +10,7 @@ use App\Models\Inventory\BacPakai;
 use App\Models\Inventory\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class AsoController extends Controller
@@ -190,6 +191,25 @@ class AsoController extends Controller
      */
     public function destroy(Aso $aso)
     {
-        //
+        $aso->load(
+            'bac_pakai',
+            'bac_pakai.detail_bac_pakai.item:id,unit_id,kode,nama,stok',
+            'bac_pakai.detail_bac_pakai.item.unit:id,nama'
+        );
+
+        // kembalikan stok
+        foreach ($aso->bac_pakai->detail_bac_pakai as $detail) {
+            $produkQuery = Item::whereId($detail->item_id);
+            $getProduk = $produkQuery->first();
+            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+        }
+
+        $aso->bac_pakai()->update(['status' => 'Belum Tervalidasi']);
+
+        $aso->delete();
+
+        Alert::success('Hapus Data', 'Berhasil');
+
+        return redirect()->route('aso.index');
     }
 }
