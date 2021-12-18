@@ -257,7 +257,7 @@
                         title: 'Simpan data',
                         text: 'Berhasil'
                     }).then(function() {
-                        // window.location = '{{ route('aso.index') }}'
+                        window.location = '{{ route('aso.index') }}'
                     })
                 },
                 error: function(xhr) {

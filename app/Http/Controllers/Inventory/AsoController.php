@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\StoreAsoRequest;
+use App\Http\Requests\Inventory\UpdateAsoRequest;
 use App\Models\Inventory\Aso;
 use App\Models\Inventory\BacPakai;
 use App\Models\Inventory\Item;
@@ -95,7 +96,16 @@ class AsoController extends Controller
      */
     public function show(Aso $aso)
     {
-        //
+        $aso->load(
+            'bac_pakai',
+            'bac_pakai.user:id,name',
+            'bac_pakai.file_bac_pakai:id,bac_pakai_id,nama,file',
+            'bac_pakai.detail_bac_pakai.item:id,unit_id,kode,nama,stok',
+            'bac_pakai.detail_bac_pakai.item.unit:id,nama'
+        );
+        $show = true;
+
+        return view('inventory.aso.show', compact('aso', 'show'));
     }
 
     /**
@@ -106,7 +116,17 @@ class AsoController extends Controller
      */
     public function edit(Aso $aso)
     {
-        //
+        $aso->load(
+            'bac_pakai',
+            'bac_pakai.user:id,name',
+            'bac_pakai.file_bac_pakai:id,bac_pakai_id,nama,file',
+            'bac_pakai.detail_bac_pakai.item:id,unit_id,kode,nama,stok',
+            'bac_pakai.detail_bac_pakai.item.unit:id,nama'
+        );
+
+        $show = false;
+
+        return view('inventory.aso.edit', compact('aso', 'show'));
     }
 
     /**
@@ -116,9 +136,50 @@ class AsoController extends Controller
      * @param  \App\Models\Inventory\Aso  $aso
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Aso $aso)
+    public function update(UpdateAsoRequest $request, Aso $aso)
     {
-        //
+        $aso->load(
+            'bac_pakai',
+            'bac_pakai.user:id,name',
+            'bac_pakai.file_bac_pakai:id,bac_pakai_id,nama,file',
+            'bac_pakai.detail_bac_pakai.item:id,unit_id,kode,nama,stok',
+            'bac_pakai.detail_bac_pakai.item.unit:id,nama'
+        );
+
+        // kembalikan stok
+        foreach ($aso->bac_pakai->detail_bac_pakai as $detail) {
+            $produkQuery = Item::whereId($detail->item_id);
+            $getProduk = $produkQuery->first();
+            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+        }
+
+        $aso->bac_pakai()->update(['status' => 'Belum Tervalidasi']);
+
+        DB::transaction(function () use ($request, $aso) {
+            $aso->update([
+                'bac_pakai_id' => $request->bac_pakai,
+                'tanggal_validasi' =>  $request->tanggal,
+                'validasi_by' => auth()->id(),
+            ]);
+
+            $bacPakai = BacPakai::with(
+                'detail_bac_pakai:bac_pakai_id,id,item_id,qty,qty_validasi',
+                'detail_bac_pakai.item:unit_id,id,nama,kode',
+            )->findOrFail($request->bac_pakai);
+
+            foreach ($bacPakai->detail_bac_pakai as $i => $detail) {
+                $detail->update(['qty_validasi' => $request->qty_validasi[$i]]);
+
+                // Update stok barang
+                $produkQuery = Item::whereId($detail->item_id);
+                $getProduk = $produkQuery->first();
+                $produkQuery->update(['stok' => ($getProduk->stok + $request->qty_validasi[$i])]);
+            }
+
+            $bacPakai->update(['status' => 'Tervalidasi']);
+        });
+
+        return response()->json(['success'], 200);
     }
 
     /**

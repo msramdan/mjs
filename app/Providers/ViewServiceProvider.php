@@ -348,7 +348,7 @@ class ViewServiceProvider extends ServiceProvider
                 'bacPakaiBT',
                 BacPakai::select('id', 'kode', 'status')
                     ->where('status', 'Belum Tervalidasi')
-                    ->orderBy('kode')
+                    ->orderByDesc('kode')
                     ->get()
             );
         });

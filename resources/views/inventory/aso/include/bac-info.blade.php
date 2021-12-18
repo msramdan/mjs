@@ -20,6 +20,25 @@
                 <select class="form-select" id="bac-pakai" name="bac_pakai" required {{ $show ? 'readonly' : '' }}>
                     @if (!$show)
                         <option value="" disabled selected>-- Pilih --</option>
+                    @endif
+
+                    @if ($aso)
+                        <option value="{{ $aso->bac_pakai->id }}" selected>{{ $aso->bac_pakai->kode }}</option>
+                    @endif
+
+                    @if (!$show)
+                        @forelse ($bacPakaiBT as $item)
+                            <option value="{{ $item->id }}"
+                                {{ $aso && $aso->bac_pakai_id == $item->id ? 'selected' : '' }}>
+                                {{ $item->kode }}
+                            </option>
+                        @empty
+                            <option value="" disabled>Data tidak ditemukan</option>
+                        @endforelse
+                    @endif
+
+                    {{-- @if (!$show)
+                        <option value="" disabled selected>-- Pilih --</option>
 
                         @forelse ($bacPakaiBT as $item)
                             <option value="{{ $item->id }}"
@@ -31,7 +50,7 @@
                         @endforelse
                     @else
                         <option value="" disabled selected>{{ $aso->bac_pakai->kode }}</option>
-                    @endif
+                    @endif --}}
                 </select>
             </div>
         </div>
@@ -64,7 +83,7 @@
                     <tr>
                         <td width="35">Keterangan</td>
                         <td>:</td>
-                        <td id="keterangan">{{ $aso ? $aso->keterangan : '' }}</td>
+                        <td id="keterangan">{{ $aso ? Str::limit($aso->bac_pakai->keterangan, 200) : '' }}</td>
                     </tr>
                 </table>
             </div>

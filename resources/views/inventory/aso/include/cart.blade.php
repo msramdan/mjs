@@ -16,44 +16,65 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="tanggal">Tanggal</label>
-                        <input class="form-control" type="date" id="tanggal" name="tanggal" placeholder="tanggal"
-                            value="{{ $aso ? $aso->tanggal->format('Y-m-d') : date('Y-m-d') }}" required
-                            {{ $show ? 'disabled' : '' }} />
+                @if (!$show)
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="tanggal">Tanggal</label>
+                            <input class="form-control" type="date" id="tanggal" name="tanggal" placeholder="tanggal"
+                                value="{{ $aso ? $aso->tanggal_validasi->format('Y-m-d') : date('Y-m-d') }}" required
+                                {{ $show ? 'disabled' : '' }} />
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="validasi_oleh">Validasi Oleh</label>
+                            <input class="form-control" type="text" id="validasi_oleh" name="validasi_oleh"
+                                placeholder="validasi_oleh" value="{{ auth()->user()->name }}" disabled />
+                        </div>
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="validasi_oleh">Validasi Oleh</label>
-                        <input class="form-control" type="text" id="validasi_oleh" name="validasi_oleh"
-                            placeholder="validasi_oleh" value="{{ auth()->user()->name }}" disabled />
+                    <div class="col-md-6">
+                        <input type="hidden" name="stok" id="stok">
+                        <input type="hidden" name="qty" id="qty">
+                        <input type="hidden" name="kode_produk" id="kode-produk">
+                        <input type="hidden" name="unit_produk" id="unit-produk">
+                        <input type="hidden" name="index_tr" id="index-tr">
+
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="produk">Produk</label>
+                            <input class="form-control" type="text" id="produk" name="produk" placeholder="Produk"
+                                readonly />
+                        </div>
+
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="qty-validasi">Qty Validasi</label>
+                            <input class="form-control" type="number" id="qty-validasi" min="1" name="qty_validasi"
+                                placeholder="Qty Validasi" />
+                        </div>
+
+                        <button id="btn-update" class="btn btn-info float-end mt-2 disabled" disabled>Update</button>
                     </div>
-                </div>
-
-                <div class="col-md-6">
-                    <input type="hidden" name="stok" id="stok">
-                    <input type="hidden" name="qty" id="qty">
-                    <input type="hidden" name="kode_produk" id="kode-produk">
-                    <input type="hidden" name="unit_produk" id="unit-produk">
-                    <input type="hidden" name="index_tr" id="index-tr">
-
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="produk">Produk</label>
-                        <input class="form-control" type="text" id="produk" name="produk" placeholder="Produk"
-                            readonly />
+                @else
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="tanggal">Tanggal</label>
+                            <input class="form-control" type="date" id="tanggal" name="tanggal" placeholder="tanggal"
+                                value="{{ $aso ? $aso->tanggal_validasi->format('Y-m-d') : date('Y-m-d') }}" required
+                                {{ $show ? 'disabled' : '' }} />
+                        </div>
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="qty-validasi">Qty Validasi</label>
-                        <input class="form-control" type="number" id="qty-validasi" min="1" name="qty_validasi"
-                            placeholder="Qty Validasi" />
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="validasi_oleh">Validasi Oleh</label>
+                            <input class="form-control" type="text" id="validasi_oleh" name="validasi_oleh"
+                                placeholder="validasi_oleh" value="{{ auth()->user()->name }}" disabled />
+                        </div>
                     </div>
+                @endif
 
-                    <button id="btn-update" class="btn btn-info float-end mt-2 disabled" disabled>Update</button>
-                </div>
             </div>
 
+            <h5 class="mt-2">Items</h5>
             {{-- cart --}}
             <table class="table table-striped table-hover table-bordered mt-3" id="tbl-cart">
                 <thead>
@@ -70,13 +91,13 @@
                 </thead>
                 <tbody>
                     @if ($aso)
-                        @foreach ($aso->detail_aso as $detail)
+                        @foreach ($aso->bac_pakai->detail_bac_pakai as $detail)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
                                     {{ $detail->item->kode . ' - ' . $detail->item->nama }}
                                     <input type="hidden" class="produk-hidden" name="produk[]"
-                                        value="{{ $detail->item_id }}">
+                                        value="{{ $detail->item->kode . ' - ' . $detail->item->nama }}">
                                 </td>
                                 <td>
                                     {{ $detail->item->unit->nama }}
@@ -98,10 +119,6 @@
                                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
                                             <i class="fas fa-edit"></i>
                                         </button>
-
-                                        <button class="btn btn-danger btn-xs btn-delete" type="button">
-                                            <i class="fas fa-times"></i>
-                                        </button>
                                     </td>
                                 @endif
                             </tr>
@@ -111,6 +128,7 @@
             </table>
 
 
+            <h5 class="mt-2">Files</h5>
             <div id="file-attc">
                 <div class="table-responsive mt-0">
                     <table class="table table-striped table-hover table-bordered mt-2" id="tbl-file">
@@ -123,28 +141,19 @@
                         </thead>
                         <tbody>
                             @if ($aso)
-                                @foreach ($aso->file_bac_pakai as $detail)
+                                @foreach ($aso->bac_pakai->file_bac_pakai as $detail)
                                     <tr>
                                         <td>
                                             <div class="form-group">
                                                 <input class="form-control nama" type="text" name="nama[]" id="nama"
-                                                    placeholder="Nama File" value="{{ $detail->nama }}" required
-                                                    {{ $show ? 'disabled' : '' }} />
+                                                    placeholder="Nama File" value="{{ $detail->nama }}" disabled />
                                             </div>
                                         </td>
                                         <td>
-                                            @if (!$show)
-                                                <div class="form-group">
-                                                    <input class="form-control file" type="file" name="file[]"
-                                                        id="file" />
-                                                </div>
-                                            @else
-                                                <div class="form-group">
-                                                    <input class="form-control" type="text" name="file[]" id="file"
-                                                        placeholder="file File" value="{{ $detail->file }}"
-                                                        disabled />
-                                                </div>
-                                            @endif
+                                            <div class="form-group">
+                                                <input class="form-control" type="text" name="file[]" id="file"
+                                                    placeholder="file File" value="{{ $detail->file }}" disabled />
+                                            </div>
                                         </td>
                                         <td>
                                             <a href="{{ route('bac-pakai.download', $detail->file) }}"
