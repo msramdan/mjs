@@ -40,7 +40,8 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="tanggal">Tanggal</label>
                                 <input class="form-control @error('tanggal') is-invalid @enderror" type="date" id="tanggal"
-                                    name="tanggal" value="{{ old('tanggal') }}" required />
+                                    name="tanggal" value="{{ old('tanggal') ? old('tanggal') : date('Y-m-d') }}"
+                                    required />
                                 @error('tanggal')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -82,14 +83,18 @@
                         </div>
                     </div>
 
-                    <div class="form-group mt-2 mb-3">
-                        <input id="berita_acara" type="hidden" name="berita_acara">
-                        <trix-editor input="berita_acara" class="form-control"></trix-editor>
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="berita_acara">Berita Acara</label>
+                        <textarea class="form-control @error('berita_acara') is-invalid @enderror" id="berita_acara"
+                            name="berita_acara" rows="5" required>{{ old('berita_acara') }}</textarea>
+                        @error('berita_acara')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <hr class="my-4">
 
-                    <div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-between mb-3">
                         <div class="me-3 mt-2">
                             <h5>Attachment File</h5>
                         </div>
@@ -103,7 +108,7 @@
                     </div>
 
                     <div class="table-responsive mt-0">
-                        <table class="table table-transparent" id="tbl-file">
+                        <table class="table table-bordered" id="tbl-file">
                             <thead>
                                 <tr>
                                     <th>Nama</th>

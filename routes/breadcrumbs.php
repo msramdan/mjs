@@ -458,6 +458,28 @@ Breadcrumbs::for('aso_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
+// Received
+Breadcrumbs::for('received_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('inventory');
+    $trail->push('Received', route('received.index'));
+});
+
+Breadcrumbs::for('received_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('received_index');
+    $trail->push('Create', route('received.create'));
+});
+
+Breadcrumbs::for('received_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('received_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('received_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('received_index');
+    $trail->push('Detail');
+});
+
+
 
 
 // Document

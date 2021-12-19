@@ -299,6 +299,8 @@ class BacPakaiController extends Controller
 
     public function getBacById($id)
     {
+        abort_if(!request()->ajax(), 403);
+
         return BacPakai::with(
             'detail_bac_pakai:bac_pakai_id,id,item_id,qty,qty_validasi',
             'detail_bac_pakai.item:unit_id,id,nama,kode',

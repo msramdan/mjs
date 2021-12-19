@@ -153,6 +153,10 @@
                             <div class="menu-text">{{ trans('sidebar.sub_menu.bac_pakai') }}</div>
                         </a>
 
+                        <a href="{{ route('received.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.received') }}</div>
+                        </a>
+
                         <a href="{{ route('aso.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.aso') }}</div>
                         </a>

@@ -17,6 +17,7 @@ class DetailBacTerima extends Model
         'item_id',
         'harga',
         'qty',
+        'qty_validasi'
     ];
 
     protected $casts = ['tanggal' => 'date'];

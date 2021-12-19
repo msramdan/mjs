@@ -7,35 +7,26 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BacTerima extends Model
+class Received extends Model
 {
     use HasFactory;
 
-    protected $table = 'bac_terima';
-
     protected $fillable = [
-        'kode',
-        'user_id',
-        'tanggal',
-        'keterangan',
-        'status',
+        'bac_terima_id',
+        'tanggal_validasi',
+        'validasi_by'
     ];
 
-    protected $casts = ['tanggal' => 'date'];
+    protected $casts = ['tanggal_validasi' => 'date'];
 
-    public function detail_bac_terima()
+    public function bac_terima()
     {
-        return $this->hasMany(DetailBacTerima::class);
+        return $this->belongsTo(BacTerima::class);
     }
 
-    public function file_bac_terima()
+    public function divalidasi_oleh()
     {
-        return $this->hasMany(FileBacTerima::class);
-    }
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'validasi_by', 'id');
     }
 
     public function getCreatedAtAttribute($value)
