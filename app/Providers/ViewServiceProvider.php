@@ -7,6 +7,7 @@ use App\Models\Contact\Customer;
 use App\Models\Contact\Supplier;
 use App\Models\ElectronicDocument\CategoryDocument;
 use App\Models\Inventory\BacPakai;
+use App\Models\Inventory\BacTerima;
 use App\Models\Inventory\Item;
 use App\Models\Master\Category;
 use App\Models\Master\CategoryRequest;
@@ -347,6 +348,20 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'bacPakaiBT',
                 BacPakai::select('id', 'kode', 'status')
+                    ->where('status', 'Belum Tervalidasi')
+                    ->orderByDesc('kode')
+                    ->get()
+            );
+        });
+
+        // list bacTerima
+        View::composer([
+            'inventory.received.create',
+            'inventory.received.edit',
+        ], function ($view) {
+            return $view->with(
+                'bacTerimaBT',
+                BacTerima::select('id', 'kode', 'status')
                     ->where('status', 'Belum Tervalidasi')
                     ->orderByDesc('kode')
                     ->get()

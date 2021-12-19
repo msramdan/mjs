@@ -8,7 +8,6 @@ use App\Http\Requests\Inventory\UpdateAsoRequest;
 use App\Models\Inventory\Aso;
 use App\Models\Inventory\BacPakai;
 use App\Models\Inventory\Item;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -80,7 +79,7 @@ class AsoController extends Controller
                 // Update stok barang
                 $produkQuery = Item::whereId($detail->item_id);
                 $getProduk = $produkQuery->first();
-                $produkQuery->update(['stok' => ($getProduk->stok + $request->qty_validasi[$i])]);
+                $produkQuery->update(['stok' => ($getProduk->stok - $request->qty_validasi[$i])]);
             }
 
             $bacPakai->update(['status' => 'Tervalidasi']);
@@ -151,7 +150,7 @@ class AsoController extends Controller
         foreach ($aso->bac_pakai->detail_bac_pakai as $detail) {
             $produkQuery = Item::whereId($detail->item_id);
             $getProduk = $produkQuery->first();
-            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+            $produkQuery->update(['stok' => ($getProduk->stok + $detail->qty)]);
         }
 
         $aso->bac_pakai()->update(['status' => 'Belum Tervalidasi']);
@@ -174,7 +173,7 @@ class AsoController extends Controller
                 // Update stok barang
                 $produkQuery = Item::whereId($detail->item_id);
                 $getProduk = $produkQuery->first();
-                $produkQuery->update(['stok' => ($getProduk->stok + $request->qty_validasi[$i])]);
+                $produkQuery->update(['stok' => ($getProduk->stok - $request->qty_validasi[$i])]);
             }
 
             $bacPakai->update(['status' => 'Tervalidasi']);
@@ -201,7 +200,7 @@ class AsoController extends Controller
         foreach ($aso->bac_pakai->detail_bac_pakai as $detail) {
             $produkQuery = Item::whereId($detail->item_id);
             $getProduk = $produkQuery->first();
-            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+            $produkQuery->update(['stok' => ($getProduk->stok + $detail->qty)]);
         }
 
         $aso->bac_pakai()->update(['status' => 'Belum Tervalidasi']);

@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title', 'Detail purchase')
+@section('title', 'Detail ASO')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('purchase_show') }}
+        {{ Breadcrumbs::render('aso_show') }}
 
         <div class="row">
             @include('inventory.aso.include.bac-info')

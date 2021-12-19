@@ -291,4 +291,17 @@ class BacTerimaController extends Controller
 
         return response()->json(['kode' => $kode], 200);
     }
+
+    public function getBacById($id)
+    {
+        abort_if(!request()->ajax(), 403);
+
+        return BacTerima::with(
+            'detail_bac_terima:bac_terima_id,id,item_id,qty,qty_validasi',
+            'detail_bac_terima.item:unit_id,id,nama,kode',
+            'detail_bac_terima.item.unit:id,nama',
+            'file_bac_terima:bac_terima_id,id,nama,file',
+            'user:id,name'
+        )->findOrFail($id);
+    }
 }
