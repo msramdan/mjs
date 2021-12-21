@@ -62,15 +62,23 @@
                             </select>
                         </div>
 
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="harga">Harga</label>
-                            <input class="form-control" type="number" id="harga" name="Harga" placeholder="Harga" />
+                        <div class="row form-group">
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label" for="harga">Harga</label>
+                                <input class="form-control" type="number" id="harga" name="Harga"
+                                    placeholder="Harga" />
+                            </div>
+
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label" for="qty">Qty</label>
+                                <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
+                            </div>
                         </div>
                     @endif
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end my-3">
+            <div class="d-flex justify-content-end my-2">
                 @if (!$show)
                     <button type="button" class="btn btn-info" id="btn-update" style="display: none;">
                         <i class="fas fa-save me-1"></i>
@@ -85,6 +93,7 @@
             </div>
 
             {{-- cart --}}
+            <h5>Items</h5>
             <table class="table table-striped table-hover table-bordered mt-3" id="tbl-cart">
                 <thead>
                     <tr>
@@ -92,6 +101,8 @@
                         <th>Kode - Nama</th>
                         <th>Unit</th>
                         <th>Harga</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
                         @if (!$show)
                             <th>Action</th>
                         @endif
@@ -115,10 +126,10 @@
                                     <input type="hidden" class="unit-hidden" name="unit[]"
                                         value="{{ $detail->item->unit->nama }}">
                                 </td>
-                                {{-- <td>
+                                <td>
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
-                                        value=" {{ $detail->qty }}">
+                                        value="{{ $detail->qty }}">
                                     <input type="hidden" class="stok-hidden" name="stok[]"
                                         value=" {{ $detail->stok }}">
                                 </td>
@@ -126,7 +137,7 @@
                                     {{ number_format($detail->sub_total) }}
                                     <input type="hidden" class="harga-hidden" name="subtotal[]"
                                         value="{{ $detail->sub_total }}">
-                                </td> --}}
+                                </td>
                                 @if (!$show)
                                     <td>
 
@@ -157,7 +168,7 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="diskon">Diskon</label>
                         <input class="form-control" type="number" id="diskon" name="diskon" placeholder="Diskon"
-                            value="{{ $sale ? $sale->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
+                            min="1" value="{{ $sale ? $sale->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
                     </div>
 
                     <div class="form-group mb-2">

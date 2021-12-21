@@ -14,8 +14,8 @@ class DetailSale extends Model
         'sale_id',
         'item_id',
         'harga',
-        // 'qty',
-        // 'sub_total'
+        'qty',
+        'sub_total'
     ];
 
     public function sale()

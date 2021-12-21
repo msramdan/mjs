@@ -24,8 +24,7 @@ class SaleController extends Controller
             $query = Sale::with(
                 'spal:id,customer_id,kode',
                 'spal.customer:id,nama',
-            )
-                ->latest('updated_at');
+            );
 
             return DataTables::of($query)
                 ->addColumn('spal', function ($row) {
@@ -75,16 +74,14 @@ class SaleController extends Controller
                 'total' => $request->total,
                 'diskon' => $request->diskon,
                 'catatan' => $request->catatan,
-                'sisa' => $request->grand_total,
-                'status_pembayaran' => 'Unpaid'
             ]);
 
             foreach ($request->produk as $i => $prd) {
                 $detailSale[] = new DetailSale([
                     'item_id' => $prd,
                     'harga' => $request->harga[$i],
-                    // 'qty' => $request->qty[$i],
-                    // 'sub_total' => $request->subtotal[$i],
+                    'qty' => $request->qty[$i],
+                    'sub_total' => $request->subtotal[$i],
                 ]);
 
                 // Update stok barang
@@ -182,8 +179,8 @@ class SaleController extends Controller
                 $detailSale[] = new DetailSale([
                     'item_id' => $prd,
                     'harga' => $request->harga[$i],
-                    // 'qty' => $request->qty[$i],
-                    // 'sub_total' => $request->subtotal[$i],
+                    'qty' => $request->qty[$i],
+                    'sub_total' => $request->subtotal[$i],
                 ]);
 
                 // Update stok barang
