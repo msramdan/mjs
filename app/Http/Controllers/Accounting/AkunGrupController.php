@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Accounting\{StoreAkunGrupRequest, UpdateAkunGrupRequest};
 use App\Models\Accounting\AkunGrup;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Http\Request;
 
 class AkunGrupController extends Controller
 {
@@ -16,11 +16,9 @@ class AkunGrupController extends Controller
      */
     public function index()
     {
-        $AkunGrup = AkunGrup::all();
+        $akunGroup = AkunGrup::all();
 
-        return view('accounting.akun_grup.index')->with([
-            'AkunGrup' => $AkunGrup
-        ]);
+        return view('accounting.akun-grup.index', compact('akunGroup'));
     }
 
     /**
@@ -30,7 +28,7 @@ class AkunGrupController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounting.akun-grup.create');
     }
 
     /**
@@ -39,20 +37,13 @@ class AkunGrupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAkunGrupRequest $request)
     {
-        //
-    }
+        AkunGrup::create($request->validated());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\AkunGrup  $akunGrup
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AkunGrup $akunGrup)
-    {
-        //
+        Alert::toast('Tambah data berhasil', 'success');
+
+        return redirect()->route('akun-grup.index');
     }
 
     /**
@@ -63,7 +54,7 @@ class AkunGrupController extends Controller
      */
     public function edit(AkunGrup $akunGrup)
     {
-        //
+        return view('accounting.akun-grup.edit', compact('akunGrup'));
     }
 
     /**
@@ -73,9 +64,13 @@ class AkunGrupController extends Controller
      * @param  \App\Models\Accounting\AkunGrup  $akunGrup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AkunGrup $akunGrup)
+    public function update(UpdateAkunGrupRequest $request, AkunGrup $akunGrup)
     {
-        //
+        $akunGrup->update($request->validated());
+
+        Alert::toast('Update data berhasil', 'success');
+
+        return redirect()->route('akun-grup.index');
     }
 
     /**
@@ -84,20 +79,19 @@ class AkunGrupController extends Controller
      * @param  \App\Models\Accounting\AkunGrup  $akunGrup
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AkunGrup $akunGrup)
     {
         try {
-            $AkunGrup = AkunGrup::findOrFail($id);
-
-            $AkunGrup->delete();
+            $akunGrup->delete();
 
             Alert::toast('Hapus data berhasil', 'success');
-            return redirect()->route('akun_grup.index');
+
+            return redirect()->route('akun-grup.index');
         } catch (\Throwable $th) {
 
             Alert::toast('Hapus data gagal', 'error');
 
-            return redirect()->route('akun_grup.index');
+            return redirect()->route('akun-grup.index');
         }
     }
 }

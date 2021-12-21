@@ -550,6 +550,16 @@ Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
     $trail->push('Akun Grup', route('akun-grup.index'));
 });
 
+Breadcrumbs::for('grup_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('grup_index');
+    $trail->push('Create', route('akun-grup.create'));
+});
+
+Breadcrumbs::for('grup_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('grup_index');
+    $trail->push('Edit');
+});
+
 
 //Header
 Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
