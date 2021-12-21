@@ -15,8 +15,8 @@ class CreateAccountCoaTable extends Migration
     {
         Schema::create('account_coa', function (Blueprint $table) {
             $table->id();
-            $table->string('code_account_coa');
-            $table->string('account_coa');
+            $table->string('kode');
+            $table->string('nama');
             $table->foreignId('account_header_id')->constrained('account_header');
             $table->string('normal');
             $table->string('remark');

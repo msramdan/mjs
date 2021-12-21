@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Accounting\AkunGrup;
 use App\Models\Accounting\Coa;
 use App\Models\Contact\Customer;
 use App\Models\Contact\Supplier;
@@ -383,6 +384,17 @@ class ViewServiceProvider extends ServiceProvider
                 // Sale::select('id', 'kode')
                 //     ->orderBy('kode')
                 //     ->get()
+            );
+        });
+
+        // list akunGroup
+        View::composer([
+            'accounting.akun-header.create',
+            'accounting.akun-header.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunGroup',
+                AkunGrup::select('id', 'nama')->orderBy('nama')->get()
             );
         });
     }

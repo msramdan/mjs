@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\{AkunCoaController,AkunGrupController, AkunHeaderController};
+use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController};
 use App\Http\Controllers\Accountring\InvoiceController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
@@ -34,28 +34,19 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Contact
 Route::prefix('contact')->middleware('auth')->group(function () {
     Route::resource('supplier', SupplierController::class);
-
     Route::resource('customer', CustomerController::class);
 });
 
 // Master Data
 Route::prefix('master')->middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class);
-
     Route::resource('category-request', CategoryRequestController::class);
-
     Route::resource('category-potongan', CategoryPotonganController::class);
-
     Route::resource('category-benefit', CategoryBenefitController::class);
-
     Route::resource('unit', UnitController::class);
-
     Route::resource('lokasi', LokasiController::class);
-
     Route::resource('jabatan', JabatanController::class);
-
     Route::resource('status-karyawan', StatusKaryawanController::class);
-
     Route::resource('divisi', DivisiController::class);
 });
 
@@ -77,7 +68,6 @@ Route::middleware('auth')->prefix('sale')->group(function () {
     Route::get('/sale/generate-kode/{tanggal}', [SaleController::class, 'generateKode']);
 
     Route::resource('sale', SaleController::class);
-
     Route::resource('spal', SpalController::class);
 });
 
@@ -101,22 +91,17 @@ Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/bac-terima/generate-kode/{tanggal}', [BacTerimaController::class, 'generateKode']);
 
     Route::resource('item', ItemController::class);
-
     Route::resource('bac-terima', BacTerimaController::class);
-
     Route::resource('bac-pakai', BacPakaiController::class);
-
     Route::resource('aso', AsoController::class);
-
     Route::resource('received', ReceivedController::class);
 });
 
 // Elecronic Document
 Route::middleware('auth')->prefix('electronic-document')->group(function () {
-    Route::resource('document', DocumentController::class);
-
     Route::get('/document/download/{file}', [DocumentController::class, 'download']);
 
+    Route::resource('document', DocumentController::class);
     Route::resource('category-document', CategoryDocumentController::class);
 });
 
@@ -130,9 +115,7 @@ Route::middleware('auth')->group(function () {
 // Setting
 Route::middleware('auth')->prefix('setting')->group(function () {
     Route::resource('role', RoleController::class);
-
     Route::resource('permission', PermissionController::class);
-
     Route::resource('user', UserController::class);
 
     Route::get('/setting_app', [SettingAppController::class, 'index'])->name('setting_app.index');
@@ -149,11 +132,10 @@ Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormCont
 Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
     Route::resource('invoice', InvoiceController::class);
-    Route::resource('akun_grup', AkunGrupController::class);
-    Route::resource('akun_header', AkunHeaderController::class);
+    Route::resource('akun-grup', AkunGrupController::class);
+    Route::resource('akun-header', AkunHeaderController::class);
     Route::resource('coa', AkunCoaController::class);
 });
-
 
 // Payroll
 Route::prefix('payroll')->middleware('auth')->group(function () {

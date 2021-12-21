@@ -17,6 +17,7 @@ class AkunGrupController extends Controller
     public function index()
     {
         $AkunGrup = AkunGrup::all();
+
         return view('accounting.akun_grup.index')->with([
             'AkunGrup' => $AkunGrup
         ]);
@@ -87,14 +88,16 @@ class AkunGrupController extends Controller
     {
         try {
             $AkunGrup = AkunGrup::findOrFail($id);
+
             $AkunGrup->delete();
+
             Alert::toast('Hapus data berhasil', 'success');
             return redirect()->route('akun_grup.index');
         } catch (\Throwable $th) {
+
             Alert::toast('Hapus data gagal', 'error');
+
             return redirect()->route('akun_grup.index');
         }
-
-
     }
 }

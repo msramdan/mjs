@@ -547,21 +547,33 @@ Breadcrumbs::for('akun', function (BreadcrumbTrail $trail) {
 //grup
 Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
-    $trail->push('Akun Grup', route('akun_grup.index'));
+    $trail->push('Akun Grup', route('akun-grup.index'));
 });
+
 
 //Header
 Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
-    $trail->push('Akun Header', route('akun_header.index'));
+    $trail->push('Akun Header', route('akun-header.index'));
 });
+
+Breadcrumbs::for('header_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('header_index');
+    $trail->push('Create', route('akun-header.create'));
+});
+
+Breadcrumbs::for('header_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('header_index');
+    $trail->push('Edit');
+});
+
+
 
 //COA
 Breadcrumbs::for('coa_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
     $trail->push('COA', route('coa.index'));
 });
-
 
 Breadcrumbs::for('coa_create', function (BreadcrumbTrail $trail) {
     $trail->parent('coa_index');

@@ -16,43 +16,43 @@ class AkunGrupSeeder extends Seeder
     {
         DB::table('account_group')->insert([
             [
-                'account_group' => 'ASSET',
+                'nama' => 'ASSET',
                 'report' => 'BS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'LIABILITIES',
+                'nama' => 'LIABILITIES',
                 'report' => 'BS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'EQUITY',
+                'nama' => 'EQUITY',
                 'report' => 'BS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'REVENUE',
+                'nama' => 'REVENUE',
                 'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'EXPENSE',
+                'nama' => 'EXPENSE',
                 'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'GAIN',
+                'nama' => 'GAIN',
                 'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'LOSS',
+                'nama' => 'LOSS',
                 'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()

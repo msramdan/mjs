@@ -8,10 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class AkunHeader extends Model
 {
     use HasFactory;
+
     protected $table = 'account_header';
+
     protected $fillable = [
-        'code_account_header',
-        'account_header',
+        'kode',
+        'nama',
         'account_group_id'
     ];
+
+    public function akun_group()
+    {
+        return $this->belongsTo(AkunGrup::class, 'account_group_id');
+    }
 }

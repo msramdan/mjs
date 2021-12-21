@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\AkunHeaderRequest;
+use App\Http\Requests\Accounting\UpdateAkunHeaderRequest;
 use App\Models\Accounting\AkunGrup;
 use Illuminate\Support\Facades\DB;
 use App\Models\Accounting\AkunHeader;
@@ -19,21 +20,14 @@ class AkunHeaderController extends Controller
      */
     public function index()
     {
-        $AkunHeader = DB::table('account_header')
-        ->join('account_group', 'account_group.id', '=', 'account_header.account_group_id')
-        ->select('account_header.*', 'account_group.account_group')
-        ->get();
-        return view('accounting.akun_header.index')->with([
-            'AkunHeader' => $AkunHeader
-        ]);
+        $akunHeader = AkunHeader::with('akun_group:id,nama,report')->get();
+
+        return view('accounting.akun-header.index', compact('akunHeader'));
     }
 
     public function create()
     {
-        $AkunGrup = AkunGrup::all();
-        return view('accounting.akun_header.create')->with([
-            'AkunGrup' => $AkunGrup
-        ]);
+        return view('accounting.akun-header.create');
     }
 
     /**
@@ -44,21 +38,13 @@ class AkunHeaderController extends Controller
      */
     public function store(AkunHeaderRequest $request)
     {
-        $data = $request->all();
-        AkunHeader::create($data);
-        Alert::toast('Tambah data berhasil', 'success');
-        return redirect()->route('akun_header.index');
-    }
+        $data = $request->validated();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\AkunHeader  $akunHeader
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AkunHeader $akunHeader)
-    {
-        //
+        AkunHeader::create($data);
+
+        Alert::toast('Tambah data berhasil', 'success');
+
+        return redirect()->route('akun-header.index');
     }
 
     /**
@@ -69,7 +55,7 @@ class AkunHeaderController extends Controller
      */
     public function edit(AkunHeader $akunHeader)
     {
-        //
+        return view('accounting.akun-header.edit', compact('akunHeader'));
     }
 
     /**
@@ -79,9 +65,15 @@ class AkunHeaderController extends Controller
      * @param  \App\Models\Accounting\AkunHeader  $akunHeader
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AkunHeader $akunHeader)
+    public function update(UpdateAkunHeaderRequest $request, AkunHeader $akunHeader)
     {
-        //
+        $data = $request->validated();
+
+        $akunHeader->update($data);
+
+        Alert::toast('Update data berhasil', 'success');
+
+        return redirect()->route('akun-header.index');
     }
 
     /**
@@ -90,17 +82,18 @@ class AkunHeaderController extends Controller
      * @param  \App\Models\Accounting\AkunHeader  $akunHeader
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AkunHeader $akunHeader)
     {
         try {
-            $AkunHeader = AkunHeader::findOrFail($id);
-            $AkunHeader->delete();
+            $akunHeader->delete();
+
             Alert::toast('Hapus data berhasil', 'success');
-            return redirect()->route('akun_header.index');
+
+            return redirect()->route('akun-header.index');
         } catch (\Throwable $th) {
             Alert::toast('Hapus data gagal', 'error');
-            return redirect()->route('akun_header.index');
-        }
 
+            return redirect()->route('akun-header.index');
+        }
     }
 }

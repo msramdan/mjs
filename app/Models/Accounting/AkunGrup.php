@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class AkunGrup extends Model
 {
     use HasFactory;
+
     protected $table = 'account_group';
+
     protected $fillable = [
-        'account_group',
+        'nama',
         'report'
     ];
 }

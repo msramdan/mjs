@@ -69,15 +69,23 @@
                     </div>
                     <div class="menu-item has-sub closed">
                         <a href="javascript:;" class="menu-link">
-                        <div class="menu-text">Account</div>
-                        <div class="menu-caret"></div>
+                            <div class="menu-text">Account</div>
+                            <div class="menu-caret"></div>
                         </a>
                         <div class="menu-submenu" style="display: none;">
-                            <div class="menu-item"><a href="{{ route('akun_grup.index') }}" class="menu-link"><div class="menu-text">{{ trans('sidebar.sub_menu.akun_grup') }}</div></a></div>
-                            <div class="menu-item"><a href="{{ route('akun_header.index') }}" class="menu-link"><div class="menu-text">{{ trans('sidebar.sub_menu.akun_header') }}</div></a></div>
-                            <div class="menu-item"><a href="javascript:;" class="menu-link"><div class="menu-text">COA</div></a></div>
+                            <div class="menu-item"><a href="{{ route('akun-grup.index') }}"
+                                    class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.akun_grup') }}</div>
+                                </a></div>
+                            <div class="menu-item"><a href="{{ route('akun-header.index') }}"
+                                    class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.akun_header') }}</div>
+                                </a></div>
+                            <div class="menu-item"><a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">COA</div>
+                                </a></div>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
 
