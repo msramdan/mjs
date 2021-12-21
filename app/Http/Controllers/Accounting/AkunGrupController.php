@@ -64,9 +64,12 @@ class AkunGrupController extends Controller
      * @param  \App\Models\Accounting\AkunGrup  $akunGrup
      * @return \Illuminate\Http\Response
      */
-    public function edit(AkunGrup $akunGrup)
+    public function edit($id)
     {
-        //
+        $data = AkunGrup::findOrFail($id);
+        return view('accounting.akun_grup.edit')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -76,9 +79,17 @@ class AkunGrupController extends Controller
      * @param  \App\Models\Accounting\AkunGrup  $akunGrup
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AkunGrup $akunGrup)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'account_group' => 'required|unique:account_group,account_group,'.$id,
+            'report' => 'required',
+        ]);
+        $data = $request->all();
+        $item = AkunGrup::findOrFail($id);
+        $item->update($data);
+        Alert::toast('Update data berhasil', 'success');
+        return redirect()->route('akun_grup.index');
     }
 
     /**

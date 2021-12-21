@@ -67,9 +67,15 @@ class AkunHeaderController extends Controller
      * @param  \App\Models\Accounting\AkunHeader  $akunHeader
      * @return \Illuminate\Http\Response
      */
-    public function edit(AkunHeader $akunHeader)
+    public function edit($id)
     {
-        //
+        $AkunGrup = AkunGrup::all();
+        $data = AkunHeader::findOrFail($id);
+
+        return view('accounting.akun_header.edit')->with([
+            'data' => $data,
+            'AkunGrup' => $AkunGrup
+        ]);
     }
 
     /**
@@ -79,9 +85,18 @@ class AkunHeaderController extends Controller
      * @param  \App\Models\Accounting\AkunHeader  $akunHeader
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AkunHeader $akunHeader)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'code_account_header' => 'required|unique:account_header,code_account_header,'.$id,
+            'account_header' => 'required',
+            'account_group_id' => 'required',
+        ]);
+        $data = $request->all();
+        $item = AkunHeader::findOrFail($id);
+        $item->update($data);
+        Alert::toast('Update data berhasil', 'success');
+        return redirect()->route('akun_header.index');
     }
 
     /**

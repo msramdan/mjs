@@ -545,6 +545,11 @@ Breadcrumbs::for('grup_create', function (BreadcrumbTrail $trail) {
     $trail->parent('grup_index');
     $trail->push('Create', route('akun_grup.create'));
 });
+
+Breadcrumbs::for('grup_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('grup_index');
+    $trail->push('Edit');
+});
 //Akun Header
 Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
@@ -553,6 +558,11 @@ Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('header_create', function (BreadcrumbTrail $trail) {
     $trail->parent('header_index');
     $trail->push('Create', route('akun_header.create'));
+});
+
+Breadcrumbs::for('header_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('header_index');
+    $trail->push('Edit');
 });
 
 // Invoice
