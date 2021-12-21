@@ -169,7 +169,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="stok">Stok</label>
                                 <input class="form-control @error('stok') is-invalid @enderror" type="number" id="stok"
-                                    name="stok" placeholder="Stok" value="{{ old('stok') }}" disabled />
+                                    name="stok" placeholder="Stok" value="0" readonly />
                                 @error('stok')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -184,19 +184,3 @@
         </div>
     </div>
 @endsection
-
-@push('js')
-    <script>
-        $('.form-check-input').change(function() {
-            if ($(this).val() == 'Consumable') {
-                $('#stok').prop('disabled', false)
-                $('#stok').prop('required', false)
-            } else {
-                $('#stok').prop('disabled', true)
-                $('#stok').prop('required', true)
-            }
-
-            $('#stok').val('')
-        })
-    </script>
-@endpush

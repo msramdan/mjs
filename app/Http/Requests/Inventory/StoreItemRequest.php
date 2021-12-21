@@ -35,7 +35,7 @@ class StoreItemRequest extends FormRequest
             'akun_penjualan' => 'required|integer',
             'akun_retur_penjualan' => 'required|integer',
             'foto' => 'required|image|max:1024',
-            'stok' => 'required_if:type,Consumable'
+            'stok' => 'required'
         ];
     }
 }
