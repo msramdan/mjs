@@ -30,8 +30,8 @@ class InvoiceController extends Controller
                 ->addColumn('user', function ($row) {
                     return $row->user->name;
                 })
-                ->addColumn('tanggal_dibayar', function ($row) {
-                    return $row->tanggal_dibayar->format('d M Y');
+                ->addColumn('tanggal_invoice', function ($row) {
+                    return $row->tanggal_invoice->format('d M Y');
                 })
                 ->addColumn('action', 'accounting.invoice._action')
                 ->toJson();

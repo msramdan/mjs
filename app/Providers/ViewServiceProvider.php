@@ -266,29 +266,29 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list Parent COA
-        View::composer([
-            'accounting.coa.create',
-            'accounting.coa.edit',
-            'inventory.item.create',
-            'inventory.item.edit'
-        ], function ($view) {
-            return $view->with(
-                'parentCoa',
-                Coa::select('id', 'nama')->orderBy('nama')->get()
-            );
-        });
+        // // list Parent COA
+        // View::composer([
+        //     'accounting.coa.create',
+        //     'accounting.coa.edit',
+        //     'inventory.item.create',
+        //     'inventory.item.edit'
+        // ], function ($view) {
+        //     return $view->with(
+        //         'parentCoa',
+        //         Coa::select('id', 'nama')->orderBy('nama')->get()
+        //     );
+        // });
 
-        // list list COA
-        View::composer([
-            'accounting.coa.create',
-            'accounting.coa.edit',
-        ], function ($view) {
-            return $view->with(
-                'listCoa',
-                Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
-            );
-        });
+        // // list list COA
+        // View::composer([
+        //     'accounting.coa.create',
+        //     'accounting.coa.edit',
+        // ], function ($view) {
+        //     return $view->with(
+        //         'listCoa',
+        //         Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
+        //     );
+        // });
 
         // list spal
         View::composer([
@@ -377,7 +377,7 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'sales',
                 Sale::select('id', 'kode')
-                    ->whereIn('status_pembayaran', ['Unpaid', 'Pending'])
+                    ->where('lunas', 0)
                     ->orderBy('id')
                     ->get()
                 // Sale::select('id', 'kode')

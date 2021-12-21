@@ -26,9 +26,9 @@
 
                 <div class="col-md-4">
                     <div class="form-group mb-2">
-                        <label class="form-label" for="tanggal">Tanggal</label>
-                        <input class="form-control" type="date" id="tanggal" name="tanggal_dibayar"
-                            placeholder="tanggal"
+                        <label class="form-label" for="tanggal-invoice">Tanggal Invoice</label>
+                        <input class="form-control" type="date" id="tanggal-invoice" name="tanggal_invoice"
+                            placeholder="tanggal-invoice"
                             value="{{ $invoice ? $invoice->tanggal_dibayar->format('Y-m-d') : date('Y-m-d') }}"
                             required {{ $show ? 'disabled' : '' }} />
                     </div>
@@ -52,6 +52,8 @@
                         <th>Kode - Nama</th>
                         <th>Unit</th>
                         <th>Harga</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -134,9 +136,10 @@
 
                 <div class="col-md-4">
                     <div class="form-group mb-2">
-                        <label class="form-label" for="catatan">Catatan</label>
-                        <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan"
-                            rows="8" disabled>{{ $invoice ? $invoice->sale->catatan : '' }}</textarea>
+                        <label class="form-label" for="catatan">Catatan Invoice</label>
+                        <textarea class="form-control" id="catatan" name="catatan" id="catatan"
+                            placeholder="Catatan Invoice" rows="8"
+                            required>{{ $invoice ? $invoice->sale->catatan : '' }}</textarea>
                     </div>
                 </div>
 

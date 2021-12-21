@@ -14,8 +14,8 @@ class AddTotalDibayarToSalesTable extends Migration
     public function up()
     {
         Schema::table('sales', function (Blueprint $table) {
-            // $table->enum('status_pembayaran', ['Unpaid', 'Paid', 'Pending'])->after('catatan');
-            $table->integer('total_dibayar')->default(0)->after('grand_total');
+            $table->tinyInteger('lunas')->default(0)->after('catatan');
+            $table->integer('total_dibayar')->default(0)->after('lunas');
             // $table->integer('sisa')->after('total_dibayar');
         });
     }
