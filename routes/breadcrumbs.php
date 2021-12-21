@@ -536,46 +536,23 @@ Breadcrumbs::for('request_form_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
-
-// Akun
-Breadcrumbs::for('akun', function (BreadcrumbTrail $trail) {
-    $trail->parent('accounting');
-    $trail->push('Akun');
-});
-
-
-//grup
+//Akun Grup
 Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
     $trail->push('Akun Grup', route('akun_grup.index'));
 });
-
-//Header
+Breadcrumbs::for('grup_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('grup_index');
+    $trail->push('Create', route('akun_grup.create'));
+});
+//Akun Header
 Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
     $trail->push('Akun Header', route('akun_header.index'));
 });
-
-//COA
-Breadcrumbs::for('coa_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('accounting');
-    $trail->push('COA', route('coa.index'));
-});
-
-
-Breadcrumbs::for('coa_create', function (BreadcrumbTrail $trail) {
-    $trail->parent('coa_index');
-    $trail->push('Create', route('coa.create'));
-});
-
-Breadcrumbs::for('coa_edit', function (BreadcrumbTrail $trail) {
-    $trail->parent('coa_index');
-    $trail->push('Edit');
-});
-
-Breadcrumbs::for('coa_show', function (BreadcrumbTrail $trail) {
-    $trail->parent('coa_index');
-    $trail->push('Detail');
+Breadcrumbs::for('header_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('header_index');
+    $trail->push('Create', route('akun_header.create'));
 });
 
 // Invoice

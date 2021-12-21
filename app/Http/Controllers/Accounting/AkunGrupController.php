@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Accounting\AkunGrupRequest;
 use App\Models\Accounting\AkunGrup;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class AkunGrupController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounting.akun_grup.create');
     }
 
     /**
@@ -38,9 +39,12 @@ class AkunGrupController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AkunGrupRequest $request)
     {
-        //
+        $data = $request->all();
+        AkunGrup::create($data);
+        Alert::toast('Tambah data berhasil', 'success');
+        return redirect()->route('akun_grup.index');
     }
 
     /**

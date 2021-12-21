@@ -17,43 +17,43 @@ class AkunGrupSeeder extends Seeder
         DB::table('account_group')->insert([
             [
                 'account_group' => 'ASSET',
-                'report' => 'BS',
+                'report' => 'Balance Sheet',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
                 'account_group' => 'LIABILITIES',
-                'report' => 'BS',
+                'report' => 'Balance Sheet',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
                 'account_group' => 'EQUITY',
-                'report' => 'BS',
+                'report' => 'Balance Sheet',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
                 'account_group' => 'REVENUE',
-                'report' => 'IS',
+                'report' => 'Income Statment',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
                 'account_group' => 'EXPENSE',
-                'report' => 'IS',
+                'report' => 'Income Statment',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
                 'account_group' => 'GAIN',
-                'report' => 'IS',
+                'report' => 'Income Statment',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
                 'account_group' => 'LOSS',
-                'report' => 'IS',
+                'report' => 'Income Statment',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],

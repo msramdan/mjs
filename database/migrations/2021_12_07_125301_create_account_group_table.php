@@ -16,7 +16,7 @@ class CreateAccountGroupTable extends Migration
         Schema::create('account_group', function (Blueprint $table) {
             $table->id();
             $table->string('account_group');
-            $table->string('report',10);
+            $table->string('report',50);
             $table->timestamps();
         });
     }
