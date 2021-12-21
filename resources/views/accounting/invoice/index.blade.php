@@ -1,13 +1,13 @@
 @extends('layouts.master')
-@section('title', 'Sale')
+@section('title', 'Invoice')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('sale_index') }}
+        {{ Breadcrumbs::render('invoice_index') }}
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('sale.create') }}" class="btn btn-primary mb-3">
+            <a href="{{ route('invoice.create') }}" class="btn btn-primary mb-3">
                 <i class="fas fa-plus me-1"></i>
                 Create
             </a>
@@ -15,7 +15,7 @@
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">Sale</h4>
+                <h4 class="panel-title">Invoice</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                             class="fa fa-redo"></i>
@@ -35,14 +35,13 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Spal</th>
+                                        <th>Sale</th>
                                         <th>Kode</th>
-                                        <th>Customer</th>
+                                        <th>User</th>
+                                        <th>Tanggal Dibayar</th>
+                                        <th>Dibayar</th>
+                                        <th>Sisa</th>
                                         <th>Attn.</th>
-                                        <th>Tangal</th>
-                                        <th>Total</th>
-                                        <th>Diskon</th>
-                                        <th>Grand Total</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -69,47 +68,40 @@
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('sale.index') }}",
+            ajax: "{{ route('invoice.index') }}",
             columns: [{
-                    data: 'spal',
-                    name: 'spal'
+                    data: 'sale',
+                    name: 'sale'
                 },
                 {
                     data: 'kode',
                     name: 'kode'
                 },
                 {
-                    data: 'customer',
-                    name: 'customer'
+                    data: 'user',
+                    name: 'user'
                 },
                 {
-                    data: 'attn',
-                    name: 'attn'
+                    data: 'tanggal_dibayar',
+                    name: 'tanggal_dibayar'
                 },
                 {
-                    data: 'tanggal',
-                    name: 'tanggal'
-                },
-                {
-                    data: 'total',
-                    name: 'total',
-                    render: function(data, type, full, meta) {
-                        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    }
-                },
-                {
-                    data: 'diskon',
-                    name: 'diskon',
+                    data: 'dibayar',
+                    name: 'dibayar',
                     render: function(data, type, full, meta) {
                         return data != null ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-';
                     }
                 },
                 {
-                    data: 'grand_total',
-                    name: 'grand_total',
+                    data: 'sisa',
+                    name: 'sisa',
                     render: function(data, type, full, meta) {
-                        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        return data != null ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-';
                     }
+                },
+                {
+                    data: 'attn',
+                    name: 'attn'
                 },
                 {
                     data: 'created_at',

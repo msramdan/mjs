@@ -17,6 +17,7 @@ use App\Models\Master\Lokasi;
 use App\Models\Master\StatusKaryawan;
 use App\Models\Master\Unit;
 use App\Models\RequestForm\RequestForm;
+use App\Models\Sale\Sale;
 use App\Models\Sale\Spal;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -365,6 +366,23 @@ class ViewServiceProvider extends ServiceProvider
                     ->where('status', 'Belum Tervalidasi')
                     ->orderByDesc('kode')
                     ->get()
+            );
+        });
+
+        // list sales
+        View::composer([
+            'accounting.invoice.create',
+            'accounting.invoice.edit',
+        ], function ($view) {
+            return $view->with(
+                'sales',
+                Sale::select('id', 'kode')
+                    ->whereIn('status_pembayaran', ['Unpaid', 'Pending'])
+                    ->orderBy('id')
+                    ->get()
+                // Sale::select('id', 'kode')
+                //     ->orderBy('kode')
+                //     ->get()
             );
         });
     }

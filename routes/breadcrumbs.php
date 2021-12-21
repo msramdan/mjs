@@ -558,6 +558,29 @@ Breadcrumbs::for('coa_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
+// Invoice
+Breadcrumbs::for('invoice_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push('Invoice', route('invoice.index'));
+});
+
+Breadcrumbs::for('invoice_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('invoice_index');
+    $trail->push('Create', route('invoice.create'));
+});
+
+Breadcrumbs::for('invoice_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('invoice_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('invoice_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('invoice_index');
+    $trail->push('Detail');
+});
+
+
+
 //potongan
 Breadcrumbs::for('potongan_index', function (BreadcrumbTrail $trail) {
     $trail->parent('payroll');

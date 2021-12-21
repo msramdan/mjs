@@ -67,6 +67,7 @@ class SaleController extends Controller
     {
         DB::transaction(function () use ($request) {
             $sale = Sale::create([
+                'kode' => $request->kode,
                 'spal_id' => $request->spal,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
@@ -74,6 +75,8 @@ class SaleController extends Controller
                 'total' => $request->total,
                 'diskon' => $request->diskon,
                 'catatan' => $request->catatan,
+                'sisa' => $request->grand_total,
+                'status_pembayaran' => 'Unpaid'
             ]);
 
             foreach ($request->produk as $i => $prd) {
@@ -208,5 +211,61 @@ class SaleController extends Controller
         Alert::success('Hapus Data', 'Berhasil');
 
         return redirect()->route('sale.index');
+    }
+
+    public function getSaleById($id)
+    {
+        abort_if(!request()->ajax(), 403);
+
+        return Sale::with(
+            'spal:id,kode',
+            'detail_sale:id,sale_id,item_id,harga',
+            'detail_sale.item:id,kode,nama,unit_id',
+            'detail_sale.item.unit:id,nama',
+            'invoices:sale_id,id,kode,tanggal_dibayar,dibayar,sisa'
+        )->findOrFail($id);
+    }
+
+    /**
+     * Generate unique & auto increment code by date.
+     *
+     * @param  String $tanggal
+     * @return \Illuminate\Http\Response
+     */
+    public function generateKode($tanggal)
+    {
+        // kalo diakses lewat browser/url/bukan ajax
+        abort_if(!request()->ajax(), 403);
+
+        $tahun = date('Y', strtotime($tanggal));
+        $bulan = date('m', strtotime($tanggal));
+        $hari = date('d', strtotime($tanggal));
+
+        $kode = 'SO-' . $tahun . '-' . $bulan . '-' . $hari  . '-';
+
+        $checkLatestKode = Sale::select('id', 'tanggal', 'kode')
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulan)
+            ->whereDay('tanggal', $hari)
+            ->latest()
+            ->first();
+
+        if ($checkLatestKode == null) {
+            $kode = $kode . '0001';
+        } else {
+            // hapus "SO-XXXX-XX-XX-" dan ambil angka buat ditambahin
+            // $onlyNumberKode = intval(Str::after($checkLatestKode->kode, $kode));
+            $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
+
+            if ($onlyNumberKode < 100) {
+                $kode = $kode . '000' . ($onlyNumberKode + 1);
+            } elseif ($onlyNumberKode >= 100 && $onlyNumberKode < 1000) {
+                $kode =  $kode . '0' . ($onlyNumberKode + 1);
+            } else {
+                $kode = $kode . ($onlyNumberKode + 1);
+            }
+        }
+
+        return response()->json(['kode' => $kode], 200);
     }
 }
