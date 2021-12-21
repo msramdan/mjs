@@ -28,7 +28,8 @@
         const spal = $('#spal')
         const status = $('#status')
 
-        const tanggal = $('#tanggal')
+        const tglInvoice = $('#tanggal-invoice')
+        const tglDibayar = $('#tanggal-dibayar')
         const attn = $('#attn')
         const attnSale = $('#attn-sale')
 
@@ -41,6 +42,7 @@
         const sisa = $('#sisa')
         const telahDibayar = $('#telah-dibayar')
         const catatan = $('#catatan')
+        const catatanSale = $('#catatan-sale')
         const total = $('#total')
         const grandTotal = $('#grand-total')
 
@@ -54,7 +56,7 @@
 
         getKode()
 
-        tanggal.change(function() {
+        tglInvoice.change(function() {
             getKode()
         })
 
@@ -64,7 +66,7 @@
             // kodeSale.text('Loading...')
             attnSale.text('Loading...')
             tglSale.text('Loading...')
-            catatan.text('Loading...')
+            catatanSale.text('Loading...')
 
             telahDibayar.prop('type', 'text')
             grandTotal.prop('type', 'text')
@@ -74,7 +76,6 @@
             grandTotal.val('Loading...')
             diskon.val('Loading...')
             sisa.val('Loading...')
-            catatan.val('Loading...')
 
             tblCart.find('tbody').html(`
             <tr>
@@ -96,7 +97,8 @@
                     setTimeout(() => {
                         // kodeSale.text(res.kode)
                         spal.text(res.spal.kode)
-                        catatan.val(res.catatan.slice(0, 200) + '...')
+                        catatanSale.text(res.catatan && res.catatan.length >= 200 ? res.catatan
+                            .slice(0, 200) + '...' : res.catatan)
                         status.text(res.status_pembayaran)
                         attnSale.text(res.attn)
 
@@ -141,6 +143,14 @@
                                     ${value.harga}
                                     <input type="hidden" class="harga-hidden" name="harga[]" value="${value.harga}">
                                 </td>
+                                <td>
+                                    ${value.qty}
+                                    <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
+                                </td>
+                                <td>
+                                    ${value.subtotal}
+                                    <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${value.subtotal}">
+                                </td>
                             </tr>
                             `)
                         })
@@ -159,18 +169,10 @@
                                 payments.push(`
                                     <tr>
                                         <td>${noPayment++}</td>
-                                        <td>
-                                            ${value.kode}
-                                        </td>
-                                        <td>
-                                            ${formatTanggalDibayar}
-                                        </td>
-                                        <td>
-                                            ${value.dibayar}
-                                        </td>
-                                        <td>
-                                            ${value.sisa}
-                                        </td>
+                                        <td>${value.kode}</td>
+                                        <td>${formatTanggalDibayar}</td>
+                                        <td>${value.dibayar}</td>
+                                        <td>${value.status}</td>
                                     </tr>
                                 `)
                             })
@@ -212,7 +214,7 @@
             kode.val('Loading...')
 
             $.ajax({
-                url: '/accounting/invoice/generate-kode/' + tanggal.val(),
+                url: '/accounting/invoice/generate-kode/' + tglInvoice.val(),
                 method: 'GET',
                 success: function(res) {
                     setTimeout(() => {

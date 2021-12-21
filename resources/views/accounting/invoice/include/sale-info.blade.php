@@ -72,6 +72,11 @@
                         <td>:</td>
                         <td id="status">{{ $invoice ? $invoice->sale->status_pembayaran : '' }}</td>
                     </tr>
+                    <tr>
+                        <td width="35">Catatan Sale</td>
+                        <td>:</td>
+                        <td id="catatan-sale">{{ $invoice ? $invoice->sale->catatan : '' }}</td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -90,7 +95,7 @@
                             <th>Kode</th>
                             <th>Tanggal</th>
                             <th>Bayar</th>
-                            <th>Sisa</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,9 +104,9 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $detail->kode }}</td>
-                                    <td>{{ $detail->tanggal_dibayar->format('d/m/Y') }}</td>
+                                    <td>{{ $detail->tanggal_invoice->format('d/m/Y') }}</td>
                                     <td>{{ $detail->dibayar }}</td>
-                                    <td>{{ $detail->sisa }}</td>
+                                    <td>{{ $detail->status }}</td>
                                 </tr>
                             @endforeach
                         @endif

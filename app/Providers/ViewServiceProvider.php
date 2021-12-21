@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Accounting\AkunGrup;
+use App\Models\Accounting\AkunHeader;
 use App\Models\Accounting\Coa;
 use App\Models\Contact\Customer;
 use App\Models\Contact\Supplier;
@@ -266,29 +268,29 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list Parent COA
-        View::composer([
-            'accounting.coa.create',
-            'accounting.coa.edit',
-            'inventory.item.create',
-            'inventory.item.edit'
-        ], function ($view) {
-            return $view->with(
-                'parentCoa',
-                Coa::select('id', 'nama')->orderBy('nama')->get()
-            );
-        });
+        // // list Parent COA
+        // View::composer([
+        //     'accounting.coa.create',
+        //     'accounting.coa.edit',
+        //     'inventory.item.create',
+        //     'inventory.item.edit'
+        // ], function ($view) {
+        //     return $view->with(
+        //         'parentCoa',
+        //         Coa::select('id', 'nama')->orderBy('nama')->get()
+        //     );
+        // });
 
-        // list list COA
-        View::composer([
-            'accounting.coa.create',
-            'accounting.coa.edit',
-        ], function ($view) {
-            return $view->with(
-                'listCoa',
-                Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
-            );
-        });
+        // // list list COA
+        // View::composer([
+        //     'accounting.coa.create',
+        //     'accounting.coa.edit',
+        // ], function ($view) {
+        //     return $view->with(
+        //         'listCoa',
+        //         Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
+        //     );
+        // });
 
         // list spal
         View::composer([
@@ -377,12 +379,49 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'sales',
                 Sale::select('id', 'kode')
-                    ->whereIn('status_pembayaran', ['Unpaid', 'Pending'])
+                    ->where('lunas', 0)
                     ->orderBy('id')
                     ->get()
                 // Sale::select('id', 'kode')
                 //     ->orderBy('kode')
                 //     ->get()
+            );
+        });
+
+        // list akunGroup
+        View::composer([
+            'accounting.akun-header.create',
+            'accounting.akun-header.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunGroup',
+                AkunGrup::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list akunHeader
+        View::composer([
+            'accounting.coa.create',
+            'accounting.coa.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunHeader',
+                AkunHeader::select('id', 'nama')->orderBy('nama')->get()
+            );
+        });
+
+        // list treeview
+        View::composer([
+            'accounting.coa._treeview',
+        ], function ($view) {
+            return $view->with(
+                'treeview',
+                AkunGrup::select('id', 'nama', 'report')
+                    ->with(
+                        'akun_header:id,kode,nama,account_group_id',
+                        'akun_header.akun_coa:id,kode,nama,account_header_id'
+                    )
+                    ->get()
             );
         });
     }

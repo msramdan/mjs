@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Accounting\StoreAkunCoaRequest;
+use App\Http\Requests\Accounting\UpdateAkunCoaRequest;
 use App\Models\Accounting\AkunCoa;
+use App\Models\Accounting\AkunGrup;
+use App\Models\Accounting\AkunHeader;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AkunCoaController extends Controller
 {
@@ -15,7 +20,9 @@ class AkunCoaController extends Controller
      */
     public function index()
     {
-        //
+        $akunCoa = AkunCoa::with('akun_header:id,kode,nama')->get();
+
+        return view('accounting.coa.index', compact('akunCoa'));
     }
 
     /**
@@ -25,7 +32,7 @@ class AkunCoaController extends Controller
      */
     public function create()
     {
-        //
+        return view('accounting.coa.create');
     }
 
     /**
@@ -34,20 +41,13 @@ class AkunCoaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreAkunCoaRequest $request)
     {
-        //
-    }
+        AkunCoa::create($request->validated());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\AkunCoa  $akunCoa
-     * @return \Illuminate\Http\Response
-     */
-    public function show(AkunCoa $akunCoa)
-    {
-        //
+        Alert::toast('Tambah data berhasil', 'success');
+
+        return redirect()->route('akun-coa.index');
     }
 
     /**
@@ -56,9 +56,11 @@ class AkunCoaController extends Controller
      * @param  \App\Models\Accounting\AkunCoa  $akunCoa
      * @return \Illuminate\Http\Response
      */
-    public function edit(AkunCoa $akunCoa)
+    public function edit($id)
     {
-        //
+        $akunCoa = AkunCoa::findOrFail($id);
+
+        return view('accounting.coa.edit', compact('akunCoa'));
     }
 
     /**
@@ -68,9 +70,15 @@ class AkunCoaController extends Controller
      * @param  \App\Models\Accounting\AkunCoa  $akunCoa
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AkunCoa $akunCoa)
+    public function update(UpdateAkunCoaRequest $request, $id)
     {
-        //
+        $akunCoa = AkunCoa::findOrFail($id);
+
+        $akunCoa->update($request->validated());
+
+        Alert::toast('Update data berhasil', 'success');
+
+        return redirect()->route('akun-coa.index');
     }
 
     /**
@@ -79,8 +87,20 @@ class AkunCoaController extends Controller
      * @param  \App\Models\Accounting\AkunCoa  $akunCoa
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AkunCoa $akunCoa)
+    public function destroy($id)
     {
-        //
+        $akunCoa = AkunCoa::findOrFail($id);
+
+        try {
+            $akunCoa->delete();
+
+            Alert::toast('Hapus data berhasil', 'success');
+
+            return redirect()->route('akun-coa.index');
+        } catch (\Throwable $th) {
+            Alert::toast('Hapus data gagal', 'error');
+
+            return redirect()->route('akun-coa.index');
+        }
     }
 }
