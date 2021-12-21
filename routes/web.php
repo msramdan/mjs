@@ -134,7 +134,7 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::resource('invoice', InvoiceController::class);
     Route::resource('akun-grup', AkunGrupController::class);
     Route::resource('akun-header', AkunHeaderController::class);
-    Route::resource('coa', AkunCoaController::class);
+    Route::resource('akun-coa', AkunCoaController::class);
 });
 
 // Payroll

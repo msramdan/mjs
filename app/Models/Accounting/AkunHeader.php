@@ -21,4 +21,9 @@ class AkunHeader extends Model
     {
         return $this->belongsTo(AkunGrup::class, 'account_group_id');
     }
+
+    public function akun_coa()
+    {
+        return $this->hasMany(AkunCoa::class, 'account_header_id');
+    }
 }

@@ -15,4 +15,9 @@ class AkunGrup extends Model
         'nama',
         'report'
     ];
+
+    public function akun_header()
+    {
+        return $this->hasMany(AkunHeader::class, 'account_group_id');
+    }
 }

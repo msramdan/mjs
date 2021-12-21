@@ -18,4 +18,9 @@ class AkunCoa extends Model
         'normal',
         'remark'
     ];
+
+    public function akun_header()
+    {
+        return $this->belongsTo(AkunHeader::class, 'account_header_id');
+    }
 }
