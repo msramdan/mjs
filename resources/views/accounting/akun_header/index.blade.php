@@ -4,10 +4,10 @@
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('grup_index') }}
+        {{ Breadcrumbs::render('header_index') }}
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('coa.create') }}" class="btn btn-primary mb-3">
+            <a href="{{ route('akun_header.create') }}" class="btn btn-primary mb-3">
                 <i class="fas fa-plus me-1"></i>
                 Create
             </a>
@@ -15,7 +15,7 @@
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">{{ trans('sidebar.sub_menu.akun_grup') }}</h4>
+                <h4 class="panel-title">{{ trans('sidebar.sub_menu.akun_header') }}</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                             class="fa fa-redo"></i>
@@ -48,10 +48,10 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->code_account_header}}</td>
                                         <td>{{ $item->account_header}}</td>
-                                        <td>{{ $item->account_group_id }}</td>
+                                        <td>{{ $item->account_group }}</td>
                                         <td>
-                                            <a href="{{ route('akun_grup.edit', $item->id) }}" class="btn btn-primary btn-xs mb-1"><i class="fa fa-edit"></i></a>
-                                            <form action="{{ route('akun_grup.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            <a href="{{ route('akun_header.edit', $item->id) }}" class="btn btn-primary btn-xs mb-1"><i class="fa fa-edit"></i></a>
+                                            <form action="{{ route('akun_header.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
                                                 {!! method_field('delete') . csrf_field() !!}
                                                 <button type="submit" class="btn btn-danger btn-xs mb-1">

@@ -85,9 +85,16 @@ class AkunGrupController extends Controller
      */
     public function destroy($id)
     {
-        $AkunGrup = AkunGrup::findOrFail($id);
-        $AkunGrup->delete();
-        Alert::success('Hapus Data', 'Berhasil');
-        return redirect()->route('akun_grup.index');
+        try {
+            $AkunGrup = AkunGrup::findOrFail($id);
+            $AkunGrup->delete();
+            Alert::toast('Hapus data berhasil', 'success');
+            return redirect()->route('akun_grup.index');
+        } catch (\Throwable $th) {
+            Alert::toast('Hapus data gagal', 'error');
+            return redirect()->route('akun_grup.index');
+        }
+
+
     }
 }

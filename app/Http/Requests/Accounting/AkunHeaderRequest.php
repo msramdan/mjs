@@ -4,7 +4,7 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCoaRequest extends FormRequest
+class AkunHeaderRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class StoreCoaRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode' => 'required|string|min:3|max:10|unique:coas,kode',
-            'nama' => 'required|string|min:3|max:50|unique:coas,nama',
-            'parent' => 'nullable|integer'
+            'code_account_header' => 'required|string|min:3|max:20|unique:account_header,code_account_header',
+            'account_header' => 'required|string|min:3|max:50|unique:account_header,account_header',
+            'account_group_id' => 'required'
         ];
     }
 }

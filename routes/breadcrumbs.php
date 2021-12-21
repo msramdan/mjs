@@ -546,8 +546,20 @@ Breadcrumbs::for('akun', function (BreadcrumbTrail $trail) {
 
 //grup
 Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('akun');
+    $trail->parent('accounting');
     $trail->push('Akun Grup', route('akun_grup.index'));
+});
+
+//Header
+Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push('Akun Header', route('akun_header.index'));
+});
+
+//COA
+Breadcrumbs::for('coa_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push('COA', route('coa.index'));
 });
 
 
