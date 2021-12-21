@@ -58,7 +58,7 @@ class SupplierController extends Controller
     {
         Supplier::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('supplier.index');
     }
@@ -96,7 +96,7 @@ class SupplierController extends Controller
     {
         $supplier->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('supplier.index');
     }
@@ -111,7 +111,7 @@ class SupplierController extends Controller
     {
         $supplier->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('supplier.index');
     }

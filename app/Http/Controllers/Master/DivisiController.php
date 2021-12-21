@@ -49,7 +49,7 @@ class DivisiController extends Controller
     {
         Divisi::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('divisi.index');
     }
@@ -77,7 +77,7 @@ class DivisiController extends Controller
     {
         $divisi->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('divisi.index');
     }
@@ -93,11 +93,11 @@ class DivisiController extends Controller
         try {
             $divisi->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
 
             return redirect()->route('divisi.index');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('divisi.index');
         }

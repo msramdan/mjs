@@ -59,7 +59,7 @@ class CustomerController extends Controller
     {
         Customer::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('customer.index');
     }
@@ -97,7 +97,7 @@ class CustomerController extends Controller
     {
         $customer->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('customer.index');
     }
@@ -112,7 +112,7 @@ class CustomerController extends Controller
     {
         $customer->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('customer.index');
     }

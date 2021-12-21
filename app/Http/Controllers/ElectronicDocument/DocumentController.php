@@ -71,7 +71,7 @@ class DocumentController extends Controller
 
         Document::create($attr);
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('document.index');
     }
@@ -114,7 +114,7 @@ class DocumentController extends Controller
 
         $document->update($attr);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('document.index');
     }
@@ -133,7 +133,7 @@ class DocumentController extends Controller
         // baru hapus record
         $document->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('document.index');
     }

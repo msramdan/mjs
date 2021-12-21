@@ -219,7 +219,7 @@ class BacTerimaController extends Controller
 
         $bacTerima->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('bac-terima.index');
     }

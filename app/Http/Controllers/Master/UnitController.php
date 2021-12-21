@@ -53,7 +53,7 @@ class UnitController extends Controller
     {
         Unit::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('unit.index');
     }
@@ -80,7 +80,7 @@ class UnitController extends Controller
     {
         $unit->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('unit.index');
     }
@@ -96,11 +96,11 @@ class UnitController extends Controller
         try {
             $unit->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
 
             return redirect()->route('unit.index');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('unit.index');
         }

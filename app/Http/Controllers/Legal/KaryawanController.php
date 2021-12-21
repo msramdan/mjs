@@ -84,7 +84,7 @@ class KaryawanController extends Controller
 
         Karyawan::create($attr);
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('karyawan.index');
     }
@@ -141,7 +141,7 @@ class KaryawanController extends Controller
 
         $karyawan->update($attr);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('karyawan.index');
     }
@@ -164,7 +164,7 @@ class KaryawanController extends Controller
 
         $karyawan->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('karyawan.index');
     }

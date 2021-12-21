@@ -140,7 +140,7 @@ class ItemController extends Controller
 
         $item->update($attr);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('item.index');
     }
@@ -155,7 +155,7 @@ class ItemController extends Controller
     {
         $item->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('item.index');
     }

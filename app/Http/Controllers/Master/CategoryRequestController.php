@@ -50,7 +50,7 @@ class CategoryRequestController extends Controller
     {
         CategoryRequest::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('category-request.index');
     }
@@ -77,7 +77,7 @@ class CategoryRequestController extends Controller
     {
         $categoryRequest->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('category-request.index');
     }
@@ -93,11 +93,11 @@ class CategoryRequestController extends Controller
         try {
             $categoryRequest->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
 
             return redirect()->route('category-request.index');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('category-request.index');
         }

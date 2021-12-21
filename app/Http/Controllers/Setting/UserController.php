@@ -83,7 +83,7 @@ class UserController extends Controller
         $user->assignRole($request->role);
         $user->givePermissionTo($request->permissions);
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('user.index');
     }
@@ -147,7 +147,7 @@ class UserController extends Controller
         $user->syncRoles($request->role);
         $user->syncPermissions($request->permissions);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('user.index');
     }
@@ -161,7 +161,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->id == 1) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('user.index');
         }
@@ -174,9 +174,9 @@ class UserController extends Controller
 
             $user->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
         }
 
         return redirect()->route('user.index');

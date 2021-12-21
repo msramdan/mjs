@@ -49,7 +49,7 @@ class CategoryBenefitController extends Controller
     {
         CategoryBenefit::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('category-benefit.index');
     }
@@ -76,7 +76,7 @@ class CategoryBenefitController extends Controller
     {
         $categoryBenefit->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('category-benefit.index');
     }
@@ -92,11 +92,11 @@ class CategoryBenefitController extends Controller
         try {
             $categoryBenefit->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
 
             return redirect()->route('category-benefit.index');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('category-benefit.index');
         }

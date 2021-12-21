@@ -65,7 +65,7 @@ class SpalController extends Controller
 
         Spal::create($attr);
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('spal.index');
     }
@@ -107,7 +107,7 @@ class SpalController extends Controller
 
         $spal->update($attr);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('spal.index');
     }
@@ -127,11 +127,11 @@ class SpalController extends Controller
             // baru hapus record
             $spal->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
 
             return redirect()->route('spal.index');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('spal.index');
         }

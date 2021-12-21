@@ -175,7 +175,7 @@ class InvoiceController extends Controller
 
         $invoice->update($attr);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('invoice.index');
     }
@@ -209,7 +209,7 @@ class InvoiceController extends Controller
 
         $invoice->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('invoice.index');
     }

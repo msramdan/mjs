@@ -199,7 +199,7 @@ class PurchaseController extends Controller
     {
         $purchase->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('purchase.index');
     }

@@ -49,7 +49,7 @@ class LokasiController extends Controller
     {
         Lokasi::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('lokasi.index');
     }
@@ -76,7 +76,7 @@ class LokasiController extends Controller
     {
         $lokasi->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('lokasi.index');
     }
@@ -92,11 +92,11 @@ class LokasiController extends Controller
         try {
             $lokasi->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
 
             return redirect()->route('lokasi.index');
         } catch (\Throwable $th) {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
 
             return redirect()->route('lokasi.index');
         }

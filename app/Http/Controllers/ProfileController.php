@@ -87,7 +87,7 @@ class ProfileController extends Controller
             'email' => $request->email
         ]);
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         // kalo ganti password berhasil langsung logout
         // if ($changePassword) {

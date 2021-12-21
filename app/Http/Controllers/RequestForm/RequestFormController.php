@@ -80,7 +80,7 @@ class RequestFormController extends Controller
 
             $requestForm->detail_request_form()->saveMany($detailRequestForm);
 
-            Alert::success('Tambah Data', 'Berhasil');
+            Alert::toast('Tambah data berhasil', 'success');
         });
 
         return redirect()->route('request-form.index');
@@ -156,7 +156,7 @@ class RequestFormController extends Controller
             // update
             $requestForm->update($attr);
 
-            Alert::success('Update Data', 'Berhasil');
+            Alert::toast('Update data berhasil', 'success');
         });
 
         return redirect()->route('request-form.index');
@@ -178,7 +178,7 @@ class RequestFormController extends Controller
         // baru hapus record
         $requestForm->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('request-form.index');
     }

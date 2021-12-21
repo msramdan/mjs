@@ -208,7 +208,7 @@ class SaleController extends Controller
     {
         $sale->delete();
 
-        Alert::success('Hapus Data', 'Berhasil');
+        Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('sale.index');
     }

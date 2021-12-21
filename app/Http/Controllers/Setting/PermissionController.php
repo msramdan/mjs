@@ -59,7 +59,7 @@ class PermissionController extends Controller
     {
         Permission::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('permission.index');
     }
@@ -90,7 +90,7 @@ class PermissionController extends Controller
 
         $permission->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('permission.index');
     }
@@ -110,9 +110,9 @@ class PermissionController extends Controller
         if ($permission->users_count < 1 && $permission->roles_count < 1) {
             $permission->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
         } else {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
         }
 
         return redirect()->route('permission.index');

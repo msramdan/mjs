@@ -56,7 +56,7 @@ class RoleController extends Controller
     {
         Role::create($request->validated());
 
-        Alert::success('Tambah Data', 'Berhasil');
+        Alert::toast('Tambah data berhasil', 'success');
 
         return redirect()->route('role.index');
     }
@@ -87,7 +87,7 @@ class RoleController extends Controller
 
         $role->update($request->validated());
 
-        Alert::success('Update Data', 'Berhasil');
+        Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('role.index');
     }
@@ -107,9 +107,9 @@ class RoleController extends Controller
         if ($role->users_count < 1) {
             $role->delete();
 
-            Alert::success('Hapus Data', 'Berhasil');
+            Alert::toast('Hapus data berhasil', 'success');
         } else {
-            Alert::error('Hapus Data', 'Gagal');
+            Alert::toast('Hapus data gagal', 'error');
         }
 
         return redirect()->route('role.index');
