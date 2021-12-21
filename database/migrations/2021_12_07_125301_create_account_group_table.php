@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCoasTable extends Migration
+class CreateAccountGroupTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateCoasTable extends Migration
      */
     public function up()
     {
-        Schema::create('coas', function (Blueprint $table) {
+        Schema::create('account_group', function (Blueprint $table) {
             $table->id();
-            $table->string('kode', 30);
-            $table->string('nama', 100);
-            $table->tinyInteger('parent')->nullable();
+            $table->string('account_group');
+            $table->string('report',10);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateCoasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('coas');
+        Schema::dropIfExists('account_group');
     }
 }

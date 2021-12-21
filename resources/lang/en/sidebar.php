@@ -33,6 +33,8 @@ return [
         'dokumen' => 'Document',
         'dokumen_kategori' => 'Category Document',
         'coa' => 'COA',
+        'akun_grup' => 'Account Group',
+        'akun_header' => 'Account Header',
         'potongan' => 'Income Deduction',
         'benefit' => 'Benefits',
         'bac_terima' => 'Recevied BAC',

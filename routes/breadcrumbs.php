@@ -537,11 +537,19 @@ Breadcrumbs::for('request_form_show', function (BreadcrumbTrail $trail) {
 });
 
 
-// COA
-Breadcrumbs::for('coa_index', function (BreadcrumbTrail $trail) {
+// Akun
+Breadcrumbs::for('akun', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
-    $trail->push('COA', route('coa.index'));
+    $trail->push('Akun');
 });
+
+
+//grup
+Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('akun');
+    $trail->push('Akun Grup', route('akun_grup.index'));
+});
+
 
 Breadcrumbs::for('coa_create', function (BreadcrumbTrail $trail) {
     $trail->parent('coa_index');

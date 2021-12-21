@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\{CoaController};
+use App\Http\Controllers\Accounting\{AkunCoaController,AkunGrupController, AkunHeaderController};
 use App\Http\Controllers\Accountring\InvoiceController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
@@ -145,14 +145,15 @@ Route::middleware('auth')->resource('/request-form', RequestFormController::clas
 
 Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
 
-// COA
+// accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
-
-    Route::resource('coa', CoaController::class);
-
     Route::resource('invoice', InvoiceController::class);
+    Route::resource('akun_grup', AkunGrupController::class);
+    Route::resource('akun_header', AkunHeaderController::class);
+    Route::resource('coa', AkunCoaController::class);
 });
+
 
 // Payroll
 Route::prefix('payroll')->middleware('auth')->group(function () {

@@ -29,10 +29,10 @@ class DatabaseSeeder extends Seeder
             CategoryBenefitSeeder::class,
             RoleAndPermissionSeeder::class,
             CategoryDocumentSeeder::class,
-            CoaSeeder::class,
             DataPotonganSeeder::class,
             DataBenefitSeeder::class,
             SettingAppSeeder::class,
+            AkunGrupSeeder::class,
         ]);
     }
 }

@@ -32,6 +32,8 @@ return [
         'dokumen' => 'Dokumen',
         'dokumen_kategori' => 'Kategori Dokumen',
         'coa' => 'COA',
+        'akun_grup' => 'Akun Grup',
+        'akun_header' => 'Akun Header',
         'potongan' => 'Potongan Penghasilan',
         'benefit' => 'Benefit',
         'bac_terima' => 'BAC Terima',
