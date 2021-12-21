@@ -22,10 +22,7 @@ class ItemController extends Controller
             $query = Item::with(
                 'category:id,nama',
                 'unit:id,nama',
-                'akun_beban:id,nama',
-                'akun_retur_pembelian:id,nama',
-                'akun_retur_penjualan:id,nama',
-                'akun_penjualan:id,nama',
+                'akun_coa:id,nama'
             );
 
             return DataTables::of($query)
@@ -35,17 +32,8 @@ class ItemController extends Controller
                 ->addColumn('category', function ($row) {
                     return $row->category->nama;
                 })
-                ->addColumn('akun_beban', function ($row) {
-                    return $row->akun_beban->nama;
-                })
-                ->addColumn('akun_retur_pembelian', function ($row) {
-                    return $row->akun_retur_pembelian->nama;
-                })
-                ->addColumn('akun_penjualan', function ($row) {
-                    return $row->akun_penjualan->nama;
-                })
-                ->addColumn('akun_retur_penjualan', function ($row) {
-                    return $row->akun_retur_penjualan->nama;
+                ->addColumn('akun_coa', function ($row) {
+                    return $row->akun_coa->nama;
                 })
                 ->addColumn('unit', function ($row) {
                     return $row->unit->nama;
@@ -78,10 +66,7 @@ class ItemController extends Controller
         $attr = $request->validated();
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
-        $attr['akun_beban_id'] = $request->akun_beban;
-        $attr['akun_retur_pembelian_id'] = $request->akun_retur_pembelian;
-        $attr['akun_penjualan_id'] = $request->akun_penjualan;
-        $attr['akun_retur_penjualan_id'] = $request->akun_retur_penjualan;
+        $attr['akun_coa_id'] = $request->akun_coa;
 
         if ($request->file('foto') && $request->file('foto')->isValid()) {
             $filename = time()  . '.' . $request->foto->extension();
@@ -121,10 +106,7 @@ class ItemController extends Controller
         $attr = $request->validated();
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
-        $attr['akun_beban_id'] = $request->akun_beban;
-        $attr['akun_retur_pembelian_id'] = $request->akun_retur_pembelian;
-        $attr['akun_penjualan_id'] = $request->akun_penjualan;
-        $attr['akun_retur_penjualan_id'] = $request->akun_retur_penjualan;
+        $attr['akun_coa_id'] = $request->akun_coa;
         $attr['foto'] = $item->foto;
 
         if ($request->file('foto') && $request->file('foto')->isValid()) {
@@ -153,6 +135,9 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        // delete old foto from storage
+        Storage::delete('public/img/item/' . $item->foto);
+
         $item->delete();
 
         Alert::toast('Hapus data berhasil', 'success');

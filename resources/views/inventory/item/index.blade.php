@@ -41,12 +41,9 @@
                                         <th>Category</th>
                                         <th>Unit</th>
                                         <th>Type</th>
-                                        <th>Stok</th>
+                                        {{-- <th>Stok</th> --}}
                                         <th>Deskripsi</th>
-                                        <th>Akun Beban</th>
-                                        <th>Akun Retur Pembelian</th>
-                                        <th>Akun Penjualan</th>
-                                        <th>Akun Retur Penjualan</th>
+                                        <th>Akun COA</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -103,29 +100,17 @@
                     data: 'type',
                     name: 'type'
                 },
-                {
-                    data: 'stok',
-                    name: 'stok'
-                },
+                // {
+                //     data: 'stok',
+                //     name: 'stok'
+                // },
                 {
                     data: 'deskripsi',
                     name: 'deskripsi'
                 },
                 {
-                    data: 'akun_beban',
-                    name: 'akun_beban'
-                },
-                {
-                    data: 'akun_retur_pembelian',
-                    name: 'akun_retur_pembelian'
-                },
-                {
-                    data: 'akun_penjualan',
-                    name: 'akun_penjualan'
-                },
-                {
-                    data: 'akun_retur_penjualan',
-                    name: 'akun_retur_penjualan'
+                    data: 'akun_coa',
+                    name: 'akun_coa'
                 },
                 {
                     data: 'created_at',
