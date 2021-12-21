@@ -12,6 +12,7 @@ class Sale extends Model
     use HasFactory;
 
     protected $fillable = [
+        'kode',
         'spal_id',
         'tanggal',
         'attn',

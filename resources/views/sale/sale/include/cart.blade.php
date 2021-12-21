@@ -18,9 +18,15 @@
             <div class="row">
                 <div class="col-md-{{ !$show ? '6' : '12' }}">
                     <div class="form-group mb-2">
+                        <label class="form-label" for="kode">Kode</label>
+                        <input class="form-control" type="text" id="kode" name="kode" placeholder="Kode"
+                            value="{{ $sale ? $sale->kode : '' }}" required {{ $show ? 'disabled' : 'readonly' }} />
+                    </div>
+
+                    <div class="form-group mb-2">
                         <label class="form-label" for="tanggal">Tanggal</label>
                         <input class="form-control" type="date" id="tanggal" name="tanggal" placeholder="tanggal"
-                            value="{{ $sale ? $sale->tanggal->format('Y-m-d') : '' }}" required
+                            value="{{ $sale ? $sale->tanggal->format('Y-m-d') : date('Y-m-d') }}" required
                             {{ $show ? 'disabled' : '' }} />
                     </div>
 
@@ -31,8 +37,15 @@
                     </div>
                 </div>
 
-                @if (!$show)
-                    <div class="col-md-6">
+
+                <div class="col-md-{{ !$show ? '6' : '12' }}">
+                    <div class="form-group mb-2">
+                        <label class="form-label" for="attn">Attn.</label>
+                        <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
+                            value="{{ $sale ? $sale->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
+                    </div>
+
+                    @if (!$show)
                         <input type="hidden" name="stok" id="stok">
                         <input type="hidden" name="kode_produk" id="kode-produk">
                         <input type="hidden" name="unit_produk" id="unit-produk">
@@ -53,19 +66,8 @@
                             <label class="form-label" for="harga">Harga</label>
                             <input class="form-control" type="number" id="harga" name="Harga" placeholder="Harga" />
                         </div>
-
-                        {{-- <div class="form-group mb-2">
-                            <label class="form-label" for="qty">Qty</label>
-                            <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
-                        </div> --}}
-                    </div>
-                @endif
-            </div>
-
-            <div class="form-group mb-2">
-                <label class="form-label" for="attn">Attn.</label>
-                <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
-                    value="{{ $sale ? $sale->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
+                    @endif
+                </div>
             </div>
 
             <div class="d-flex justify-content-end my-3">

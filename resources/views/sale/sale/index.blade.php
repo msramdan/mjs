@@ -36,6 +36,7 @@
                                 <thead>
                                     <tr>
                                         <th>Spal</th>
+                                        <th>Kode</th>
                                         <th>Customer</th>
                                         <th>Attn.</th>
                                         <th>Tangal</th>
@@ -72,6 +73,10 @@
             columns: [{
                     data: 'spal',
                     name: 'spal'
+                },
+                {
+                    data: 'kode',
+                    name: 'kode'
                 },
                 {
                     data: 'customer',

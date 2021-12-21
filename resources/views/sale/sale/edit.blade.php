@@ -23,6 +23,7 @@
 
     <script>
         const spal = $('#spal')
+        const kode = $('#kode')
         const namaKapal = $('#nama-kapal')
         const namaMuatan = $('#nama-muatan')
         const jmlMuatan = $('#jml-muatan')
@@ -51,6 +52,10 @@
         const btnCancel = $('#btn-cancel')
 
         const tblCart = $('#tbl-cart')
+
+        tanggal.change(function() {
+            getKode()
+        })
 
         spal.change(function() {
             customer.val('Loading...')
@@ -482,6 +487,20 @@
 
         function formatRibuan(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+
+        function getKode() {
+            kode.val('Loading...')
+
+            $.ajax({
+                url: '/sale/sale/generate-kode/' + tanggal.val(),
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        kode.val(res.kode)
+                    }, 500)
+                }
+            })
         }
     </script>
 @endpush

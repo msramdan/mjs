@@ -74,6 +74,8 @@ Route::middleware('auth')->prefix('sale')->group(function () {
     Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
     Route::get('/sale/get-sale-by-id/{id}', [SaleController::class, 'getSaleById']);
 
+    Route::get('/sale/generate-kode/{tanggal}', [SaleController::class, 'generateKode']);
+
     Route::resource('sale', SaleController::class);
 
     Route::resource('spal', SpalController::class);

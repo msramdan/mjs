@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit invoice')
+@section('title', 'Edit Invoice')
 
 @section('content')
     <div id="content" class="app-content">
@@ -90,7 +90,6 @@
                 url: '/sale/sale/get-sale-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
-                    console.log(res);
 
                     setTimeout(() => {
                         // kodeSale.text(res.kode)
@@ -108,6 +107,9 @@
                         diskon.val(parseInt(res.diskon))
                         sisa.val(parseInt(res.sisa))
                         total.val(parseInt(res.grand_total) + parseInt(res.diskon))
+                        bayar.prop('max', sisa.val())
+
+                        $('#sisa-hidden').val(sisa.val())
 
                         let dateString = res.tanggal
                         let dateObject = new Date(dateString)
@@ -194,7 +196,7 @@
 
             // sisa.val(parseInt(grandTotal.val()) - parseInt(telahDibayar.val()))
 
-            if ($(this).val() > 0 && attn.val()) {
+            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val() || $(this).val() <= sisa.val()) {
                 btnSave.prop('disabled', false)
                 btnSave.removeClass('disabled')
             } else {
