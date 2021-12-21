@@ -2,6 +2,7 @@
 
 namespace App\Models\Sale;
 
+use App\Models\Accounting\Invoice;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,7 +18,10 @@ class Sale extends Model
         'total',
         'diskon',
         'catatan',
-        'grand_total'
+        'grand_total',
+        'status_pembayaran',
+        'sisa',
+        'total_dibayar'
     ];
 
     protected $casts = ['tanggal' => 'date'];
@@ -30,6 +34,11 @@ class Sale extends Model
     public function detail_sale()
     {
         return $this->hasMany(DetailSale::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 
     public function getCreatedAtAttribute($value)

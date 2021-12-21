@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\CoaController;
+use App\Http\Controllers\Accounting\{CoaController};
+use App\Http\Controllers\Accountring\InvoiceController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
 use App\Http\Controllers\Inventory\{AsoController, BacPakaiController, ItemController, BacTerimaController, ReceivedController};
@@ -69,13 +70,13 @@ Route::prefix('legal')->middleware('auth')->group(function () {
 
 // Sale
 Route::middleware('auth')->prefix('sale')->group(function () {
+    Route::get('/spal/download/{file}', [SpalController::class, 'downloadFileSpal']);
+    Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
+    Route::get('/sale/get-sale-by-id/{id}', [SaleController::class, 'getSaleById']);
+
     Route::resource('sale', SaleController::class);
 
     Route::resource('spal', SpalController::class);
-
-    Route::get('/spal/download/{file}', [SpalController::class, 'downloadFileSpal']);
-
-    Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
 });
 
 // Purchase
@@ -144,7 +145,11 @@ Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormCont
 
 // COA
 Route::middleware('auth')->prefix('accounting')->group(function () {
+    Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
+
     Route::resource('coa', CoaController::class);
+
+    Route::resource('invoice', InvoiceController::class);
 });
 
 // Payroll

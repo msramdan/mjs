@@ -74,6 +74,8 @@ class SaleController extends Controller
                 'total' => $request->total,
                 'diskon' => $request->diskon,
                 'catatan' => $request->catatan,
+                'sisa' => $request->grand_total,
+                'status_pembayaran' => 'Unpaid'
             ]);
 
             foreach ($request->produk as $i => $prd) {
@@ -208,5 +210,18 @@ class SaleController extends Controller
         Alert::success('Hapus Data', 'Berhasil');
 
         return redirect()->route('sale.index');
+    }
+
+    public function getSaleById($id)
+    {
+        abort_if(!request()->ajax(), 403);
+
+        return Sale::with(
+            'spal:id,kode',
+            'detail_sale:id,sale_id,item_id,harga',
+            'detail_sale.item:id,kode,nama,unit_id',
+            'detail_sale.item.unit:id,nama',
+            'invoices:sale_id,id,kode,tanggal_dibayar,dibayar,sisa'
+        )->findOrFail($id);
     }
 }
