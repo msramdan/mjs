@@ -19,9 +19,11 @@ class CreateInvoicesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('kode', 30);
             $table->string('attn', 30);
+            $table->string('tanggal_invoice');
             $table->date('tanggal_dibayar');
             $table->integer('dibayar');
-            $table->integer('sisa');
+            $table->enum('status', ['Unpaid', 'Paid']);
+            $table->text('catatan');
             $table->timestamps();
         });
     }

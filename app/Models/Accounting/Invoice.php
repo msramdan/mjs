@@ -18,11 +18,16 @@ class Invoice extends Model
         'user_id',
         'attn',
         'tanggal_dibayar',
+        'tanggal_invoice',
         'dibayar',
-        'sisa'
+        'status',
+        'catatan'
     ];
 
-    protected $casts = ['tanggal_dibayar' => 'date'];
+    protected $casts = [
+        'tanggal_dibayar' => 'date',
+        'tanggal_invoice' => 'date'
+    ];
 
     public function sale()
     {

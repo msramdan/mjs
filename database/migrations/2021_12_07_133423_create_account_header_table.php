@@ -15,8 +15,8 @@ class CreateAccountHeaderTable extends Migration
     {
         Schema::create('account_header', function (Blueprint $table) {
             $table->id();
-            $table->string('code_account_header');
-            $table->string('account_header');
+            $table->string('kode', 30);
+            $table->string('nama', 50);
             $table->foreignId('account_group_id')->constrained('account_group');
             $table->timestamps();
         });

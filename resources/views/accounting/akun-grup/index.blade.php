@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'COA')
+@section('title', 'Account Group')
 
 @section('content')
     <div id="content" class="app-content">
@@ -42,22 +42,29 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($AkunGrup as $item )
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->account_group }}</td>
-                                        <td>{{ $item->report }}</td>
-                                        <td>
-                                            <a href="{{ route('akun_grup.edit', $item->id) }}" class="btn btn-primary btn-xs mb-1"><i class="fa fa-edit"></i></a>
-                                            <form action="{{ route('akun_grup.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                    @foreach ($akunGroup as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->nama }}</td>
+                                            <td>{{ $item->report }}</td>
+                                            <td>
+                                                <a href="{{ route('akun-grup.edit', $item->id) }}"
+                                                    class="btn btn-primary btn-xs mb-1">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
 
-                                                {!! method_field('delete') . csrf_field() !!}
-                                                <button type="submit" class="btn btn-danger btn-xs mb-1">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
+                                                <form action="{{ route('akun-grup.destroy', $item->id) }}" method="POST"
+                                                    class="d-inline"
+                                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-xs mb-1">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
                                     @endforeach
 
                                 </tbody>

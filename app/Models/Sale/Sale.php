@@ -22,7 +22,8 @@ class Sale extends Model
         'grand_total',
         'status_pembayaran',
         'sisa',
-        'total_dibayar'
+        'total_dibayar',
+        'lunas'
     ];
 
     protected $casts = ['tanggal' => 'date'];

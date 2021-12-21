@@ -16,44 +16,44 @@ class AkunGrupSeeder extends Seeder
     {
         DB::table('account_group')->insert([
             [
-                'account_group' => 'ASSET',
-                'report' => 'Balance Sheet',
+                'nama' => 'ASSET',
+                'report' => 'BS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'LIABILITIES',
-                'report' => 'Balance Sheet',
+                'nama' => 'LIABILITIES',
+                'report' => 'BS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'EQUITY',
-                'report' => 'Balance Sheet',
+                'nama' => 'EQUITY',
+                'report' => 'BS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'REVENUE',
-                'report' => 'Income Statment',
+                'nama' => 'REVENUE',
+                'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'EXPENSE',
-                'report' => 'Income Statment',
+                'nama' => 'EXPENSE',
+                'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'GAIN',
-                'report' => 'Income Statment',
+                'nama' => 'GAIN',
+                'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
             [
-                'account_group' => 'LOSS',
-                'report' => 'Income Statment',
+                'nama' => 'LOSS',
+                'report' => 'IS',
                 'created_at' => now()->toDateTimeString(),
                 'updated_at' => now()->toDateTimeString()
             ],
