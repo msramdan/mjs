@@ -180,7 +180,7 @@
                                         <td>${noPayment++}</td>
                                         <td>${value.kode}</td>
                                         <td>${formatTanggalInvoice}</td>
-                                        <td>${value.dibayar}</td>
+                                        <td>${formatRibuan(value.dibayar)}</td>
                                         <td>${value.status}</td>
                                     </tr>
                                 `)

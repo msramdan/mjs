@@ -19,9 +19,9 @@
                 <label class="form-label" for="sale">Sale</label>
                 <select class="form-select" id="sale" name="sale" required
                     {{ $show || $invoice ? 'readonly' : '' }}>
-                    @if (!$show)
-                        <option value="" disabled selected>-- Pilih --</option>
-                    @endif
+                    {{-- @if (!$show)
+
+                    @endif --}}
 
                     @if ($invoice)
                         <option value="{{ $invoice->sale->id }}" selected>{{ $invoice->sale->kode }}
@@ -29,6 +29,7 @@
                     @endif
 
                     @if (!$show && !$invoice)
+                        <option value="" disabled selected>-- Pilih --</option>
                         @forelse ($sales as $item)
                             <option value="{{ $item->id }}"
                                 {{ $invoice && $invoice->sale_id == $item->id ? 'selected' : '' }}>
@@ -70,7 +71,11 @@
                     <tr>
                         <td width="35">Status</td>
                         <td>:</td>
-                        <td id="status">{{ $invoice && $invoice->sale->lunas == 0 ? 'Belum LUnas' : 'Lunas' }}</td>
+                        <td id="status">
+                            @if ($invoice)
+                                {{ $invoice->sale->lunas == 0 ? 'Belum lunas' : 'Lunas' }}
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td width="35">Catatan Sale</td>

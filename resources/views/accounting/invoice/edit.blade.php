@@ -64,10 +64,6 @@
             tglSale.text('Loading...')
             catatan.text('Loading...')
 
-            telahDibayar.prop('type', 'text')
-            grandTotal.prop('type', 'text')
-            diskon.prop('type', 'text')
-            sisa.prop('type', 'text')
             telahDibayar.val('Loading...')
             grandTotal.val('Loading...')
             diskon.val('Loading...')
@@ -204,6 +200,20 @@
                 btnSave.addClass('disabled')
             }
             // }
+        })
+
+        $('#tanggal-dibayar').change(function() {
+            if ($(this).val()) {
+                $('#status-invoice').val('Paid')
+
+                // $('#status-invoice').prop('disabled', false)
+                // $('#status-invoice').prop('required', true)
+            } else {
+                $('#status-invoice').val('Unpaid')
+
+                // $('#status-invoice').prop('disabled', true)
+                // $('#status-invoice').prop('required', false)
+            }
         })
 
         function getKode() {
