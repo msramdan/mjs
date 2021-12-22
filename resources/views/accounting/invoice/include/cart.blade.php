@@ -21,7 +21,7 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="kode">Kode</label>
                         <input class="form-control" type="text" id="kode" name="kode" placeholder="kode"
-                            value="{{ $invoice ? $invoice->kode : '' }}" required {{ $show ? 'disabled' : '' }} />
+                            value="{{ $invoice ? $invoice->kode : '' }}" required readonly />
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                             <label class="form-label" for="nominal-invoice">Nominal Invoice</label>
                             <input class="form-control" type="text" id="nominal-invoice" name="nominal_invoice"
                                 placeholder="Nominal Invoice" value="{{ number_format($invoice->dibayar) }}" required
-                                {{ $show ? 'disabled' : '' }} />
+                                {{ $show ? 'disabled' : 'readonly' }} />
                         </div>
                     </div>
 
@@ -60,16 +60,29 @@
                             <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
                                 placeholder="Tanggal Dibayar"
                                 value="{{ $invoice->tanggal_dibayar ? $invoice->tanggal_dibayar->format('Y-m-d') : null }}"
-                                required {{ $show ? 'disabled' : '' }} />
+                                {{ $show ? 'disabled' : '' }} />
                         </div>
                     </div>
 
                     <div class="col-md-4">
                         <div class="form-group mb-2">
-                            <label class="form-label" for="status-pembayaran">Status Pembayaran</label>
-                            <input class="form-control" type="text" id="status-pembayaran" name="status_pembayaran"
-                                placeholder="Tanggal Dibayar" value="{{ $invoice->status }}" required
-                                {{ $show ? 'disabled' : '' }} />
+                            <label class="form-label" for="status-invoice">Status Pembayaran</label>
+                            <input class="form-control" type="text" id="status-invoice" name="status_invoice"
+                                placeholder="Tanggal Dibayar" value="{{ $invoice->status }}"
+                                {{ $show ? 'disabled' : 'readonly' }} />
+
+                            {{-- @if ($show)
+                                <input class="form-control" type="text" id="status-invoice" name="status_invoice"
+                                    placeholder="Tanggal Dibayar" value="{{ $invoice->status }}" readonly />
+                            @else
+                                <select class="form-select" id="status-invoice" name="status_invoice">
+                                    <option value="Unpaid" {{ $invoice->status == 'Unpaid' ? 'selected' : '' }}>
+                                        Unpaid
+                                    </option>
+                                    <option value="Paid" {{ $invoice->status == 'Paid' ? 'selected' : '' }}>Paid
+                                    </option>
+                                </select>
+                            @endif --}}
                         </div>
                     </div>
                 @endif
@@ -173,13 +186,16 @@
                             disabled />
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="bayar">Bayar</label>
-                        <input class="form-control" type="number" id="bayar" name="dibayar" placeholder="Bayar"
-                            min="1" value="{{ $invoice ? $invoice->sale->total_dibayar : '' }}"
-                            {{ $show ? 'disabled' : '' }}
-                            {{ $invoice && $invoice->sale->status_pembayaran == 'Paid' ? 'disabled' : '' }} />
-                    </div>
+                    @if (!$invoice)
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="bayar">Bayar <small>(Nominal Invoice)</small></label>
+                            <input class="form-control" type="{{ $invoice ? 'number' : 'text' }}" id="bayar"
+                                name="dibayar" placeholder="Bayar" min="1"
+                                value="{{ $invoice ? number_format($invoice->sale->total_dibayar) : '' }}"
+                                {{ $show ? 'disabled' : '' }}
+                                {{ $invoice && $invoice->sale->status_pembayaran == 'Paid' ? 'disabled' : '' }} />
+                        </div>
+                    @endif
                 </div>
 
                 <div class="col-md-4">
@@ -211,9 +227,13 @@
             </div>
 
             @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
+                <div id="validation" class="text-danger">
+                    <ul id="ul-msg">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
         </div>
     </div>

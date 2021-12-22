@@ -8,6 +8,7 @@ use App\Http\Requests\Accounting\UpdateInvoiceRequest;
 use App\Models\Accounting\Invoice;
 use App\Models\Sale\Sale;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -73,7 +74,7 @@ class InvoiceController extends Controller
 
         Invoice::create($attr);
 
-        Alert::success('Simpan Data', 'Berhasil');
+        Alert::toast('Simpan Data Berhasil', 'success');
 
         return redirect()->route('invoice.index');
     }
@@ -109,10 +110,10 @@ class InvoiceController extends Controller
     {
         $invoice->load(
             'sale.spal:id,kode',
-            'sale.detail_sale:id,sale_id,item_id,harga',
+            'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'sale.detail_sale.item:id,kode,nama,unit_id',
             'sale.detail_sale.item.unit:id,nama',
-            'sale.invoices:sale_id,id,kode,tanggal_dibayar,dibayar,sisa'
+            'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status'
         );
 
         $show = false;
@@ -129,34 +130,40 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
-        $attr = $request->validated();
-        $attr['sale_id'] = $request->sale;
-        $attr['user_id'] = auth()->id();
+        // remove coma
+        $dibayar = intval(str_replace(',', '', $request->nominal_invoice));
 
-        $sale = Sale::findOrFail($request->sale);
-        $status = '';
-        $totalDibayar = 0;
-        $sisa = 0;
+        // kalo ada tanggal_dibayar  dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request->nominal_invoice + $sale->total_dibayar
+        if ($request->tanggal_dibayar && $invoice->status != 'Paid') {
 
-        if (($sale->total_dibayar + $request->dibayar) ==  $sale->grand_total) {
-            $status = 'Paid';
-            $sisa = 0;
-        } else {
-            $status = 'Pending';
-            $sisa = $sale->grand_total - $request->dibayar;
+            $sale = Sale::findOrFail($request->sale);
+
+            // kalo jumlah yg dibayarkan lebih dari grand total
+            if (($sale->total_dibayar + $dibayar) > $sale->grand_total) {
+                Alert::toast('Update data gagal', 'error');
+
+                return redirect()->route('invoice.index');
+            }
+
+            $sale->update([
+                'total_dibayar' => $sale->total_dibayar + $dibayar
+            ]);
+
+            if ($sale->total_dibayar + $dibayar == $sale->grand_total) {
+                $sale->update([
+                    'lunas' => 1,
+                ]);
+            }
         }
 
-        $totalDibayar = $sale->total_dibayar + $request->dibayar;
-
-        $sale->update([
-            'status_pembayaran' => $status,
-            'total_dibayar' => $totalDibayar,
-            'sisa' => $sisa,
+        $invoice->update([
+            'kode' => $request->kode,
+            'attn' => $request->attn,
+            'tanggal_invoice' => $request->tanggal_invoice,
+            'tanggal_dibayar' => $request->tanggal_dibayar,
+            'catatan' => $request->catatan,
+            'status' => $request->status_invoice,
         ]);
-
-        $attr['sisa'] = $sisa;
-
-        $invoice->update($attr);
 
         Alert::toast('Update data berhasil', 'success');
 
@@ -173,22 +180,12 @@ class InvoiceController extends Controller
     {
         $sale = Sale::withCount('invoices')->findOrFail($invoice->sale_id);
 
-        /**
-         * kalo 1 berarti cuma invoice = $invoice
-         * dan jika dihapus maka sale ga akan punya invoice lagi
-         * otomatis jadi unpaid
-         */
-        if ($sale->invoices_count == 1) {
-            $status = 'Unpaid';
-        } else {
-            $status = 'Pending';
+        if ($invoice->status == 'Paid') {
+            $sale->update([
+                'total_dibayar' => $sale->total_dibayar - $invoice->dibayar,
+                'lunas' => 0,
+            ]);
         }
-
-        $sale->update([
-            'sisa' => $sale->grand_total - ($sale->total_dibayar - $invoice->dibayar),
-            'total_dibayar' => $sale->total_dibayar - $invoice->dibayar,
-            'status_pembayaran' => $status
-        ]);
 
         $invoice->delete();
 
@@ -214,10 +211,10 @@ class InvoiceController extends Controller
 
         $kode = 'INV-' . $tahun . '-' . $bulan . '-' . $hari  . '-';
 
-        $checkLatestKode = Invoice::select('id', 'tanggal_dibayar', 'kode')
-            ->whereYear('tanggal_dibayar', $tahun)
-            ->whereMonth('tanggal_dibayar', $bulan)
-            ->whereDay('tanggal_dibayar', $hari)
+        $checkLatestKode = Invoice::select('id', 'tanggal_invoice', 'kode')
+            ->whereYear('tanggal_invoice', $tahun)
+            ->whereMonth('tanggal_invoice', $bulan)
+            ->whereDay('tanggal_invoice', $hari)
             ->latest()
             ->first();
 

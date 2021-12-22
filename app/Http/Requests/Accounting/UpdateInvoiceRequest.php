@@ -13,7 +13,7 @@ class UpdateInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'kode' => 'required|unique:invoices,kode,' . $this->invoice->id,
+            'sale' => 'required|integer',
+            'attn' => 'required|string',
+            'tanggal_invoice' => 'required|date',
+            'tanggal_dibayar' => 'required_if:status_invoice,Paid|date|after_or_equal:tanggal_invoice',
+            'catatan' => 'required|string',
+            'status_invoice' => 'required|in:Unpaid,Paid',
+            'nominal_invoice' => 'required',
         ];
     }
 }

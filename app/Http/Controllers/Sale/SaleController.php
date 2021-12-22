@@ -212,7 +212,7 @@ class SaleController extends Controller
 
     public function getSaleById($id)
     {
-        // abort_if(!request()->ajax(), 403);
+        abort_if(!request()->ajax(), 403);
 
         return Sale::with(
             'spal:id,kode',
