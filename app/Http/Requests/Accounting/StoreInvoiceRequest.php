@@ -27,8 +27,9 @@ class StoreInvoiceRequest extends FormRequest
             'kode' => 'required|unique:invoices,kode',
             'sale' => 'required|integer',
             'attn' => 'required|string',
-            'tanggal_dibayar' => 'required|date',
-            'dibayar' => 'required|integer|min:1|max:' . request()->sisa_hidden
+            'tanggal_invoice' => 'required|date',
+            'dibayar' => 'required|integer|min:1|max:' . request()->sisa_hidden,
+            'catatan' => 'required|string'
         ];
     }
 }

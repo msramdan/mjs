@@ -212,14 +212,14 @@ class SaleController extends Controller
 
     public function getSaleById($id)
     {
-        abort_if(!request()->ajax(), 403);
+        // abort_if(!request()->ajax(), 403);
 
         return Sale::with(
             'spal:id,kode',
-            'detail_sale:id,sale_id,item_id,harga',
+            'detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'detail_sale.item:id,kode,nama,unit_id',
             'detail_sale.item.unit:id,nama',
-            'invoices:sale_id,id,kode,tanggal_dibayar,dibayar,sisa'
+            'invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status'
         )->findOrFail($id);
     }
 
