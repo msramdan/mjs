@@ -33,6 +33,9 @@ class InvoiceController extends Controller
                 ->addColumn('tanggal_invoice', function ($row) {
                     return $row->tanggal_invoice->format('d M Y');
                 })
+                ->addColumn('tanggal_dibayar', function ($row) {
+                    return $row->tanggal_dibayar ? $row->tanggal_dibayar->format('d M Y') : '-';
+                })
                 ->addColumn('action', 'accounting.invoice._action')
                 ->toJson();
         }
@@ -61,32 +64,12 @@ class InvoiceController extends Controller
      */
     public function store(StoreInvoiceRequest $request)
     {
+        // return $request;
+        // die;
+
         $attr = $request->validated();
         $attr['sale_id'] = $request->sale;
         $attr['user_id'] = auth()->id();
-
-        $sale = Sale::findOrFail($request->sale);
-        $status = '';
-        $totalDibayar = 0;
-        $sisa = 0;
-
-        if (($sale->total_dibayar + $request->dibayar) ==  $sale->grand_total) {
-            $status = 'Paid';
-            $sisa = 0;
-        } else {
-            $status = 'Pending';
-            $sisa = $sale->grand_total - $request->dibayar;
-        }
-
-        $totalDibayar = $sale->total_dibayar + $request->dibayar;
-
-        $sale->update([
-            'status_pembayaran' => $status,
-            'total_dibayar' => $totalDibayar,
-            'sisa' => $sisa,
-        ]);
-
-        $attr['sisa'] = $sisa;
 
         Invoice::create($attr);
 
@@ -105,10 +88,10 @@ class InvoiceController extends Controller
     {
         $invoice->load(
             'sale.spal:id,kode',
-            'sale.detail_sale:id,sale_id,item_id,harga',
+            'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'sale.detail_sale.item:id,kode,nama,unit_id',
             'sale.detail_sale.item.unit:id,nama',
-            'sale.invoices:sale_id,id,kode,tanggal_dibayar,dibayar,sisa'
+            'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status'
         );
 
         $show = true;

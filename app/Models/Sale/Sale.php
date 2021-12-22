@@ -20,8 +20,6 @@ class Sale extends Model
         'diskon',
         'catatan',
         'grand_total',
-        'status_pembayaran',
-        'sisa',
         'total_dibayar',
         'lunas'
     ];

@@ -70,7 +70,7 @@
                     <tr>
                         <td width="35">Status</td>
                         <td>:</td>
-                        <td id="status">{{ $invoice ? $invoice->sale->status_pembayaran : '' }}</td>
+                        <td id="status">{{ $invoice && $invoice->sale->lunas == 0 ? 'Belum LUnas' : 'Lunas' }}</td>
                     </tr>
                     <tr>
                         <td width="35">Catatan Sale</td>
@@ -105,7 +105,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $detail->kode }}</td>
                                     <td>{{ $detail->tanggal_invoice->format('d/m/Y') }}</td>
-                                    <td>{{ $detail->dibayar }}</td>
+                                    <td>{{ number_format($detail->dibayar) }}</td>
                                     <td>{{ $detail->status }}</td>
                                 </tr>
                             @endforeach

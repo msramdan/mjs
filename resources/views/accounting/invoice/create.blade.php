@@ -37,14 +37,23 @@
         const produk = $('#produk')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
+
+        const diskonHidden = $('#diskon-hidden')
+        const sisaHidden = $('#sisa-hidden')
+        const telahDibayarHidden = $('#telah-dibayar-hidden')
+        const totalHidden = $('#total-hidden')
+        const grandTotalHidden = $('#grand-total-hidden')
+
         const diskon = $('#diskon')
-        const bayar = $('#bayar')
         const sisa = $('#sisa')
         const telahDibayar = $('#telah-dibayar')
-        const catatan = $('#catatan')
-        const catatanSale = $('#catatan-sale')
         const total = $('#total')
         const grandTotal = $('#grand-total')
+
+        const bayar = $('#bayar')
+
+        const catatan = $('#catatan')
+        const catatanSale = $('#catatan-sale')
 
         // const btnAdd = $('#btn-add')
         const btnUpdate = $('#btn-update')
@@ -63,19 +72,15 @@
         sale.change(function() {
             spal.text('Loading...')
             status.text('Loading...')
-            // kodeSale.text('Loading...')
             attnSale.text('Loading...')
             tglSale.text('Loading...')
             catatanSale.text('Loading...')
 
-            telahDibayar.prop('type', 'text')
-            grandTotal.prop('type', 'text')
-            diskon.prop('type', 'text')
-            sisa.prop('type', 'text')
-            telahDibayar.val('Loading...')
-            grandTotal.val('Loading...')
             diskon.val('Loading...')
             sisa.val('Loading...')
+            telahDibayar.val('Loading...')
+            total.val('Loading...')
+            grandTotal.val('Loading...')
 
             tblCart.find('tbody').html(`
             <tr>
@@ -97,23 +102,27 @@
                     setTimeout(() => {
                         // kodeSale.text(res.kode)
                         spal.text(res.spal.kode)
-                        catatanSale.text(res.catatan && res.catatan.length >= 200 ? res.catatan
-                            .slice(0, 200) + '...' : res.catatan)
-                        status.text(res.status_pembayaran)
+                        catatanSale.text(res.catatan)
+                        status.text(res.lunas == 0 ? 'Belum Lunas' : 'Lunas')
                         attnSale.text(res.attn)
 
-                        telahDibayar.prop('type', 'number')
-                        grandTotal.prop('type', 'number')
-                        diskon.prop('type', 'number')
-                        sisa.prop('type', 'number')
-                        telahDibayar.val(parseInt(res.total_dibayar))
-                        grandTotal.val(parseInt(res.grand_total))
-                        diskon.val(parseInt(res.diskon))
-                        sisa.val(parseInt(res.sisa))
-                        total.val(parseInt(res.grand_total) + parseInt(res.diskon))
+                        // telahDibayar.prop('type', 'number')
+                        // grandTotal.prop('type', 'number')
+                        // diskon.prop('type', 'number')
+                        // sisa.prop('type', 'number')
+                        telahDibayarHidden.val(res.total_dibayar)
+                        grandTotalHidden.val(res.grand_total)
+                        diskonHidden.val(res.diskon)
+                        sisaHidden.val(res.grand_total - res.total_dibayar)
+                        totalHidden.val(res.grand_total + res.diskon)
+
                         bayar.prop('max', sisa.val())
 
-                        $('#sisa-hidden').val(sisa.val())
+                        telahDibayar.val(formatRibuan(res.total_dibayar))
+                        grandTotal.val(formatRibuan(res.grand_total))
+                        diskon.val(formatRibuan(res.diskon))
+                        sisa.val(formatRibuan(res.grand_total - res.total_dibayar))
+                        total.val(formatRibuan(res.grand_total + res.diskon))
 
                         let dateString = res.tanggal
                         let dateObject = new Date(dateString)
@@ -148,8 +157,8 @@
                                     <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
                                 </td>
                                 <td>
-                                    ${value.subtotal}
-                                    <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${value.subtotal}">
+                                    ${value.sub_total}
+                                    <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${value.sub_total}">
                                 </td>
                             </tr>
                             `)
@@ -157,10 +166,10 @@
 
                         if (res.invoices.length > 0) {
                             $.each(res.invoices, function(index, value) {
-                                let dateString = value.tanggal_dibayar
+                                let dateString = value.tanggal_invoice
                                 let dateObject = new Date(dateString)
 
-                                let formatTanggalDibayar = dateObject.toJSON()
+                                let formatTanggalInvoice = dateObject.toJSON()
                                     .slice(0, 10)
                                     .split('-')
                                     .reverse()
@@ -170,7 +179,7 @@
                                     <tr>
                                         <td>${noPayment++}</td>
                                         <td>${value.kode}</td>
-                                        <td>${formatTanggalDibayar}</td>
+                                        <td>${formatTanggalInvoice}</td>
                                         <td>${value.dibayar}</td>
                                         <td>${value.status}</td>
                                     </tr>
@@ -200,7 +209,7 @@
 
             // sisa.val(parseInt(grandTotal.val()) - parseInt(telahDibayar.val()))
 
-            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val() || $(this).val() <= sisa.val()) {
+            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val()) {
                 btnSave.prop('disabled', false)
                 btnSave.removeClass('disabled')
             } else {
@@ -222,6 +231,10 @@
                     }, 500)
                 }
             })
+        }
+
+        function formatRibuan(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     </script>
 @endpush

@@ -410,7 +410,7 @@
                 success: function(res) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Update data',
+                        title: 'Simpan data',
                         text: 'Berhasil'
                     }).then(function() {
                         setTimeout(() => {

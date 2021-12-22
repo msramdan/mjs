@@ -38,10 +38,11 @@
                                         <th>Sale</th>
                                         <th>Kode</th>
                                         <th>User</th>
+                                        <th>Attn.</th>
+                                        <th>Tanggal Invoice</th>
                                         <th>Tanggal Dibayar</th>
                                         <th>Dibayar</th>
-                                        <th>Sisa</th>
-                                        <th>Attn.</th>
+                                        <th>Status</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -82,6 +83,14 @@
                     name: 'user'
                 },
                 {
+                    data: 'attn',
+                    name: 'attn'
+                },
+                {
+                    data: 'tanggal_invoice',
+                    name: 'tanggal_invoice'
+                },
+                {
                     data: 'tanggal_dibayar',
                     name: 'tanggal_dibayar'
                 },
@@ -93,15 +102,8 @@
                     }
                 },
                 {
-                    data: 'sisa',
-                    name: 'sisa',
-                    render: function(data, type, full, meta) {
-                        return data != null ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-';
-                    }
-                },
-                {
-                    data: 'attn',
-                    name: 'attn'
+                    data: 'status',
+                    name: 'status',
                 },
                 {
                     data: 'created_at',
