@@ -1,3 +1,4 @@
+
 <?php // routes/breadcrumbs.php
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
@@ -654,9 +655,6 @@ Breadcrumbs::for('billing_show', function (BreadcrumbTrail $trail) {
     $trail->parent('billing_index');
     $trail->push('Detail');
 });
-
-
-
 
 //potongan
 Breadcrumbs::for('potongan_index', function (BreadcrumbTrail $trail) {

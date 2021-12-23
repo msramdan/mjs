@@ -52,7 +52,7 @@ class AkunGrupController extends Controller
      * @param  \App\Models\Accounting\AkunGrup  $akunGrup
      * @return \Illuminate\Http\Response
      */
-    public function edit(AkunGrup $akunGrup)
+    public function edit($id)
     {
         return view('accounting.akun-grup.edit', compact('akunGrup'));
     }
