@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController};
+use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController, BillingController};
 use App\Http\Controllers\Accountring\InvoiceController;
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
@@ -63,8 +63,8 @@ Route::prefix('legal')->middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('sale')->group(function () {
     Route::get('/spal/download/{file}', [SpalController::class, 'downloadFileSpal']);
     Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
-    Route::get('/sale/get-sale-by-id/{id}', [SaleController::class, 'getSaleById']);
 
+    Route::get('/sale/get-sale-by-id/{id}', [SaleController::class, 'getSaleById']);
     Route::get('/sale/generate-kode/{tanggal}', [SaleController::class, 'generateKode']);
 
     Route::resource('sale', SaleController::class);
@@ -73,9 +73,10 @@ Route::middleware('auth')->prefix('sale')->group(function () {
 
 // Purchase
 Route::middleware('auth')->group(function () {
-    Route::resource('purchase', PurchaseController::class);
-
+    Route::get('/purchase/generate-kode/{tanggal}', [PurchaseController::class, 'generateKode']);
     Route::get('/purchase/get-request-form-by-id/{id}', [RequestFormController::class, 'getRequestFormById']);
+
+    Route::resource('purchase', PurchaseController::class);
 });
 
 // Iinventory
@@ -131,7 +132,10 @@ Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormCont
 // accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
+    Route::get('/billing/generate-kode/{tanggal}', [BillingController::class, 'generateKode']);
+
     Route::resource('invoice', InvoiceController::class);
+    Route::resource('billing', BillingController::class);
     Route::resource('akun-grup', AkunGrupController::class);
     Route::resource('akun-header', AkunHeaderController::class);
     Route::resource('akun-coa', AkunCoaController::class);

@@ -1,18 +1,18 @@
 @extends('layouts.master')
-@section('title', 'Create Invoice')
+@section('title', 'Create billing')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('invoice_create') }}
+        {{ Breadcrumbs::render('billing_create') }}
 
-        <form action="{{ route('invoice.store') }}" method="POST" id="form-invoice">
+        <form action="{{ route('billing.store') }}" method="POST" id="form-billing">
             @csrf
             @method('POST')
             <div class="row">
-                @include('accounting.invoice.include.sale-info')
+                @include('accounting.billing.include.purchase-info')
 
-                @include('accounting.invoice.include.cart')
+                @include('accounting.billing.include.cart')
             </div>
         </form>
     </div>
@@ -22,16 +22,16 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        const sale = $('#sale')
-        const kodeSale = $('#kode-sale')
-        const tglSale = $('#tanggal-sale')
-        const spal = $('#spal')
+        const purchase = $('#purchase')
+        const kodePurchase = $('#kode-purchase')
+        const tglPurchase = $('#tanggal-purchase')
+        const requestForm = $('#request-form')
         const status = $('#status')
 
-        const tglInvoice = $('#tanggal-invoice')
+        const tglBilling = $('#tanggal-billing')
         const tglDibayar = $('#tanggal-dibayar')
         const attn = $('#attn')
-        const attnSale = $('#attn-sale')
+        const attnPurchase = $('#attn-purchase')
 
         const kode = $('#kode')
         const produk = $('#produk')
@@ -53,7 +53,7 @@
         const bayar = $('#bayar')
 
         const catatan = $('#catatan')
-        const catatanSale = $('#catatan-sale')
+        const catatanPurchase = $('#catatan-purchase')
 
         // const btnAdd = $('#btn-add')
         const btnUpdate = $('#btn-update')
@@ -65,16 +65,16 @@
 
         getKode()
 
-        tglInvoice.change(function() {
+        tglBilling.change(function() {
             getKode()
         })
 
-        sale.change(function() {
-            spal.text('Loading...')
+        purchase.change(function() {
+            requestForm.text('Loading...')
             status.text('Loading...')
-            attnSale.text('Loading...')
-            tglSale.text('Loading...')
-            catatanSale.text('Loading...')
+            attnPurchase.text('Loading...')
+            tglPurchase.text('Loading...')
+            catatanPurchase.text('Loading...')
 
             diskon.val('Loading...')
             sisa.val('Loading...')
@@ -95,21 +95,17 @@
             `)
 
             $.ajax({
-                url: '/sale/sale/get-sale-by-id/' + $(this).val(),
+                url: '/purchase/purchase/get-purchase-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
 
                     setTimeout(() => {
-                        // kodeSale.text(res.kode)
-                        spal.text(res.spal.kode)
-                        catatanSale.text(res.catatan)
+                        // kodePurchase.text(res.kode)
+                        requestForm.text(res.request_form.kode)
+                        catatanPurchase.text(res.catatan)
                         status.text(res.lunas == 0 ? 'Belum Lunas' : 'Lunas')
-                        attnSale.text(res.attn)
+                        attnPurchase.text(res.attn)
 
-                        // telahDibayar.prop('type', 'number')
-                        // grandTotal.prop('type', 'number')
-                        // diskon.prop('type', 'number')
-                        // sisa.prop('type', 'number')
                         telahDibayarHidden.val(res.total_dibayar)
                         grandTotalHidden.val(res.grand_total)
                         diskonHidden.val(res.diskon)
@@ -126,7 +122,7 @@
 
                         let dateString = res.tanggal
                         let dateObject = new Date(dateString)
-                        tglSale.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
+                        tglPurchase.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
                             .join('/'))
 
                         let noCart = 1
@@ -135,7 +131,7 @@
                         let noPayment = 1
                         let payments = []
 
-                        $.each(res.detail_sale, function(index, value) {
+                        $.each(res.detail_purchase, function(index, value) {
                             items.push(`
                             <tr>
                                 <td>${noCart++}</td>
@@ -164,12 +160,12 @@
                             `)
                         })
 
-                        if (res.invoices.length > 0) {
-                            $.each(res.invoices, function(index, value) {
-                                let dateString = value.tanggal_invoice
+                        if (res.billings.length > 0) {
+                            $.each(res.billings, function(index, value) {
+                                let dateString = value.tanggal_billing
                                 let dateObject = new Date(dateString)
 
-                                let formatTanggalInvoice = dateObject.toJSON()
+                                let formatTanggalbilling = dateObject.toJSON()
                                     .slice(0, 10)
                                     .split('-')
                                     .reverse()
@@ -179,7 +175,7 @@
                                     <tr>
                                         <td>${noPayment++}</td>
                                         <td>${value.kode}</td>
-                                        <td>${formatTanggalInvoice}</td>
+                                        <td>${formatTanggalbilling}</td>
                                         <td>${formatRibuan(value.dibayar)}</td>
                                         <td>${value.status}</td>
                                     </tr>
@@ -204,26 +200,20 @@
         })
 
         bayar.on('keyup change', function() {
-            // if (!isNaN($(this).val())) {
-            // telahDibayar.val(parseInt(telahDibayar.val()) + parseInt($(this).val()))
-
-            // sisa.val(parseInt(grandTotal.val()) - parseInt(telahDibayar.val()))
-
-            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val()) {
+            if ($(this).val() > 0 || purchase.val() || tanggal.val() || attn.val()) {
                 btnSave.prop('disabled', false)
                 btnSave.removeClass('disabled')
             } else {
                 btnSave.prop('disabled', true)
                 btnSave.addClass('disabled')
             }
-            // }
         })
 
         function getKode() {
             kode.val('Loading...')
 
             $.ajax({
-                url: '/accounting/invoice/generate-kode/' + tglInvoice.val(),
+                url: '/accounting/billing/generate-kode/' + tglBilling.val(),
                 method: 'GET',
                 success: function(res) {
                     setTimeout(() => {

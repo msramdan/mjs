@@ -24,6 +24,17 @@ Breadcrumbs::for('legal', function (BreadcrumbTrail $trail) {
     $trail->push('HR-Legal');
 });
 
+// sales
+Breadcrumbs::for('sales', function (BreadcrumbTrail $trail) {
+    $trail->push('Sales');
+});
+
+// purchases
+Breadcrumbs::for('purchases', function (BreadcrumbTrail $trail) {
+    $trail->push('Purchases');
+});
+
+
 // setting
 Breadcrumbs::for('setting', function (BreadcrumbTrail $trail) {
     $trail->push('Setting');
@@ -322,7 +333,7 @@ Breadcrumbs::for('user_edit', function (BreadcrumbTrail $trail) {
 
 // Spal
 Breadcrumbs::for('spal_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('legal');
+    $trail->parent('sales');
     $trail->push('Spal', route('spal.index'));
 });
 
@@ -338,7 +349,7 @@ Breadcrumbs::for('spal_edit', function (BreadcrumbTrail $trail) {
 
 // sale
 Breadcrumbs::for('sale_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('legal');
+    $trail->parent('sales');
     $trail->push('Sale', route('sale.index'));
 });
 
@@ -359,7 +370,7 @@ Breadcrumbs::for('sale_show', function (BreadcrumbTrail $trail) {
 
 // purchase
 Breadcrumbs::for('purchase_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('legal');
+    $trail->parent('purchases');
     $trail->push('Purchase', route('purchase.index'));
 });
 
@@ -600,6 +611,7 @@ Breadcrumbs::for('coa_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
+
 // Invoice
 Breadcrumbs::for('invoice_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
@@ -620,6 +632,29 @@ Breadcrumbs::for('invoice_show', function (BreadcrumbTrail $trail) {
     $trail->parent('invoice_index');
     $trail->push('Detail');
 });
+
+
+// Billing
+Breadcrumbs::for('billing_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push('Billing', route('billing.index'));
+});
+
+Breadcrumbs::for('billing_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('billing_index');
+    $trail->push('Create', route('billing.create'));
+});
+
+Breadcrumbs::for('billing_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('billing_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('billing_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('billing_index');
+    $trail->push('Detail');
+});
+
 
 
 

@@ -6,14 +6,10 @@
 
         {{ Breadcrumbs::render('purchase_show') }}
 
-        <form action="{{ route('purchase.store') }}" method="POST" id="form-purchase">
-            @csrf
-            @method('POST')
-            <div class="row">
-                @include('purchase.include.request-info')
+        <div class="row">
+            @include('purchase.include.request-info')
 
-                @include('purchase.include.cart')
-            </div>
-        </form>
+            @include('purchase.include.cart')
+        </div>
     </div>
 @endsection

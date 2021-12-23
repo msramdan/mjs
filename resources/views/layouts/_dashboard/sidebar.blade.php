@@ -60,7 +60,7 @@
                         <a href="{{ route('invoice.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.invoice') }}</div>
                         </a>
-                        <a href="index.html" class="menu-link">
+                        <a href="{{ route('billing.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.billing') }}</div>
                         </a>
                         {{-- <a href="{{ route('coa.index') }}" class="menu-link">

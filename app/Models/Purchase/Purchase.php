@@ -15,6 +15,7 @@ class Purchase extends Model
     protected $fillable = [
         'request_form_id',
         'supplier_id',
+        'kode',
         'tanggal',
         'attn',
         'total',

@@ -19,6 +19,7 @@ use App\Models\Master\Jabatan;
 use App\Models\Master\Lokasi;
 use App\Models\Master\StatusKaryawan;
 use App\Models\Master\Unit;
+use App\Models\Purchase\Purchase;
 use App\Models\RequestForm\RequestForm;
 use App\Models\Sale\Sale;
 use App\Models\Sale\Spal;
@@ -381,9 +382,20 @@ class ViewServiceProvider extends ServiceProvider
                     ->where('lunas', 0)
                     ->orderBy('id')
                     ->get()
-                // Sale::select('id', 'kode')
-                //     ->orderBy('kode')
-                //     ->get()
+            );
+        });
+
+        // list purchases
+        View::composer([
+            'accounting.billing.create',
+            'accounting.billing.edit',
+        ], function ($view) {
+            return $view->with(
+                'purchases',
+                Purchase::select('id', 'kode')
+                    ->where('lunas', 0)
+                    ->orderBy('id')
+                    ->get()
             );
         });
 

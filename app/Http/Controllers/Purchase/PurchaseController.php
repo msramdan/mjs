@@ -65,6 +65,7 @@ class PurchaseController extends Controller
             $purchase = Purchase::create([
                 'request_form_id' => $request->request_form,
                 'supplier_id' => $request->supplier,
+                'kode' => $request->kode,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
                 'grand_total' => $request->grand_total,
@@ -161,6 +162,7 @@ class PurchaseController extends Controller
             $purchase->update([
                 'request_form_id' => $request->request_form,
                 'supplier_id' => $request->supplier,
+                'kode' => $request->kode,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
                 'grand_total' => $request->grand_total,
@@ -202,5 +204,48 @@ class PurchaseController extends Controller
         Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('purchase.index');
+    }
+
+    /**
+     * Generate unique & auto increment code by date.
+     *
+     * @param  String $tanggal
+     * @return \Illuminate\Http\Response
+     */
+    public function generateKode($tanggal)
+    {
+        // kalo diakses lewat browser/url/bukan ajax
+        abort_if(!request()->ajax(), 403);
+
+        $tahun = date('Y', strtotime($tanggal));
+        $bulan = date('m', strtotime($tanggal));
+        $hari = date('d', strtotime($tanggal));
+
+        $kode = 'PO-' . $tahun . '-' . $bulan . '-' . $hari  . '-';
+
+        $checkLatestKode = Purchase::select('id', 'tanggal', 'kode')
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulan)
+            ->whereDay('tanggal', $hari)
+            ->latest()
+            ->first();
+
+        if ($checkLatestKode == null) {
+            $kode = $kode . '0001';
+        } else {
+            // hapus "PO-XXXX-XX-XX-" dan ambil angka buat ditambahin
+            // $onlyNumberKode = intval(Str::after($checkLatestKode->kode, $kode));
+            $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
+
+            if ($onlyNumberKode < 100) {
+                $kode = $kode . '000' . ($onlyNumberKode + 1);
+            } elseif ($onlyNumberKode >= 100 && $onlyNumberKode < 1000) {
+                $kode =  $kode . '0' . ($onlyNumberKode + 1);
+            } else {
+                $kode = $kode . ($onlyNumberKode + 1);
+            }
+        }
+
+        return response()->json(['kode' => $kode], 200);
     }
 }

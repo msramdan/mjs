@@ -49,7 +49,7 @@
                     <tr>
                         <td width="35">Kode</td>
                         <td>:</td>
-                        <td id="kode">{{ $purchase ? $purchase->request_form->kode : '' }}</td>
+                        <td id="kode-request">{{ $purchase ? $purchase->request_form->kode : '' }}</td>
                     </tr>
                     <tr>
                         <td width="35">User</td>

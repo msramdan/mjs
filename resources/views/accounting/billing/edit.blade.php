@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('title', 'Create Invoice')
+@section('title', 'Edit Invoice')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('invoice_create') }}
+        {{ Breadcrumbs::render('invoice_edit') }}
 
-        <form action="{{ route('invoice.store') }}" method="POST" id="form-invoice">
+        <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" id="form-invoice">
             @csrf
-            @method('POST')
+            @method('PUT')
             <div class="row">
                 @include('accounting.invoice.include.sale-info')
 
@@ -28,8 +28,7 @@
         const spal = $('#spal')
         const status = $('#status')
 
-        const tglInvoice = $('#tanggal-invoice')
-        const tglDibayar = $('#tanggal-dibayar')
+        const tanggal = $('#tanggal')
         const attn = $('#attn')
         const attnSale = $('#attn-sale')
 
@@ -37,23 +36,13 @@
         const produk = $('#produk')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
-
-        const diskonHidden = $('#diskon-hidden')
-        const sisaHidden = $('#sisa-hidden')
-        const telahDibayarHidden = $('#telah-dibayar-hidden')
-        const totalHidden = $('#total-hidden')
-        const grandTotalHidden = $('#grand-total-hidden')
-
         const diskon = $('#diskon')
+        const bayar = $('#bayar')
         const sisa = $('#sisa')
         const telahDibayar = $('#telah-dibayar')
+        const catatan = $('#catatan')
         const total = $('#total')
         const grandTotal = $('#grand-total')
-
-        const bayar = $('#bayar')
-
-        const catatan = $('#catatan')
-        const catatanSale = $('#catatan-sale')
 
         // const btnAdd = $('#btn-add')
         const btnUpdate = $('#btn-update')
@@ -63,24 +52,23 @@
         const tblCart = $('#tbl-cart')
         const tblPayment = $('#tbl-payment')
 
-        getKode()
-
-        tglInvoice.change(function() {
+        tanggal.change(function() {
             getKode()
         })
 
         sale.change(function() {
             spal.text('Loading...')
             status.text('Loading...')
+            // kodeSale.text('Loading...')
             attnSale.text('Loading...')
             tglSale.text('Loading...')
-            catatanSale.text('Loading...')
+            catatan.text('Loading...')
 
+            telahDibayar.val('Loading...')
+            grandTotal.val('Loading...')
             diskon.val('Loading...')
             sisa.val('Loading...')
-            telahDibayar.val('Loading...')
-            total.val('Loading...')
-            grandTotal.val('Loading...')
+            catatan.val('Loading...')
 
             tblCart.find('tbody').html(`
             <tr>
@@ -102,27 +90,22 @@
                     setTimeout(() => {
                         // kodeSale.text(res.kode)
                         spal.text(res.spal.kode)
-                        catatanSale.text(res.catatan)
-                        status.text(res.lunas == 0 ? 'Belum Lunas' : 'Lunas')
+                        catatan.val(res.catatan.slice(0, 200) + '...')
+                        status.text(res.status_pembayaran)
                         attnSale.text(res.attn)
 
-                        // telahDibayar.prop('type', 'number')
-                        // grandTotal.prop('type', 'number')
-                        // diskon.prop('type', 'number')
-                        // sisa.prop('type', 'number')
-                        telahDibayarHidden.val(res.total_dibayar)
-                        grandTotalHidden.val(res.grand_total)
-                        diskonHidden.val(res.diskon)
-                        sisaHidden.val(res.grand_total - res.total_dibayar)
-                        totalHidden.val(res.grand_total + res.diskon)
-
+                        telahDibayar.prop('type', 'number')
+                        grandTotal.prop('type', 'number')
+                        diskon.prop('type', 'number')
+                        sisa.prop('type', 'number')
+                        telahDibayar.val(parseInt(res.total_dibayar))
+                        grandTotal.val(parseInt(res.grand_total))
+                        diskon.val(parseInt(res.diskon))
+                        sisa.val(parseInt(res.sisa))
+                        total.val(parseInt(res.grand_total) + parseInt(res.diskon))
                         bayar.prop('max', sisa.val())
 
-                        telahDibayar.val(formatRibuan(res.total_dibayar))
-                        grandTotal.val(formatRibuan(res.grand_total))
-                        diskon.val(res.diskon ? formatRibuan(res.diskon) : 0)
-                        sisa.val(formatRibuan(res.grand_total - res.total_dibayar))
-                        total.val(formatRibuan(res.grand_total + res.diskon))
+                        $('#sisa-hidden').val(sisa.val())
 
                         let dateString = res.tanggal
                         let dateObject = new Date(dateString)
@@ -152,24 +135,16 @@
                                     ${value.harga}
                                     <input type="hidden" class="harga-hidden" name="harga[]" value="${value.harga}">
                                 </td>
-                                <td>
-                                    ${value.qty}
-                                    <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
-                                </td>
-                                <td>
-                                    ${value.sub_total}
-                                    <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${value.sub_total}">
-                                </td>
                             </tr>
                             `)
                         })
 
                         if (res.invoices.length > 0) {
                             $.each(res.invoices, function(index, value) {
-                                let dateString = value.tanggal_invoice
+                                let dateString = value.tanggal_dibayar
                                 let dateObject = new Date(dateString)
 
-                                let formatTanggalInvoice = dateObject.toJSON()
+                                let formatTanggalDibayar = dateObject.toJSON()
                                     .slice(0, 10)
                                     .split('-')
                                     .reverse()
@@ -178,10 +153,18 @@
                                 payments.push(`
                                     <tr>
                                         <td>${noPayment++}</td>
-                                        <td>${value.kode}</td>
-                                        <td>${formatTanggalInvoice}</td>
-                                        <td>${formatRibuan(value.dibayar)}</td>
-                                        <td>${value.status}</td>
+                                        <td>
+                                            ${value.kode}
+                                        </td>
+                                        <td>
+                                            ${formatTanggalDibayar}
+                                        </td>
+                                        <td>
+                                            ${value.dibayar}
+                                        </td>
+                                        <td>
+                                            ${value.sisa}
+                                        </td>
                                     </tr>
                                 `)
                             })
@@ -209,7 +192,7 @@
 
             // sisa.val(parseInt(grandTotal.val()) - parseInt(telahDibayar.val()))
 
-            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val()) {
+            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val() || $(this).val() <= sisa.val()) {
                 btnSave.prop('disabled', false)
                 btnSave.removeClass('disabled')
             } else {
@@ -219,11 +202,25 @@
             // }
         })
 
+        $('#tanggal-dibayar').change(function() {
+            if ($(this).val()) {
+                $('#status-invoice').val('Paid')
+
+                // $('#status-invoice').prop('disabled', false)
+                // $('#status-invoice').prop('required', true)
+            } else {
+                $('#status-invoice').val('Unpaid')
+
+                // $('#status-invoice').prop('disabled', true)
+                // $('#status-invoice').prop('required', false)
+            }
+        })
+
         function getKode() {
             kode.val('Loading...')
 
             $.ajax({
-                url: '/accounting/invoice/generate-kode/' + tglInvoice.val(),
+                url: '/accounting/invoice/generate-kode/' + tanggal.val(),
                 method: 'GET',
                 success: function(res) {
                     setTimeout(() => {
@@ -231,10 +228,6 @@
                     }, 500)
                 }
             })
-        }
-
-        function formatRibuan(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     </script>
 @endpush

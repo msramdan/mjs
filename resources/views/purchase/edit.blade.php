@@ -21,10 +21,9 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-
     <script>
         const requestForm = $('#request-form')
-        const kodeRequest = $('#kode')
+        const kodeRequest = $('#kode-request')
         const category = $('#category')
         const tglRequest = $('#tanggal-request')
         const status = $('#status')
@@ -33,7 +32,7 @@
         const tanggal = $('#tanggal')
         const attn = $('#attn')
         const user = $('#user')
-
+        const kode = $('#kode')
         const supplier = $('#supplier')
 
         const produk = $('#produk')
@@ -53,6 +52,10 @@
         const btnCancel = $('#btn-cancel')
 
         const tblCart = $('#tbl-cart')
+
+        tanggal.change(function() {
+            getKode()
+        })
 
         requestForm.change(function() {
             user.val('Loading...')
@@ -415,6 +418,7 @@
                 tanggal: tanggal.val(),
                 supplier: supplier.val(),
                 attn: attn.val(),
+                kode: kode.val(),
                 diskon: diskon.val(),
                 catatan: catatan.val(),
                 total: $('#total-hidden').val(),
@@ -525,6 +529,20 @@
 
         function formatRibuan(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+
+        function getKode() {
+            kode.val('Loading...')
+
+            $.ajax({
+                url: '/purchase/generate-kode/' + tanggal.val(),
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        kode.val(res.kode)
+                    }, 500)
+                }
+            })
         }
     </script>
 @endpush

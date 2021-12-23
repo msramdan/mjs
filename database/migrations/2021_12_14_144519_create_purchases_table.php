@@ -17,6 +17,7 @@ class CreatePurchasesTable extends Migration
             $table->id();
             $table->foreignId('request_form_id')->constrained('request_forms');
             $table->foreignId('supplier_id')->constrained('suppliers');
+            $table->string('kode', 30);
             $table->date('tanggal');
             $table->string('attn', 50);
             $table->integer('total');
