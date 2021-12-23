@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             DataBenefitSeeder::class,
             SettingAppSeeder::class,
             AkunGrupSeeder::class,
+            AkunHeaderSeeder::class,
+            AkunCoaSeeder::class,
         ]);
     }
 }
