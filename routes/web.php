@@ -1,8 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController, BillingController};
-use App\Http\Controllers\Accountring\InvoiceController;
+use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController, BillingController, InvoiceController};
 use App\Http\Controllers\Contact\{CustomerController, SupplierController};
 use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
 use App\Http\Controllers\Inventory\{AsoController, BacPakaiController, ItemController, BacTerimaController, ReceivedController};
