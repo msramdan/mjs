@@ -54,6 +54,8 @@ class AkunGrupController extends Controller
      */
     public function edit($id)
     {
+        $akunGrup = AkunGrup::findOrFail($id);
+
         return view('accounting.akun-grup.edit', compact('akunGrup'));
     }
 

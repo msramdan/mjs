@@ -82,6 +82,7 @@ Route::middleware('auth')->group(function () {
 
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
+    Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
     Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
     Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);

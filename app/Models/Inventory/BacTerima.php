@@ -38,6 +38,11 @@ class BacTerima extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function received()
+    {
+        return $this->hasOne(Received::class);
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::createFromTimeString($value)->format('d m Y H:i');
