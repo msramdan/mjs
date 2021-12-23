@@ -50,7 +50,7 @@ class AkunHeaderController extends Controller
      * @param  \App\Models\Accounting\AkunHeader  $akunHeader
      * @return \Illuminate\Http\Response
      */
-    public function edit(AkunHeader $akunHeader)
+    public function edit($id)
     {
         return view('accounting.akun-header.edit', compact('akunHeader'));
     }
