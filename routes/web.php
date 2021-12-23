@@ -75,6 +75,8 @@ Route::middleware('auth')->prefix('sale')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/purchase/generate-kode/{tanggal}', [PurchaseController::class, 'generateKode']);
     Route::get('/purchase/get-request-form-by-id/{id}', [RequestFormController::class, 'getRequestFormById']);
+    Route::get('/purchase/get-purchase-by-id/{id}', [PurchaseController::class, 'getPurchaseById']);
+
 
     Route::resource('purchase', PurchaseController::class);
 });

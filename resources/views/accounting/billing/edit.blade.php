@@ -1,18 +1,19 @@
 @extends('layouts.master')
-@section('title', 'Edit Invoice')
+@section('title', 'Edit Billing')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('invoice_edit') }}
+        {{ Breadcrumbs::render('billing_edit') }}
 
-        <form action="{{ route('invoice.update', $invoice->id) }}" method="POST" id="form-invoice">
+        <form action="{{ route('billing.update', $billing->id) }}" method="POST" id="form-billing">
             @csrf
             @method('PUT')
-            <div class="row">
-                @include('accounting.invoice.include.sale-info')
 
-                @include('accounting.invoice.include.cart')
+            <div class="row">
+                @include('accounting.billing.include.purchase-info')
+
+                @include('accounting.billing.include.cart')
             </div>
         </form>
     </div>
@@ -139,8 +140,8 @@
                             `)
                         })
 
-                        if (res.invoices.length > 0) {
-                            $.each(res.invoices, function(index, value) {
+                        if (res.billings.length > 0) {
+                            $.each(res.billings, function(index, value) {
                                 let dateString = value.tanggal_dibayar
                                 let dateObject = new Date(dateString)
 
@@ -204,15 +205,15 @@
 
         $('#tanggal-dibayar').change(function() {
             if ($(this).val()) {
-                $('#status-invoice').val('Paid')
+                $('#status-billing').val('Paid')
 
-                // $('#status-invoice').prop('disabled', false)
-                // $('#status-invoice').prop('required', true)
+                // $('#status-billing').prop('disabled', false)
+                // $('#status-billing').prop('required', true)
             } else {
-                $('#status-invoice').val('Unpaid')
+                $('#status-billing').val('Unpaid')
 
-                // $('#status-invoice').prop('disabled', true)
-                // $('#status-invoice').prop('required', false)
+                // $('#status-billing').prop('disabled', true)
+                // $('#status-billing').prop('required', false)
             }
         })
 
@@ -220,7 +221,7 @@
             kode.val('Loading...')
 
             $.ajax({
-                url: '/accounting/invoice/generate-kode/' + tanggal.val(),
+                url: '/accounting/billing/generate-kode/' + tanggal.val(),
                 method: 'GET',
                 success: function(res) {
                     setTimeout(() => {

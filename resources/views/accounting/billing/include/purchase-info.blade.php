@@ -46,7 +46,7 @@
 
     <div class="panel panel-inverse">
         <div class="panel-heading">
-            <h4 class="panel-title">Detail purchase</h4>
+            <h4 class="panel-title">Detail Purchase</h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
@@ -78,7 +78,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td width="35">Catatan purchase</td>
+                        <td width="35">Catatan Purchase</td>
                         <td>:</td>
                         <td id="catatan-purchase">{{ $billing ? $billing->purchase->catatan : '' }}</td>
                     </tr>

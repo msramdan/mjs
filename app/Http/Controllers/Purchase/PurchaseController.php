@@ -156,7 +156,7 @@ class PurchaseController extends Controller
         // }
 
         DB::transaction(function () use ($request, $purchase) {
-            // hapus detail sale lama
+            // hapus detail purchase lama
             $purchase->detail_purchase()->delete();
 
             $purchase->update([
@@ -247,5 +247,27 @@ class PurchaseController extends Controller
         }
 
         return response()->json(['kode' => $kode], 200);
+    }
+
+
+    /**
+     * Generate a specific purchase by id for billing.
+     *
+     * @param  String $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getPurchaseById($id)
+    {
+        abort_if(!request()->ajax(), 403);
+
+        $purchase = Purchase::with(
+            'request_form:id,kode',
+            'detail_purchase:id,purchase_id,item_id,harga,qty,sub_total',
+            'detail_purchase.item:id,kode,nama,unit_id',
+            'detail_purchase.item.unit:id,nama',
+            'billings:purchase_id,id,kode,tanggal_dibayar,tanggal_billing,dibayar,status'
+        )->findOrFail($id);
+
+        return response()->json($purchase, 200);
     }
 }

@@ -130,30 +130,37 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
+        $sale = Sale::findOrFail($request->sale);
+
         // remove coma
         $dibayar = intval(str_replace(',', '', $request->nominal_invoice));
 
         // kalo ada tanggal_dibayar  dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request->nominal_invoice + $sale->total_dibayar
         if ($request->tanggal_dibayar && $invoice->status != 'Paid') {
 
-            $sale = Sale::findOrFail($request->sale);
-
             // kalo jumlah yg dibayarkan lebih dari grand total
             if (($sale->total_dibayar + $dibayar) > $sale->grand_total) {
+                // Nominal invoice lebih besar daripada sisa
                 Alert::toast('Update data gagal', 'error');
 
                 return redirect()->route('invoice.index');
             }
-
-            $sale->update([
-                'total_dibayar' => $sale->total_dibayar + $dibayar
-            ]);
 
             if ($sale->total_dibayar + $dibayar == $sale->grand_total) {
                 $sale->update([
                     'lunas' => 1,
                 ]);
             }
+
+            $sale->update([
+                'total_dibayar' => $sale->total_dibayar + $dibayar
+            ]);
+        } elseif (!$request->tanggal_dibayar && $invoice->status == 'Paid') {
+            // kalo dari paid diubah ke unpaid
+            $sale->update([
+                'total_dibayar' => $sale->total_dibayar - $dibayar,
+                'lunas' => 0,
+            ]);
         }
 
         $invoice->update([
@@ -178,7 +185,7 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
-        $sale = Sale::withCount('invoices')->findOrFail($invoice->sale_id);
+        $sale = Sale::findOrFail($invoice->sale_id);
 
         if ($invoice->status == 'Paid') {
             $sale->update([

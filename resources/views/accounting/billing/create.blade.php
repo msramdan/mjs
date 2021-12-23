@@ -95,9 +95,11 @@
             `)
 
             $.ajax({
-                url: '/purchase/purchase/get-purchase-by-id/' + $(this).val(),
-                method: 'get',
+                url: '/purchase/get-purchase-by-id/' + $(this).val(),
+                method: 'GET',
                 success: function(res) {
+                    console.log(res);
+                    console.log(res.request_form);
 
                     setTimeout(() => {
                         // kodePurchase.text(res.kode)

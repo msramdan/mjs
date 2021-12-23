@@ -2,6 +2,7 @@
 
 namespace App\Models\Purchase;
 
+use App\Models\Accounting\Billing;
 use Carbon\Carbon;
 use App\Models\Contact\Supplier;
 use App\Models\RequestForm\RequestForm;
@@ -21,7 +22,9 @@ class Purchase extends Model
         'total',
         'diskon',
         'catatan',
-        'grand_total'
+        'grand_total',
+        'total_dibayar',
+        'lunas'
     ];
 
     protected $casts = ['tanggal' => 'date'];
@@ -39,6 +42,11 @@ class Purchase extends Model
     public function detail_purchase()
     {
         return $this->hasMany(DetailPurchase::class);
+    }
+
+    public function billings()
+    {
+        return $this->hasMany(Billing::class);
     }
 
     public function getCreatedAtAttribute($value)

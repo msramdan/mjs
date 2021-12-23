@@ -84,7 +84,7 @@ class BillingController extends Controller
     public function show(Billing $billing)
     {
         $billing->load(
-            'purchase.spal:id,kode',
+            'purchase.request_form:id,kode',
             'purchase.detail_purchase:id,purchase_id,item_id,harga,qty,sub_total',
             'purchase.detail_purchase.item:id,kode,nama,unit_id',
             'purchase.detail_purchase.item.unit:id,nama',
@@ -105,7 +105,7 @@ class BillingController extends Controller
     public function edit(Billing $billing)
     {
         $billing->load(
-            'purchase.spal:id,kode',
+            'purchase.request_form:id,kode',
             'purchase.detail_purchase:id,purchase_id,item_id,harga,qty,sub_total',
             'purchase.detail_purchase.item:id,kode,nama,unit_id',
             'purchase.detail_purchase.item.unit:id,nama',
@@ -126,30 +126,37 @@ class BillingController extends Controller
      */
     public function update(UpdateBillingRequest $request, Billing $billing)
     {
+        $purchase = Purchase::findOrFail($request->purchase);
+
         // remove coma
         $dibayar = intval(str_replace(',', '', $request->nominal_billing));
 
         // kalo ada tanggal_dibayar dan $billing belum paid maka ubah total_dibayar pada purchases dengan $request->nominal_billing + $purchase->total_dibayar
         if ($request->tanggal_dibayar && $billing->status != 'Paid') {
 
-            $purchase = Purchase::findOrFail($request->purchase);
-
             // kalo jumlah yg dibayarkan lebih dari grand total
             if (($purchase->total_dibayar + $dibayar) > $purchase->grand_total) {
+                // Nominal billing lebih besar daripada sisa
                 Alert::toast('Update data gagal', 'error');
 
                 return redirect()->route('billing.index');
             }
-
-            $purchase->update([
-                'total_dibayar' => $purchase->total_dibayar + $dibayar
-            ]);
 
             if ($purchase->total_dibayar + $dibayar == $purchase->grand_total) {
                 $purchase->update([
                     'lunas' => 1,
                 ]);
             }
+
+            $purchase->update([
+                'total_dibayar' => $purchase->total_dibayar + $dibayar
+            ]);
+        } elseif (!$request->tanggal_dibayar && $billing->status == 'Paid') {
+            // kalo dari paid diubah ke unpaid
+            $purchase->update([
+                'total_dibayar' => $purchase->total_dibayar - $dibayar,
+                'lunas' => 0,
+            ]);
         }
 
         $billing->update([
@@ -174,7 +181,7 @@ class BillingController extends Controller
      */
     public function destroy(Billing $billing)
     {
-        $purchase = Purchase::withCount('billings')->findOrFail($billing->purchase_id);
+        $purchase = Purchase::findOrFail($billing->purchase_id);
 
         if ($billing->status == 'Paid') {
             $purchase->update([

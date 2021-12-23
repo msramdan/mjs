@@ -1,19 +1,15 @@
 @extends('layouts.master')
-@section('title', 'Detail Invoice')
+@section('title', 'Detail Billing')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('invoice_show') }}
+        {{ Breadcrumbs::render('billing_show') }}
 
-        <form action="{{ route('invoice.store') }}" method="POST" id="form-invoice">
-            @csrf
-            @method('POST')
-            <div class="row">
-                @include('accounting.invoice.include.sale-info')
+        <div class="row">
+            @include('accounting.billing.include.purchase-info')
 
-                @include('accounting.invoice.include.cart')
-            </div>
-        </form>
+            @include('accounting.billing.include.cart')
+        </div>
     </div>
 @endsection

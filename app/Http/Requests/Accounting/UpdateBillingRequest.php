@@ -27,9 +27,11 @@ class UpdateBillingRequest extends FormRequest
             'kode' => 'required|unique:billings,kode,' . $this->billing->id,
             'purchase' => 'required|integer',
             'attn' => 'required|string',
-            'tanggal_invoice' => 'required|date',
-            'dibayar' => 'required|integer|min:1|max:' . request()->sisa_hidden,
-            'catatan' => 'required|string'
+            'tanggal_billing' => 'required|date',
+            'tanggal_dibayar' => 'nullable|required_if:status_billing,Paid|date|after_or_equal:tanggal_billing',
+            'catatan' => 'required|string',
+            'status_billing' => 'required|in:Unpaid,Paid',
+            'nominal_billing' => 'required',
         ];
     }
 }

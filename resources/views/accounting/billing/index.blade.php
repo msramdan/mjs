@@ -15,7 +15,7 @@
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">billing</h4>
+                <h4 class="panel-title">Billing</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                             class="fa fa-redo"></i>
@@ -35,7 +35,7 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Sale</th>
+                                        <th>Purchase</th>
                                         <th>Kode</th>
                                         <th>User</th>
                                         <th>Attn.</th>
@@ -71,8 +71,8 @@
             serverSide: true,
             ajax: "{{ route('billing.index') }}",
             columns: [{
-                    data: 'sale',
-                    name: 'sale'
+                    data: 'purchase',
+                    name: 'purchase'
                 },
                 {
                     data: 'kode',

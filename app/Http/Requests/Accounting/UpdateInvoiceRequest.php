@@ -28,7 +28,7 @@ class UpdateInvoiceRequest extends FormRequest
             'sale' => 'required|integer',
             'attn' => 'required|string',
             'tanggal_invoice' => 'required|date',
-            'tanggal_dibayar' => 'required_if:status_invoice,Paid|date|after_or_equal:tanggal_invoice',
+            'tanggal_dibayar' => 'nullable|required_if:status_invoice,Paid|date|after_or_equal:tanggal_invoice',
             'catatan' => 'required|string',
             'status_invoice' => 'required|in:Unpaid,Paid',
             'nominal_invoice' => 'required',

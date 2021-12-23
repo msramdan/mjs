@@ -90,7 +90,7 @@
             {{-- End of header form --}}
 
             {{-- cart --}}
-            <h5 class="mt-3">purchases</h5>
+            <h5 class="mt-3">Purchases</h5>
             <table class="table table-striped table-hover table-bordered mt-3" id="tbl-cart">
                 <thead>
                     <tr>
@@ -136,97 +136,7 @@
                 </tbody>
             </table>
 
-            {{-- subtotal, diskon, note --}}
-            <div class="row mt-4">
-                <input type="hidden" id="grand-total-hidden" name="grand_total_hidden"
-                    value="{{ $billing ? $billing->purchase->grand_total : '' }}" />
-                <input type="hidden" id="total-hidden" name="total_hidden"
-                    value="{{ $billing ? $billing->purchase->total : '' }}" disabled />
-                <input type="hidden" name="sisa_hidden" id="sisa-hidden"
-                    value="{{ $billing ? $billing->purchase->grand_total - $billing->purchase->total_dibayar : '' }}">
-                <input type="hidden" id="diskon-hidden" name="diskon_hidden"
-                    value="{{ $billing ? $billing->purchase->diskon : '' }}">
-                <input type="hidden" id="telah-dibayar-hidden" name="telah_dibayar_hidden"
-                    value="{{ $billing ? $billing->purchase->total_dibayar : '' }}">
-
-                <div class="col-md-4">
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="total">Total</label>
-                        <input class="form-control disabled" type="text" id="total" name="total" placeholder="Total"
-                            value="{{ $billing ? number_format($billing->purchase->total) : '' }}" required
-                            disabled />
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="diskon">Diskon</label>
-                        <input class="form-control" type="text" id="diskon" name="diskon" placeholder="Diskon"
-                            value="{{ $billing ? number_format($billing->purchase->diskon) : '' }}" disabled />
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="grand-total">Grand Total</label>
-                        <input class="form-control disabled" type="text" id="grand-total" name="grand_total"
-                            placeholder="Grand Total"
-                            value="{{ $billing ? number_format($billing->purchase->grand_total) : '' }}" required
-                            disabled />
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="telah_dibayar">Telah Dibayar</label>
-                        <input class="form-control" type="text" id="telah-dibayar" name="telah_dibayar"
-                            placeholder="Telah Dibayar"
-                            value="{{ $billing ? number_format($billing->purchase->total_dibayar) : '' }}"
-                            disabled />
-                    </div>
-
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="sisa">Sisa</label>
-                        <input class="form-control" type="text" id="sisa" name="sisa" placeholder="Sisa"
-                            value="{{ $billing ? number_format($billing->purchase->grand_total - $billing->purchase->total_dibayar) : '' }}"
-                            disabled />
-                    </div>
-
-                    @if (!$billing)
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="bayar">Bayar <small>(Nominal Billing)</small></label>
-                            <input class="form-control" type="{{ $billing ? 'number' : 'text' }}" id="bayar"
-                                name="dibayar" placeholder="Bayar" min="1"
-                                value="{{ $billing ? number_format($billing->purchase->total_dibayar) : '' }}"
-                                {{ $show ? 'disabled' : '' }}
-                                {{ $billing && $billing->purchase->status_pembayaran == 'Paid' ? 'disabled' : '' }} />
-                        </div>
-                    @endif
-                </div>
-
-                <div class="col-md-4">
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="catatan">Catatan billing</label>
-                        <textarea class="form-control" id="catatan" name="catatan" id="catatan"
-                            placeholder="Catatan billing" rows="8" required
-                            {{ $show ? 'disabled' : '' }}>{{ $billing ? $billing->purchase->catatan : '' }}</textarea>
-                    </div>
-                </div>
-
-                @if (!$show)
-                    <div class="col-md-12 mt-2">
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success me-2" id="btn-save"
-                                {{ !$billing ? 'disabled' : '' }}>
-                                @if (!$billing)
-                                    Simpan
-                                @else
-                                    Update
-                                @endif
-                            </button>
-
-                            <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
-                                {{ !$billing ? 'disabled' : '' }}>Cancel</a>
-                        </div>
-                    </div>
-                @endif
-            </div>
+            @include('accounting.billing.include._total')
 
             @if ($errors->any())
                 <div id="validation" class="text-danger">
