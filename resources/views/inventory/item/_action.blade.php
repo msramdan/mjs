@@ -1,4 +1,8 @@
 <td>
+    <a href="{{ route('item.tracking', $model->id) }}" class="btn btn-success btn-xs mb-1">
+        <i class="fas fa-calculator"></i>
+    </a>
+
     <a href="{{ route('item.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
         <i class="fas fa-edit"></i>
     </a>

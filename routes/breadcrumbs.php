@@ -407,6 +407,13 @@ Breadcrumbs::for('item_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+Breadcrumbs::for('item_tracking', function (BreadcrumbTrail $trail) {
+    $trail->parent('item_index');
+    $trail->push('Tracking');
+});
+
+
+
 // BAC Terima
 Breadcrumbs::for('bac_terima_index', function (BreadcrumbTrail $trail) {
     $trail->parent('inventory');

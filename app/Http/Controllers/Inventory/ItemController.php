@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
+use App\Models\Inventory\BacTerima;
 use App\Models\Inventory\Item;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -149,8 +150,36 @@ class ItemController extends Controller
     {
         abort_if(!request()->ajax(), 403);
 
-        return Item::with('unit:id,nama')
+        $item = Item::with('unit:id,nama')
             ->select('id', 'unit_id', 'kode', 'nama', 'stok')
             ->findOrFail($id);
+
+        return response()->json($item, 200);
+    }
+
+    public function tracking($id)
+    {
+        $item = Item::select('id', 'category_id', 'akun_coa_id', 'unit_id', 'kode', 'nama', 'type', 'stok', 'deskripsi', 'foto')
+            ->with(
+                'unit:id,nama',
+                'category:id,nama',
+                'akun_coa:id,nama',
+
+                'detail_bac_pakai:id,bac_pakai_id,item_id,qty,qty_validasi',
+                'detail_bac_pakai.bac_pakai:id,user_id,kode,tanggal,status',
+                'detail_bac_pakai.bac_pakai.aso:id,bac_pakai_id,validasi_by,tanggal_validasi',
+                'detail_bac_pakai.bac_pakai.aso.divalidasi_oleh:id,name',
+
+                'detail_bac_terima:id,bac_terima_id,item_id,qty,qty_validasi',
+                'detail_bac_terima.bac_terima:id,user_id,kode,tanggal,status',
+                'detail_bac_terima.bac_terima.received:id,bac_terima_id,validasi_by,tanggal_validasi',
+                'detail_bac_terima.bac_terima.received.divalidasi_oleh:id,name'
+            )
+            ->findOrFail($id);
+
+        // return $item;
+        // die;
+
+        return view('inventory.item.tracking', compact('item'));
     }
 }

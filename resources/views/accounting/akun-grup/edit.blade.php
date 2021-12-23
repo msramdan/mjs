@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Edit Account group')
+@section('title', 'Edit Account Group')
 
 @section('content')
     <div id="content" class="app-content">
@@ -8,7 +8,7 @@
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">Account group</h4>
+                <h4 class="panel-title">Account Group</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
                         <i class="fa fa-redo"></i>
@@ -54,7 +54,7 @@
                     </div>
 
                     <button type="reset" class="btn btn-secondary me-1">Reset</button>
-                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="submit" class="btn btn-success">Update</button>
                 </form>
             </div>
         </div>
