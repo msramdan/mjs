@@ -27,16 +27,30 @@
                     @enderror
                 </div>
 
-                <div class="form-group mb-2">
-                    <label class="form-label" for="tanggal">Tanggal</label>
-                    <input class="form-control @error('tanggal') is-invalid @enderror" type="date" id="tanggal"
-                        name="tanggal" placeholder="Tanggal"
-                        value="{{ $bacPakai ? $bacPakai->tanggal->format('Y-m-d') : date('Y-m-d') }}" required
-                        {{ $show ? 'disabled' : '' }} />
-                    @error('tanggal')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="status">Status</label>
+                            <input class="form-control" type="text" id="status" name="status" placeholder="Status"
+                                value="{{ $bacPakai ? $bacPakai->status : 'Belum Tervalidasi' }}"
+                                {{ $show ? 'disabled' : 'readonly' }} />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="tanggal">Tanggal</label>
+                            <input class="form-control @error('tanggal') is-invalid @enderror" type="date" id="tanggal"
+                                name="tanggal" placeholder="Tanggal"
+                                value="{{ $bacPakai ? $bacPakai->tanggal->format('Y-m-d') : date('Y-m-d') }}" required
+                                {{ $show ? 'disabled' : '' }} />
+                            @error('tanggal')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
             @if (!$show)
@@ -137,6 +151,8 @@
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
                                         value="{{ $detail->qty }}">
+                                    <input type="hidden" class="stok-hidden" name="stok[]"
+                                        value="{{ $detail->item->stok }}">
                                 </td>
                                 @if (!$show)
                                     <td>

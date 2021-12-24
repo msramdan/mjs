@@ -25,6 +25,7 @@
         const unitProduk = $('#unit-produk')
         const qty = $('#qty')
         const keterangan = $('#keterangan')
+        const stok = $('#stok')
 
         const btnAdd = $('#btn-add')
         const btnUpdate = $('#btn-update')
@@ -71,6 +72,7 @@
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
                     method: 'GET',
                     success: function(res) {
+                        stok.val(res.stok)
                         kodeProduk.val(res.kode)
                         unitProduk.val(res.unit.nama)
 
@@ -132,6 +134,16 @@
                     text: 'Qty minimal 1'
                 })
 
+            } else if (parseInt(qty.val()) > parseInt(stok.val())) {
+                qty.focus()
+                qty.val('')
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Stok hanya tersisa ' + stok.val()
+                })
+
             } else {
 
                 // cek duplikasi produk
@@ -161,6 +173,7 @@
                         <td>
                             ${qty.val()}
                             <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
+                            <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
                         </td>
                         <td>
                             <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
@@ -177,8 +190,9 @@
                 generateNo()
                 clearForm()
                 cekTableLength()
-
+                stok.val('')
                 produk.focus()
+
             }
         })
 
@@ -231,6 +245,16 @@
                     text: 'Qty minimal 1'
                 })
 
+            } else if (parseInt(qty.val()) > parseInt(stok.val())) {
+                qty.focus()
+                qty.val('')
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Stok hanya tersisa ' + stok.val()
+                })
+
             } else {
                 // cek duplikasi pas update
                 $('input[name="produk[]"]').each(function(i) {
@@ -254,6 +278,7 @@
                         ${qty.val()}
                         <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
                         </td>
+                        <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
                     <td>
                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
                             <i class="fas fa-edit"></i>
@@ -286,8 +311,11 @@
             produk.val($('.produk-hidden:eq(' + index + ')').val())
             qty.val($('.qty-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
+            stok.val($('.stok-hidden:eq(' + index + ')').val())
 
             $('#index-tr').val(index)
+
+            console.log($('.stok-hidden:eq(' + index + ')').val());
         })
 
         $(document).on('click', '.btn-delete', function(e) {

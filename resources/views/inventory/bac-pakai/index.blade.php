@@ -38,6 +38,7 @@
                                         <th>Kode</th>
                                         <th>User</th>
                                         <th>Tangal</th>
+                                        <th>Status</th>
                                         <th>Keterangan</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
@@ -77,6 +78,10 @@
                 {
                     data: 'tanggal',
                     name: 'tanggal'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'keterangan',
