@@ -130,3 +130,27 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        const kode = $('#kode')
+
+        getKode()
+
+        function getKode() {
+            kode.prop('disabled', true)
+            kode.val('Loading...')
+
+            $.ajax({
+                url: '/inventory/item/generate-kode/',
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        kode.val(res.kode)
+                        kode.prop('disabled', false)
+                    }, 500)
+                }
+            })
+        }
+    </script>
+@endpush
