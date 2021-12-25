@@ -4,7 +4,7 @@
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('unit_edit') }}
+        {{ Breadcrumbs::render('item_edit') }}
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
