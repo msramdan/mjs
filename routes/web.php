@@ -76,7 +76,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/get-request-form-by-id/{id}', [RequestFormController::class, 'getRequestFormById']);
     Route::get('/purchase/get-purchase-by-id/{id}', [PurchaseController::class, 'getPurchaseById']);
 
-
     Route::resource('purchase', PurchaseController::class);
 });
 
@@ -127,9 +126,10 @@ Route::middleware('auth')->prefix('setting')->group(function () {
 });
 
 // Request Form
+Route::get('/request-form/generate-kode/{tanggal}', [RequestFormController::class, 'generateKode']);
+Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
 Route::middleware('auth')->resource('/request-form', RequestFormController::class);
 
-Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
 
 // accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {

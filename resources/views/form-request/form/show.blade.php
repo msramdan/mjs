@@ -27,13 +27,13 @@
                         <div class="form-group mb-3">
                             <label class="form-label" for="kode">Kode</label>
                             <input class="form-control" type="text" id="kode" name="kode" placeholder="kode"
-                                value="{{ $requestForm->kode }}" readonly />
+                                value="{{ $requestForm->kode }}" disabled />
                         </div>
 
                         <div class="form-group mb-3">
                             <label class="form-label" for="tanggal">Tanggal</label>
                             <input class="form-control" type="date" id="tanggal" name="tanggal"
-                                value="{{ $requestForm->tanggal->format('Y-m-d') }}" readonly />
+                                value="{{ $requestForm->tanggal->format('Y-m-d') }}" disabled />
                         </div>
                     </div>
 
@@ -59,7 +59,7 @@
                     <label class="form-label" for="berita_acara">Berita Acara</label>
                     <textarea class="form-control @error('berita_acara') is-invalid @enderror" id="berita_acara"
                         name="berita_acara" rows="5"
-                        readonly>{{ old('berita_acara') ? old('berita_acara') : $requestForm->berita_acara }}</textarea>
+                        disabled>{{ old('berita_acara') ? old('berita_acara') : $requestForm->berita_acara }}</textarea>
                     @error('berita_acara')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

@@ -215,4 +215,47 @@ class RequestFormController extends Controller
 
         return RequestForm::with('user:id,name', 'category_request:id,nama')->findOrFail($id);
     }
+
+    /**
+     * Generate unique & auto increment code by date.
+     *
+     * @param  String $tanggal
+     * @return \Illuminate\Http\Response
+     */
+    public function generateKode($tanggal)
+    {
+        // kalo diakses lewat browser/url/bukan ajax
+        abort_if(!request()->ajax(), 403);
+
+        $tahun = date('Y', strtotime($tanggal));
+        $bulan = date('m', strtotime($tanggal));
+        $hari = date('d', strtotime($tanggal));
+
+        $kode = 'RF-' . $tahun . '-' . $bulan . '-' . $hari  . '-';
+
+        $checkLatestKode = RequestForm::select('id', 'tanggal', 'kode')
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulan)
+            ->whereDay('tanggal', $hari)
+            ->latest()
+            ->first();
+
+        if ($checkLatestKode == null) {
+            $kode = $kode . '0001';
+        } else {
+            // hapus "RF-XXXX-XX-XX-" dan ambil angka buat ditambahin
+            // $onlyNumberKode = intval(Str::after($checkLatestKode->kode, $kode));
+            $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
+
+            if ($onlyNumberKode < 100) {
+                $kode = $kode . '000' . ($onlyNumberKode + 1);
+            } elseif ($onlyNumberKode >= 100 && $onlyNumberKode < 1000) {
+                $kode =  $kode . '0' . ($onlyNumberKode + 1);
+            } else {
+                $kode = $kode . ($onlyNumberKode + 1);
+            }
+        }
+
+        return response()->json(['kode' => $kode], 200);
+    }
 }
