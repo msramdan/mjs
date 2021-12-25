@@ -104,7 +104,7 @@
                     setTimeout(() => {
                         // kodePurchase.text(res.kode)
                         requestForm.text(res.request_form.kode)
-                        catatanPurchase.text(res.catatan)
+                        catatanPurchase.text(res.catatan ? res.catatan : '-')
                         status.text(res.lunas == 0 ? 'Belum Lunas' : 'Lunas')
                         attnPurchase.text(res.attn)
 

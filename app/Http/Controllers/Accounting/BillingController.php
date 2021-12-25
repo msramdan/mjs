@@ -68,6 +68,9 @@ class BillingController extends Controller
         $attr['purchase_id'] = $request->purchase;
         $attr['user_id'] = auth()->id();
 
+        // return $attr;
+        // die;
+
         Billing::create($attr);
 
         Alert::toast('Simpan Data Berhasil', 'success');

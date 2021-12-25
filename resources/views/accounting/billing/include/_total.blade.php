@@ -111,8 +111,8 @@
                 <div class="form-group mb-2">
                     <label class="form-label" for="catatan">Catatan Billing</label>
                     <textarea class="form-control" id="catatan" name="catatan" id="catatan"
-                        placeholder="Catatan Billing" rows="8" required
-                        {{ $show ? 'disabled' : '' }}>{{ $billing->purchase->catatan }}</textarea>
+                        placeholder="Catatan Billing" rows="8"
+                        {{ $show ? 'disabled' : '' }}>{{ $billing->catatan }}</textarea>
                 </div>
             </div>
             {{-- end of col-md-4 --}}

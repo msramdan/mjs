@@ -80,7 +80,8 @@
                     <tr>
                         <td width="35">Catatan Purchase</td>
                         <td>:</td>
-                        <td id="catatan-purchase">{{ $billing ? $billing->purchase->catatan : '' }}</td>
+                        <td id="catatan-purchase">
+                            {{ $billing && $billing->purchase->catatan ? $billing->purchase->catatan : '-' }}</td>
                     </tr>
                 </table>
             </div>
