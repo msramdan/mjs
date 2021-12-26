@@ -1,13 +1,13 @@
 @extends('layouts.master')
-@section('title', 'BAC Pakai')
+@section('title', 'Dokumen HRGA')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('bac_pakai_index') }}
+        {{ Breadcrumbs::render('dokumen_hrga_index') }}
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('bac-pakai.create') }}" class="btn btn-primary mb-3">
+            <a href="{{ route('dokumen-hrga.create') }}" class="btn btn-primary mb-3">
                 <i class="fas fa-plus me-1"></i>
                 Create
             </a>
@@ -15,7 +15,7 @@
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
-                <h4 class="panel-title">BAC Pakai</h4>
+                <h4 class="panel-title">Dokumen HRGA</h4>
                 <div class="panel-heading-btn">
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
                             class="fa fa-redo"></i>
@@ -35,10 +35,8 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Kode</th>
-                                        <th>User</th>
-                                        <th>Tangal</th>
-                                        <th>Status</th>
+                                        <th>File</th>
+                                        <th>Nama</th>
                                         <th>Keterangan</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
@@ -66,22 +64,21 @@
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('bac-pakai.index') }}",
+            ajax: "{{ route('dokumen-hrga.index') }}",
             columns: [{
-                    data: 'kode',
-                    name: 'kode'
+                    data: 'file',
+                    name: 'file',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, full, meta) {
+                        return `<a href="/legal/dokumen-hrga/download/${data}" target="_blank">
+                            <img src="/img/document.png" alt="File HRGA" width="30">
+                        </a>`;
+                    }
                 },
                 {
-                    data: 'user',
-                    name: 'user'
-                },
-                {
-                    data: 'tanggal',
-                    name: 'tanggal'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
+                    data: 'nama',
+                    name: 'nama'
                 },
                 {
                     data: 'keterangan',

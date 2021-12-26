@@ -182,4 +182,29 @@ class ItemController extends Controller
 
         return view('inventory.item.tracking', compact('item'));
     }
+
+    /**
+     * Generate unique & auto increment code by date.
+     *
+     * @param  String $tanggal
+     * @return \Illuminate\Http\Response
+     */
+    public function generateKode()
+    {
+        // kalo diakses lewat browser/url/bukan ajax
+        abort_if(!request()->ajax(), 403);
+
+        $kode = 'IT-MJS-';
+        $countItem = Item::select('id')->count();
+
+        if ($countItem < 100) {
+            $kode = $kode . '000' . $countItem;
+        } elseif ($countItem >= 100 && $countItem < 1000) {
+            $kode =  $kode . '0' . $countItem;
+        } else {
+            $kode = $kode . $countItem;
+        }
+
+        return response()->json(['kode' => $kode], 200);
+    }
 }

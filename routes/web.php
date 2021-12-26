@@ -1,19 +1,62 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController, BillingController, InvoiceController};
-use App\Http\Controllers\Contact\{CustomerController, SupplierController};
-use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
-use App\Http\Controllers\Inventory\{AsoController, BacPakaiController, ItemController, BacTerimaController, ReceivedController};
-use App\Http\Controllers\Legal\{KaryawanController, BerkasKaryawanController};
+use App\Http\Controllers\Accounting\{
+    AkunCoaController,
+    AkunGrupController,
+    AkunHeaderController,
+    BillingController,
+    InvoiceController
+};
+use App\Http\Controllers\Contact\{
+    CustomerController,
+    SupplierController
+};
+use App\Http\Controllers\ElectronicDocument\{
+    DocumentController,
+    CategoryDocumentController
+};
+use App\Http\Controllers\Inventory\{
+    AsoController,
+    BacPakaiController,
+    ItemController,
+    BacTerimaController,
+    ReceivedController
+};
+use App\Http\Controllers\Legal\{
+    KaryawanController,
+    BerkasKaryawanController,
+    DokumenHrgaController
+};
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
-use App\Http\Controllers\Payroll\{PotonganController, BenefitController};
+use App\Http\Controllers\Master\{
+    CategoryBenefitController,
+    UnitController,
+    CategoryController,
+    CategoryPotonganController,
+    CategoryRequestController,
+    DivisiController,
+    JabatanController,
+    LokasiController,
+    StatusKaryawanController
+};
+use App\Http\Controllers\Payroll\{
+    PotonganController,
+    BenefitController
+};
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\RequestForm\RequestFormController;
-use App\Http\Controllers\Sale\{SpalController, SaleController};
-use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController, SettingAppController};
+use App\Http\Controllers\Sale\{
+    SpalController,
+    SaleController
+};
+use App\Http\Controllers\Setting\{
+    UserController,
+    PermissionController,
+    RoleController,
+    SettingAppController
+};
 use Illuminate\Support\Facades\{Route, Auth};
 
 
@@ -51,11 +94,11 @@ Route::prefix('master')->middleware('auth')->group(function () {
 
 // HR/Legal
 Route::prefix('legal')->middleware('auth')->group(function () {
-    Route::resource('karyawan', KaryawanController::class);
-
     Route::get('/berkas-karyawan/download/{file}', [BerkasKaryawanController::class, 'download'])->name('berkas-karyawan.download');
 
+    Route::resource('karyawan', KaryawanController::class);
     Route::resource('berkas-karyawan', BerkasKaryawanController::class);
+    Route::resource('dokumen-hrga', DokumenHrgaController::class);
 });
 
 // Sale
@@ -76,7 +119,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/purchase/get-request-form-by-id/{id}', [RequestFormController::class, 'getRequestFormById']);
     Route::get('/purchase/get-purchase-by-id/{id}', [PurchaseController::class, 'getPurchaseById']);
 
-
     Route::resource('purchase', PurchaseController::class);
 });
 
@@ -84,6 +126,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
     Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
+    Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
+
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
     Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);
 
@@ -127,9 +171,10 @@ Route::middleware('auth')->prefix('setting')->group(function () {
 });
 
 // Request Form
+Route::get('/request-form/generate-kode/{tanggal}', [RequestFormController::class, 'generateKode']);
+Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
 Route::middleware('auth')->resource('/request-form', RequestFormController::class);
 
-Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
 
 // accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {

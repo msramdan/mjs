@@ -31,7 +31,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="kode">Kode</label>
                                 <input class="form-control @error('kode') is-invalid @enderror" type="text" id="kode"
-                                    name="kode" placeholder="kode" value="{{ old('kode') }}" required />
+                                    name="kode" placeholder="kode" value="{{ old('kode') }}" required readonly />
                                 @error('kode')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -155,31 +155,31 @@
     </div>
 @endsection
 
-@push('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css"
-        integrity="sha512-5m1IeUDKtuFGvfgz32VVD0Jd/ySGX7xdLxhqemTmThxHdgqlgPdupWoSN8ThtUSLpAGBvA8DY2oO7jJCrGdxoA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+@push('js')
+    <script>
+        const tanggal = $('#tanggal')
+        const kode = $('#kode')
 
-    <style>
-        trix-toolbar [data-trix-button-group="file-tools"] {
-            display: none;
+        getKode()
+
+        tanggal.change(function() {
+            getKode()
+        })
+
+        function getKode() {
+            kode.val('Loading...')
+
+            $.ajax({
+                url: '/request-form/generate-kode/' + tanggal.val(),
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        kode.val(res.kode)
+                    }, 500)
+                }
+            })
         }
 
-    </style>
-@endpush
-
-@push('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"
-        integrity="sha512-2RLMQRNr+D47nbLnsbEqtEmgKy67OSCpWJjJM394czt99xj3jJJJBQ43K7lJpfYAYtvekeyzqfZTx2mqoDh7vg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-        document.addEventListener('trix-file-accept', function(e) {
-            e.preventDefault();
-        })
-    </script>
-
-    <script>
         $('#btn-add').click(function() {
             let table = $('#tbl-file tbody')
 

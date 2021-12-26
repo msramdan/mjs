@@ -4,7 +4,7 @@
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('unit_edit') }}
+        {{ Breadcrumbs::render('item_edit') }}
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -152,3 +152,24 @@
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        const kode = $('#kode')
+
+        function getKode() {
+            kode.prop('disabled', true)
+            kode.val('Loading...')
+
+            $.ajax({
+                url: '/inventory/item/generate-kode/',
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        kode.val(res.kode)
+                        kode.prop('disabled', false)
+                    }, 500)
+                }
+            })
+        }
+    </script>
+@endpush

@@ -23,27 +23,38 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        const sale = $('#sale')
-        const kodeSale = $('#kode-sale')
-        const tglSale = $('#tanggal-sale')
-        const spal = $('#spal')
+        const purchase = $('#purchase')
+        const kodePurchase = $('#kode-purchase')
+        const tglPurchase = $('#tanggal-purchase')
+        const requestForm = $('#request-form')
         const status = $('#status')
 
-        const tanggal = $('#tanggal')
+        const tglBilling = $('#tanggal-billing')
+        const tglDibayar = $('#tanggal-dibayar')
         const attn = $('#attn')
-        const attnSale = $('#attn-sale')
+        const attnPurchase = $('#attn-purchase')
 
         const kode = $('#kode')
         const produk = $('#produk')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
+
+        const diskonHidden = $('#diskon-hidden')
+        const sisaHidden = $('#sisa-hidden')
+        const telahDibayarHidden = $('#telah-dibayar-hidden')
+        const totalHidden = $('#total-hidden')
+        const grandTotalHidden = $('#grand-total-hidden')
+
         const diskon = $('#diskon')
-        const bayar = $('#bayar')
         const sisa = $('#sisa')
         const telahDibayar = $('#telah-dibayar')
-        const catatan = $('#catatan')
         const total = $('#total')
         const grandTotal = $('#grand-total')
+
+        const bayar = $('#bayar')
+
+        const catatan = $('#catatan')
+        const catatanPurchase = $('#catatan-purchase')
 
         // const btnAdd = $('#btn-add')
         const btnUpdate = $('#btn-update')
@@ -53,23 +64,22 @@
         const tblCart = $('#tbl-cart')
         const tblPayment = $('#tbl-payment')
 
-        tanggal.change(function() {
+        tglBilling.change(function() {
             getKode()
         })
 
-        sale.change(function() {
-            spal.text('Loading...')
+        purchase.change(function() {
+            requestForm.text('Loading...')
             status.text('Loading...')
-            // kodeSale.text('Loading...')
-            attnSale.text('Loading...')
-            tglSale.text('Loading...')
-            catatan.text('Loading...')
+            attnPurchase.text('Loading...')
+            tglPurchase.text('Loading...')
+            catatanPurchase.text('Loading...')
 
-            telahDibayar.val('Loading...')
-            grandTotal.val('Loading...')
             diskon.val('Loading...')
             sisa.val('Loading...')
-            catatan.val('Loading...')
+            telahDibayar.val('Loading...')
+            total.val('Loading...')
+            grandTotal.val('Loading...')
 
             tblCart.find('tbody').html(`
             <tr>
@@ -84,33 +94,36 @@
             `)
 
             $.ajax({
-                url: '/sale/sale/get-sale-by-id/' + $(this).val(),
-                method: 'get',
+                url: '/purchase/get-purchase-by-id/' + $(this).val(),
+                method: 'GET',
                 success: function(res) {
+                    console.log(res);
+                    console.log(res.request_form);
 
                     setTimeout(() => {
-                        // kodeSale.text(res.kode)
-                        spal.text(res.spal.kode)
-                        catatan.val(res.catatan.slice(0, 200) + '...')
-                        status.text(res.status_pembayaran)
-                        attnSale.text(res.attn)
+                        // kodePurchase.text(res.kode)
+                        requestForm.text(res.request_form.kode)
+                        catatanPurchase.text(res.catatan ? res.catatan : '-')
+                        status.text(res.lunas == 0 ? 'Belum Lunas' : 'Lunas')
+                        attnPurchase.text(res.attn)
 
-                        telahDibayar.prop('type', 'number')
-                        grandTotal.prop('type', 'number')
-                        diskon.prop('type', 'number')
-                        sisa.prop('type', 'number')
-                        telahDibayar.val(parseInt(res.total_dibayar))
-                        grandTotal.val(parseInt(res.grand_total))
-                        diskon.val(parseInt(res.diskon))
-                        sisa.val(parseInt(res.sisa))
-                        total.val(parseInt(res.grand_total) + parseInt(res.diskon))
+                        telahDibayarHidden.val(res.total_dibayar)
+                        grandTotalHidden.val(res.grand_total)
+                        diskonHidden.val(res.diskon)
+                        sisaHidden.val(res.grand_total - res.total_dibayar)
+                        totalHidden.val(res.grand_total + res.diskon)
+
                         bayar.prop('max', sisa.val())
 
-                        $('#sisa-hidden').val(sisa.val())
+                        telahDibayar.val(formatRibuan(res.total_dibayar))
+                        grandTotal.val(formatRibuan(res.grand_total))
+                        diskon.val(res.diskon ? formatRibuan(res.diskon) : 0)
+                        sisa.val(formatRibuan(res.grand_total - res.total_dibayar))
+                        total.val(formatRibuan(res.grand_total + res.diskon))
 
                         let dateString = res.tanggal
                         let dateObject = new Date(dateString)
-                        tglSale.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
+                        tglPurchase.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
                             .join('/'))
 
                         let noCart = 1
@@ -119,7 +132,7 @@
                         let noPayment = 1
                         let payments = []
 
-                        $.each(res.detail_sale, function(index, value) {
+                        $.each(res.detail_purchase, function(index, value) {
                             items.push(`
                             <tr>
                                 <td>${noCart++}</td>
@@ -136,16 +149,24 @@
                                     ${value.harga}
                                     <input type="hidden" class="harga-hidden" name="harga[]" value="${value.harga}">
                                 </td>
+                                <td>
+                                    ${value.qty}
+                                    <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
+                                </td>
+                                <td>
+                                    ${value.sub_total}
+                                    <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${value.sub_total}">
+                                </td>
                             </tr>
                             `)
                         })
 
                         if (res.billings.length > 0) {
                             $.each(res.billings, function(index, value) {
-                                let dateString = value.tanggal_dibayar
+                                let dateString = value.tanggal_billing
                                 let dateObject = new Date(dateString)
 
-                                let formatTanggalDibayar = dateObject.toJSON()
+                                let formatTanggalbilling = dateObject.toJSON()
                                     .slice(0, 10)
                                     .split('-')
                                     .reverse()
@@ -154,18 +175,10 @@
                                 payments.push(`
                                     <tr>
                                         <td>${noPayment++}</td>
-                                        <td>
-                                            ${value.kode}
-                                        </td>
-                                        <td>
-                                            ${formatTanggalDibayar}
-                                        </td>
-                                        <td>
-                                            ${value.dibayar}
-                                        </td>
-                                        <td>
-                                            ${value.sisa}
-                                        </td>
+                                        <td>${value.kode}</td>
+                                        <td>${formatTanggalbilling}</td>
+                                        <td>${formatRibuan(value.dibayar)}</td>
+                                        <td>${value.status}</td>
                                     </tr>
                                 `)
                             })
@@ -188,32 +201,12 @@
         })
 
         bayar.on('keyup change', function() {
-            // if (!isNaN($(this).val())) {
-            // telahDibayar.val(parseInt(telahDibayar.val()) + parseInt($(this).val()))
-
-            // sisa.val(parseInt(grandTotal.val()) - parseInt(telahDibayar.val()))
-
-            if ($(this).val() > 0 || sale.val() || tanggal.val() || attn.val() || $(this).val() <= sisa.val()) {
+            if ($(this).val() > 0 || purchase.val() || tanggal.val() || attn.val()) {
                 btnSave.prop('disabled', false)
                 btnSave.removeClass('disabled')
             } else {
                 btnSave.prop('disabled', true)
                 btnSave.addClass('disabled')
-            }
-            // }
-        })
-
-        $('#tanggal-dibayar').change(function() {
-            if ($(this).val()) {
-                $('#status-billing').val('Paid')
-
-                // $('#status-billing').prop('disabled', false)
-                // $('#status-billing').prop('required', true)
-            } else {
-                $('#status-billing').val('Unpaid')
-
-                // $('#status-billing').prop('disabled', true)
-                // $('#status-billing').prop('required', false)
             }
         })
 
@@ -221,7 +214,7 @@
             kode.val('Loading...')
 
             $.ajax({
-                url: '/accounting/billing/generate-kode/' + tanggal.val(),
+                url: '/accounting/billing/generate-kode/' + tglBilling.val(),
                 method: 'GET',
                 success: function(res) {
                     setTimeout(() => {
@@ -229,6 +222,10 @@
                     }, 500)
                 }
             })
+        }
+
+        function formatRibuan(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     </script>
 @endpush
