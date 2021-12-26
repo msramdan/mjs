@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Legal;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Legal\{StoreDokumenHrgaRequest, UpdateDokumenHrgaRequest};
 use App\Models\Legal\DokumenHrga;
+use App\Models\Legal\HistoryDownloadHrga;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Jenssegers\Agent\Agent;
 
 class DokumenHrgaController extends Controller
 {
@@ -19,7 +22,7 @@ class DokumenHrgaController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = DokumenHrga::latest('updated_at');
+            $query = DokumenHrga::with('history_downloads')->withCount('history_downloads');
 
             return DataTables::of($query)
                 ->addColumn('keterangan', function ($row) {
@@ -75,6 +78,8 @@ class DokumenHrgaController extends Controller
      */
     public function show(DokumenHrga $dokumenHrga)
     {
+        $dokumenHrga->load('history_downloads', 'history_downloads.user:id,name')->loadCount('history_downloads');
+
         return view('legal.hrga.show', compact('dokumenHrga'));
     }
 
@@ -134,5 +139,42 @@ class DokumenHrgaController extends Controller
         Alert::toast('Hapus data berhasil', 'success');
 
         return redirect()->route('dokumen-hrga.index');
+    }
+
+    public function download($filename)
+    {
+        $agent = new Agent();
+
+        $dokumenHrga = DokumenHrga::select('id')->where('file', $filename)->firstOrFail();
+
+        DB::table('history_download_hrga')->insert([
+            'dokumen_hrga_id' => $dokumenHrga->id,
+            'user_id' => auth()->id(),
+            'language' => strtoupper($agent->languages()[0]),
+            'device' => $agent->device(),
+            'os' => $agent->platform() . ' ' . $agent->version($agent->platform()),
+            'browser' => $agent->browser() . ' ' . $agent->version($agent->browser()),
+            'robot' => $agent->robot(),
+            'ip' => request()->ip(),
+            'header' => request()->header('user-agent'),
+            'created_at' => now()->toDateTimeString()
+        ]);
+
+        $path = public_path() . "/dokumen-hrga/$filename";
+
+        $extension = \File::extension($filename);
+
+        $headers = array(
+            // type sesuai extension file
+            'Content-Type: application/' . $extension,
+        );
+
+        /**
+         * params
+         * 1: lokasi file,
+         * 2: nama file ketika didownload,
+         * 3:header(optional)
+         */
+        return response()->download($path, $filename, $headers);
     }
 }

@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label class="form-label" for="nama">Nama</label>
@@ -32,7 +32,7 @@
 
                         <div class="row">
                             <div class="col-md-2 my-3 text-center">
-                                <a href="/legal/dokumen-hrga/download/{{ $dokumenHrga->file }}" target="_blank">
+                                <a href="{{ route('dokumen-hrga.download', $dokumenHrga->file) }}" target="_blank">
                                     <img src="/img/document.png" alt="File HRGA" width="50">
                                 </a>
                             </div>
@@ -55,6 +55,45 @@
                         </div>
                     </div>
                 </div>
+
+                <h5>
+                    {{ Str::plural('Download', $dokumenHrga->history_downloads_count) }}
+                    ({{ $dokumenHrga->history_downloads_count }})
+                </h5>
+                <table class="table table-hover table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th width="40">#</th>
+                            <th>User</th>
+                            <th>Tgl Download</th>
+                            <th>User Agent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($dokumenHrga->history_downloads as $agent)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $agent->user->name }}</td>
+                                <td>{{ $agent->created_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    <ul>
+                                        <li>Bahasa: {{ $agent->language }}</li>
+                                        <li>Device: {{ $agent->device }}</li>
+                                        <li>OS: {{ $agent->os }}</li>
+                                        <li>Browser: {{ $agent->browser }}</li>
+                                        <li>Robot: {{ $agent->robot == 0 ? 'False' : 'True' }}</li>
+                                        <li>IP: {{ $agent->ip }}</li>
+                                        <li>Header: {{ $agent->header }}</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Data tidak ditemukan</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
 
                 <a href="{{ route('dokumen-hrga.index') }}" class="btn btn-secondary me-1">Back</a>
             </div>

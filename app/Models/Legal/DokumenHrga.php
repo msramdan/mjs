@@ -18,10 +18,10 @@ class DokumenHrga extends Model
         'keterangan'
     ];
 
-    // public function history_download()
-    // {
-    //     return $this->hasMany(H::class);
-    // }
+    public function history_downloads()
+    {
+        return $this->hasMany(HistoryDownloadHrga::class);
+    }
 
     public function getCreatedAtAttribute($value)
     {

@@ -95,6 +95,7 @@ Route::prefix('master')->middleware('auth')->group(function () {
 // HR/Legal
 Route::prefix('legal')->middleware('auth')->group(function () {
     Route::get('/berkas-karyawan/download/{file}', [BerkasKaryawanController::class, 'download'])->name('berkas-karyawan.download');
+    Route::get('/dokumen-hrga/download/{file}', [DokumenHrgaController::class, 'download'])->name('dokumen-hrga.download');
 
     Route::resource('karyawan', KaryawanController::class);
     Route::resource('berkas-karyawan', BerkasKaryawanController::class);
