@@ -46,5 +46,6 @@ return [
         'user' => 'Pengguna',
         'aso' => 'ASO',
         'received' => 'Received',
+        'dokumen_hrga' => 'Document HRGA'
     ],
 ];

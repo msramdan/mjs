@@ -222,6 +222,10 @@
                         <a href="{{ route('karyawan.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.karyawan') }}</div>
                         </a>
+
+                        <a href="{{ route('dokumen-hrga.index') }}" class="menu-link">
+                            <div class="menu-text">{{ trans('sidebar.sub_menu.dokumen_hrga') }}</div>
+                        </a>
                     </div>
                 </div>
             </div>

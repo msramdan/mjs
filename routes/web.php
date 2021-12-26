@@ -1,19 +1,62 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Accounting\{AkunCoaController, AkunGrupController, AkunHeaderController, BillingController, InvoiceController};
-use App\Http\Controllers\Contact\{CustomerController, SupplierController};
-use App\Http\Controllers\ElectronicDocument\{DocumentController, CategoryDocumentController};
-use App\Http\Controllers\Inventory\{AsoController, BacPakaiController, ItemController, BacTerimaController, ReceivedController};
-use App\Http\Controllers\Legal\{KaryawanController, BerkasKaryawanController};
+use App\Http\Controllers\Accounting\{
+    AkunCoaController,
+    AkunGrupController,
+    AkunHeaderController,
+    BillingController,
+    InvoiceController
+};
+use App\Http\Controllers\Contact\{
+    CustomerController,
+    SupplierController
+};
+use App\Http\Controllers\ElectronicDocument\{
+    DocumentController,
+    CategoryDocumentController
+};
+use App\Http\Controllers\Inventory\{
+    AsoController,
+    BacPakaiController,
+    ItemController,
+    BacTerimaController,
+    ReceivedController
+};
+use App\Http\Controllers\Legal\{
+    KaryawanController,
+    BerkasKaryawanController,
+    DokumenHrgaController
+};
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\Master\{CategoryBenefitController, UnitController, CategoryController, CategoryPotonganController, CategoryRequestController, DivisiController, JabatanController, LokasiController, StatusKaryawanController};
-use App\Http\Controllers\Payroll\{PotonganController, BenefitController};
+use App\Http\Controllers\Master\{
+    CategoryBenefitController,
+    UnitController,
+    CategoryController,
+    CategoryPotonganController,
+    CategoryRequestController,
+    DivisiController,
+    JabatanController,
+    LokasiController,
+    StatusKaryawanController
+};
+use App\Http\Controllers\Payroll\{
+    PotonganController,
+    BenefitController
+};
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\RequestForm\RequestFormController;
-use App\Http\Controllers\Sale\{SpalController, SaleController};
-use App\Http\Controllers\Setting\{UserController, PermissionController, RoleController, SettingAppController};
+use App\Http\Controllers\Sale\{
+    SpalController,
+    SaleController
+};
+use App\Http\Controllers\Setting\{
+    UserController,
+    PermissionController,
+    RoleController,
+    SettingAppController
+};
 use Illuminate\Support\Facades\{Route, Auth};
 
 
@@ -51,11 +94,11 @@ Route::prefix('master')->middleware('auth')->group(function () {
 
 // HR/Legal
 Route::prefix('legal')->middleware('auth')->group(function () {
-    Route::resource('karyawan', KaryawanController::class);
-
     Route::get('/berkas-karyawan/download/{file}', [BerkasKaryawanController::class, 'download'])->name('berkas-karyawan.download');
 
+    Route::resource('karyawan', KaryawanController::class);
     Route::resource('berkas-karyawan', BerkasKaryawanController::class);
+    Route::resource('dokumen-hrga', DokumenHrgaController::class);
 });
 
 // Sale

@@ -258,6 +258,7 @@ Breadcrumbs::for('karyawan_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+
 // Karyawan File
 Breadcrumbs::for('berkas_karyawan_index', function (BreadcrumbTrail $trail) {
     $trail->parent('legal');
@@ -272,6 +273,27 @@ Breadcrumbs::for('berkas_karyawan_create', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('berkas_karyawan_edit', function (BreadcrumbTrail $trail) {
     $trail->parent('berkas_karyawan_index');
     $trail->push('Edit');
+});
+
+// Dokumen HRGA
+Breadcrumbs::for('dokumen_hrga_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Dokumen HRGA', route('dokumen-hrga.index'));
+});
+
+Breadcrumbs::for('dokumen_hrga_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('dokumen_hrga_index');
+    $trail->push('Create', route('dokumen-hrga.create'));
+});
+
+Breadcrumbs::for('dokumen_hrga_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('dokumen_hrga_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('dokumen_hrga_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('dokumen_hrga_index');
+    $trail->push('Detail');
 });
 
 
