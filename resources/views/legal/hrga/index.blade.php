@@ -38,6 +38,7 @@
                                         <th>File</th>
                                         <th>Nama</th>
                                         <th>Keterangan</th>
+                                        <th>Total Downloads</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         <th>Action</th>
@@ -83,6 +84,10 @@
                 {
                     data: 'keterangan',
                     name: 'keterangan'
+                },
+                {
+                    data: 'history_downloads_count',
+                    name: 'history_downloads_count'
                 },
                 {
                     data: 'created_at',
