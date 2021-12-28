@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
-use App\Models\Inventory\BacTerima;
+use App\Models\Inventory\DetailItem;
 use App\Models\Inventory\Item;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -68,6 +69,8 @@ class ItemController extends Controller
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
         $attr['akun_coa_id'] = $request->akun_coa;
+        $attr['stok'] = $request->soh;
+        $attr['harga_estimasi'] = $request->harga_estimasi;
 
         if ($request->file('foto') && $request->file('foto')->isValid()) {
             $filename = time()  . '.' . $request->foto->extension();
@@ -77,7 +80,16 @@ class ItemController extends Controller
             $attr['foto'] = $filename;
         }
 
-        Item::create($attr);
+        $item = Item::create($attr);
+
+        foreach ($request->supplier as $i => $value) {
+            $detailItem[] = new DetailItem([
+                'supplier_id' => $value,
+                'harga_beli' => $request->harga_beli[$i]
+            ]);
+        }
+
+        $item->detail_items()->saveMany($detailItem);
 
         Alert::success('Simpan Data', 'Berhasil');
 
@@ -92,6 +104,8 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
+        $item->load('detail_items', 'detail_items.supplier:id,nama');
+
         return view('inventory.item.edit', compact('item'));
     }
 
@@ -104,11 +118,14 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
+        $item->load('detail_items');
+
         $attr = $request->validated();
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
         $attr['akun_coa_id'] = $request->akun_coa;
-        $attr['foto'] = $item->foto;
+        $attr['stok'] = $request->soh;
+        $attr['harga_estimasi'] = $request->harga_estimasi;
 
         if ($request->file('foto') && $request->file('foto')->isValid()) {
             // delete old foto from storage
@@ -121,7 +138,17 @@ class ItemController extends Controller
             $attr['foto'] = $filename;
         }
 
+        $item->detail_items()->delete();
         $item->update($attr);
+
+        foreach ($request->supplier as $i => $value) {
+            $detailItem[] = new DetailItem([
+                'supplier_id' => $value,
+                'harga_beli' => $request->harga_beli[$i]
+            ]);
+        }
+
+        $item->detail_items()->saveMany($detailItem);
 
         Alert::toast('Update data berhasil', 'success');
 
@@ -164,6 +191,8 @@ class ItemController extends Controller
                 'unit:id,nama',
                 'category:id,nama',
                 'akun_coa:id,nama',
+                'detail_items',
+                'detail_items.supplier:id,nama',
 
                 'detail_bac_pakai:id,bac_pakai_id,item_id,qty,qty_validasi',
                 'detail_bac_pakai.bac_pakai:id,user_id,kode,tanggal,status',
@@ -176,9 +205,6 @@ class ItemController extends Controller
                 'detail_bac_terima.bac_terima.received.divalidasi_oleh:id,name'
             )
             ->findOrFail($id);
-
-        // return $item;
-        // die;
 
         return view('inventory.item.tracking', compact('item'));
     }
@@ -196,6 +222,7 @@ class ItemController extends Controller
 
         $kode = 'IT-MJS-';
         $countItem = Item::select('id')->count();
+        $countItem = $countItem + 1;
 
         if ($countItem < 100) {
             $kode = $kode . '000' . $countItem;

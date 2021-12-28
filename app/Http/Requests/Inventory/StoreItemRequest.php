@@ -31,7 +31,7 @@ class StoreItemRequest extends FormRequest
             'type' => 'required|in:Consumable,Services',
             'deskripsi' => 'required|string|min:3',
             'akun_coa' => 'required|integer',
-            'foto' => 'required|image|max:1024',
+            'foto' => 'required|image|mimes:png,jpg,jpeg|max:1024',
             'stok' => 'nullable|integer'
         ];
     }
