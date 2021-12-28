@@ -24,6 +24,7 @@ class Item extends Model
         'deskripsi',
         'stok',
         'foto',
+        'harga_estimasi'
     ];
 
     public function category()
@@ -39,6 +40,11 @@ class Item extends Model
     public function akun_coa()
     {
         return $this->belongsTo(AkunCoa::class, 'akun_coa_id');
+    }
+
+    public function detail_items()
+    {
+        return $this->hasMany(DetailItem::class);
     }
 
     public function detail_purchase()

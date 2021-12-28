@@ -41,11 +41,11 @@
                                         <th>Category</th>
                                         <th>Unit</th>
                                         <th>Type</th>
-                                        {{-- <th>Stok</th> --}}
+                                        <th>SOH</th>
                                         <th>Deskripsi</th>
                                         <th>Akun COA</th>
-                                        <th>Created At</th>
-                                        <th>Updated At</th>
+                                        {{-- <th>Created At</th>
+                                        <th>Updated At</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -100,10 +100,10 @@
                     data: 'type',
                     name: 'type'
                 },
-                // {
-                //     data: 'stok',
-                //     name: 'stok'
-                // },
+                {
+                    data: 'stok',
+                    name: 'stok'
+                },
                 {
                     data: 'deskripsi',
                     name: 'deskripsi'
@@ -111,14 +111,6 @@
                 {
                     data: 'akun_coa',
                     name: 'akun_coa'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
                 },
                 {
                     data: 'action',

@@ -132,8 +132,6 @@
 
         btnAdd.click(function() {
 
-
-
             if (!spal.val()) {
                 spal.focus()
 

@@ -53,8 +53,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group mb-3">
-                                    <label class="form-label" for="stok">Stok</label>
-                                    <input class="form-control" type="text" id="stok" name="stok" placeholder="stok"
+                                    <label class="form-label" for="soh">SOH</label>
+                                    <input class="form-control" type="text" id="soh" name="soh" placeholder="soh"
                                         value="{{ $item->stok }}" disabled />
                                 </div>
                             </div>
@@ -90,6 +90,38 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {{-- <hr> --}}
+
+                <h5>Detail Item</h5>
+                <div class="table-responsive mb-3">
+                    <table class="table table-hover table-striped table-bordered" id="tbl-detail-item">
+                        <thead>
+                            <tr>
+                                <th width="40">#</th>
+                                <th>Supplier</th>
+                                <th>Harga Beli</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($item->detail_items as $detail)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>
+                                        {{ $detail->supplier->nama }}
+                                        <input type="hidden" class="supplier-hidden" name="supplier[]"
+                                            value="{{ $detail->supplier_id }}">
+                                    </td>
+                                    <td>
+                                        {{ number_format($detail->harga_beli) }}
+                                        <input type="hidden" class="harga-beli-hidden" name="harga_beli[]"
+                                            value="{{ $detail->harga_beli }}">
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
 
                 <h5>BAC Terima</h5>
