@@ -391,6 +391,8 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.billing.create',
             'accounting.billing.edit',
+            'inventory.bac-terima.create',
+            'inventory.bac-terima.edit'
         ], function ($view) {
             return $view->with(
                 'purchases',

@@ -2,7 +2,6 @@
     <div class="panel-heading">
         <h4 class="panel-title">BAC Terima</h4>
         <div class="panel-heading-btn">
-
             <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
                 <i class="fa fa-redo"></i>
             </a>
@@ -41,30 +40,29 @@
 
             @if (!$show)
                 <div class="col-md-6">
-                    <input type="hidden" name="stok" id="stok">
+                    <input type="hidden" name="subtotal" id="subtotal">
+                    <input type="hidden" name="harga" id="harga">
+                    <input type="hidden" name="qty" id="qty">
+
                     <input type="hidden" name="kode_produk" id="kode-produk">
                     <input type="hidden" name="unit_produk" id="unit-produk">
+                    <input type="hidden" name="produk_id" id="produk-id">
                     <input type="hidden" name="index_tr" id="index-tr">
 
                     <div class="form-group mb-2">
                         <label class="form-label" for="produk">Produk</label>
-                        <select class="form-select" id="produk" name="produk">
-                            <option value="" disabled selected>-- Pilih --</option>
-                            @foreach ($consumable as $item)
-                                <option value="{{ $item->id }}">{{ $item->kode . ' - ' . $item->nama }}
-                                </option>
-                            @endforeach
-                            @error('produk')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </select>
+                        <input class="form-control  @error('produk') is-invalid @enderror" type="text" id="produk"
+                            name="produk" placeholder="Produk" readonly />
+                        @error('produk')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group mb-2">
-                        <label class="form-label" for="qty">Qty</label>
-                        <input class="form-control  @error('qty') is-invalid @enderror" type="number" id="qty"
-                            name="qty" placeholder="Qty" />
-                        @error('qty')
+                        <label class="form-label" for="qty-terima">Qty Terima</label>
+                        <input class="form-control  @error('qty_terima') is-invalid @enderror" type="number"
+                            id="qty-terima" name="qty_terima" placeholder="Qty Terima" />
+                        @error('qty_terima')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -84,21 +82,16 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content-between my-2">
+        <div class="d-flex justify-content-between my-3">
             <div>
                 <h5 class="pt-2">Items</h5>
             </div>
 
             @if (!$show)
                 <div>
-                    <button type="button" class="btn btn-info" id="btn-update" style="display: none;">
+                    <button type="button" class="btn btn-info" id="btn-update" disabled>
                         <i class="fas fa-save me-1"></i>
                         Update
-                    </button>
-
-                    <button type="button" class="btn btn-primary" id="btn-add">
-                        <i class="fas fa-cart-plus me-1"></i>
-                        Add
                     </button>
                 </div>
             @endif
@@ -112,7 +105,10 @@
                         <th width="40">#</th>
                         <th>Kode - Nama</th>
                         <th>Unit</th>
-                        <th>Qty</th>
+                        <th>Harga</th>
+                        <th>Qty Beli</th>
+                        <th>Subtotal</th>
+                        <th>Qty Terima</th>
                         @if (!$show)
                             <th>Action</th>
                         @endif
@@ -126,6 +122,8 @@
                                 <td>
                                     {{ $detail->item->kode . ' - ' . $detail->item->nama }}
                                     <input type="hidden" class="produk-hidden" name="produk[]"
+                                        value="{{ $detail->item->kode . ' - ' . $detail->item->nama }}">
+                                    <input type="hidden" class="produk-id-hidden" name="produk_id[]"
                                         value="{{ $detail->item_id }}">
                                 </td>
                                 <td>
@@ -134,19 +132,29 @@
                                         value="{{ $detail->item->unit->nama }}">
                                 </td>
                                 <td>
+                                    {{ number_format($detail->harga) }}
+                                    <input type="hidden" class="harga-hidden" name="harga[]"
+                                        value="{{ $detail->harga }}">
+                                </td>
+                                <td>
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
                                         value="{{ $detail->qty }}">
                                 </td>
+                                <td>
+                                    {{ number_format($detail->sub_total) }}
+                                    <input type="hidden" class="subtotal-hidden" name="sub_total[]"
+                                        value="{{ $detail->sub_total }}">
+                                </td>
+                                <td>
+                                    {{ $detail->qty_terima }}
+                                    <input type="hidden" class="qty-terima-hidden" name="qty_terima[]"
+                                        value="{{ $detail->qty_terima }}">
+                                </td>
                                 @if (!$show)
                                     <td>
-
                                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
                                             <i class="fas fa-edit"></i>
-                                        </button>
-
-                                        <button class="btn btn-danger btn-xs btn-delete" type="button">
-                                            <i class="fas fa-times"></i>
                                         </button>
                                     </td>
                                 @endif

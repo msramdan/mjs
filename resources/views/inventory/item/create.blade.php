@@ -60,7 +60,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="soh">SOH</label>
                                     <input class="form-control @error('soh') is-invalid @enderror" type="number" id="soh"
-                                        name="soh" placeholder="SOH" value="{{ old('soh') }}" />
+                                        name="soh" placeholder="SOH" value="{{ old('soh') ? old('soh') : 0 }}" readonly />
                                     @error('soh')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -158,9 +158,6 @@
                                         <option value="{{ $each->id }}">{{ $each->nama }}</option>
                                     @endforeach
                                 </select>
-                                @error('supplier')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -169,9 +166,6 @@
                                 <input class="form-control @error('harga_beli') is-invalid @enderror" type="number"
                                     id="harga-beli" name="harga_beli" placeholder="Harga Beli"
                                     value="{{ old('harga_beli') }}" />
-                                @error('harga_beli')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
                         <div class="col-md-2">

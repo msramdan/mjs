@@ -7,7 +7,15 @@
         {{ Breadcrumbs::render('bac_terima_create') }}
 
         <form action="{{ route('bac-terima.store') }}" method="POST" id="form-bac" enctype="multipart/form-data">
-            @include('inventory.bac-terima.include.cart')
+            <div class="row">
+                <div class="col-md-3">
+                    @include('inventory.bac-terima.include.purchase-info')
+                </div>
+
+                <div class="col-md-9">
+                    @include('inventory.bac-terima.include.cart')
+                </div>
+            </div>
         </form>
     </div>
 @endsection
@@ -20,10 +28,24 @@
         const kode = $('#kode')
         const tanggal = $('#tanggal')
 
+        const purchase = $('#purchase')
+        const requestForm = $('#request-form')
+        const tglPurchase = $('#tanggal-purchase')
+        const catatanPurchase = $('#catatan-purchase')
+        const totalPurchase = $('#total-purchase')
+        const diskonPurchase = $('#diskon-purchase')
+        const grandTotalPurchase = $('#grand-total-purchase')
+        const supplier = $('#supplier')
+
+        const subtotal = $('#subtotal')
+        const harga = $('#harga')
+        const qty = $('#qty')
+
         const produk = $('#produk')
+        const produkId = $('#produk-id')
         const kodeProduk = $('#kode-produk')
         const unitProduk = $('#unit-produk')
-        const qty = $('#qty')
+        const qtyTerima = $('#qty-terima')
         const keterangan = $('#keterangan')
 
         const btnAdd = $('#btn-add')
@@ -34,6 +56,88 @@
         const tblCart = $('#tbl-cart')
 
         getKode()
+
+        purchase.change(function() {
+            requestForm.text('Loading...')
+            supplier.text('Loading...')
+            catatanPurchase.text('Loading...')
+            tglPurchase.text('Loading...')
+            totalPurchase.text('Loading...')
+            diskonPurchase.text('Loading...')
+            grandTotalPurchase.text('Loading...')
+
+            tblCart.find('tbody').html(`
+                <tr>
+                    <td colspan="9" class="text-center">Loading...</td>
+                </tr>
+            `)
+
+            $.ajax({
+                url: `/purchase/get-purchase-by-id/${purchase.val()}`,
+                method: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        requestForm.text(res.request_form.kode)
+                        supplier.text(res.supplier.nama)
+                        catatanPurchase.text(res.catatan ? res.catatan : '-')
+                        totalPurchase.text(formatRibuan(res.total))
+                        diskonPurchase.text(res.diskon ? formatRibuan(res.diskon) : 0)
+                        grandTotalPurchase.text(formatRibuan(res.grand_total))
+
+                        let dateString = res.tanggal
+                        let dateObject = new Date(dateString)
+                        tglPurchase.text(dateObject.toJSON()
+                            .slice(0, 10)
+                            .split('-')
+                            .reverse()
+                            .join('/'))
+
+                        let detailPurchase = []
+
+                        $.each(res.detail_purchase, function(index, value) {
+                            detailPurchase.push(`
+                                <tr>
+                                    <td>${index = index + 1}</td>
+                                    <td>
+                                        ${value.item.kode +' - '+ value.item.nama}
+                                        <input type="hidden" class="produk-hidden" name="produk[]" value="${value.item.kode +' - '+ value.item.nama}">
+                                        <input type="hidden" class="produk-id-hidden" name="produk_id[]" value="${value.item_id}">
+                                    </td>
+                                    <td>
+                                        ${value.item.unit.nama}
+                                        <input type="hidden" class="unit-hidden" name="unit[]" value=" ${value.item.unit.nama}">
+                                    </td>
+                                    <td>
+                                        ${formatRibuan(value.harga)}
+                                        <input type="hidden" class="harga-hidden" name="harga[]" value="${value.harga}">
+                                    </td>
+                                    <td>
+                                        ${value.qty}
+                                        <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
+                                    </td>
+                                    <td>
+                                        ${formatRibuan(value.sub_total)}
+                                        <input type="hidden" class="subtotal-hidden" name="sub_total[]" value="${value.sub_total}">
+                                    </td>
+                                    <td>
+                                        0
+                                        <input type="hidden" class="qty-terima-hidden" name="qty_terima[]" value="0">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `)
+                        })
+
+                        tblCart.find('tbody').html(detailPurchase)
+                    }, 500);
+                }
+            })
+        })
+
 
         tanggal.change(function() {
             kode.val('Loading...')
@@ -63,9 +167,9 @@
                 })
 
             } else {
-                qty.prop('type', 'text')
-                qty.prop('disabled', true)
-                qty.val('Loading...')
+                qtyTerima.prop('type', 'text')
+                qtyTerima.prop('disabled', true)
+                qtyTerima.val('Loading...')
 
                 $.ajax({
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
@@ -75,110 +179,13 @@
                         unitProduk.val(res.unit.nama)
 
                         setTimeout(() => {
-                            qty.prop('type', 'number')
-                            qty.prop('disabled', false)
-                            qty.val('')
-                            qty.focus()
+                            qtyTerima.prop('type', 'number')
+                            qtyTerima.prop('disabled', false)
+                            qtyTerima.val('')
+                            qtyTerima.focus()
                         }, 500)
                     }
                 })
-            }
-        })
-
-        btnAdd.click(function() {
-            if (!kode.val()) {
-                kode.focus()
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'kode tidak boleh kosong'
-                })
-
-            } else if (!tanggal.val()) {
-                tanggal.focus()
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Tanggal tidak boleh kosong'
-                })
-
-            } else if (!keterangan.val()) {
-                keterangan.focus()
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Keterangan tidak boleh kosong'
-                })
-
-            } else if (!produk.val() || !qty.val()) {
-                produk.focus()
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Data produk & qty tidak boleh kosong'
-                })
-
-            } else if (qty.val() < 1) {
-                qty.focus()
-                qty.val('')
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Qty minimal 1'
-                })
-
-            } else {
-
-                // cek duplikasi produk
-                $('input[name="produk[]"]').each(function() {
-                    // cari index tr ke berapa
-                    let index = $(this).parent().parent().index()
-
-                    if ($(this).val() == produk.val()) {
-                        // hapus tr berdasarkan index
-                        tblCart.find('tbody tr:eq(' + index + ')').remove()
-
-                        generateNo()
-                    }
-                })
-
-                tblCart.find('tbody').append(`
-                    <tr>
-                        <td>${tblCart.find('tbody tr').length + 1}</td>
-                        <td>
-                            ${produk.find('option:selected').text()}
-                            <input type="hidden" class="produk-hidden" name="produk[]" value="${produk.val()}">
-                        </td>
-                        <td>
-                            ${unitProduk.val()}
-                            <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
-                        </td>
-                        <td>
-                            ${qty.val()}
-                            <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
-                        </td>
-                        <td>
-                            <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
-                                <i class="fas fa-edit"></i>
-                            </button>
-
-                            <button class="btn btn-danger btn-xs btn-delete" type="button">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `)
-
-                generateNo()
-                clearForm()
-                cekTableLength()
-
-                produk.focus()
             }
         })
 
@@ -212,7 +219,7 @@
                     text: 'Keterangan tidak boleh kosong'
                 })
 
-            } else if (!produk.val() || !qty.val()) {
+            } else if (!produk.val() || !qtyTerima.val()) {
                 produk.focus()
 
                 Swal.fire({
@@ -221,46 +228,38 @@
                     text: 'Data produk & qty tidak boleh kosong'
                 })
 
-            } else if (qty.val() < 1) {
-                qty.focus()
-                qty.val('')
-
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Qty minimal 1'
-                })
-
             } else {
-                // cek duplikasi pas update
-                $('input[name="produk[]"]').each(function(i) {
-                    // i = index each
-                    if ($(this).val() == produk.val() && i != index) {
-                        tblCart.find('tbody tr:eq(' + i + ')').remove()
-                    }
-                })
 
                 $('#tbl-cart tbody tr:eq(' + index + ')').html(`
                     <td></td>
                     <td>
-                        ${produk.find('option:selected').text()}
+                        ${produk.val()}
                         <input type="hidden" class="produk-hidden" name="produk[]" value="${produk.val()}">
+                        <input type="hidden" class="produk-id-hidden" name="produk_id[]" value="${produkId.val()}">
                     </td>
                     <td>
                         ${unitProduk.val()}
                         <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
                     </td>
                     <td>
+                        ${formatRibuan(harga.val())}
+                        <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
+                    </td>
+                    <td>
                         ${qty.val()}
                         <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
-                        </td>
+                    </td>
+                    <td>
+                        ${formatRibuan(subtotal.val())}
+                        <input type="hidden" class="subtotal-hidden" name="sub_total[]" value="${subtotal.val()}">
+                    </td>
+                    <td>
+                        ${qtyTerima.val()}
+                        <input type="hidden" class="qty-terima-hidden" name="qty_terima[]" value="${qtyTerima.val()}">
+                    </td>
                     <td>
                         <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
                             <i class="fas fa-edit"></i>
-                        </button>
-
-                        <button class="btn btn-danger btn-xs btn-delete" type="button">
-                            <i class="fas fa-times"></i>
                         </button>
                     </td>
                 `)
@@ -268,8 +267,7 @@
                 clearForm()
                 generateNo()
 
-                btnUpdate.hide()
-                btnAdd.show()
+                btnUpdate.prop('disabled', true)
             }
         })
 
@@ -284,17 +282,17 @@
             btnUpdate.show()
 
             produk.val($('.produk-hidden:eq(' + index + ')').val())
+            produkId.val($('.produk-id-hidden:eq(' + index + ')').val())
+            subtotal.val($('.subtotal-hidden:eq(' + index + ')').val())
+            harga.val($('.harga-hidden:eq(' + index + ')').val())
             qty.val($('.qty-hidden:eq(' + index + ')').val())
+            qtyTerima.val($('.qty-terima-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
 
             $('#index-tr').val(index)
-        })
 
-        $(document).on('click', '.btn-delete', function(e) {
-            $(this).parent().parent().remove()
-
-            generateNo()
-            cekTableLength()
+            btnUpdate.prop('disabled', false)
+            qtyTerima.focus()
         })
 
         $('#form-bac').submit(function(e) {
@@ -368,9 +366,8 @@
                 url: '/inventory/bac-terima/generate-kode/' + tanggal.val(),
                 method: 'GET',
                 success: function(res) {
-                    setTimeout(() => {
-                        kode.val(res.kode)
-                    }, 500)
+                    console.log(res.kode);
+                    kode.val(res.kode)
                 }
             })
         }
@@ -413,7 +410,7 @@
             kodeProduk.val('')
             produk.val('')
             unitProduk.val('')
-            qty.val('')
+            qtyTerima.val('')
         }
 
         function generateNo() {
@@ -423,6 +420,10 @@
                 $(this).find('td:nth-child(1)').html(no)
                 no++
             })
+        }
+
+        function formatRibuan(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     </script>
 

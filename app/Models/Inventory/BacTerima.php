@@ -2,6 +2,7 @@
 
 namespace App\Models\Inventory;
 
+use App\Models\Purchase\Purchase;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,7 @@ class BacTerima extends Model
 
     protected $fillable = [
         'kode',
+        'purchase_id',
         'user_id',
         'tanggal',
         'keterangan',
@@ -36,6 +38,11 @@ class BacTerima extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class);
     }
 
     public function received()

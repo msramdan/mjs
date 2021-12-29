@@ -16,7 +16,9 @@ class DetailBacTerima extends Model
         'bac_terima_id',
         'item_id',
         'harga',
+        'sub_total',
         'qty',
+        'qty_terima',
         'qty_validasi'
     ];
 

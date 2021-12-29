@@ -62,8 +62,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label" for="soh">SOH</label>
                                     <input class="form-control @error('soh') is-invalid @enderror" type="number" id="soh"
-                                        name="soh" placeholder="SOH"
-                                        value="{{ old('soh') ? old('soh') : $item->stok }}" />
+                                        name="soh" placeholder="SOH" value="{{ old('soh') ? old('soh') : $item->stok }}"
+                                        readonly />
                                     @error('soh')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
