@@ -85,8 +85,53 @@
                         tglRequest.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
                             .join('/'))
                         // hargaUnit.text(res.harga_unit)
+
+                        supplier.focus()
                     }, 500)
                 },
+            })
+        })
+
+        supplier.change(function() {
+            produk.html(`<option value="" disabled selected>Loading...</option>`)
+
+            $.ajax({
+                url: '/inventory/item/get-item-by-supplier/' + $(this).val(),
+                method: 'get',
+                success: function(res) {
+                    // console.log(res);
+                    setTimeout(() => {
+                        let listProduk = []
+
+                        if (res.length > 0) {
+                            listProduk.push(
+                                `<option value="" disabled selected>-- Pilih --</option>`)
+
+                            $.each(res, function(index, value) {
+                                listProduk.push(
+                                    `<option value="${value.item_id}">${value.item.kode +' - '+value.item.nama}</option>`
+                                )
+                            })
+                        } else {
+                            listProduk.push(
+                                `<option value="" disabled selected>Data tidak ditemukan</option>`
+                            )
+                        }
+
+                        if (!attn.val()) {
+                            attn.focus()
+                        } else {
+                            produk.focus()
+                        }
+
+                        produk.html(listProduk)
+                        tblCart.find('tbody').html('')
+
+                        hitungDiskon()
+                        hitungTotal()
+                        cekTableLength()
+                    }, 500)
+                }
             })
         })
 
@@ -98,7 +143,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'requestForm tidak boleh kosong'
+                    text: 'Request Form tidak boleh kosong'
                 })
 
             } else {
@@ -111,22 +156,24 @@
                 qty.val('Loading...')
 
                 $.ajax({
-                    url: '/inventory/item/get-item-by-id/' + $(this).val(),
-                    method: 'get',
+                    url: '/inventory/item/get-item-by-id/' + $(this).val() + '/' + supplier.val(),
+                    method: 'GET',
                     success: function(res) {
-                        // stok.val(res.stok)
-                        kodeProduk.val(res.kode)
-                        unitProduk.val(res.unit.nama)
+                        console.log(res);
+
+                        stok.val(res.item.stok)
+                        kodeProduk.val(res.item.kode)
+                        unitProduk.val(res.item.unit.nama)
 
                         setTimeout(() => {
                             harga.prop('type', 'number')
                             harga.prop('disabled', false)
-                            harga.val('')
+                            harga.val(res.harga_beli)
 
                             qty.prop('type', 'number')
                             qty.prop('disabled', false)
                             qty.val('')
-                            harga.focus()
+                            qty.focus()
                         }, 500)
                     }
                 })
@@ -158,7 +205,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'supplier tidak boleh kosong'
+                    text: 'Supplier tidak boleh kosong'
                 })
 
             } else if (!attn.val()) {
@@ -286,7 +333,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'supplier tidak boleh kosong'
+                    text: 'Supplier tidak boleh kosong'
                 })
 
             } else if (!attn.val()) {

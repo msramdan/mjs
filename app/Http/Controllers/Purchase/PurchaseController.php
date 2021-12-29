@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Purchase;
 
 use App\Http\Controllers\Controller;
 use App\Models\Inventory\DetailBacTerima;
+use App\Models\Inventory\DetailItem;
 use App\Models\Inventory\Item;
 use App\Models\Purchase\DetailPurchase;
 use App\Models\Purchase\Purchase;
@@ -129,13 +130,19 @@ class PurchaseController extends Controller
             'request_form',
             'request_form.user:id,name',
             'request_form.category_request:id,nama',
+
             'detail_purchase.item:id,unit_id,kode,nama,stok',
             'detail_purchase.item.unit:id,nama',
-            'supplier:id,nama'
-        );
-        $show = false;
 
-        return view('purchase.edit', compact('purchase', 'show'));
+            'supplier:id,nama',
+        );
+
+        $listProduk = DetailItem::select('id', 'item_id', 'supplier_id')
+            ->with('item:id,kode,nama')
+            ->where('supplier_id', $purchase->supplier_id)->get();
+
+        $show = false;
+        return view('purchase.edit', compact('purchase', 'show', 'listProduk'));
     }
 
     /**

@@ -53,6 +53,10 @@
 
         const tblCart = $('#tbl-cart')
 
+        const baruDiload = true
+
+        // getBarangBySupplier()
+
         tanggal.change(function() {
             getKode()
         })
@@ -85,6 +89,49 @@
                         // hargaUnit.text(res.harga_unit)
                     }, 500)
                 },
+            })
+        })
+
+        supplier.change(function() {
+            produk.html(`<option value="" disabled selected>Loading...</option>`)
+
+            $.ajax({
+                url: '/inventory/item/get-item-by-supplier/' + supplier.val(),
+                method: 'get',
+                success: function(res) {
+                    // console.log(res);
+                    setTimeout(() => {
+                        let listProduk = []
+
+                        if (res.length > 0) {
+                            listProduk.push(
+                                `<option value="" disabled selected>-- Pilih --</option>`)
+
+                            $.each(res, function(index, value) {
+                                listProduk.push(
+                                    `<option value="${value.item_id}">${value.item.kode +' - '+value.item.nama}</option>`
+                                )
+                            })
+                        } else {
+                            listProduk.push(
+                                `<option value="" disabled selected>Data tidak ditemukan</option>`
+                            )
+                        }
+
+                        if (!attn.val()) {
+                            attn.focus()
+                        } else {
+                            produk.focus()
+                        }
+
+                        produk.html(listProduk)
+                        tblCart.find('tbody').html('')
+
+                        hitungDiskon()
+                        hitungTotal()
+                        cekTableLength()
+                    }, 500)
+                }
             })
         })
 

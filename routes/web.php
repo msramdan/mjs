@@ -126,7 +126,8 @@ Route::middleware('auth')->group(function () {
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
-    Route::get('/item/get-item-by-id/{id}', [ItemController::class, 'getItemById']);
+    Route::get('/item/get-item-by-id/{itemId}/{supplierId}', [ItemController::class, 'getItemById']);
+    Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
     Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
 
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
