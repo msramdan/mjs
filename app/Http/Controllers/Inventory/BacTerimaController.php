@@ -20,11 +20,14 @@ class BacTerimaController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = BacTerima::with('user:id,name');
+            $query = BacTerima::with('user:id,name', 'purchase:id,kode');
 
             return DataTables::of($query)
                 ->addColumn('user', function ($row) {
                     return $row->user->name;
+                })
+                ->addColumn('purchase', function ($row) {
+                    return $row->purchase->kode;
                 })
                 ->addColumn('tanggal', function ($row) {
                     return $row->tanggal->format('d M Y');
@@ -60,15 +63,19 @@ class BacTerimaController extends Controller
         DB::transaction(function () use ($request) {
             $bacTerima = BacTerima::create([
                 'kode' => $request->kode,
+                'purchase_id' => $request->purchase,
                 'user_id' => auth()->id(),
                 'tanggal' => $request->tanggal,
                 'keterangan' => $request->keterangan,
             ]);
 
-            foreach ($request->produk as $i => $prd) {
+            foreach ($request->produk_id as $i => $prd) {
                 $detailBac[] = new DetailBacTerima([
                     'item_id' => $prd,
                     'qty' => $request->qty[$i],
+                    'harga' => $request->harga[$i],
+                    'sub_total' => $request->qty[$i] * $request->harga[$i],
+                    'qty_terima' => $request->qty_terima[$i],
                 ]);
             }
 
@@ -102,10 +109,16 @@ class BacTerimaController extends Controller
         $show = true;
 
         $bacTerima->load(
+            'purchase:id,request_form_id,supplier_id,kode,tanggal,attn,total,grand_total,diskon,catatan',
+            'purchase.supplier:id,nama',
+            'purchase.request_form:id,kode',
+
             'user:id,name',
-            'detail_bac_terima',
+
+            'detail_bac_terima:id,bac_terima_id,item_id,qty,qty_terima,harga,sub_total',
             'detail_bac_terima.item:id,unit_id,kode,nama,stok',
             'detail_bac_terima.item.unit:id,nama',
+
             'file_bac_terima:id,bac_terima_id,nama,file'
         );
 
@@ -123,12 +136,24 @@ class BacTerimaController extends Controller
         $show = false;
 
         $bacTerima->load(
+            'purchase:id,request_form_id,supplier_id,kode,tanggal,attn,total,grand_total,diskon,catatan',
+            'purchase.supplier:id,nama',
+            'purchase.request_form:id,kode',
+
+            // 'purchase.detail_purchase:id,purchase_id,item_id,qty,harga,sub_total',
+            // 'purchase.detail_purchase.item:id,unit_id,kode,nama',
+            // 'purchase.detail_purchase.item.unit:id,nama',
+
             'user:id,name',
-            'detail_bac_terima',
+
+            'detail_bac_terima:id,bac_terima_id,item_id,qty,qty_terima,harga,sub_total',
             'detail_bac_terima.item:id,unit_id,kode,nama,stok',
             'detail_bac_terima.item.unit:id,nama',
+
             'file_bac_terima:id,bac_terima_id,nama,file'
         );
+
+        // return $bacTerima;
 
         return view('inventory.bac-terima.edit', compact('bacTerima', 'show'));
     }
@@ -162,10 +187,13 @@ class BacTerimaController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
 
-            foreach ($request->produk as $i => $prd) {
+            foreach ($request->produk_id as $i => $prd) {
                 $detailBac[] = new DetailBacTerima([
                     'item_id' => $prd,
                     'qty' => $request->qty[$i],
+                    'harga' => $request->harga[$i],
+                    'sub_total' => $request->qty[$i] * $request->harga[$i],
+                    'qty_terima' => $request->qty_terima[$i],
                 ]);
             }
 
@@ -212,10 +240,6 @@ class BacTerimaController extends Controller
         foreach ($bacTerima->file_bac_terima as $detail) {
             unlink(public_path("/bac-terima/$detail->file"));
         }
-
-        $bacTerima->file_bac_terima()->delete();
-
-        $bacTerima->detail_bac_terima()->delete();
 
         $bacTerima->delete();
 

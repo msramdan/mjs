@@ -5,6 +5,7 @@ namespace App\Models\Purchase;
 use App\Models\Accounting\Billing;
 use Carbon\Carbon;
 use App\Models\Contact\Supplier;
+use App\Models\Inventory\BacTerima;
 use App\Models\RequestForm\RequestForm;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,6 +48,11 @@ class Purchase extends Model
     public function billings()
     {
         return $this->hasMany(Billing::class);
+    }
+
+    public function bac_terima()
+    {
+        return $this->hasOne(BacTerima::class);
     }
 
     public function getCreatedAtAttribute($value)

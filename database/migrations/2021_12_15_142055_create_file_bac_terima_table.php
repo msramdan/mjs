@@ -15,7 +15,7 @@ class CreateFileBacTerimaTable extends Migration
     {
         Schema::create('file_bac_terima', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bac_terima_id')->constrained('bac_terima');
+            $table->foreignId('bac_terima_id')->constrained('bac_terima')->cascadeOnDelete();
             $table->string('nama', 50);
             $table->string('file', 50);
             $table->timestamps();

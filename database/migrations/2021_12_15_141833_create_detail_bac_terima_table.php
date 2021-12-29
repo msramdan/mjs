@@ -15,7 +15,7 @@ class CreateDetailBacTerimaTable extends Migration
     {
         Schema::create('detail_bac_terima', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bac_terima_id')->constrained('bac_terima');
+            $table->foreignId('bac_terima_id')->constrained('bac_terima')->cascadeOnDelete();
             $table->foreignId('item_id')->constrained('items');
             $table->integer('qty');
             $table->timestamps();

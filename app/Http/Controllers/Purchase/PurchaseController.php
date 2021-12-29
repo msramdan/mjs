@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Purchase;
 
 use App\Http\Controllers\Controller;
+use App\Models\Inventory\DetailBacTerima;
 use App\Models\Inventory\Item;
 use App\Models\Purchase\DetailPurchase;
 use App\Models\Purchase\Purchase;
@@ -146,7 +147,7 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, Purchase $purchase)
     {
-        $purchase->load('detail_purchase');
+        $purchase->load('detail_purchase', 'bac_terima');
 
         // kembalikan stok
         // foreach ($purchase->detail_purchase as $detail) {
@@ -156,8 +157,12 @@ class PurchaseController extends Controller
         // }
 
         DB::transaction(function () use ($request, $purchase) {
-            // hapus detail purchase lama
+            // hapus detail purchase & bac terima lama
             $purchase->detail_purchase()->delete();
+
+            if ($purchase->bac_terima) {
+                DetailBacTerima::where('bac_terima_id', $purchase->bac_terima->id)->delete();
+            }
 
             $purchase->update([
                 'request_form_id' => $request->request_form,
@@ -179,6 +184,15 @@ class PurchaseController extends Controller
                     'sub_total' => $request->subtotal[$i],
                 ]);
 
+                // insert data baru detail bac terima
+                $detailBac[] = new DetailBacTerima([
+                    'item_id' => $prd,
+                    'qty' => $request->qty[$i],
+                    'harga' => $request->harga[$i],
+                    'sub_total' => $request->qty[$i] * $request->harga[$i],
+                    // 'qty_terima' => $request->qty_terima[$i],
+                ]);
+
                 // Update stok barang
                 // $produkQuery = Item::whereId($prd);
                 // $getProduk = $produkQuery->first();
@@ -186,6 +200,10 @@ class PurchaseController extends Controller
             }
 
             $purchase->detail_purchase()->saveMany($detailPurch);
+
+            if ($purchase->bac_terima) {
+                $purchase->bac_terima->detail_bac_terima()->saveMany($detailBac);
+            }
         });
 
         return response()->json(['success'], 200);
@@ -199,11 +217,17 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
-        $purchase->delete();
+        try {
+            $purchase->delete();
 
-        Alert::toast('Hapus data berhasil', 'success');
+            Alert::toast('Hapus data berhasil', 'success');
 
-        return redirect()->route('purchase.index');
+            return redirect()->route('purchase.index');
+        } catch (\Throwable $th) {
+            Alert::toast('Hapus data gagal', 'error');
+
+            return redirect()->route('purchase.index');
+        }
     }
 
     /**
@@ -261,11 +285,12 @@ class PurchaseController extends Controller
         abort_if(!request()->ajax(), 403);
 
         $purchase = Purchase::with(
+            'supplier:id,nama',
             'request_form:id,kode',
             'detail_purchase:id,purchase_id,item_id,harga,qty,sub_total',
             'detail_purchase.item:id,kode,nama,unit_id',
             'detail_purchase.item.unit:id,nama',
-            'billings:purchase_id,id,kode,tanggal_dibayar,tanggal_billing,dibayar,status'
+            'billings:purchase_id,id,kode,tanggal_dibayar,tanggal_billing,dibayar,status',
         )->findOrFail($id);
 
         return response()->json($purchase, 200);

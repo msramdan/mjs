@@ -35,6 +35,7 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>Purchase</th>
                                         <th>Kode</th>
                                         <th>User</th>
                                         <th>Tangal</th>
@@ -67,6 +68,9 @@
             serverSide: true,
             ajax: "{{ route('bac-terima.index') }}",
             columns: [{
+                    data: 'purchase',
+                    name: 'purchase'
+                }, {
                     data: 'kode',
                     name: 'kode'
                 },
