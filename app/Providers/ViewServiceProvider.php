@@ -329,10 +329,10 @@ class ViewServiceProvider extends ServiceProvider
 
         // list consumable
         View::composer([
-            'purchase.create',
-            'purchase.edit',
-            'inventory.bac-terima.create',
-            'inventory.bac-terima.edit',
+            // 'purchase.create',
+            // 'purchase.edit',
+            // 'inventory.bac-terima.create',
+            // 'inventory.bac-terima.edit',
             'inventory.bac-pakai.create',
             'inventory.bac-pakai.edit',
         ], function ($view) {

@@ -173,13 +173,17 @@ class ItemController extends Controller
         return redirect()->route('item.index');
     }
 
-    public function getItemById($id)
+    public function getItemById($itemId, $supplierId)
     {
-        abort_if(!request()->ajax(), 403);
+        // abort_if(!request()->ajax(), 403);
 
-        $item = Item::with('unit:id,nama')
-            ->select('id', 'unit_id', 'kode', 'nama', 'stok')
-            ->findOrFail($id);
+        $item = DetailItem::with(
+            'item:id,unit_id,kode,nama,stok',
+            'item.unit:id,nama'
+        )
+            ->select('id', 'item_id', 'harga_beli', 'supplier_id')
+            ->where(['item_id' => $itemId, 'supplier_id' => $supplierId])
+            ->first();
 
         return response()->json($item, 200);
     }
@@ -233,5 +237,16 @@ class ItemController extends Controller
         }
 
         return response()->json(['kode' => $kode], 200);
+    }
+
+    public function getItemBySupplier($id)
+    {
+        // abort_if(!request()->ajax(), 403);
+
+        $item = DetailItem::select('id', 'item_id', 'supplier_id')
+            ->with('item:id,kode,nama')
+            ->where('supplier_id', $id)->get();
+
+        return response()->json($item, 200);
     }
 }

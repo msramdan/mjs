@@ -68,24 +68,29 @@
                         <div class="form-group mb-2">
                             <label class="form-label" for="produk">Produk</label>
                             <select class="form-select" id="produk" name="produk">
-                                <option value="" disabled selected>-- Pilih --</option>
-                                @foreach ($consumable as $item)
-                                    <option value="{{ $item->id }}">{{ $item->kode . ' - ' . $item->nama }}
-                                    </option>
-                                @endforeach
+                                @isset($listProduk)
+                                    <option value="" disabled selected>-- Pilih --</option>
+                                    @foreach ($listProduk as $prd)
+                                        <option value="{{ $prd->id }}">
+                                            {{ $prd->item->kode . ' - ' . $prd->item->nama }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="" disabled selected>Pilih supplier terlebih dahulu</option>
+                                @endisset
                             </select>
                         </div>
 
                         <div class="row form-group">
                             <div class="col-md-6 mb-2">
                                 <label class="form-label" for="harga">Harga</label>
-                                <input class="form-control" type="number" id="harga" name="Harga"
-                                    placeholder="Harga" />
+                                <input class="form-control" type="number" id="harga" name="Harga" placeholder="Harga"
+                                    min="1" />
                             </div>
 
                             <div class="col-md-6 mb-2">
                                 <label class="form-label" for="qty">Qty</label>
-                                <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
+                                <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty"
+                                    min="1" />
                             </div>
                         </div>
                     @endif
@@ -93,17 +98,23 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end my-3">
-                @if (!$show)
-                    <button type="button" class="btn btn-info" id="btn-update" style="display: none;">
-                        <i class="fas fa-save me-1"></i>
-                        Update
-                    </button>
+            <div class="d-flex justify-content-between my-3">
+                <div>
+                    <h5 class="pt-2">Items</h5>
+                </div>
 
-                    <button type="button" class="btn btn-primary" id="btn-add">
-                        <i class="fas fa-cart-plus me-1"></i>
-                        Add
-                    </button>
+                @if (!$show)
+                    <div>
+                        <button type="button" class="btn btn-info" id="btn-update" style="display: none;">
+                            <i class="fas fa-save me-1"></i>
+                            Update
+                        </button>
+
+                        <button type="button" class="btn btn-primary" id="btn-add">
+                            <i class="fas fa-cart-plus me-1"></i>
+                            Add
+                        </button>
+                    </div>
                 @endif
             </div>
 
@@ -180,8 +191,10 @@
 
                     <div class="form-group mb-2">
                         <label class="form-label" for="diskon">Diskon</label>
-                        <input class="form-control" type="number" id="diskon" name="diskon" placeholder="Diskon"
-                            value="{{ $purchase ? $purchase->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
+                        <input class="form-control" type="{{ $show ? 'text' : 'number' }}" id="diskon"
+                            name="diskon" placeholder="Diskon" min="1"
+                            value="{{ $show ? number_format($purchase->diskon) : ($purchase ? $purchase->diskon : '') }}"
+                            {{ $show ? 'disabled' : '' }} />
                     </div>
 
                     <div class="form-group mb-2">
