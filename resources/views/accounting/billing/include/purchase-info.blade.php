@@ -30,7 +30,7 @@
 
                     @if (!$show && !$billing)
                         <option value="" disabled selected>-- Pilih --</option>
-                        @forelse ($purchases as $item)
+                        @forelse ($purchaseApproves as $item)
                             <option value="{{ $item->id }}"
                                 {{ $billing && $billing->purchase_id == $item->id ? 'selected' : '' }}>
                                 {{ $item->kode }}

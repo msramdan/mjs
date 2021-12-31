@@ -20,7 +20,9 @@ class RoleAndPermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Role::create(['name' => 'Super Admin']);
-        Role::create(['name' => 'Admin']);
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'gm']);
+        Role::create(['name' => 'direktur']);
 
         Permission::create(['name' => 'create jabatan']);
 
@@ -93,8 +95,18 @@ class RoleAndPermissionSeeder extends Seeder
 
         Permission::create(['name' => 'edit toko']);
 
+        Permission::create(['name' => 'approve purchase']);
+
         $userAdmin = User::first();
         $userAdmin->assignRole('admin');
         $userAdmin->givePermissionTo(Permission::all());
+
+        $userGm = User::find(2);
+        $userGm->assignRole('gm');
+        $userGm->givePermissionTo('approve purchase');
+
+        $userDirektur = User::find(3);
+        $userDirektur->assignRole('direktur');
+        $userDirektur->givePermissionTo('approve purchase');
     }
 }

@@ -387,10 +387,24 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list purchases
+        // list purchases approve
         View::composer([
             'accounting.billing.create',
             'accounting.billing.edit',
+        ], function ($view) {
+            return $view->with(
+                'purchaseApproves',
+                Purchase::select('id', 'kode')
+                    ->where('lunas', 0)
+                    ->where('approve_by_gm', '!=', null)
+                    ->orderBy('id')
+                    ->get()
+            );
+        });
+
+
+        // list purchases
+        View::composer([
             'inventory.bac-terima.create',
             'inventory.bac-terima.edit'
         ], function ($view) {

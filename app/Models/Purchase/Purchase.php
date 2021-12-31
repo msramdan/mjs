@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Contact\Supplier;
 use App\Models\Inventory\BacTerima;
 use App\Models\RequestForm\RequestForm;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +26,9 @@ class Purchase extends Model
         'catatan',
         'grand_total',
         'total_dibayar',
-        'lunas'
+        'lunas',
+        'approve_by_gm',
+        'approve_by_direktur'
     ];
 
     protected $casts = ['tanggal' => 'date'];
@@ -53,6 +56,16 @@ class Purchase extends Model
     public function bac_terima()
     {
         return $this->hasOne(BacTerima::class);
+    }
+
+    public function approved_by_gm()
+    {
+        return $this->belongsTo(User::class, 'approve_by_gm');
+    }
+
+    public function approved_by_direktur()
+    {
+        return $this->belongsTo(User::class, 'approve_by_direktur');
     }
 
     public function getCreatedAtAttribute($value)

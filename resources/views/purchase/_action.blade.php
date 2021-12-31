@@ -1,4 +1,31 @@
 <td>
+    @role('gm')
+        @if ($model->grand_total > 10000000 && $model->approve_by_direktur == null)
+            <a href="#" class="btn btn-dark btn-xs mb-1 disabled">
+                <i class="fas fa-check"></i>
+            </a>
+        @elseif ($model->approve_by_gm == null)
+            <a href="{{ route('purchase.approve', $model->id) }}" class="btn btn-dark btn-xs mb-1">
+                <i class="fas fa-check"></i>
+            </a>
+        @elseif ($model->approve_by_gm != null)
+            <a href="#" class="btn btn-dark btn-xs mb-1 disabled">
+                <i class="fas fa-check"></i>
+            </a>
+        @else
+            <a href="#" class="btn btn-dark btn-xs mb-1 disabled">
+                <i class="fas fa-check"></i>
+            </a>
+        @endif
+    @endrole
+
+    @role('direktur')
+        <a href="{{ route('purchase.approve', $model->id) }}"
+            class="btn btn-dark btn-xs mb-1{{ ($model->grand_total < 10000000 ? ' disabled' : $model->approve_by_direktur != null) ? ' disabled' : '' }}">
+            <i class="fas fa-check"></i>
+        </a>
+    @endrole
+
     <a href="{{ route('purchase.show', $model->id) }}" class="btn btn-info btn-xs mb-1">
         <i class="fas fa-eye"></i>
     </a>
