@@ -15,6 +15,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PurchaseController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:gm|direktur')->only('approve');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,11 +28,39 @@ class PurchaseController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Purchase::with('request_form:id,kode', 'supplier:id,nama');
+            $query = Purchase::with(
+                'request_form:id,kode',
+                'supplier:id,nama',
+                'approved_by_gm:id,name',
+                'approved_by_direktur:id,name'
+            );
 
             return DataTables::of($query)
                 ->addColumn('request_form', function ($row) {
                     return $row->request_form->kode;
+                })
+                ->addColumn('status_approve', function ($row) {
+                    if ($row->approved_by_gm && $row->approved_by_direktur) {
+                        return '<ul class="m-0 p-0">
+                        <li>Approve by Direktur: <b>' . $row->approved_by_direktur->name . '</b></li>
+                        <li>Approve by GM: <b>' .  $row->approved_by_gm->name . '</b></li>
+                    </ul>';
+                    } else if ($row->approved_by_gm) {
+                        return '<ul class="m-0 p-0">
+                        <li>Approve by GM: <b>' .  $row->approved_by_gm->name . '</b></li>
+                        <li>Approve by Direktur: - </li>
+                    </ul>';
+                    } else if ($row->approved_by_direktur) {
+                        return '<ul class="m-0 p-0">
+                        <li>Approve by Direktur: <b>' .  $row->approved_by_direktur->name . '</b></li>
+                        <li>Approve by GM: - </li>
+                    </ul>';
+                    } else {
+                        return '<ul class="m-0 p-0">
+                        <li>Approve by GM: - </li>
+                        <li>Approve by Direktur: - </li>
+                    </ul>';
+                    }
                 })
                 ->addColumn('supplier', function ($row) {
                     return $row->supplier->nama;
@@ -36,6 +69,7 @@ class PurchaseController extends Controller
                     return $row->tanggal->format('d M Y');
                 })
                 ->addColumn('action', 'purchase._action')
+                ->rawColumns(['status_approve', 'action'])
                 ->toJson();
         }
 
@@ -280,9 +314,8 @@ class PurchaseController extends Controller
         return response()->json(['kode' => $kode], 200);
     }
 
-
     /**
-     * Generate a specific purchase by id for billing.
+     * Get a specific purchase by id for billing.
      *
      * @param  String $id
      * @return \Illuminate\Http\Response
@@ -301,5 +334,47 @@ class PurchaseController extends Controller
         )->findOrFail($id);
 
         return response()->json($purchase, 200);
+    }
+
+    public function approve($id)
+    {
+        /**
+         * approve purchase agar bisa tampil di billing
+         * kurang dari 10jt hanya butuh approval dari GM, kalo lebih butuh approval dari direktur terlebih dahulu baru GM
+         */
+        $purchase = Purchase::with('approved_by_gm:id,name', 'approved_by_direktur:id,name')->findOrFail($id);
+
+        // if ($purchase->grand_total <= 10000000) {
+        //     $this->approvedBy($purchase);
+        // } else
+
+        if (
+            auth()->user()->hasRole('gm') &&
+            $purchase->grand_total > 10000000 &&
+            $purchase->approve_by_direktur == null
+        ) {
+            Alert::toast('Approve gagal, butuh approve direktur', 'error');
+
+            return redirect()->route('purchase.index');
+        } else {
+            if (auth()->user()->hasRole('gm')) {
+                $purchase->update(['approve_by_gm' => auth()->id()]);
+            } else {
+                $purchase->update(['approve_by_direktur' => auth()->id()]);
+            }
+
+            Alert::toast('Approve berhasil', 'success');
+
+            return redirect()->route('purchase.index');
+        }
+    }
+
+    private function approvedBy($purchase)
+    {
+        if (auth()->user()->getRoleNames() == 'gm') {
+            $purchase->update(['approve_by_gm' => auth()->id()]);
+        } else {
+            $purchase->update(['approve_by_direktur' => auth()->id()]);
+        }
     }
 }

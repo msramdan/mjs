@@ -35,10 +35,12 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>Kode</th>
                                         <th>Form Request</th>
                                         <th>Supplier</th>
                                         <th>Attn.</th>
                                         <th>Tangal</th>
+                                        <th>Status Approve</th>
                                         <th>Total</th>
                                         <th>Diskon</th>
                                         <th>Grand Total</th>
@@ -70,6 +72,10 @@
             serverSide: true,
             ajax: "{{ route('purchase.index') }}",
             columns: [{
+                    data: 'kode',
+                    name: 'kode'
+                },
+                {
                     data: 'request_form',
                     name: 'request_form'
                 },
@@ -84,6 +90,10 @@
                 {
                     data: 'tanggal',
                     name: 'tanggal'
+                },
+                {
+                    data: 'status_approve',
+                    name: 'status_approve'
                 },
                 {
                     data: 'total',
