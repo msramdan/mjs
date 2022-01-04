@@ -47,6 +47,8 @@ return [
         'user' => 'Users',
         'aso' => 'ASO',
         'received' => 'Received',
-        'dokumen_hrga' => 'HRGA Document'
+        'dokumen_hrga' => 'HRGA Document',
+        'rf_purchase' => 'Request Form Purchase',
+        'rf_loan' => 'Request Form Loan',
     ],
 ];

@@ -7,6 +7,8 @@ use App\Http\Requests\RequestForm\StoreRequestFormRequest;
 use App\Http\Requests\RequestForm\UpdateRequestFormRequest;
 use App\Models\RequestForm\DetailRequestForm;
 use App\Models\RequestForm\RequestForm;
+use App\Models\RequestForm\StatusRequestForm;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Str;
@@ -94,7 +96,12 @@ class RequestFormController extends Controller
      */
     public function show(RequestForm $requestForm)
     {
-        $requestForm->load('detail_request_form', 'category_request');
+        $requestForm->load(
+            'detail_request_form',
+            'category_request',
+            'status_request_forms',
+            'status_request_forms.user:id,name,foto'
+        );
 
         return view('form-request.form.show', compact('requestForm'));
     }
@@ -107,7 +114,11 @@ class RequestFormController extends Controller
      */
     public function edit(RequestForm $requestForm)
     {
-        $requestForm->load('detail_request_form');
+        $requestForm->load(
+            'detail_request_form',
+            'status_request_forms',
+            'status_request_forms.user:id,name,foto'
+        );
 
         return view('form-request.form.edit', compact('requestForm'));
     }
@@ -170,17 +181,26 @@ class RequestFormController extends Controller
      */
     public function destroy(RequestForm $requestForm)
     {
-        // hapus file
-        foreach ($requestForm->detail_request_form as $detail) {
-            unlink(public_path("/form-request/$detail->file"));
+        try {
+
+            $fileRequestForm = $requestForm->detail_request_form;
+
+            // baru hapus record
+            $requestForm->delete();
+
+            // hapus file
+            foreach ($fileRequestForm as $detail) {
+                unlink(public_path("/form-request/$detail->file"));
+            }
+
+            Alert::toast('Hapus data berhasil', 'success');
+
+            return redirect()->route('request-form.index');
+        } catch (\Throwable $th) {
+            Alert::toast('Hapus data gagal', 'error');
+
+            return redirect()->route('request-form.index');
         }
-
-        // baru hapus record
-        $requestForm->delete();
-
-        Alert::toast('Hapus data berhasil', 'success');
-
-        return redirect()->route('request-form.index');
     }
 
     /**
@@ -257,5 +277,43 @@ class RequestFormController extends Controller
         }
 
         return response()->json(['kode' => $kode], 200);
+    }
+
+    /**
+     * Set status to approve or waiting.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function setStatus(Request $request)
+    {
+        $statusRequestForm = StatusRequestForm::where('user_id', auth()->id())
+            ->where('request_form_id', $request->request_form_id);
+
+        if ($statusRequestForm->first()) {
+            // kalo user udah ngasih status
+            // update status
+            $statusRequestForm->update(['status' => $request->status_rf]);
+
+            Alert::toast('Status berhasil diubah', 'success');
+
+            return redirect()->route('request-form.index');
+        } else {
+            // kalo user belom ngasih status
+            // insert status baru
+
+            $countStatus = StatusRequestForm::select('id')->count();
+
+            StatusRequestForm::create([
+                'user_id' => auth()->id(),
+                'request_form_id' => $request->request_form_id,
+                'step' => $countStatus + 1,
+                'status' => $request->status_rf,
+            ]);
+
+            Alert::toast('Status berhasil disimpan', 'success');
+
+            return redirect()->route('request-form.index');
+        }
     }
 }

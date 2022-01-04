@@ -28,7 +28,7 @@ class UpdateRequestFormRequest extends FormRequest
             'kode' => 'required|unique:request_forms,kode,' . $this->request_form->id,
             'tanggal' => 'required|date',
             'berita_acara' => 'required|string',
-            'status' => 'required|in:Aktif,Non-aktif',
+            // 'status' => 'required|in:Aktif,Non-aktif',
             'nama.*' => 'required|string|min:3',
             'file.*' => 'required|mimes:pdf,doc,docx,zip,rar,png,jpg,jpeg|max:2048',
         ];

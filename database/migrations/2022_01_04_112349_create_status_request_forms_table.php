@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRequestFormsTable extends Migration
+class CreateStatusRequestFormsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateRequestFormsTable extends Migration
      */
     public function up()
     {
-        Schema::create('request_forms', function (Blueprint $table) {
+        Schema::create('status_request_forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_request_id')->constrained('category_request');
+            $table->foreignId('request_form_id')->constrained('request_forms')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('kode', 30);
-            $table->date('tanggal');
-            $table->text('berita_acara');
-            // $table->enum('status', ['Aktif', 'Non-aktif']);
+            $table->integer('step');
+            $table->enum('status', ['Waiting', 'Approve']);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateRequestFormsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('request_forms');
+        Schema::dropIfExists('status_request_forms');
     }
 }

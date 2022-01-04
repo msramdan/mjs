@@ -174,8 +174,12 @@ Route::middleware('auth')->prefix('setting')->group(function () {
 });
 
 // Request Form
-Route::get('/request-form/generate-kode/{tanggal}', [RequestFormController::class, 'generateKode']);
-Route::middleware('auth')->get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
+Route::middleware('auth')->group(function () {
+    Route::get('/request-form/generate-kode/{tanggal}', [RequestFormController::class, 'generateKode']);
+    Route::get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
+    Route::post('/request-form/set-status', [RequestFormController::class, 'setStatus'])->name('request-form.set-status');
+});
+
 Route::middleware('auth')->resource('/request-form', RequestFormController::class);
 
 

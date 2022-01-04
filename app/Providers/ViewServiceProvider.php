@@ -323,7 +323,13 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'requestForm',
-                RequestForm::select('id', 'kode')->orderBy('kode')->get()
+                RequestForm::with('status_request_forms:id,request_form_id,status')
+                    ->whereHas('status_request_forms', function ($q) {
+                        $q->where('status', 'Approve');
+                    })
+                    ->select('id', 'kode')
+                    ->orderBy('kode')
+                    ->get()
             );
         });
 

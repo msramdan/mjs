@@ -46,6 +46,8 @@ return [
         'user' => 'Pengguna',
         'aso' => 'ASO',
         'received' => 'Received',
-        'dokumen_hrga' => 'Document HRGA'
+        'dokumen_hrga' => 'Document HRGA',
+        'rf_purchase' => 'Request Form Pembelian',
+        'rf_loan' => 'Request Form Peminjaman Uang',
     ],
 ];
