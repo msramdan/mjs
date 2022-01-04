@@ -27,7 +27,7 @@
                     @method('POST')
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="kode">Kode</label>
                                 <input class="form-control @error('kode') is-invalid @enderror" type="text" id="kode"
@@ -36,7 +36,9 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
 
+                        <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="tanggal">Tanggal</label>
                                 <input class="form-control @error('tanggal') is-invalid @enderror" type="date" id="tanggal"
@@ -48,7 +50,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="category_request">Category Request</label>
                                 <select class="form-select @error('category_request') is-invalid @enderror"
@@ -61,22 +63,6 @@
                                     @endforelse
                                 </select>
                                 @error('category_request')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="status">Status</label>
-                                <select class="form-select @error('status') is-invalid @enderror" id="status" name="status"
-                                    required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @forelse ($status as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                    @empty
-                                        <option value="" disabled>Data tidak ditemukan</option>
-                                    @endforelse
-                                </select>
-                                @error('status')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

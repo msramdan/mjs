@@ -23,13 +23,15 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group mb-3">
                             <label class="form-label" for="kode">Kode</label>
                             <input class="form-control" type="text" id="kode" name="kode" placeholder="kode"
                                 value="{{ $requestForm->kode }}" disabled />
                         </div>
+                    </div>
 
+                    <div class="col-md-4">
                         <div class="form-group mb-3">
                             <label class="form-label" for="tanggal">Tanggal</label>
                             <input class="form-control" type="date" id="tanggal" name="tanggal"
@@ -37,19 +39,12 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group mb-3">
                             <label class="form-label" for="category_request">Category Request</label>
                             <select class="form-select" id="category_request" name="category_request" readonly>
                                 <option value="{{ $requestForm->category_request->id }}" selected>
                                     {{ $requestForm->category_request->nama }}</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label class="form-label" for="status">Status</label>
-                            <select class="form-select" id="status" name="status" readonly>
-                                <option value="{{ $requestForm->status }}" selected>{{ $requestForm->status }}</option>
                             </select>
                         </div>
                     </div>
@@ -106,6 +101,8 @@
                 <a href="{{ route('request-form.index') }}" class="btn btn-secondary">Back</a>
             </div>
         </div>
+
+        @include('form-request.form.include.timeline', ['show' => true])
     </div>
 @endsection
 

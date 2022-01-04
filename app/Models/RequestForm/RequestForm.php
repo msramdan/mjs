@@ -37,6 +37,11 @@ class RequestForm extends Model
         return $this->hasMany(DetailRequestForm::class);
     }
 
+    public function status_request_forms()
+    {
+        return $this->hasMany(StatusRequestForm::class);
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return date('d m Y H:i', strtotime($value));
