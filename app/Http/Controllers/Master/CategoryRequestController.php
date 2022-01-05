@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Master\StoreCategoryRequestRequest;
 use App\Http\Requests\Master\UpdateCategoryRequestRequest;
 use App\Models\Master\CategoryRequest;
+use App\Models\Master\SettingCategoryRequest;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -63,6 +64,11 @@ class CategoryRequestController extends Controller
      */
     public function edit(CategoryRequest $categoryRequest)
     {
+        $categoryRequest->load(
+            'setting_category_requests',
+            'setting_category_requests.user:id,name,foto'
+        );
+
         return view('master-data.category-request.edit', compact('categoryRequest'));
     }
 
@@ -75,6 +81,25 @@ class CategoryRequestController extends Controller
      */
     public function update(UpdateCategoryRequestRequest $request, CategoryRequest $categoryRequest)
     {
+
+        // return $request;
+
+        $categoryRequest->load('setting_category_requests');
+
+        if (isset($request->user)) {
+            $categoryRequest->setting_category_requests()->delete();
+
+            foreach ($request->user as $i => $usr) {
+                $settingCategory[] = new SettingCategoryRequest([
+                    'category_request_id' => $categoryRequest->id,
+                    'user_id' => $usr,
+                    'step' => $i + 1
+                ]);
+            }
+
+            $categoryRequest->setting_category_requests()->saveMany($settingCategory);
+        }
+
         $categoryRequest->update($request->validated());
 
         Alert::toast('Update data berhasil', 'success');

@@ -13,6 +13,11 @@ class CategoryRequest extends Model
 
     protected $fillable = ['kode', 'nama'];
 
+    public function setting_category_requests()
+    {
+        return $this->hasMany(SettingCategoryRequest::class);
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return date('d m Y H:i', strtotime($value));
