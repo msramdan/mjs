@@ -4,9 +4,10 @@ $cekStatus = [];
 
 @foreach ($requestForm->status_request_forms as $srf)
     @php
-        if ($srf->user_id == auth()->id()) {
+        if ($srf->setting_category_request->user_id == auth()->id()) {
             $cekStatus['user'] = true;
             $cekStatus['info'] = $srf->status;
+            $cekStatus['setting_category_request_form_id'] = $srf->setting_category_request_form_id;
         }
     @endphp
 @endforeach
@@ -27,10 +28,13 @@ $cekStatus = [];
         </div>
     </div>
     <div class="panel-body">
-        @empty($show)
+        @if (empty($show) && $cekStatus && $cekStatus['user'] == true)
             <form action="{{ route('request-form.set-status') }}" method="POST">
                 @csrf
                 @method('POST')
+
+                <input type="hidden" name="setting_category_request_form_id"
+                    value="{{ $cekStatus ? $cekStatus['setting_category_request_form_id'] : '' }}">
 
                 <div class="row">
                     <div class="col-md-4">
@@ -70,7 +74,7 @@ $cekStatus = [];
                         <div class="form-group">
                             <label for="button"></label>
                             <button type="submit" class="btn btn-primary form-control">
-                                {{ $cekStatus ? 'Update' : 'Simpan' }}
+                                Update
                             </button>
                         </div>
                     </div>
@@ -78,10 +82,10 @@ $cekStatus = [];
             </form>
 
             <hr class="my-4" />
-        @endempty
+        @endif
 
         <div class="timeline">
-            @foreach ($requestForm->status_request_forms as $srf)
+            @foreach ($requestForm->status_request_forms as $i => $srf)
                 <div class="timeline-item">
                     <div class="timeline-time">
                         <span class="date">{{ $srf->updated_at->diffForHumans() }}</span>
@@ -93,16 +97,18 @@ $cekStatus = [];
                     <div class="timeline-content">
                         <div class="timeline-header">
                             <div class="userimage">
-                                @if ($srf->user->foto)
-                                    <img src="{{ asset('storage/img/user/' . $srf->user->foto) }}" alt="Foto User"
-                                        style="width: 40px; height: 40px; object-fit: cover;" />
+                                @if ($srf->setting_category_request->user->foto)
+                                    <img src="{{ asset('storage/img/user/' . $srf->setting_category_request->user->foto) }}"
+                                        alt="Foto User" style="width: 40px; height: 40px; object-fit: cover;" />
                                 @else
-                                    <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($srf->user->email))) }}&s=128"
+                                    <img src="https://www.gravatar.com/avatar/{{ md5(strtolower(trim($srf->setting_category_request->user->email))) }}&s=128"
                                         alt="Foto User">
                                 @endif
                             </div>
                             <div class="username">
-                                <a href="javascript:;">{{ $srf->user->name }}</a>
+                                <a href="javascript:;">
+                                    {{ $srf->setting_category_request->user->name }}
+                                </a>
                             </div>
                         </div>
 

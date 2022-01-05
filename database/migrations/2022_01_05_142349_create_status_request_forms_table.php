@@ -16,8 +16,7 @@ class CreateStatusRequestFormsTable extends Migration
         Schema::create('status_request_forms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('request_form_id')->constrained('request_forms')->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained('users');
-            $table->integer('step');
+            $table->foreignId('setting_category_request_form_id')->constrained('setting_category_request_forms');
             $table->enum('status', ['Waiting', 'Approve']);
             $table->timestamps();
         });
