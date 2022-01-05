@@ -23,6 +23,7 @@ use App\Models\Purchase\Purchase;
 use App\Models\RequestForm\RequestForm;
 use App\Models\Sale\Sale;
 use App\Models\Sale\Spal;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Spatie\Permission\Models\Permission;
@@ -457,6 +458,17 @@ class ViewServiceProvider extends ServiceProvider
                         'akun_header.akun_coa:id,kode,nama,account_header_id'
                     )
                     ->get()
+            );
+        });
+
+        // list user
+        View::composer([
+            // 'master-data.category-request.create',
+            'master-data.category-request.edit',
+        ], function ($view) {
+            return $view->with(
+                'users',
+                User::select('id', 'name')->orderBy('name')->get()
             );
         });
     }

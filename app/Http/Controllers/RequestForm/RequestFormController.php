@@ -5,6 +5,7 @@ namespace App\Http\Controllers\RequestForm;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestForm\StoreRequestFormRequest;
 use App\Http\Requests\RequestForm\UpdateRequestFormRequest;
+use App\Models\Master\SettingCategoryRequest;
 use App\Models\RequestForm\DetailRequestForm;
 use App\Models\RequestForm\RequestForm;
 use App\Models\RequestForm\StatusRequestForm;
@@ -80,6 +81,25 @@ class RequestFormController extends Controller
 
             $requestForm = RequestForm::create($attr);
 
+            // get setting cateogry, insert and set status to waiting
+            $settingCategory = SettingCategoryRequest::where('category_request_id', $request->category_request)->get();
+
+            if (isset($settingCategory)) {
+                foreach ($settingCategory as $sc) {
+                    DB::table('status_request_forms')->insert([
+                        [
+                            'request_form_id' => $requestForm->id,
+                            'setting_category_request_form_id' => $sc->id,
+                            'status' => 'Waiting',
+                            'created_at' => now()->toDateTimeString(),
+                            'updated_at' => now()->toDateTimeString(),
+                        ]
+                    ]);
+                }
+            }
+
+            // $requestForm->status_request_forms()->saveMany($insertSC);
+
             $requestForm->detail_request_form()->saveMany($detailRequestForm);
 
             Alert::toast('Tambah data berhasil', 'success');
@@ -97,10 +117,11 @@ class RequestFormController extends Controller
     public function show(RequestForm $requestForm)
     {
         $requestForm->load(
-            'detail_request_form',
-            'category_request',
+            'detail_request_form:id,request_form_id,nama,file',
             'status_request_forms',
-            'status_request_forms.user:id,name,foto'
+            'status_request_forms.setting_category_request:id,category_request_id,user_id,step',
+            'status_request_forms.setting_category_request.user:id,name,foto',
+            'category_request:id,kode,nama',
         );
 
         return view('form-request.form.show', compact('requestForm'));
@@ -115,9 +136,11 @@ class RequestFormController extends Controller
     public function edit(RequestForm $requestForm)
     {
         $requestForm->load(
-            'detail_request_form',
             'status_request_forms',
-            'status_request_forms.user:id,name,foto'
+            'detail_request_form:id,request_form_id,nama,file',
+            'status_request_forms.setting_category_request:id,category_request_id,user_id,step',
+            'status_request_forms.setting_category_request.user:id,name,foto',
+            'category_request:id,kode,nama',
         );
 
         return view('form-request.form.edit', compact('requestForm'));
@@ -287,33 +310,12 @@ class RequestFormController extends Controller
      */
     public function setStatus(Request $request)
     {
-        $statusRequestForm = StatusRequestForm::where('user_id', auth()->id())
-            ->where('request_form_id', $request->request_form_id);
+        $statusRequest = StatusRequestForm::where('setting_category_request_form_id', $request->setting_category_request_form_id)->firstOrFail();
 
-        if ($statusRequestForm->first()) {
-            // kalo user udah ngasih status
-            // update status
-            $statusRequestForm->update(['status' => $request->status_rf]);
+        $statusRequest->update(['status' => $request->status_rf]);
 
-            Alert::toast('Status berhasil diubah', 'success');
+        Alert::toast('Status berhasil diubah', 'success');
 
-            return redirect()->route('request-form.index');
-        } else {
-            // kalo user belom ngasih status
-            // insert status baru
-
-            $countStatus = StatusRequestForm::select('id')->count();
-
-            StatusRequestForm::create([
-                'user_id' => auth()->id(),
-                'request_form_id' => $request->request_form_id,
-                'step' => $countStatus + 1,
-                'status' => $request->status_rf,
-            ]);
-
-            Alert::toast('Status berhasil disimpan', 'success');
-
-            return redirect()->route('request-form.index');
-        }
+        return redirect()->route('request-form.index');
     }
 }

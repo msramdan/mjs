@@ -39,7 +39,7 @@ class RequestForm extends Model
 
     public function status_request_forms()
     {
-        return $this->hasMany(StatusRequestForm::class);
+        return $this->hasMany(StatusRequestForm::class)->orderBy('updated_at');
     }
 
     public function getCreatedAtAttribute($value)
