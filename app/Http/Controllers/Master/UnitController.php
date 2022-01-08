@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Master\StoreUnitRequest;
-use App\Http\Requests\Master\UpdateUnitRequest;
+use App\Http\Requests\Master\{StoreUnitRequest, UpdateUnitRequest};
 use App\Models\Master\Unit;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UnitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view unit')->only('index');
+        $this->middleware('permission:create unit')->only('create');
+        $this->middleware('permission:edit unit')->only('edit', 'update');
+        $this->middleware('permission:delete unit')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +26,7 @@ class UnitController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(Unit::orderByDesc('updated_at'))
+            return Datatables::of(Unit::query())
                 ->addColumn('action', 'master-data.unit._action')
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d m Y H:i');

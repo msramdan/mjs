@@ -39,6 +39,28 @@
                         </div>
                     </div>
 
+                    <h6>Permissions</h6>
+                    <div class="row">
+                        @foreach (config('permission.list_permissions') as $permission)
+                            <div class="col-md-3 mb-4">
+                                <div class="card">
+                                    <div class="card-header bg-dark">{{ ucfirst($permission['group']) }}</div>
+                                    <div class="card-body">
+                                        @foreach ($permission['lists'] as $list)
+                                            <div class="form-check mb-1">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="{{ Str::slug($list) }}" name="permissions[]"
+                                                    value="{{ $list }}" />
+                                                <label class="form-check-label"
+                                                    for="{{ Str::slug($list) }}">{{ ucwords($list) }}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
                     <button type="reset" class="btn btn-secondary me-1">Reset</button>
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>

@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Master\StoreCategoryPotonganRequest;
-use App\Http\Requests\Master\UpdateCategoryPotonganRequest;
+use App\Http\Requests\Master\{StoreCategoryPotonganRequest, UpdateCategoryPotonganRequest};
 use App\Models\Master\CategoryPotongan;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryPotonganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view category potongan')->only('index');
+        $this->middleware('permission:create category potongan')->only('create');
+        $this->middleware('permission:edit category potongan')->only('edit', 'update');
+        $this->middleware('permission:delete category potongan')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +26,7 @@ class CategoryPotonganController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = CategoryPotongan::latest('updated_at');
+            $query = CategoryPotongan::query();
 
             return Datatables::of($query)
                 ->addColumn('action', 'master-data.category-potongan._action')

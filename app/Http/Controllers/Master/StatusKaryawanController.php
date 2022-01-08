@@ -11,6 +11,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class StatusKaryawanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view status karyawan')->only('index');
+        $this->middleware('permission:create status karyawan')->only('create');
+        $this->middleware('permission:edit status karyawan')->only('edit', 'update');
+        $this->middleware('permission:delete status karyawan')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

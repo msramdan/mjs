@@ -11,6 +11,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view category')->only('index');
+        $this->middleware('permission:create category')->only('create');
+        $this->middleware('permission:edit category')->only('edit', 'update');
+        $this->middleware('permission:delete category')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +27,7 @@ class CategoryController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(Category::orderByDesc('updated_at'))
+            return Datatables::of(Category::query())
                 ->addColumn('action', 'master-data.category._action')
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at->format('d m Y H:i');

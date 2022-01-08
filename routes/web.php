@@ -165,7 +165,7 @@ Route::middleware('auth')->group(function () {
 // Setting
 Route::middleware('auth')->prefix('setting')->group(function () {
     Route::resource('role', RoleController::class);
-    Route::resource('permission', PermissionController::class);
+    // Route::resource('permission', PermissionController::class);
     Route::resource('user', UserController::class);
 
     Route::get('/setting_app', [SettingAppController::class, 'index'])->name('setting_app.index');

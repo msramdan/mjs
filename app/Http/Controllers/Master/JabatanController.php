@@ -11,6 +11,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class JabatanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view jabatan')->only('index');
+        $this->middleware('permission:create jabatan')->only('create');
+        $this->middleware('permission:edit jabatan')->only('edit', 'update');
+        $this->middleware('permission:delete jabatan')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

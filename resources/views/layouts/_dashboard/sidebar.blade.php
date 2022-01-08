@@ -322,12 +322,12 @@
                         </a>
 
                         <a href="{{ route('role.index') }}" class="menu-link">
-                            <div class="menu-text">Role</div>
+                            <div class="menu-text">Role & Permissions</div>
                         </a>
 
-                        <a href="{{ route('permission.index') }}" class="menu-link">
+                        {{-- <a href="{{ route('permission.index') }}" class="menu-link">
                             <div class="menu-text">Permission</div>
-                        </a>
+                        </a> --}}
 
                         <a href="{{ route('setting_app.index') }}" class="menu-link">
                             <div class="menu-text">{{ trans('sidebar.sub_menu.pengaturan_app') }}</div>

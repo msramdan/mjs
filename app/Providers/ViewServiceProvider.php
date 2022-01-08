@@ -196,15 +196,15 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         // list permissions
-        View::composer([
-            'setting.user.create',
-            'setting.user.edit'
-        ], function ($view) {
-            return $view->with(
-                'permissions',
-                Permission::select('id', 'name')->get()
-            );
-        });
+        // View::composer([
+        //     'setting.user.create',
+        //     'setting.user.edit'
+        // ], function ($view) {
+        //     return $view->with(
+        //         'permissions',
+        //         Permission::select('id', 'name')->get()
+        //     );
+        // });
 
         // list customer
         View::composer([

@@ -15,6 +15,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view user')->only('index');
+        $this->middleware('permission:create user')->only('create');
+        $this->middleware('permission:edit user')->only('edit', 'update');
+        $this->middleware('permission:delete user')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -80,6 +88,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+
         $user->assignRole($request->role);
         $user->givePermissionTo($request->permissions);
 
@@ -144,8 +153,11 @@ class UserController extends Controller
         }
 
         $user->update($request->only(['name', 'email']));
-        $user->syncRoles($request->role);
-        $user->syncPermissions($request->permissions);
+
+        // kalo user 1 gabisa edit role, harus admin
+        if ($user->id != 1) {
+            $user->syncRoles($request->role);
+        }
 
         Alert::toast('Update data berhasil', 'success');
 

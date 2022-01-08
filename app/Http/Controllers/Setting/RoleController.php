@@ -12,6 +12,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view role')->only('index');
+        $this->middleware('permission:create role')->only('create');
+        $this->middleware('permission:edit role')->only('edit', 'update');
+        $this->middleware('permission:delete role')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +28,7 @@ class RoleController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Role::latest('updated_at');
+            $query = Role::query();
 
             return DataTables::of($query)
                 ->addColumn('created_at', function ($row) {
@@ -54,7 +62,9 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        Role::create($request->validated());
+        $role = Role::create(['name' => $request->name]);
+
+        $role->givePermissionTo($request->permissions);
 
         Alert::toast('Tambah data berhasil', 'success');
 
@@ -83,9 +93,17 @@ class RoleController extends Controller
      */
     public function update(UpdateRoleRequest $request, $id)
     {
+        if ($id == 1) {
+            Alert::toast('Hapus data gagal', 'error');
+
+            return redirect()->route('role.index');
+        }
+
         $role = Role::findOrFail($id);
 
-        $role->update($request->validated());
+        $role->update(['name' => $request->name]);
+
+        $role->syncPermissions($request->permissions);
 
         Alert::toast('Update data berhasil', 'success');
 
@@ -100,6 +118,12 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        if ($id == 1) {
+            Alert::toast('Hapus data gagal', 'error');
+
+            return redirect()->route('role.index');
+        }
+
         $role = Role::withCount('users')->findOrFail($id);
 
         // kalo lebih dari dari berarti ada user dengan role = $id

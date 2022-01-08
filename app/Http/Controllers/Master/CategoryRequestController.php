@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Master\StoreCategoryRequestRequest;
-use App\Http\Requests\Master\UpdateCategoryRequestRequest;
-use App\Models\Master\CategoryRequest;
-use App\Models\Master\SettingCategoryRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\Master\{StoreCategoryRequestRequest, UpdateCategoryRequestRequest};
+use App\Models\Master\{SettingCategoryRequest, CategoryRequest};
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryRequestController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view category request')->only('index');
+        $this->middleware('permission:create category request')->only('create');
+        $this->middleware('permission:edit category request')->only('edit', 'update');
+        $this->middleware('permission:delete category request')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +26,7 @@ class CategoryRequestController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = CategoryRequest::latest('updated_at');
+            $query = CategoryRequest::query();
 
             return Datatables::of($query)
                 ->addColumn('action', 'master-data.category-request._action')
