@@ -7,16 +7,21 @@ use App\Http\Requests\Payroll\StoreBenefitRequest;
 use App\Models\Legal\Karyawan;
 use App\Models\Payroll\Benefit;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
-
 
 class BenefitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view benefit')->only('index');
+        // $this->middleware('permission:create benefit')->only('create');
+        $this->middleware('permission:edit benefit')->only('edit', 'update');
+        $this->middleware('permission:delete benefit')->only('delete');
+    }
+
     public function index()
     {
         if (request()->ajax()) {
-            $query = Karyawan::latest('updated_at');
+            $query = Karyawan::query();
 
             return Datatables::of($query)
                 ->addColumn('foto', function ($row) {
@@ -44,6 +49,7 @@ class BenefitController extends Controller
     {
         $output = '';
         $list = \DB::select("SELECT category_benefit.nama,data_benefit.id,data_benefit.besar_benefit FROM data_benefit join category_benefit on category_benefit.id =data_benefit.category_benefit_id where karyawan_id='$karyawan_id' ");
+
         foreach ($list as $a) {
             $output .= "<tr>
                             <td>" . $a->nama . "</td>
@@ -60,12 +66,14 @@ class BenefitController extends Controller
                             </td>
                         </tr>";
         }
-        echo $output;
+
+        return $output;
     }
 
     public function edit($karyawan_id)
     {
         $CategoryBenefit = \DB::select("SELECT category_benefit.id as category_benefit_id,category_benefit.nama, data_benefit.id,data_benefit.karyawan_id FROM category_benefit LEFT join data_benefit on data_benefit.category_benefit_id =category_benefit.id and karyawan_id='$karyawan_id' WHERE data_benefit.id IS NULL;");
+
         return view('payroll.benefit.edit')->with([
             'kategori' => $CategoryBenefit,
             'karyawan_id' => $karyawan_id

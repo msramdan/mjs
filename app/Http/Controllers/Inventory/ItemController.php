@@ -4,15 +4,21 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
-use App\Models\Inventory\DetailItem;
-use App\Models\Inventory\Item;
-use Illuminate\Support\Facades\DB;
+use App\Models\Inventory\{Item, DetailItem};
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view item')->only('index', 'tracking');
+        $this->middleware('permission:create item')->only('create');
+        $this->middleware('permission:edit item')->only('edit', 'update');
+        $this->middleware('permission:delete item')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

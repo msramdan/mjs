@@ -41,7 +41,9 @@
                                         <th>Status</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
-                                        <th>Action</th>
+ 					@canany(['edit lokasi', 'delete lokasi'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

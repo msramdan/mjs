@@ -15,7 +15,7 @@ class BerkasKaryawanController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:upload berkas karyawan')
+        $this->middleware('permission:upload berkas karyawan');
     }
 
     /**
