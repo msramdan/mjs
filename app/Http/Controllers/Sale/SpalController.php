@@ -11,6 +11,14 @@ use Illuminate\Support\Str;
 
 class SpalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view spal')->only('index');
+        $this->middleware('permission:create spal')->only('create');
+        $this->middleware('permission:edit spal')->only('edit', 'update');
+        $this->middleware('permission:delete spal')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

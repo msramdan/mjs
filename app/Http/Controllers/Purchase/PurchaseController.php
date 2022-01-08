@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Purchase;
 
 use App\Http\Controllers\Controller;
-use App\Models\Inventory\DetailBacTerima;
-use App\Models\Inventory\DetailItem;
-use App\Models\Inventory\Item;
-use App\Models\Purchase\DetailPurchase;
-use App\Models\Purchase\Purchase;
+use App\Models\Inventory\{DetailBacTerima, DetailItem};
+use App\Models\Purchase\{Purchase, DetailPurchase};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -18,6 +15,10 @@ class PurchaseController extends Controller
     public function __construct()
     {
         $this->middleware('role:gm|direktur')->only('approve');
+        $this->middleware('permission:view purchase')->only('index', 'show');
+        $this->middleware('permission:create purchase')->only('create');
+        $this->middleware('permission:edit purchase')->only('edit', 'update');
+        $this->middleware('permission:delete purchase')->only('delete');
     }
 
     /**

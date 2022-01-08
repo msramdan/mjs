@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('sale_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('sale.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create sale')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('sale.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -66,66 +68,68 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
+        const columns = [{
+                data: 'spal',
+                name: 'spal'
+            },
+            {
+                data: 'kode',
+                name: 'kode'
+            },
+            {
+                data: 'customer',
+                name: 'customer'
+            },
+            {
+                data: 'attn',
+                name: 'attn'
+            },
+            {
+                data: 'tanggal',
+                name: 'tanggal'
+            },
+            {
+                data: 'total',
+                name: 'total',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+            },
+            {
+                data: 'diskon',
+                name: 'diskon',
+                render: function(data, type, full, meta) {
+                    return data != null ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-';
+                }
+            },
+            {
+                data: 'grand_total',
+                name: 'grand_total',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }
+        ]
+
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('sale.index') }}",
-            columns: [{
-                    data: 'spal',
-                    name: 'spal'
-                },
-                {
-                    data: 'kode',
-                    name: 'kode'
-                },
-                {
-                    data: 'customer',
-                    name: 'customer'
-                },
-                {
-                    data: 'attn',
-                    name: 'attn'
-                },
-                {
-                    data: 'tanggal',
-                    name: 'tanggal'
-                },
-                {
-                    data: 'total',
-                    name: 'total',
-                    render: function(data, type, full, meta) {
-                        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    }
-                },
-                {
-                    data: 'diskon',
-                    name: 'diskon',
-                    render: function(data, type, full, meta) {
-                        return data != null ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-';
-                    }
-                },
-                {
-                    data: 'grand_total',
-                    name: 'grand_total',
-                    render: function(data, type, full, meta) {
-                        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                    }
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
+            columns: columns
         });
     </script>
 @endpush
