@@ -45,7 +45,7 @@
                         @foreach (config('permission.list_permissions') as $permission)
                             <div class="col-md-3 mb-4">
                                 <div class="card">
-                                    <div class="card-header bg-dark">{{ ucfirst($permission['group']) }}</div>
+                                    <div class="card-header bg-dark">{{ ucwords($permission['group']) }}</div>
                                     <div class="card-body">
                                         @foreach ($permission['lists'] as $list)
                                             <div class="form-check mb-1">

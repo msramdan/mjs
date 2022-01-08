@@ -10,6 +10,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CategoryDocumentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view category dokumen')->only('index');
+        $this->middleware('permission:create category dokumen')->only('create');
+        $this->middleware('permission:edit category dokumen')->only('edit', 'update');
+        $this->middleware('permission:delete category dokumen')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +26,7 @@ class CategoryDocumentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = CategoryDocument::latest('updated_at');
+            $query = CategoryDocument::query();
 
             return DataTables::of($query)
                 ->addColumn('action', 'electronic-document.category._action')

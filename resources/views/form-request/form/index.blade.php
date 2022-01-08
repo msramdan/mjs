@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('request_form_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('request-form.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create request form purchase')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('request-form.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -62,41 +64,44 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
+        let columns = [{
+                data: 'kode',
+                name: 'kode'
+            },
+            {
+                data: 'tanggal',
+                name: 'tanggal'
+            },
+            {
+                data: 'category_request',
+                name: 'category_request'
+            },
+            {
+                data: 'user',
+                name: 'user'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+        ]
+
+        columns.push({
+            data: 'action',
+            name: 'action',
+            orderable: false,
+            searchable: false
+        })
+
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('request-form.index') }}",
-            columns: [{
-                    data: 'kode',
-                    name: 'kode'
-                },
-                {
-                    data: 'tanggal',
-                    name: 'tanggal'
-                },
-                {
-                    data: 'category_request',
-                    name: 'category_request'
-                },
-                {
-                    data: 'user',
-                    name: 'user'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
+            columns: columns
         });
     </script>
 @endpush

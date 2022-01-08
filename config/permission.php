@@ -193,6 +193,7 @@ return [
                 'create karyawan',
                 'edit karyawan',
                 'delete karyawan',
+                'upload berkas karyawan'
             ],
         ],
         [

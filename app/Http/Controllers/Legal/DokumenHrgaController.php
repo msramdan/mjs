@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Legal;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Legal\{StoreDokumenHrgaRequest, UpdateDokumenHrgaRequest};
 use App\Models\Legal\DokumenHrga;
-use App\Models\Legal\HistoryDownloadHrga;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -14,6 +13,14 @@ use Jenssegers\Agent\Agent;
 
 class DokumenHrgaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view dokumen hrga')->only('index', 'show');
+        $this->middleware('permission:create dokumen hrga')->only('create');
+        $this->middleware('permission:edit dokumen hrga')->only('edit', 'update');
+        $this->middleware('permission:delete dokumen hrga')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

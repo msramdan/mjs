@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('document_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('document.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create dokumen')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('document.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -43,7 +45,9 @@
                                         <th>Tempat Pembuatan</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
-                                        <th>Action</th>
+                                        @canany(['edit dokumen', 'delete dokumen'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -64,56 +68,67 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
+        const action =
+            '{{ auth()->user()->can('edit dokumen') ||
+            auth()->user()->can('delete dokumen')
+                ? 'yes yes yes'
+                : '' }}'
+
+        let columns = [{
+                data: 'file',
+                name: 'file',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, full, meta) {
+                    return `<a href="/electronic-document/document/download/${data}" target="_blank">
+                            <img src="/img/document.png" alt="Gambar File/Document" width="30">
+                        </a>`;
+                }
+            },
+            {
+                data: 'nama',
+                name: 'nama'
+            },
+            {
+                data: 'category_document',
+                name: 'category_document'
+            },
+            {
+                data: 'tanggal_buat',
+                name: 'tanggal_buat'
+            },
+            {
+                data: 'tanggal_expired',
+                name: 'tanggal_expired'
+            },
+            {
+                data: 'tempat_buat',
+                name: 'tempat_buat'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+        ]
+
+        if (action) {
+            columns.push({
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            })
+        }
+
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('document.index') }}",
-            columns: [{
-                    data: 'file',
-                    name: 'file',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return `<a href="/electronic-document/document/download/${data}" target="_blank">
-                            <img src="/img/document.png" alt="Gambar File/Document" width="30">
-                        </a>`;
-                    }
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'category_document',
-                    name: 'category_document'
-                },
-                {
-                    data: 'tanggal_buat',
-                    name: 'tanggal_buat'
-                },
-                {
-                    data: 'tanggal_expired',
-                    name: 'tanggal_expired'
-                },
-                {
-                    data: 'tempat_buat',
-                    name: 'tempat_buat'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
+            columns: columns
         });
     </script>
 

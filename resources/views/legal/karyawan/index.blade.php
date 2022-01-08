@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('karyawan_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('karyawan.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create karyawan')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('karyawan.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -49,7 +51,9 @@
                                         <th>Alamat</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
-                                        <th>Action</th>
+                                        @canany(['edit karyawan', 'delete karyawan'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -70,78 +74,89 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
+        const action =
+            '{{ auth()->user()->can('edit karyawan') ||
+            auth()->user()->can('delete karyawan')
+                ? 'yes yes yes'
+                : '' }}'
+
+        let columns = [{
+                data: 'foto',
+                name: 'foto',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, full, meta) {
+                    return `<img src="${data}" alt="Foto Karyawan" class="rounded h-30px"> `;
+                }
+            },
+            {
+                data: 'nama',
+                name: 'nama'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'nik',
+                name: 'nik'
+            },
+            {
+                data: 'jenis_kelamin',
+                name: 'jenis_kelamin'
+            },
+            {
+                data: 'tgl_masuk',
+                name: 'tgl_masuk'
+            },
+            {
+                data: 'divisi',
+                name: 'divisi'
+            },
+            {
+                data: 'jabatan',
+                name: 'jabatan'
+            },
+            {
+                data: 'status_karyawan',
+                name: 'status_karyawan'
+            },
+            {
+                data: 'status_kawin',
+                name: 'status_kawin'
+            },
+            {
+                data: 'status_keaktifan',
+                name: 'status_keaktifan'
+            },
+            {
+                data: 'alamat',
+                name: 'alamat'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+        ]
+
+        if (action) {
+            columns.push({
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            })
+        }
+
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('karyawan.index') }}",
-            columns: [{
-                    data: 'foto',
-                    name: 'foto',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return `<img src="${data}" alt="Foto Karyawan" class="rounded h-30px"> `;
-                    }
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'nik',
-                    name: 'nik'
-                },
-                {
-                    data: 'jenis_kelamin',
-                    name: 'jenis_kelamin'
-                },
-                {
-                    data: 'tgl_masuk',
-                    name: 'tgl_masuk'
-                },
-                {
-                    data: 'divisi',
-                    name: 'divisi'
-                },
-                {
-                    data: 'jabatan',
-                    name: 'jabatan'
-                },
-                {
-                    data: 'status_karyawan',
-                    name: 'status_karyawan'
-                },
-                {
-                    data: 'status_kawin',
-                    name: 'status_kawin'
-                },
-                {
-                    data: 'status_keaktifan',
-                    name: 'status_keaktifan'
-                },
-                {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
+            columns: columns
         });
     </script>
 @endpush

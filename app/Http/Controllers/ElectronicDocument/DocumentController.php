@@ -11,6 +11,14 @@ use Illuminate\Support\Str;
 
 class DocumentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view dokumen')->only('index');
+        $this->middleware('permission:create dokumen')->only('create');
+        $this->middleware('permission:edit dokumen')->only('edit', 'update');
+        $this->middleware('permission:delete dokumen')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +27,7 @@ class DocumentController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Document::with('category_document:id,nama')->latest('updated_at');
+            $query = Document::with('category_document:id,nama');
 
             return DataTables::of($query)
                 ->addColumn('category_document', function ($row) {

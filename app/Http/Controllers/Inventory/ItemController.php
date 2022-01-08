@@ -173,9 +173,9 @@ class ItemController extends Controller
         return redirect()->route('item.index');
     }
 
-    public function getItemById($itemId, $supplierId)
+    public function getItemAndSupplier($itemId, $supplierId)
     {
-        // abort_if(!request()->ajax(), 403);
+        abort_if(!request()->ajax(), 403);
 
         $item = DetailItem::with(
             'item:id,unit_id,kode,nama,stok',
@@ -248,5 +248,9 @@ class ItemController extends Controller
             ->where('supplier_id', $id)->get();
 
         return response()->json($item, 200);
+    }
+
+    public function findById($id)
+    {
     }
 }
