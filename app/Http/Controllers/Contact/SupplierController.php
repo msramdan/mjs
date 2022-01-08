@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Contact\StoreSupplierRequest;
-use App\Http\Requests\Contact\UpdateSupplierRequest;
+use App\Http\Requests\Contact\{StoreSupplierRequest, UpdateSupplierRequest};
 use App\Models\Contact\Supplier;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -12,6 +11,14 @@ use Illuminate\Support\Str;
 
 class SupplierController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view supplier')->only('index');
+        $this->middleware('permission:create supplier')->only('create');
+        $this->middleware('permission:edit supplier')->only('edit', 'update');
+        $this->middleware('permission:delete supplier')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +27,7 @@ class SupplierController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(Supplier::orderByDesc('updated_at'))
+            return Datatables::of(Supplier::query())
                 ->addIndexColumn()
                 ->addColumn('action', 'contact.supplier._action')
                 ->addColumn('alamat', function ($row) {

@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Accounting\StoreAkunCoaRequest;
-use App\Http\Requests\Accounting\UpdateAkunCoaRequest;
+use App\Http\Requests\Accounting\{StoreAkunCoaRequest, UpdateAkunCoaRequest};
 use App\Models\Accounting\AkunCoa;
-use App\Models\Accounting\AkunGrup;
-use App\Models\Accounting\AkunHeader;
-use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AkunCoaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view coa')->only('index');
+        $this->middleware('permission:create coa')->only('create');
+        $this->middleware('permission:edit coa')->only('edit', 'update');
+        $this->middleware('permission:delete coa')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

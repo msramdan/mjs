@@ -3,13 +3,20 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Accounting\AkunHeaderRequest;
-use App\Http\Requests\Accounting\UpdateAkunHeaderRequest;
+use App\Http\Requests\Accounting\{AkunHeaderRequest, UpdateAkunHeaderRequest};
 use App\Models\Accounting\AkunHeader;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AkunHeaderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view account header')->only('index');
+        $this->middleware('permission:create account header')->only('create');
+        $this->middleware('permission:edit account header')->only('edit', 'update');
+        $this->middleware('permission:delete account header')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

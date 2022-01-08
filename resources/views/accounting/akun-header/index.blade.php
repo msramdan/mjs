@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('header_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('akun-header.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create account header')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('akun-header.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -39,7 +41,9 @@
                                         <th>Kode Akun Header</th>
                                         <th>Akun Header</th>
                                         <th>Akun Grup</th>
-                                        <th>Action</th>
+                                        @canany(['edit account header', 'delete account header'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,24 +53,30 @@
                                             <td>{{ $item->kode }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->akun_group->nama }}</td>
-                                            <td>
-                                                <a href="{{ route('akun-header.edit', $item->id) }}"
-                                                    class="btn btn-primary btn-xs mb-1">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                            @canany(['edit account header', 'delete account header'])
+                                                <td>
+                                                    @can('edit account header')
+                                                        <a href="{{ route('akun-header.edit', $item->id) }}"
+                                                            class="btn btn-primary btn-xs mb-1">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    @endcan
 
-                                                <form action="{{ route('akun-header.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline"
-                                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                    @can('delete account header')
+                                                        <form action="{{ route('akun-header.destroy', $item->id) }}" method="POST"
+                                                            class="d-inline"
+                                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                                    @method('DELETE')
-                                                    @csrf
+                                                            @method('DELETE')
+                                                            @csrf
 
-                                                    <button type="submit" class="btn btn-danger btn-xs mb-1">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                                            <button type="submit" class="btn btn-danger btn-xs mb-1">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                </td>
+                                            @endcanany
                                         </tr>
                                     @endforeach
 

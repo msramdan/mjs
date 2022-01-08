@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('coa_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('akun-coa.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create coa')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('akun-coa.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -39,7 +41,9 @@
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Akun Header</th>
-                                        <th>Action</th>
+                                        @canany(['edit coa', 'delete coa'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,24 +53,31 @@
                                             <td>{{ $item->kode }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->akun_header->nama }}</td>
-                                            <td>
-                                                <a href="{{ route('akun-coa.edit', $item->id) }}"
-                                                    class="btn btn-primary btn-xs mb-1">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                            @canany(['edit coa', 'delete coa'])
 
-                                                <form action="{{ route('akun-coa.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline"
-                                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <td>
+                                                    @can('edit coa')
+                                                        <a href="{{ route('akun-coa.edit', $item->id) }}"
+                                                            class="btn btn-primary btn-xs mb-1">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    @endcan
 
-                                                    @method('DELETE')
-                                                    @csrf
+                                                    @can('delete coa')
+                                                        <form action="{{ route('akun-coa.destroy', $item->id) }}" method="POST"
+                                                            class="d-inline"
+                                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                                    <button type="submit" class="btn btn-danger btn-xs mb-1">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                                            @method('DELETE')
+                                                            @csrf
+
+                                                            <button type="submit" class="btn btn-danger btn-xs mb-1">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                </td>
+                                            @endcanany
                                         </tr>
                                     @endforeach
 
