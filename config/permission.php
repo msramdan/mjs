@@ -296,6 +296,15 @@ return [
             ],
         ],
         [
+            'group' => 'request form peminjaman',
+            'lists' => [
+                'view request form peminjaman',
+                'create request form peminjaman',
+                'edit request form peminjaman',
+                'delete request form peminjaman',
+            ],
+        ],
+        [
             'group' => 'invoice',
             'lists' => [
                 'view invoice',
@@ -303,7 +312,8 @@ return [
                 'edit invoice',
                 'delete invoice',
             ],
-        ], [
+        ],
+        [
             'group' => 'billing',
             'lists' => [
                 'view billing',
