@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title','Tambah Data benefit' )
+@section('title', 'Tambah Data benefit')
 
 @section('content')
     <div id="content" class="app-content">
@@ -23,14 +23,17 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <form action="{{route('benefit.store')}}" method="POST">
+                        <form action="{{ route('benefit.store') }}" method="POST">
                             @csrf
                             <div class="form-group mb-3">
                                 <label class="form-label" for="category_benefit_id">Kategori Benefit</label>
-                                <select class="form-select @error('category_benefit_id') is-invalid @enderror " id="category_benefit_id" name="category_benefit_id" >
+                                <select class="form-select @error('category_benefit_id') is-invalid @enderror "
+                                    id="category_benefit_id" name="category_benefit_id">
                                     <option value="" disabled="" selected="">-- Pilih --</option>
                                     @foreach ($kategori as $item)
-                                        <option value="{{ $item->category_benefit_id }}" {{ old('category_benefit_id') && old('category_benefit_id') == $item->category_benefit_id ? 'selected' : $item->category_benefit_id }}>{{ $item->nama }}</option>
+                                        <option value="{{ $item->category_benefit_id }}"
+                                            {{ old('category_benefit_id') && old('category_benefit_id') == $item->category_benefit_id ? 'selected' : $item->category_benefit_id }}>
+                                            {{ $item->nama }}</option>
                                     @endforeach
                                 </select>
                                 @error('category_benefit_id')
@@ -40,16 +43,16 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label" for="besar_benefit">Besar Benefit</label>
-                                <input class="form-control @error('besar_benefit') is-invalid @enderror" type="number" id="besar_benefit"
-                                    name="besar_benefit" autocomplete="off" placeholder="Besar Benefit" value="{{ old('besar_benefit') }}"
-                                     />
+                                <input class="form-control @error('besar_benefit') is-invalid @enderror" type="number"
+                                    id="besar_benefit" name="besar_benefit" autocomplete="off" placeholder="Besar Benefit"
+                                    value="{{ old('besar_benefit') }}" />
                                 @error('besar_benefit')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                                <input class="form-control @error('karyawan_id') is-invalid @enderror" type="hidden" id="karyawan_id"
-                                    name="karyawan_id" placeholder="Besar benefit" value="{{$karyawan_id}}"
-                                     />
+                            <input class="form-control @error('karyawan_id') is-invalid @enderror" type="hidden"
+                                id="karyawan_id" name="karyawan_id" placeholder="Besar benefit"
+                                value="{{ $karyawan_id }}" />
 
                             <button type="reset" class="btn btn-secondary me-1">Reset</button>
                             <button type="submit" class="btn btn-success">Simpan</button>
@@ -96,20 +99,18 @@
 
 @push('js')
 
-<script type="text/javascript">
-    $(document).ready(function(){
-      var karyawan_id = $("#karyawan_id").val();
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var karyawan_id = $("#karyawan_id").val();
 
-      $.ajax({
-             url:'{{url("payroll/benefit")}}' + '/' + karyawan_id,
-             method:"GET",
-             data:{},
-             success:function(data){
-              $('#daftar_benefit').html(data);
-             }
+            $.ajax({
+                url: '{{ url('payroll/benefit') }}' + '/' + karyawan_id,
+                method: "GET",
+                data: {},
+                success: function(data) {
+                    $('#daftar_benefit').html(data);
+                }
             })
-    });
-  </script>
+        });
+    </script>
 @endpush
-
-

@@ -127,7 +127,8 @@ Route::middleware('auth')->group(function () {
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
-    Route::get('/item/get-item-by-id/{itemId}/{supplierId}', [ItemController::class, 'getItemAndSupplier']);
+    Route::get('/item/get-item-by-id/{itemId}', [ItemController::class, 'getItemById']);
+    Route::get('/item/get-item-and-supplier/{itemId}/{supplierId}', [ItemController::class, 'getItemAndSupplier']);
     Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
     Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
     Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);

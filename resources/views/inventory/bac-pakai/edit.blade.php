@@ -316,7 +316,7 @@
 
             $('#index-tr').val(index)
 
-            console.log($('.stok-hidden:eq(' + index + ')').val());
+            // console.log($('.stok-hidden:eq(' + index + ')').val());
         })
 
         $(document).on('click', '.btn-delete', function(e) {
