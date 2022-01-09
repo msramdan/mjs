@@ -20,7 +20,7 @@ class DokumenHrga extends Model
 
     public function history_downloads()
     {
-        return $this->hasMany(HistoryDownloadHrga::class);
+        return $this->hasMany(HistoryDownloadHrga::class)->orderByDesc('id')->limit(100);
     }
 
     public function getCreatedAtAttribute($value)

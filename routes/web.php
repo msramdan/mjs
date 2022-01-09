@@ -127,9 +127,12 @@ Route::middleware('auth')->group(function () {
 // Iinventory
 Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
-    Route::get('/item/get-item-by-id/{itemId}/{supplierId}', [ItemController::class, 'getItemById']);
+    Route::get('/item/get-item-by-id/{itemId}', [ItemController::class, 'getItemById']);
+    Route::get('/item/get-item-and-supplier/{itemId}/{supplierId}', [ItemController::class, 'getItemAndSupplier']);
     Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
     Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
+    Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
+
 
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
     Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);
@@ -165,7 +168,7 @@ Route::middleware('auth')->group(function () {
 // Setting
 Route::middleware('auth')->prefix('setting')->group(function () {
     Route::resource('role', RoleController::class);
-    Route::resource('permission', PermissionController::class);
+    // Route::resource('permission', PermissionController::class);
     Route::resource('user', UserController::class);
 
     Route::get('/setting_app', [SettingAppController::class, 'index'])->name('setting_app.index');

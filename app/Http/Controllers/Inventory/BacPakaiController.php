@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Inventory\StoreBacPakaiRequest;
-use App\Http\Requests\Inventory\UpdateBacPakaiRequest;
-use App\Models\Inventory\BacPakai;
-use App\Models\Inventory\DetailBacPakai;
-use App\Models\Inventory\FileBacPakai;
-use Illuminate\Http\Request;
+use App\Http\Requests\Inventory\{StoreBacPakaiRequest, UpdateBacPakaiRequest};
+use App\Models\Inventory\{BacPakai, DetailBacPakai, FileBacPakai};
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -16,6 +12,14 @@ use Illuminate\Support\Str;
 
 class BacPakaiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view bac pakai')->only('index', 'show', 'download');
+        $this->middleware('permission:create bac pakai')->only('create');
+        $this->middleware('permission:edit bac pakai')->only('edit', 'update');
+        $this->middleware('permission:delete bac pakai')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

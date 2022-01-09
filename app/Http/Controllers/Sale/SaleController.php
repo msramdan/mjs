@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
-use App\Models\Inventory\Item;
-use App\Models\Sale\DetailSale;
-use App\Models\Sale\Sale;
+use App\Models\Sale\{Sale, DetailSale};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -13,6 +11,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SaleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view sale')->only('index', 'show');
+        $this->middleware('permission:create sale')->only('create');
+        $this->middleware('permission:edit sale')->only('edit', 'update');
+        $this->middleware('permission:delete sale')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

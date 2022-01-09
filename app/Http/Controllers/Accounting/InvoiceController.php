@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Accounting\StoreInvoiceRequest;
-use App\Http\Requests\Accounting\UpdateInvoiceRequest;
+use App\Http\Requests\Accounting\{StoreInvoiceRequest, UpdateInvoiceRequest};
 use App\Models\Accounting\Invoice;
 use App\Models\Sale\Sale;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -12,6 +11,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class InvoiceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view invoice')->only('index', 'show');
+        $this->middleware('permission:create invoice')->only('create');
+        $this->middleware('permission:edit invoice')->only('edit', 'update');
+        $this->middleware('permission:delete invoice')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

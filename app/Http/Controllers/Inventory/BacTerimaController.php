@@ -12,6 +12,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BacTerimaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view bac terima')->only('index', 'show', 'download');
+        $this->middleware('permission:create bac terima')->only('create');
+        $this->middleware('permission:edit bac terima')->only('edit', 'update');
+        $this->middleware('permission:delete bac terima')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

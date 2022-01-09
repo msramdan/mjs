@@ -13,6 +13,11 @@ use Illuminate\Support\Str;
 
 class BerkasKaryawanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:upload berkas karyawan');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

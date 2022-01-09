@@ -17,6 +17,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RequestFormController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view request form purchase')->only('index', 'show');
+        $this->middleware('permission:create request form purchase')->only('create');
+        $this->middleware('permission:edit request form purchase')->only('edit', 'update');
+        $this->middleware('permission:delete request form purchase')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +33,7 @@ class RequestFormController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = RequestForm::with('category_request:id,nama', 'user:id,name')->latest('updated_at');
+            $query = RequestForm::with('category_request:id,nama', 'user:id,name');
 
             return DataTables::of($query)
                 ->addColumn('category_request', function ($row) {

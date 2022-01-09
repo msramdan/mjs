@@ -6,22 +6,21 @@
 
         {{ Breadcrumbs::render('supplier_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('supplier.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create supplier')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('supplier.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title">Supplier</h4>
                 <div class="panel-heading-btn">
-                    {{-- <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand">
-                        <i class="fa fa-expand"></i>
-                    </a> --}}
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
-                            class="fa fa-redo"></i>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
+                        <i class="fa fa-redo"></i>
                     </a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse">
                         <i class="fa fa-minus"></i>
@@ -52,7 +51,9 @@
                                         <th>Catatan</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
-                                        <th>Action</th>
+                                        @canany(['edit supplier', 'delete supplier'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -80,70 +81,80 @@
         //         orderable: false,
         //         searchable: false
         //     },
+        const action =
+            '{{ auth()->user()->can('edit supplier') ||
+            auth()->user()->can('delete supplier')
+                ? 'yes yes yes'
+                : '' }}'
+
+        const columns = [{
+                data: 'kode',
+                name: 'kode'
+            },
+            {
+                data: 'nama',
+                name: 'nama'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'alamat',
+                name: 'alamat'
+            },
+            {
+                data: 'kota',
+                name: 'kota'
+            },
+            {
+                data: 'provinsi',
+                name: 'provinsi'
+            },
+            {
+                data: 'telp',
+                name: 'telp'
+            },
+            {
+                data: 'personal_kontak',
+                name: 'personal_kontak'
+            },
+            {
+                data: 'kode_pos',
+                name: 'kode_pos'
+            },
+            {
+                data: 'website',
+                name: 'website'
+            },
+            {
+                data: 'catatan',
+                name: 'catatan'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+        ]
+
+        if (action) {
+            columns.push({
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            })
+        }
 
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('supplier.index') }}",
-            columns: [{
-                    data: 'kode',
-                    name: 'kode'
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'alamat',
-                    name: 'alamat'
-                },
-                {
-                    data: 'kota',
-                    name: 'kota'
-                },
-                {
-                    data: 'provinsi',
-                    name: 'provinsi'
-                },
-                {
-                    data: 'telp',
-                    name: 'telp'
-                },
-                {
-                    data: 'personal_kontak',
-                    name: 'personal_kontak'
-                },
-                {
-                    data: 'kode_pos',
-                    name: 'kode_pos'
-                },
-                {
-                    data: 'website',
-                    name: 'website'
-                },
-                {
-                    data: 'catatan',
-                    name: 'catatan'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
+            columns: columns
         });
     </script>
 @endpush

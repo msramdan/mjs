@@ -12,6 +12,14 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class KaryawanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view karyawan')->only('index');
+        $this->middleware('permission:create karyawan')->only('create');
+        $this->middleware('permission:edit karyawan')->only('edit', 'update');
+        $this->middleware('permission:delete karyawan')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +28,7 @@ class KaryawanController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Karyawan::with('divisi:id,nama', 'jabatan:id,nama', 'status_karyawan:id,nama', 'lokasi:id,nama')->latest('updated_at');
+            $query = Karyawan::with('divisi:id,nama', 'jabatan:id,nama', 'status_karyawan:id,nama', 'lokasi:id,nama');
 
             return Datatables::of($query)
                 ->addColumn('foto', function ($row) {

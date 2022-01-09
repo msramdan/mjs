@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('billing_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('billing.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create billing')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('billing.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">

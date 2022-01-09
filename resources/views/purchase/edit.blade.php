@@ -99,7 +99,6 @@
                 url: '/inventory/item/get-item-by-supplier/' + supplier.val(),
                 method: 'get',
                 success: function(res) {
-                    // console.log(res);
                     setTimeout(() => {
                         let listProduk = []
 
@@ -156,22 +155,22 @@
                 qty.val('Loading...')
 
                 $.ajax({
-                    url: '/inventory/item/get-item-by-id/' + $(this).val(),
+                    url: '/inventory/item/get-item-and-supplier/' + $(this).val() + '/' + supplier.val(),
                     method: 'get',
                     success: function(res) {
-                        // stok.val(res.stok)
-                        kodeProduk.val(res.kode)
-                        unitProduk.val(res.unit.nama)
+                        stok.val(res.item.stok)
+                        kodeProduk.val(res.item.kode)
+                        unitProduk.val(res.item.unit.nama)
 
                         setTimeout(() => {
                             harga.prop('type', 'number')
                             harga.prop('disabled', false)
-                            harga.val('')
+                            harga.val(res.harga_beli)
 
                             qty.prop('type', 'number')
                             qty.prop('disabled', false)
                             qty.val('')
-                            harga.focus()
+                            qty.focus()
                         }, 500)
                     }
                 })

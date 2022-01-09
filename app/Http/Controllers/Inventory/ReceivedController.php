@@ -3,18 +3,22 @@
 namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Inventory\StoreReceivedRequest;
-use App\Http\Requests\Inventory\UpdateReceivedRequest;
-use App\Models\Inventory\BacTerima;
-use App\Models\Inventory\Item;
-use App\Models\Inventory\Received;
-use Illuminate\Http\Request;
+use App\Http\Requests\Inventory\{StoreReceivedRequest, UpdateReceivedRequest};
+use App\Models\Inventory\{Item, BacTerima, Received};
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class ReceivedController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view received')->only('index', 'show');
+        $this->middleware('permission:create received')->only('create');
+        $this->middleware('permission:edit received')->only('edit', 'update');
+        $this->middleware('permission:delete received')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

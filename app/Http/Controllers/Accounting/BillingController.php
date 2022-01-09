@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Accounting\StoreBillingRequest;
-use App\Http\Requests\Accounting\UpdateBillingRequest;
+use App\Http\Requests\Accounting\{StoreBillingRequest, UpdateBillingRequest};
 use App\Models\Accounting\Billing;
 use App\Models\Purchase\Purchase;
-use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class BillingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view billing')->only('index', 'show');
+        $this->middleware('permission:create billing')->only('create');
+        $this->middleware('permission:edit billing')->only('edit', 'update');
+        $this->middleware('permission:delete billing')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -67,9 +73,6 @@ class BillingController extends Controller
         $attr = $request->validated();
         $attr['purchase_id'] = $request->purchase;
         $attr['user_id'] = auth()->id();
-
-        // return $attr;
-        // die;
 
         Billing::create($attr);
 

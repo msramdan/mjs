@@ -99,7 +99,6 @@
                 url: '/inventory/item/get-item-by-supplier/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
-                    // console.log(res);
                     setTimeout(() => {
                         let listProduk = []
 
@@ -156,10 +155,9 @@
                 qty.val('Loading...')
 
                 $.ajax({
-                    url: '/inventory/item/get-item-by-id/' + $(this).val() + '/' + supplier.val(),
+                    url: '/inventory/item/get-item-and-supplier/' + $(this).val() + '/' + supplier.val(),
                     method: 'GET',
                     success: function(res) {
-                        console.log(res);
 
                         stok.val(res.item.stok)
                         kodeProduk.val(res.item.kode)

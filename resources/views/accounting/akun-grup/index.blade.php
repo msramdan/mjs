@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('grup_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('akun-grup.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create account group')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('akun-grup.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -38,7 +40,9 @@
                                         <th>No</th>
                                         <th>Akun Grup</th>
                                         <th>Report</th>
-                                        <th>Action</th>
+                                        @canany(['edit account group', 'delete account group'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,23 +51,29 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->nama }}</td>
                                             <td>{{ $item->report }}</td>
-                                            <td>
-                                                <a href="{{ route('akun-grup.edit', $item->id) }}"
-                                                    class="btn btn-primary btn-xs mb-1">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                            @canany(['edit account group', 'delete account group'])
+                                                <td>
+                                                    @can('edit account group')
+                                                        <a href="{{ route('akun-grup.edit', $item->id) }}"
+                                                            class="btn btn-primary btn-xs mb-1">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                    @endcan
 
-                                                <form action="{{ route('akun-grup.destroy', $item->id) }}" method="POST"
-                                                    class="d-inline"
-                                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                    @can('delete account group')
+                                                        <form action="{{ route('akun-grup.destroy', $item->id) }}" method="POST"
+                                                            class="d-inline"
+                                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-danger btn-xs mb-1">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-danger btn-xs mb-1">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endcan
+                                                </td>
+                                            @endcanany
                                         </tr>
                                     @endforeach
 

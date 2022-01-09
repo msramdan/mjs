@@ -4,15 +4,21 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
-use App\Models\Inventory\DetailItem;
-use App\Models\Inventory\Item;
-use Illuminate\Support\Facades\DB;
+use App\Models\Inventory\{Item, DetailItem};
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
 class ItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view item')->only('index', 'tracking');
+        $this->middleware('permission:create item')->only('create');
+        $this->middleware('permission:edit item')->only('edit', 'update');
+        $this->middleware('permission:delete item')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -173,7 +179,7 @@ class ItemController extends Controller
         return redirect()->route('item.index');
     }
 
-    public function getItemById($itemId, $supplierId)
+    public function getItemAndSupplier($itemId, $supplierId)
     {
         // abort_if(!request()->ajax(), 403);
 
@@ -241,11 +247,22 @@ class ItemController extends Controller
 
     public function getItemBySupplier($id)
     {
-        // abort_if(!request()->ajax(), 403);
+        abort_if(!request()->ajax(), 403);
 
         $item = DetailItem::select('id', 'item_id', 'supplier_id')
             ->with('item:id,kode,nama')
             ->where('supplier_id', $id)->get();
+
+        return response()->json($item, 200);
+    }
+
+    public function getItemById($id)
+    {
+        abort_if(!request()->ajax(), 403);
+
+        $item = Item::with('unit:id,nama')
+            ->select('id', 'unit_id', 'kode', 'nama', 'stok')
+            ->firstOrFail();
 
         return response()->json($item, 200);
     }

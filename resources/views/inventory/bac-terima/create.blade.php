@@ -366,7 +366,6 @@
                 url: '/inventory/bac-terima/generate-kode/' + tanggal.val(),
                 method: 'GET',
                 success: function(res) {
-                    console.log(res.kode);
                     kode.val(res.kode)
                 }
             })

@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\Http\Controllers\Contact;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Contact\StoreCustomerRequest;
-use App\Http\Requests\Contact\UpdateCustomerRequest;
+use App\Http\Requests\Contact\{StoreCustomerRequest, UpdateCustomerRequest};
 use App\Models\Contact\Customer;
 use Yajra\DataTables\Facades\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -13,6 +11,14 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view customer')->only('index');
+        $this->middleware('permission:create customer')->only('create');
+        $this->middleware('permission:edit customer')->only('edit', 'update');
+        $this->middleware('permission:delete customer')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +27,7 @@ class CustomerController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            return Datatables::of(Customer::orderByDesc('updated_at'))
+            return Datatables::of(Customer::query())
                 ->addIndexColumn()
                 ->addColumn('action', 'contact.customer._action')
                 ->addColumn('alamat', function ($row) {
@@ -63,17 +69,6 @@ class CustomerController extends Controller
 
         return redirect()->route('customer.index');
     }
-
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  \App\Models\Contact\Customer  $customer
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show(Customer $customer)
-    // {
-    //     //
-    // }
 
     /**
      * Show the form for editing the specified resource.

@@ -14,6 +14,14 @@ use Yajra\DataTables\Facades\DataTables;
 
 class AsoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view aso')->only('index', 'show');
+        $this->middleware('permission:create aso')->only('create');
+        $this->middleware('permission:edit aso')->only('edit', 'update');
+        $this->middleware('permission:delete aso')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

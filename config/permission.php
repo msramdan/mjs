@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'models' => [
 
         /*
@@ -158,4 +157,321 @@ return [
 
         'store' => 'default',
     ],
+
+    'list_permissions' => [
+        [
+            'group' => 'jabatan',
+            'lists' => [
+                'view jabatan',
+                'create jabatan',
+                'edit jabatan',
+                'delete jabatan',
+            ],
+        ],
+        [
+            'group' => 'divisi',
+            'lists' => [
+                'view divisi',
+                'create divisi',
+                'edit divisi',
+                'delete divisi',
+            ],
+        ],
+        [
+            'group' => 'lokasi',
+            'lists' => [
+                'view lokasi',
+                'create lokasi',
+                'edit lokasi',
+                'delete lokasi',
+            ],
+        ],
+        [
+            'group' => 'karyawan',
+            'lists' => [
+                'view karyawan',
+                'create karyawan',
+                'edit karyawan',
+                'delete karyawan',
+                'upload berkas karyawan'
+            ],
+        ],
+        [
+            'group' => 'status karyawan',
+            'lists' => [
+                'view status karyawan',
+                'create status karyawan',
+                'edit status karyawan',
+                'delete status karyawan',
+            ],
+        ],
+        [
+            'group' => 'category',
+            'lists' => [
+                'view category',
+                'create category',
+                'edit category',
+                'delete category',
+            ],
+        ],
+        [
+            'group' => 'category request',
+            'lists' => [
+                'view category request',
+                'create category request',
+                'edit category request',
+                'delete category request',
+            ],
+        ],
+        [
+            'group' => 'category potongan',
+            'lists' => [
+                'view category potongan',
+                'create category potongan',
+                'edit category potongan',
+                'delete category potongan',
+            ],
+        ],
+        [
+            'group' => 'category benefit',
+            'lists' => [
+                'view category benefit',
+                'create category benefit',
+                'edit category benefit',
+                'delete category benefit',
+            ],
+        ],
+        [
+            'group' => 'unit',
+            'lists' => [
+                'view unit',
+                'create unit',
+                'edit unit',
+                'delete unit',
+            ],
+        ],
+        [
+            'group' => 'user',
+            'lists' => [
+                'view user',
+                'create user',
+                'edit user',
+                'delete user',
+            ],
+        ],
+        [
+            'group' => 'supplier',
+            'lists' => [
+                'view supplier',
+                'create supplier',
+                'edit supplier',
+                'delete supplier',
+            ],
+        ],
+        [
+            'group' => 'customer',
+            'lists' => [
+                'view customer',
+                'create customer',
+                'edit customer',
+                'delete customer',
+            ],
+        ],
+        [
+            'group' => 'role',
+            'lists' => [
+                'view role',
+                'create role',
+                'edit role',
+                'delete role',
+            ],
+        ],
+        [
+            'group' => 'request form purchase',
+            'lists' => [
+                'view request form purchase',
+                'create request form purchase',
+                'edit request form purchase',
+                'delete request form purchase',
+            ],
+        ],
+        [
+            'group' => 'request form peminjaman',
+            'lists' => [
+                'view request form peminjaman',
+                'create request form peminjaman',
+                'edit request form peminjaman',
+                'delete request form peminjaman',
+            ],
+        ],
+        [
+            'group' => 'invoice',
+            'lists' => [
+                'view invoice',
+                'create invoice',
+                'edit invoice',
+                'delete invoice',
+            ],
+        ],
+        [
+            'group' => 'billing',
+            'lists' => [
+                'view billing',
+                'create billing',
+                'edit billing',
+                'delete billing',
+            ],
+        ],
+        [
+            'group' => 'account group',
+            'lists' => [
+                'view account group',
+                'create account group',
+                'edit account group',
+                'delete account group',
+            ],
+        ],
+        [
+            'group' => 'account header',
+            'lists' => [
+                'view account header',
+                'create account header',
+                'edit account header',
+                'delete account header',
+            ],
+        ],
+        [
+            'group' => 'coa',
+            'lists' => [
+                'view coa',
+                'create coa',
+                'edit coa',
+                'delete coa',
+            ],
+        ],
+        [
+            'group' => 'purchase',
+            'lists' => [
+                'view purchase',
+                'create purchase',
+                'edit purchase',
+                'delete purchase',
+                'approve purchase'
+            ],
+        ],
+        [
+            'group' => 'sale',
+            'lists' => [
+                'view sale',
+                'create sale',
+                'edit sale',
+                'delete sale',
+            ],
+        ],
+        [
+            'group' => 'spal',
+            'lists' => [
+                'view spal',
+                'create spal',
+                'edit spal',
+                'delete spal',
+            ],
+        ],
+        [
+            'group' => 'item',
+            'lists' => [
+                'view item',
+                'create item',
+                'edit item',
+                'delete item',
+            ],
+        ],
+        [
+            'group' => 'bac terima',
+            'lists' => [
+                'view bac terima',
+                'create bac terima',
+                'edit bac terima',
+                'delete bac terima',
+            ],
+        ],
+        [
+            'group' => 'bac pakai',
+            'lists' => [
+                'view bac pakai',
+                'create bac pakai',
+                'edit bac pakai',
+                'delete bac pakai',
+            ],
+        ],
+        [
+            'group' => 'received',
+            'lists' => [
+                'view received',
+                'create received',
+                'edit received',
+                'delete received',
+            ],
+        ],
+        [
+            'group' => 'aso',
+            'lists' => [
+                'view aso',
+                'create aso',
+                'edit aso',
+                'delete aso',
+            ],
+        ],
+        [
+            'group' => 'potongan',
+            'lists' => [
+                'view potongan',
+                'create potongan',
+                'edit potongan',
+                'delete potongan',
+            ],
+        ],
+        [
+            'group' => 'benefit',
+            'lists' => [
+                'view benefit',
+                'create benefit',
+                'edit benefit',
+                'delete benefit',
+            ],
+        ],
+        [
+            'group' => 'dokumen',
+            'lists' => [
+                'view dokumen',
+                'create dokumen',
+                'edit dokumen',
+                'delete dokumen',
+            ],
+        ],
+        [
+            'group' => 'category dokumen',
+            'lists' => [
+                'view category dokumen',
+                'create category dokumen',
+                'edit category dokumen',
+                'delete category dokumen',
+            ],
+        ],
+        [
+            'group' => 'dokumen hrga',
+            'lists' => [
+                'view dokumen hrga',
+                'create dokumen hrga',
+                'edit dokumen hrga',
+                'delete dokumen hrga',
+            ],
+        ],
+        [
+            'group' => 'aplikasi',
+            'lists' => [
+                'setting aplikasi',
+            ],
+        ],
+    ]
 ];

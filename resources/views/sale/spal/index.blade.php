@@ -6,12 +6,14 @@
 
         {{ Breadcrumbs::render('spal_index') }}
 
-        <div class="d-flex justify-content-end">
-            <a href="{{ route('spal.create') }}" class="btn btn-primary mb-3">
-                <i class="fas fa-plus me-1"></i>
-                Create
-            </a>
-        </div>
+        @can('create spal')
+            <div class="d-flex justify-content-end">
+                <a href="{{ route('spal.create') }}" class="btn btn-primary mb-3">
+                    <i class="fas fa-plus me-1"></i>
+                    Create
+                </a>
+            </div>
+        @endcan
 
         <div class="panel panel-inverse">
             <div class="panel-heading">
@@ -46,7 +48,9 @@
                                         <th>Harga/Unit</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
-                                        <th>Action</th>
+                                        @canany(['edit spal', 'delete spal'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -67,68 +71,79 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
+        const action =
+            '{{ auth()->user()->can('edit spal') ||
+            auth()->user()->can('delete spal')
+                ? 'yes yes yes'
+                : '' }}'
+
+        let columns = [{
+                data: 'file',
+                name: 'file',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, full, meta) {
+                    return `<a href="/sale/spal/download/${data}" target="_blank">
+                            <img src="/img/document.png" alt="Gambar File" width="30">
+                        </a>`;
+                }
+            },
+            {
+                data: 'kode',
+                name: 'kode'
+            },
+            {
+                data: 'customer',
+                name: 'customer'
+            },
+            {
+                data: 'nama_kapal',
+                name: 'nama_kapal'
+            },
+            {
+                data: 'nama_muatan',
+                name: 'nama_muatan'
+            },
+            {
+                data: 'jml_muatan',
+                name: 'jml_muatan'
+            },
+            {
+                data: 'pelabuhan_muat',
+                name: 'pelabuhan_muat'
+            },
+            {
+                data: 'pelabuhan_bongkar',
+                name: 'pelabuhan_bongkar'
+            },
+            {
+                data: 'harga_unit',
+                name: 'harga_unit'
+            },
+            {
+                data: 'created_at',
+                name: 'created_at'
+            },
+            {
+                data: 'updated_at',
+                name: 'updated_at'
+            },
+        ]
+
+        if (action) {
+            columns.push({
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            })
+        }
+
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('spal.index') }}",
-            columns: [{
-                    data: 'file',
-                    name: 'file',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, full, meta) {
-                        return `<a href="/sale/spal/download/${data}" target="_blank">
-                            <img src="/img/document.png" alt="Gambar File" width="30">
-                        </a>`;
-                    }
-                },
-                {
-                    data: 'kode',
-                    name: 'kode'
-                },
-                {
-                    data: 'customer',
-                    name: 'customer'
-                },
-                {
-                    data: 'nama_kapal',
-                    name: 'nama_kapal'
-                },
-                {
-                    data: 'nama_muatan',
-                    name: 'nama_muatan'
-                },
-                {
-                    data: 'jml_muatan',
-                    name: 'jml_muatan'
-                },
-                {
-                    data: 'pelabuhan_muat',
-                    name: 'pelabuhan_muat'
-                },
-                {
-                    data: 'pelabuhan_bongkar',
-                    name: 'pelabuhan_bongkar'
-                },
-                {
-                    data: 'harga_unit',
-                    name: 'harga_unit'
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at'
-                },
-                {
-                    data: 'updated_at',
-                    name: 'updated_at'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                }
-            ],
+            columns: columns
         });
     </script>
 @endpush
