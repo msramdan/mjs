@@ -48,7 +48,7 @@
                                         <th>Grand Total</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
-                                        @canany(['edit purchase', 'delete purchase'])
+                                        @canany(['edit purchase', 'delete purchase', 'approve purchase'])
                                             <th>Action</th>
                                         @endcanany
                                     </tr>
@@ -73,7 +73,8 @@
     <script>
         const action =
             '{{ auth()->user()->can('edit purchase') ||
-            auth()->user()->can('delete purchase')
+            auth()->user()->can('delete purchase') ||
+            auth()->user()->can('approve purchase')
                 ? 'yes yes yes'
                 : '' }}'
 

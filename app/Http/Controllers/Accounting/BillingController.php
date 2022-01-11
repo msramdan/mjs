@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\{StoreBillingRequest, UpdateBillingRequest};
 use App\Models\Accounting\Billing;
 use App\Models\Purchase\Purchase;
+use App\Models\Setting\SettingApp;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use PDF;
 
 class BillingController extends Controller
 {
@@ -244,5 +246,39 @@ class BillingController extends Controller
         }
 
         return response()->json(['kode' => $kode], 200);
+    }
+
+    public function print($id)
+    {
+        $billing = Billing::select(
+            'id',
+            'purchase_id',
+            'kode',
+            'tanggal_billing',
+            'status',
+            'catatan'
+        )->with(
+            'purchase:id,request_form_id,supplier_id,kode,diskon,grand_total',
+            'purchase.request_form:id,kode',
+            'purchase.supplier:id,kode,nama,email,alamat,telp',
+            'purchase.detail_purchase:id,purchase_id,item_id,harga,qty,sub_total',
+            'purchase.detail_purchase.item:id,kode,nama',
+            'user:id,name'
+        )->findOrFail($id);
+
+        $perusahaan = SettingApp::first();
+
+        $data = [
+            'billing' => $billing,
+            'perusahaan' => $perusahaan
+        ];
+
+        // return $data;
+        // die;
+
+        $pdf = PDF::loadView('accounting.billing.print', $data);
+
+        return $pdf->stream('Billing - ' . $billing->kode . '.pdf');
+        // ->setPaper('a4', 'landscape')
     }
 }
