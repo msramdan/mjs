@@ -190,6 +190,8 @@ Route::middleware('auth')->resource('/request-form', RequestFormController::clas
 Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
     Route::get('/billing/generate-kode/{tanggal}', [BillingController::class, 'generateKode']);
+    Route::get('/invoice/{id}/print', [InvoiceController::class, 'print'])->name('invoice.print');
+
 
     Route::resource('invoice', InvoiceController::class);
     Route::resource('billing', BillingController::class);

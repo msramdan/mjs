@@ -59,7 +59,7 @@
         </div>
         {{-- end of col-md-4 --}}
     @else
-        <div class="row">
+        <div class="row me-0 pe-0">
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-6">
@@ -107,12 +107,12 @@
             </div>
             {{-- end of col-md-8 --}}
 
-            <div class="col-md-4">
+            <div class="col-md-4 me-0 pe-0">
                 <div class="form-group mb-2">
                     <label class="form-label" for="catatan">Catatan Invoice</label>
-                    <textarea class="form-control" id="catatan" name="catatan" id="catatan"
+                    <textarea class="form-control me-0 pe-0" id="catatan" name="catatan" id="catatan"
                         placeholder="Catatan Invoice" rows="8" required
-                        {{ $show ? 'disabled' : '' }}>{{ $invoice->sale->catatan }}</textarea>
+                        {{ $show ? 'disabled' : '' }}>{{ $invoice->catatan }}</textarea>
                 </div>
             </div>
             {{-- end of col-md-4 --}}
@@ -130,6 +130,10 @@
                         Update
                     @endif
                 </button>
+
+                <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
+                    Print
+                </a>
 
                 <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
                     {{ !$invoice ? 'disabled' : '' }}>Cancel</a>

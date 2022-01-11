@@ -15,11 +15,11 @@ class CreateSettingAppTable extends Migration
     {
         Schema::create('setting_app', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_aplikasi');
-            $table->string('nama_perusahaan');
+            $table->string('nama_aplikasi', 100);
+            $table->string('nama_perusahaan', 100);
             $table->string('alamat_perusahaan');
-            $table->string('logo_perusahaan');
-            $table->string('nama_direktur');
+            $table->string('logo_perusahaan', 100)->nullable();
+            $table->string('nama_direktur', 100);
             $table->timestamps();
         });
     }
