@@ -58,11 +58,40 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>Email Perusahaan</td>
+                                    <td><input type="email" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" id="email" placeholder="Email Perusahaan"
+                                            value="{{ old('email') ? old('email') : $data->email }}" />
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Telp Perusahaan</td>
+                                    <td><input type="telp" class="form-control @error('telp') is-invalid @enderror"
+                                            name="telp" id="telp" placeholder="telp Perusahaan"
+                                            value="{{ old('telp') ? old('telp') : $data->telp }}" />
+                                        @error('telp')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Website Perusahaan</td>
+                                    <td><input type="text" class="form-control @error('website') is-invalid @enderror"
+                                            name="website" id="website" placeholder="Website Perusahaan"
+                                            value="{{ old('website') ? old('website') : $data->website }}" />
+                                        @error('website')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Alamat Perusahaan</td>
-                                    <td><input type="text"
-                                            class="form-control @error('alamat_perusahaan') is-invalid @enderror"
+                                    <td><textarea class="form-control @error('alamat_perusahaan') is-invalid @enderror"
                                             name="alamat_perusahaan" id="alamat_perusahaan" placeholder="Alamat Perusahaan"
-                                            value="{{ old('alamat_perusahaan') ? old('alamat_perusahaan') : $data->alamat_perusahaan }}" />
+                                            rows="5">{{ old('alamat_perusahaan') ? old('alamat_perusahaan') : $data->alamat_perusahaan }}</textarea>
                                         @error('alamat_perusahaan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -113,10 +142,13 @@
                                 <tr>
                                     <td></td>
                                     <td>
-                                        <button type="submit" class="btn btn-danger"><i
-                                                class="fas fa-save"></i>Update</button>
-                                        <a class="btn btn-info" onclick="self.history.back()"><i
-                                                class="fas fa-undo"></i> Kembali</a>
+                                        <button type="submit" class="btn btn-danger me-2">
+                                            <i class="fas fa-save"></i> Update
+                                        </button>
+
+                                        <a class="btn btn-info" onclick="self.history.back()">
+                                            <i class="fas fa-undo"></i> Kembali
+                                        </a>
                                     </td>
                                 </tr>
                         </thead>

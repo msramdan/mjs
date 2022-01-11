@@ -1,9 +1,11 @@
 <td>
-    @can('view billing')
-        <a href="{{ route('billing.show', $model->id) }}" class="btn btn-info btn-xs mb-1">
-            <i class="fas fa-eye"></i>
-        </a>
-    @endcan
+    <a href="{{ route('billing.show', $model->id) }}" class="btn btn-info btn-xs mb-1">
+        <i class="fas fa-eye"></i>
+    </a>
+
+    <a href="{{ route('billing.print', $model->id) }}" class="btn btn-dark btn-xs mb-1" target="_blank">
+        <i class="fas fa-print"></i>
+    </a>
 
     @can('edit billing')
         <a href="{{ route('billing.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">

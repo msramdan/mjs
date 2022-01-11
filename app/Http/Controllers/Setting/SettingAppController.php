@@ -18,7 +18,8 @@ class SettingAppController extends Controller
 
     public function index()
     {
-        $data = SettingApp::findOrFail(1);
+        $data = SettingApp::first();
+
         return view('setting.setting_app.index')->with([
             'data' => $data
         ]);
@@ -27,12 +28,16 @@ class SettingAppController extends Controller
     public function update(UpdateSettingAppRequest $request, $id)
     {
         $settingApp = SettingApp::findOrFail($id);
+
         if ($request->file('logo_perusahaan') == "") {
             $settingApp->update([
                 'nama_aplikasi' => $request->nama_aplikasi,
                 'nama_perusahaan' => $request->nama_perusahaan,
                 'alamat_perusahaan' => $request->alamat_perusahaan,
-                'nama_direktur' => $request->nama_direktur
+                'nama_direktur' => $request->nama_direktur,
+                'email' => $request->email,
+                'telp' => $request->telp,
+                'website' => $request->website,
             ]);
         } else {
             //hapus old image
@@ -47,7 +52,10 @@ class SettingAppController extends Controller
                 'nama_aplikasi' => $request->nama_aplikasi,
                 'nama_perusahaan' => $request->nama_perusahaan,
                 'alamat_perusahaan' => $request->alamat_perusahaan,
-                'nama_direktur' => $request->nama_direktur
+                'nama_direktur' => $request->nama_direktur,
+                'email' => $request->email,
+                'telp' => $request->telp,
+                'website' => $request->website,
             ]);
         }
 

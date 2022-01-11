@@ -253,11 +253,18 @@ class InvoiceController extends Controller
 
     public function print($id)
     {
-        $invoice = Invoice::with(
-            'sale',
+        $invoice = Invoice::select(
+            'id',
+            'sale_id',
+            'kode',
+            'tanggal_invoice',
+            'status',
+            'catatan'
+        )->with(
+            'sale:id,spal_id,kode,diskon,grand_total',
             'sale.spal:id,kode,customer_id',
             'sale.spal.customer:id,kode,nama,email,alamat,telp',
-            'sale.detail_sale',
+            'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'sale.detail_sale.item:id,kode,nama',
             'user:id,name'
         )->findOrFail($id);
