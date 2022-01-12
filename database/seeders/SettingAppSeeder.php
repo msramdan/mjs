@@ -19,8 +19,11 @@ class SettingAppSeeder extends Seeder
                 'nama_aplikasi' => 'PT. MJS - System',
                 'nama_perusahaan' => 'PT Marindo Jaya Sejahtera',
                 'alamat_perusahaan' => '3rd Floor, Bakri Tower, Komplek Rasuna Epicentrum, Jalan Haji R Rasuna Said, Kel Kuningan Timur, Jakarta, Indonesia',
-                'nama_direktur' =>'Ir. Yani Yunus',
-                'logo_perusahaan' =>'',
+                'nama_direktur' => 'Ir. Yani Yunus',
+                'logo_perusahaan' => '',
+                'email' => 'hello@mjs.com',
+                'telp' => '0819999999',
+                'website' => 'mjs.com',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

@@ -9,5 +9,15 @@ class SettingApp extends Model
 {
     use HasFactory;
     protected $table = 'setting_app';
-    protected $fillable = ['nama_aplikasi','nama_perusahaan','alamat_perusahaan','logo_perusahaan','nama_direktur'];
+
+    protected $fillable = [
+        'nama_aplikasi',
+        'nama_perusahaan',
+        'alamat_perusahaan',
+        'logo_perusahaan',
+        'nama_direktur',
+        'email',
+        'telp',
+        'website'
+    ];
 }

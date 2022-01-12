@@ -28,6 +28,9 @@ class UpdateSettingAppRequest extends FormRequest
             'nama_perusahaan' => 'required',
             'alamat_perusahaan' => 'required',
             'nama_direktur' => 'required',
+            'email' => 'required',
+            'telp' => 'required',
+            'website' => 'required',
         ];
     }
 }

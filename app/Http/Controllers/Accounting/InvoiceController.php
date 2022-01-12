@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\{StoreInvoiceRequest, UpdateInvoiceRequest};
 use App\Models\Accounting\Invoice;
 use App\Models\Sale\Sale;
+use App\Models\Setting\SettingApp;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use PDF;
 
 class InvoiceController extends Controller
 {
@@ -247,5 +249,44 @@ class InvoiceController extends Controller
         }
 
         return response()->json(['kode' => $kode], 200);
+    }
+
+    public function print($id)
+    {
+        $invoice = Invoice::select(
+            'id',
+            'sale_id',
+            'kode',
+            'tanggal_invoice',
+            'status',
+            'catatan'
+        )->with(
+            'sale:id,spal_id,kode,diskon,grand_total',
+            'sale.spal:id,kode,customer_id',
+            'sale.spal.customer:id,kode,nama,email,alamat,telp',
+            'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
+            'sale.detail_sale.item:id,kode,nama',
+            'user:id,name'
+        )->findOrFail($id);
+
+        $perusahaan = SettingApp::first();
+
+        $data = [
+            'invoice' => $invoice,
+            'perusahaan' => $perusahaan
+        ];
+
+        // return $data;
+        // die;
+
+        // return view('accounting.invoice.print', [
+        //     'invoice' => $invoice,
+        //     'perusahaan' => $perusahaan
+        // ]);
+
+        $pdf = PDF::loadView('accounting.invoice.print', $data);
+
+        return $pdf->stream('Invoice - ' . $invoice->kode . '.pdf');
+        // ->setPaper('a4', 'landscape')
     }
 }

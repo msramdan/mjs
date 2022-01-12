@@ -181,7 +181,7 @@ class ItemController extends Controller
 
     public function getItemAndSupplier($itemId, $supplierId)
     {
-        // abort_if(!request()->ajax(), 403);
+        abort_if(!request()->ajax(), 403);
 
         $item = DetailItem::with(
             'item:id,unit_id,kode,nama,stok',

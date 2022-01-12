@@ -138,6 +138,17 @@
 
             @include('accounting.billing.include._total')
 
+            @if ($show)
+                <div class="d-flex justify-content-end mt-2">
+                    <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2">
+                        Print
+                    </a>
+
+                    <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
+                        {{ !$billing ? 'disabled' : '' }}>Cancel</a>
+                </div>
+            @endif
+
             @if ($errors->any())
                 <div id="validation" class="text-danger">
                     <ul id="ul-msg">

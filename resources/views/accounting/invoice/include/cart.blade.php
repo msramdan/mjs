@@ -147,6 +147,17 @@
                     </ul>
                 </div>
             @endif
+
+            @if ($show)
+                <div class="d-flex justify-content-end mt-2">
+                    <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
+                        Print
+                    </a>
+
+                    <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
+                        {{ !$invoice ? 'disabled' : '' }}>Cancel</a>
+                </div>
+            @endif
         </div>
     </div>
 </div>
