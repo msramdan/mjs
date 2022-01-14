@@ -15,8 +15,8 @@ class DokumenHrgaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view dokumen hrga')->only('index', 'show');
-        $this->middleware('permission:create dokumen hrga')->only('create');
+        $this->middleware('permission:view dokumen hrga')->only('index', 'show', 'download');
+        $this->middleware('permission:create dokumen hrga')->only('create', 'store');
         $this->middleware('permission:edit dokumen hrga')->only('edit', 'update');
         $this->middleware('permission:delete dokumen hrga')->only('delete');
     }

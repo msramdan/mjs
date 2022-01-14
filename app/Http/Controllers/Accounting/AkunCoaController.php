@@ -12,7 +12,7 @@ class AkunCoaController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view coa')->only('index');
-        $this->middleware('permission:create coa')->only('create');
+        $this->middleware('permission:create coa')->only('create','store');
         $this->middleware('permission:edit coa')->only('edit', 'update');
         $this->middleware('permission:delete coa')->only('delete');
     }

@@ -16,7 +16,7 @@ class PurchaseController extends Controller
     {
         $this->middleware('role:gm|direktur')->only('approve');
         $this->middleware('permission:view purchase')->only('index', 'show');
-        $this->middleware('permission:create purchase')->only('create');
+        $this->middleware('permission:create purchase')->only('create', 'store');
         $this->middleware('permission:edit purchase')->only('edit', 'update');
         $this->middleware('permission:delete purchase')->only('delete');
     }
@@ -370,12 +370,12 @@ class PurchaseController extends Controller
         }
     }
 
-    private function approvedBy($purchase)
-    {
-        if (auth()->user()->getRoleNames() == 'gm') {
-            $purchase->update(['approve_by_gm' => auth()->id()]);
-        } else {
-            $purchase->update(['approve_by_direktur' => auth()->id()]);
-        }
-    }
+    // private function approvedBy($purchase)
+    // {
+    //     if (auth()->user()->getRoleNames() == 'gm') {
+    //         $purchase->update(['approve_by_gm' => auth()->id()]);
+    //     } else {
+    //         $purchase->update(['approve_by_direktur' => auth()->id()]);
+    //     }
+    // }
 }

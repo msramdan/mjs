@@ -14,7 +14,7 @@ class DivisiController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view divisi')->only('index');
-        $this->middleware('permission:create divisi')->only('create');
+        $this->middleware('permission:create divisi')->only('create', 'store');
         $this->middleware('permission:edit divisi')->only('edit', 'update');
         $this->middleware('permission:delete divisi')->only('delete');
     }

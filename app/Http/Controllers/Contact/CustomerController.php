@@ -14,7 +14,7 @@ class CustomerController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view customer')->only('index');
-        $this->middleware('permission:create customer')->only('create');
+        $this->middleware('permission:create customer')->only('create', 'store');
         $this->middleware('permission:edit customer')->only('edit', 'update');
         $this->middleware('permission:delete customer')->only('delete');
     }

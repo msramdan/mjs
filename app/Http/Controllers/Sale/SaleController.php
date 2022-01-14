@@ -14,7 +14,7 @@ class SaleController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view sale')->only('index', 'show');
-        $this->middleware('permission:create sale')->only('create');
+        $this->middleware('permission:create sale')->only('create', 'store');
         $this->middleware('permission:edit sale')->only('edit', 'update');
         $this->middleware('permission:delete sale')->only('delete');
     }

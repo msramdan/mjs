@@ -14,7 +14,7 @@ class ReceivedController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view received')->only('index', 'show');
-        $this->middleware('permission:create received')->only('create');
+        $this->middleware('permission:create received')->only('create', 'store');
         $this->middleware('permission:edit received')->only('edit', 'update');
         $this->middleware('permission:delete received')->only('delete');
     }

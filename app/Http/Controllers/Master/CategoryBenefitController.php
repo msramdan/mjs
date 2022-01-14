@@ -14,7 +14,7 @@ class CategoryBenefitController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view category benefit')->only('index');
-        $this->middleware('permission:create category benefit')->only('create');
+        $this->middleware('permission:create category benefit')->only('create', 'store');
         $this->middleware('permission:edit category benefit')->only('edit', 'update');
         $this->middleware('permission:delete category benefit')->only('delete');
     }

@@ -14,7 +14,7 @@ class SupplierController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view supplier')->only('index');
-        $this->middleware('permission:create supplier')->only('create');
+        $this->middleware('permission:create supplier')->only('create', 'store');
         $this->middleware('permission:edit supplier')->only('edit', 'update');
         $this->middleware('permission:delete supplier')->only('delete');
     }

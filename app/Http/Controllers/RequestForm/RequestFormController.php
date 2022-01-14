@@ -20,7 +20,7 @@ class RequestFormController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view request form purchase')->only('index', 'show');
-        $this->middleware('permission:create request form purchase')->only('create');
+        $this->middleware('permission:create request form purchase')->only('create', 'store');
         $this->middleware('permission:edit request form purchase')->only('edit', 'update');
         $this->middleware('permission:delete request form purchase')->only('delete');
     }

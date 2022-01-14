@@ -15,7 +15,7 @@ class BacPakaiController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view bac pakai')->only('index', 'show', 'download');
-        $this->middleware('permission:create bac pakai')->only('create');
+        $this->middleware('permission:create bac pakai')->only('create', 'store');
         $this->middleware('permission:edit bac pakai')->only('edit', 'update');
         $this->middleware('permission:delete bac pakai')->only('delete');
     }

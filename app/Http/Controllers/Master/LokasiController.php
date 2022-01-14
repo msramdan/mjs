@@ -14,7 +14,7 @@ class LokasiController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view lokasi')->only('index');
-        $this->middleware('permission:create lokasi')->only('create');
+        $this->middleware('permission:create lokasi')->only('create', 'store');
         $this->middleware('permission:edit lokasi')->only('edit', 'update');
         $this->middleware('permission:delete lokasi')->only('delete');
     }
