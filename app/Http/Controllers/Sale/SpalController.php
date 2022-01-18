@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\{StoreSpalRequest, UpdateSpalRequest};
+use App\Models\Sale\FileSpal;
 use App\Models\Sale\Spal;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -58,20 +59,26 @@ class SpalController extends Controller
      */
     public function store(StoreSpalRequest $request)
     {
+        // return $request;
+        // die;
+
         $attr = $request->validated();
         $attr['customer_id'] = $request->customer;
 
-        if ($request->file('file') && $request->file('file')->isValid()) {
-            $filename = Str::slug($request->kode) . '-' . time() . '.' . $request->file->extension();
+        $spal = Spal::create($attr);
 
-            // upload file
-            // public/spal/
-            $request->file->move(public_path('/spal'), $filename);
+        foreach ($request->file as $key => $file) {
+            $filename[$key] = Str::slug($request->nama_file[$key]) . '-' . time() . '.' . $file->extension();
 
-            $attr['file'] = $filename;
+            $file->move(public_path('/spal'), $filename[$key]);
+
+            $fileSpal[] = new FileSpal([
+                'nama' => $request->nama_file[$key],
+                'file' => $filename[$key]
+            ]);
         }
 
-        Spal::create($attr);
+        $spal->file_spal()->saveMany($fileSpal);
 
         Alert::toast('Tambah data berhasil', 'success');
 
@@ -86,6 +93,8 @@ class SpalController extends Controller
      */
     public function edit(Spal $spal)
     {
+        $spal->load('file_spal');
+
         return view('sale.spal.edit', compact('spal'));
     }
 
@@ -98,19 +107,32 @@ class SpalController extends Controller
      */
     public function update(UpdateSpalRequest $request, Spal $spal)
     {
+        $spal->load('file_spal');
+
         $attr = $request->validated();
         $attr['customer_id'] = $request->customer;
 
-        if ($request->file('file') && $request->file('file')->isValid()) {
-            $filename = Str::slug($request->kode) . '-' . time() . '.' . $request->file->extension();
-
+        if ($request->file) {
             // hapus file lama
-            unlink(public_path("/spal/$spal->file"));
+            foreach ($spal->file_spal as $detail) {
+                unlink(public_path("/spal/$detail->file"));
+            }
 
-            // upload file baru
-            $request->file->move(public_path('/spal'), $filename);
+            $spal->file_spal()->delete();
 
-            $attr['file'] = $filename;
+            // inser file baru
+            foreach ($request->file as $key => $file) {
+                $filename[$key] = Str::slug($request->nama_file[$key]) . '-' . time() . '.' . $file->extension();
+
+                $file->move(public_path('/spal'), $filename[$key]);
+
+                $fileBac[] = new FileSpal([
+                    'nama' => $request->nama_file[$key],
+                    'file' => $filename[$key]
+                ]);
+            }
+
+            $spal->file_spal()->saveMany($fileBac);
         }
 
         $spal->update($attr);
@@ -130,8 +152,10 @@ class SpalController extends Controller
     {
         try {
             // hapus file
-            unlink(public_path("/spal/$spal->file"));
-
+            // hapus file lama
+            foreach ($spal->file_spal as $detail) {
+                unlink(public_path("/spal/$detail->file"));
+            }
             // baru hapus record
             $spal->delete();
 
@@ -145,7 +169,7 @@ class SpalController extends Controller
         }
     }
 
-    public function downloadFileSpal($filename)
+    public function download($filename)
     {
         $path = public_path() . "/spal/$filename";
 

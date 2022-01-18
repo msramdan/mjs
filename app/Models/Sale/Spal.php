@@ -21,12 +21,16 @@ class Spal extends Model
         'pelabuhan_muat',
         'pelabuhan_bongkar',
         'harga_unit',
-        'file',
     ];
 
     public function customer()
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function file_spal()
+    {
+        return $this->hasMany(FileSpal::class);
     }
 
     public function getCreatedAtAttribute($value)

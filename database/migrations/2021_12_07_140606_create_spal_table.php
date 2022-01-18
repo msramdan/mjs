@@ -23,7 +23,7 @@ class CreateSpalTable extends Migration
             $table->string('pelabuhan_muat', 100);
             $table->string('pelabuhan_bongkar', 100);
             $table->integer('harga_unit');
-            $table->string('file', 100);
+            // $table->string('file', 100);
             $table->timestamps();
         });
     }

@@ -305,12 +305,14 @@ class BacPakaiController extends Controller
     {
         abort_if(!request()->ajax(), 403);
 
-        return BacPakai::with(
+        $bacPakai = BacPakai::with(
             'detail_bac_pakai:bac_pakai_id,id,item_id,qty,qty_validasi',
             'detail_bac_pakai.item:unit_id,id,nama,kode',
             'detail_bac_pakai.item.unit:id,nama',
             'file_bac_pakai:bac_pakai_id,id,nama,file',
             'user:id,name'
         )->findOrFail($id);
+
+        return response()->json($bacPakai, 200);
     }
 }
