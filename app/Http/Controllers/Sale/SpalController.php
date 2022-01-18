@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\{StoreSpalRequest, UpdateSpalRequest};
-use App\Models\Sale\FileSpal;
-use App\Models\Sale\Spal;
+use App\Models\Sale\{Spal, FileSpal};
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -59,11 +58,10 @@ class SpalController extends Controller
      */
     public function store(StoreSpalRequest $request)
     {
-        // return $request;
-        // die;
-
         $attr = $request->validated();
         $attr['customer_id'] = $request->customer;
+        $attr['jml_muatan'] = $this->removeCommas($request->jml_muatan);
+        $attr['harga_unit'] = $this->removeCommas($request->harga_unit);
 
         $spal = Spal::create($attr);
 
@@ -111,6 +109,9 @@ class SpalController extends Controller
 
         $attr = $request->validated();
         $attr['customer_id'] = $request->customer;
+        $attr['jml_muatan'] = $this->removeCommas($request->jml_muatan);
+        $attr['harga_unit'] = $this->removeCommas($request->harga_unit);
+
 
         if ($request->file) {
             // hapus file lama
@@ -192,5 +193,10 @@ class SpalController extends Controller
     public function getSpalById($id)
     {
         return Spal::with('customer:id,nama')->findOrFail($id);
+    }
+
+    protected function removeCommas($number)
+    {
+        return intval(preg_replace('/[^\d.]/', '', $number));
     }
 }

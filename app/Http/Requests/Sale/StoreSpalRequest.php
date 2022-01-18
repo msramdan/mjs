@@ -28,10 +28,10 @@ class StoreSpalRequest extends FormRequest
             'kode' => 'required|min:3|max:30|unique:spal,kode',
             'nama_kapal' => 'required|string|min:3|max:50',
             'nama_muatan' => 'required|string|min:3|max:50',
-            'jml_muatan' => 'required|integer|min:1',
+            'jml_muatan' => 'required|min:1',
             'pelabuhan_muat' => 'required|string|min:3|max:50',
             'pelabuhan_bongkar' => 'required|string|min:3|max:50',
-            'harga_unit' => 'required|integer|min:1',
+            'harga_unit' => 'required|min:1',
             'nama_file.*' => 'required|string|min:2',
             'file.*' => 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
         ];

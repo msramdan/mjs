@@ -62,7 +62,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label" for="jml_muatan">Jumlah Muatan</label>
-                                        <input class="form-control @error('jml_muatan') is-invalid @enderror" type="number"
+                                        <input class="form-control @error('jml_muatan') is-invalid @enderror" type="text"
                                             id="jml_muatan" name="jml_muatan" placeholder="Jumlah Muatan"
                                             value="{{ old('jml_muatan') }}" required autofocus />
                                         @error('jml_muatan')
@@ -90,12 +90,15 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label" for="harga_unit">Harga/Unit</label>
-                                <input class="form-control @error('harga_unit') is-invalid @enderror" type="number"
-                                    id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
-                                    value="{{ old('harga_unit') }}" required autofocus />
-                                @error('harga_unit')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input class="form-control @error('harga_unit') is-invalid @enderror" type="text"
+                                        id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
+                                        value="{{ old('harga_unit') }}" required autofocus />
+                                    @error('harga_unit')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
                             <div class="row form-group">
@@ -210,7 +213,20 @@
 @endsection
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"
+        integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
+        const config = {
+            numeral: true,
+            numeralThousandsGroupStyle: 'thousand'
+        };
+
+        const jml_muatan = new Cleave("#jml_muatan", config)
+
+        const harga_unit = new Cleave("#harga_unit", config);
+
         const tableFile = $('#tbl-file tbody')
 
         $('#btn-add-file').click(function() {

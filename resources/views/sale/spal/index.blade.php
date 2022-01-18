@@ -107,7 +107,10 @@
             },
             {
                 data: 'jml_muatan',
-                name: 'jml_muatan'
+                name: 'jml_muatan',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
             {
                 data: 'pelabuhan_muat',
@@ -119,7 +122,10 @@
             },
             {
                 data: 'harga_unit',
-                name: 'harga_unit'
+                name: 'harga_unit',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
             {
                 data: 'created_at',
