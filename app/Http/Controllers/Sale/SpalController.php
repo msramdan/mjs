@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\{StoreSpalRequest, UpdateSpalRequest};
-use App\Models\Sale\Spal;
+use App\Models\Sale\{Spal, FileSpal};
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ class SpalController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view spal')->only('index');
-        $this->middleware('permission:create spal')->only('create');
+        $this->middleware('permission:create spal')->only('create', 'store');
         $this->middleware('permission:edit spal')->only('edit', 'update');
         $this->middleware('permission:delete spal')->only('delete');
     }
@@ -60,18 +60,23 @@ class SpalController extends Controller
     {
         $attr = $request->validated();
         $attr['customer_id'] = $request->customer;
+        $attr['jml_muatan'] = $this->removeCommas($request->jml_muatan);
+        $attr['harga_unit'] = $this->removeCommas($request->harga_unit);
 
-        if ($request->file('file') && $request->file('file')->isValid()) {
-            $filename = Str::slug($request->kode) . '-' . time() . '.' . $request->file->extension();
+        $spal = Spal::create($attr);
 
-            // upload file
-            // public/spal/
-            $request->file->move(public_path('/spal'), $filename);
+        foreach ($request->file as $key => $file) {
+            $filename[$key] = Str::slug($request->nama_file[$key]) . '-' . time() . '.' . $file->extension();
 
-            $attr['file'] = $filename;
+            $file->move(public_path('/spal'), $filename[$key]);
+
+            $fileSpal[] = new FileSpal([
+                'nama' => $request->nama_file[$key],
+                'file' => $filename[$key]
+            ]);
         }
 
-        Spal::create($attr);
+        $spal->file_spal()->saveMany($fileSpal);
 
         Alert::toast('Tambah data berhasil', 'success');
 
@@ -86,6 +91,8 @@ class SpalController extends Controller
      */
     public function edit(Spal $spal)
     {
+        $spal->load('file_spal');
+
         return view('sale.spal.edit', compact('spal'));
     }
 
@@ -98,19 +105,35 @@ class SpalController extends Controller
      */
     public function update(UpdateSpalRequest $request, Spal $spal)
     {
+        $spal->load('file_spal');
+
         $attr = $request->validated();
         $attr['customer_id'] = $request->customer;
+        $attr['jml_muatan'] = $this->removeCommas($request->jml_muatan);
+        $attr['harga_unit'] = $this->removeCommas($request->harga_unit);
 
-        if ($request->file('file') && $request->file('file')->isValid()) {
-            $filename = Str::slug($request->kode) . '-' . time() . '.' . $request->file->extension();
 
+        if ($request->file) {
             // hapus file lama
-            unlink(public_path("/spal/$spal->file"));
+            foreach ($spal->file_spal as $detail) {
+                unlink(public_path("/spal/$detail->file"));
+            }
 
-            // upload file baru
-            $request->file->move(public_path('/spal'), $filename);
+            $spal->file_spal()->delete();
 
-            $attr['file'] = $filename;
+            // inser file baru
+            foreach ($request->file as $key => $file) {
+                $filename[$key] = Str::slug($request->nama_file[$key]) . '-' . time() . '.' . $file->extension();
+
+                $file->move(public_path('/spal'), $filename[$key]);
+
+                $fileBac[] = new FileSpal([
+                    'nama' => $request->nama_file[$key],
+                    'file' => $filename[$key]
+                ]);
+            }
+
+            $spal->file_spal()->saveMany($fileBac);
         }
 
         $spal->update($attr);
@@ -130,8 +153,10 @@ class SpalController extends Controller
     {
         try {
             // hapus file
-            unlink(public_path("/spal/$spal->file"));
-
+            // hapus file lama
+            foreach ($spal->file_spal as $detail) {
+                unlink(public_path("/spal/$detail->file"));
+            }
             // baru hapus record
             $spal->delete();
 
@@ -145,7 +170,7 @@ class SpalController extends Controller
         }
     }
 
-    public function downloadFileSpal($filename)
+    public function download($filename)
     {
         $path = public_path() . "/spal/$filename";
 
@@ -168,5 +193,10 @@ class SpalController extends Controller
     public function getSpalById($id)
     {
         return Spal::with('customer:id,nama')->findOrFail($id);
+    }
+
+    protected function removeCommas($number)
+    {
+        return intval(preg_replace('/[^\d.]/', '', $number));
     }
 }

@@ -12,7 +12,7 @@ class AkunHeaderController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view account header')->only('index');
-        $this->middleware('permission:create account header')->only('create');
+        $this->middleware('permission:create account header')->only('create', 'store');
         $this->middleware('permission:edit account header')->only('edit', 'update');
         $this->middleware('permission:delete account header')->only('delete');
     }

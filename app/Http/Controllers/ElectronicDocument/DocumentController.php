@@ -14,7 +14,7 @@ class DocumentController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view dokumen')->only('index');
-        $this->middleware('permission:create dokumen')->only('create');
+        $this->middleware('permission:create dokumen')->only('create', 'store');
         $this->middleware('permission:edit dokumen')->only('edit', 'update');
         $this->middleware('permission:delete dokumen')->only('delete');
     }

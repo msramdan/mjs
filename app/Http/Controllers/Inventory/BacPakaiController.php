@@ -15,7 +15,7 @@ class BacPakaiController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view bac pakai')->only('index', 'show', 'download');
-        $this->middleware('permission:create bac pakai')->only('create');
+        $this->middleware('permission:create bac pakai')->only('create', 'store');
         $this->middleware('permission:edit bac pakai')->only('edit', 'update');
         $this->middleware('permission:delete bac pakai')->only('delete');
     }
@@ -305,12 +305,14 @@ class BacPakaiController extends Controller
     {
         abort_if(!request()->ajax(), 403);
 
-        return BacPakai::with(
+        $bacPakai = BacPakai::with(
             'detail_bac_pakai:bac_pakai_id,id,item_id,qty,qty_validasi',
             'detail_bac_pakai.item:unit_id,id,nama,kode',
             'detail_bac_pakai.item.unit:id,nama',
             'file_bac_pakai:bac_pakai_id,id,nama,file',
             'user:id,name'
         )->findOrFail($id);
+
+        return response()->json($bacPakai, 200);
     }
 }

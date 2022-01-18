@@ -13,7 +13,7 @@ class CategoryDocumentController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view category dokumen')->only('index');
-        $this->middleware('permission:create category dokumen')->only('create');
+        $this->middleware('permission:create category dokumen')->only('create', 'store');
         $this->middleware('permission:edit category dokumen')->only('edit', 'update');
         $this->middleware('permission:delete category dokumen')->only('delete');
     }

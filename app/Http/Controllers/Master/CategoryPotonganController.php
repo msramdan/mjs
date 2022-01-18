@@ -13,7 +13,7 @@ class CategoryPotonganController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view category potongan')->only('index');
-        $this->middleware('permission:create category potongan')->only('create');
+        $this->middleware('permission:create category potongan')->only('create', 'store');
         $this->middleware('permission:edit category potongan')->only('edit', 'update');
         $this->middleware('permission:delete category potongan')->only('delete');
     }

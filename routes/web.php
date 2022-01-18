@@ -104,7 +104,7 @@ Route::prefix('legal')->middleware('auth')->group(function () {
 
 // Sale
 Route::middleware('auth')->prefix('sale')->group(function () {
-    Route::get('/spal/download/{file}', [SpalController::class, 'downloadFileSpal']);
+    Route::get('/spal/download/{file}', [SpalController::class, 'download'])->name('spal.download');
     Route::get('/spal/get-spal-by-id/{id}', [SpalController::class, 'getSpalById']);
 
     Route::get('/sale/get-sale-by-id/{id}', [SaleController::class, 'getSaleById']);

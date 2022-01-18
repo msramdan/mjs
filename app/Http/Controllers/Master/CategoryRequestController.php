@@ -13,7 +13,7 @@ class CategoryRequestController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view category request')->only('index');
-        $this->middleware('permission:create category request')->only('create');
+        $this->middleware('permission:create category request')->only('create', 'store');
         $this->middleware('permission:edit category request')->only('edit', 'update');
         $this->middleware('permission:delete category request')->only('delete');
     }

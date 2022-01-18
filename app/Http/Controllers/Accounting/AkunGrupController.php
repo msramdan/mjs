@@ -12,7 +12,7 @@ class AkunGrupController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view account group')->only('index');
-        $this->middleware('permission:create account group')->only('create');
+        $this->middleware('permission:create account group')->only('create', 'store');
         $this->middleware('permission:edit account group')->only('edit', 'update');
         $this->middleware('permission:delete account group')->only('delete');
     }

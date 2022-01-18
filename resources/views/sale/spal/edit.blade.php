@@ -48,24 +48,31 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="nama_muatan">Nama Muatan</label>
-                                <input class="form-control @error('nama_muatan') is-invalid @enderror" type="text"
-                                    id="nama_muatan" name="nama_muatan" placeholder="Nama Muatan"
-                                    value="{{ old('nama_muatan') ? old('nama_muatan') : $spal->nama_muatan }}" required />
-                                @error('nama_muatan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="jml_muatan">Jumlah Muatan</label>
-                                <input class="form-control @error('jml_muatan') is-invalid @enderror" type="number"
-                                    id="jml_muatan" name="jml_muatan" placeholder="Jumlah Muatan"
-                                    value="{{ old('jml_muatan') ? old('jml_muatan') : $spal->jml_muatan }}" required />
-                                @error('jml_muatan')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="nama_muatan">Nama Muatan</label>
+                                        <input class="form-control @error('nama_muatan') is-invalid @enderror" type="text"
+                                            id="nama_muatan" name="nama_muatan" placeholder="Nama Muatan"
+                                            value="{{ old('nama_muatan') ? old('nama_muatan') : $spal->nama_muatan }}"
+                                            required />
+                                        @error('nama_muatan')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="jml_muatan">Jumlah Muatan</label>
+                                        <input class="form-control @error('jml_muatan') is-invalid @enderror" type="text"
+                                            id="jml_muatan" name="jml_muatan" placeholder="Jumlah Muatan"
+                                            value="{{ old('jml_muatan') ? old('jml_muatan') : $spal->jml_muatan }}"
+                                            required />
+                                        @error('jml_muatan')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -88,7 +95,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label" for="harga_unit">Harga/Unit</label>
-                                <input class="form-control @error('harga_unit') is-invalid @enderror" type="number"
+                                <input class="form-control @error('harga_unit') is-invalid @enderror" type="text"
                                     id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
                                     value="{{ old('harga_unit') ? old('harga_unit') : $spal->harga_unit }}" required />
                                 @error('harga_unit')
@@ -119,32 +126,124 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-2 my-3 text-center">
-                                    <a href="/sale/spal/download/{{ $spal->file }}" target="_blank">
-                                        <img src="/img/document.png" alt="Gambar File" width="50">
-                                    </a>
-                                </div>
-                                <div class="col-md-10">
-                                    <div class="form-group mb-3">
-                                        <label class="form-label" for="file">File/Dokumen <small>(biarkan kosong jika
-                                                tidak ingin diupdate)</small></label>
-                                        <input class="form-control @error('file') is-invalid @enderror" type="file"
-                                            id="file" name="file" />
-                                        @error('file')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
-                    <button type="reset" class="btn btn-secondary me-1">Reset</button>
-                    <button type="submit" class="btn btn-success">Update</button>
+                    <hr class="my-4">
+
+                    <div id="file-attc">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="pt-3">Attachment File</h5>
+                            </div>
+
+                            <div>
+                                <button class="btn btn-primary" type="button" id="btn-add-file">
+                                    <i class="fas fa-file me-1"></i>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive mt-0">
+                            <table class="table table-striped table-hover table-bordered mt-2" id="tbl-file">
+                                <thead>
+                                    <tr>
+                                        <th>Nama</th>
+                                        <th>File</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($spal->file_spal as $detail)
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input class="form-control @error('nama') is-invalid @enderror nama"
+                                                        type="text" name="nama_file[]" id="nama" placeholder="Nama File"
+                                                        value="{{ $detail->nama }}" required />
+                                                    @error('nama')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input class="form-control @error('file') is-invalid @enderror file"
+                                                        type="file" name="file[]" id="file" />
+                                                    @error('file')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    class="btn btn-danger btn-delete-file{{ $loop->iteration == 1 ? ' disabled' : '' }}"
+                                                    type="button" {{ $loop->iteration == 1 ? 'disabled' : '' }}>
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+
+                                                <a href="{{ route('spal.download', $detail->file) }}" target="_blank"
+                                                    class="btn btn-primary btn-download ms-1">
+                                                    <i class="fas fa-download"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button type="reset" class="btn btn-secondary me-1">Reset</button>
+                        <button type="submit" class="btn btn-success">Update</button>
                 </form>
             </div>
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"
+        integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        const config = {
+            numeral: true,
+            numeralThousandsGroupStyle: 'thousand'
+        };
+
+        const jml_muatan = new Cleave("#jml_muatan", config)
+
+        const harga_unit = new Cleave("#harga_unit", config);
+        const tableFile = $('#tbl-file tbody')
+
+        $('#btn-add-file').click(function() {
+            let tr = ` <tr>
+                <td>
+                    <div class="form-group">
+                    <input class="form-control" type="text" name="nama_file[]" placeholder="Nama File" required />
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                    <input class="form-control" type="file" name="file[]" required />
+                    </div>
+                </td>
+                <td>
+                    <button class="btn btn-danger btn-delete-file" type="button">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
+            </tr>`
+
+            tableFile.append(tr)
+        })
+
+        $(document).on('click', '.btn-delete-file', function() {
+            if (tableFile.find('tr').length > 1) {
+                $(this).parent().parent().remove()
+            }
+        })
+    </script>
+@endpush

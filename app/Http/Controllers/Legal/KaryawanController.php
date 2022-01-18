@@ -15,7 +15,7 @@ class KaryawanController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view karyawan')->only('index');
-        $this->middleware('permission:create karyawan')->only('create');
+        $this->middleware('permission:create karyawan')->only('create', 'store');
         $this->middleware('permission:edit karyawan')->only('edit', 'update');
         $this->middleware('permission:delete karyawan')->only('delete');
     }

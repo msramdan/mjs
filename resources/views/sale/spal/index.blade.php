@@ -37,7 +37,7 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>File</th>
+                                        {{-- <th>File</th> --}}
                                         <th>Kode</th>
                                         <th>Customer</th>
                                         <th>Nama Kapal</th>
@@ -71,6 +71,18 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
+        // {
+        //         data: 'file',
+        //         name: 'file',
+        //         orderable: false,
+        //         searchable: false,
+        //         render: function(data, type, full, meta) {
+        //             return `<a href="/sale/spal/download/${data}" target="_blank">
+    //                     <img src="/img/document.png" alt="Gambar File" width="30">
+    //                 </a>`;
+        //         }
+        //     },
+
         const action =
             '{{ auth()->user()->can('edit spal') ||
             auth()->user()->can('delete spal')
@@ -78,17 +90,6 @@
                 : '' }}'
 
         let columns = [{
-                data: 'file',
-                name: 'file',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, full, meta) {
-                    return `<a href="/sale/spal/download/${data}" target="_blank">
-                            <img src="/img/document.png" alt="Gambar File" width="30">
-                        </a>`;
-                }
-            },
-            {
                 data: 'kode',
                 name: 'kode'
             },
@@ -106,7 +107,10 @@
             },
             {
                 data: 'jml_muatan',
-                name: 'jml_muatan'
+                name: 'jml_muatan',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
             {
                 data: 'pelabuhan_muat',
@@ -118,7 +122,10 @@
             },
             {
                 data: 'harga_unit',
-                name: 'harga_unit'
+                name: 'harga_unit',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
             {
                 data: 'created_at',

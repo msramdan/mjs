@@ -14,7 +14,7 @@ class StatusKaryawanController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view status karyawan')->only('index');
-        $this->middleware('permission:create status karyawan')->only('create');
+        $this->middleware('permission:create status karyawan')->only('create', 'store');
         $this->middleware('permission:edit status karyawan')->only('edit', 'update');
         $this->middleware('permission:delete status karyawan')->only('delete');
     }

@@ -13,7 +13,7 @@ class UnitController extends Controller
     public function __construct()
     {
         $this->middleware('permission:view unit')->only('index');
-        $this->middleware('permission:create unit')->only('create');
+        $this->middleware('permission:create unit')->only('create', 'store');
         $this->middleware('permission:edit unit')->only('edit', 'update');
         $this->middleware('permission:delete unit')->only('delete');
     }

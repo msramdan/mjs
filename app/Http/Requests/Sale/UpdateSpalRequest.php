@@ -28,11 +28,12 @@ class UpdateSpalRequest extends FormRequest
             'kode' => 'required|min:3|max:30|unique:spal,kode,' . $this->spal->id,
             'nama_kapal' => 'required|string|min:3|max:50',
             'nama_muatan' => 'required|string|min:3|max:50',
-            'jml_muatan' => 'required|integer|min:1',
+            'jml_muatan' => 'required|min:1',
             'pelabuhan_muat' => 'required|string|min:3|max:50',
             'pelabuhan_bongkar' => 'required|string|min:3|max:50',
-            'harga_unit' => 'required|integer|min:1',
-            'file' => 'nullable|mimes:pdf,docx,doc|max:1024',
+            'harga_unit' => 'required|min:1',
+            'nama.*' => 'nullable|string|min:2',
+            'file.*' => 'nullable|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
         ];
     }
 }

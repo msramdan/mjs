@@ -15,8 +15,8 @@ class InvoiceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view invoice')->only('index', 'show');
-        $this->middleware('permission:create invoice')->only('create');
+        $this->middleware('permission:view invoice')->only('index', 'show', 'print');
+        $this->middleware('permission:create invoice')->only('create', 'store');
         $this->middleware('permission:edit invoice')->only('edit', 'update');
         $this->middleware('permission:delete invoice')->only('delete');
     }
