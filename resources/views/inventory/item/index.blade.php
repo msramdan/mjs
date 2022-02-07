@@ -45,9 +45,7 @@
                                         <th>Type</th>
                                         <th>SOH</th>
                                         <th>Deskripsi</th>
-                                        <th>Akun COA</th>
-                                        {{-- <th>Created At</th>
-                                        <th>Updated At</th> --}}
+                                        {{-- <th>Akun COA</th> --}}
                                         @canany(['edit item', 'delete item'])
                                             <th>Action</th>
                                         @endcanany
@@ -114,10 +112,10 @@
                 data: 'deskripsi',
                 name: 'deskripsi'
             },
-            {
-                data: 'akun_coa',
-                name: 'akun_coa'
-            },
+            // {
+            //     data: 'akun_coa',
+            //     name: 'akun_coa'
+            // },
         ]
 
         if (action) {

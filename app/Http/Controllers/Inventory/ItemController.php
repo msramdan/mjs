@@ -30,7 +30,7 @@ class ItemController extends Controller
             $query = Item::with(
                 'category:id,nama',
                 'unit:id,nama',
-                'akun_coa:id,nama'
+                // 'akun_coa:id,nama'
             );
 
             return DataTables::of($query)
@@ -40,9 +40,9 @@ class ItemController extends Controller
                 ->addColumn('category', function ($row) {
                     return $row->category->nama;
                 })
-                ->addColumn('akun_coa', function ($row) {
-                    return $row->akun_coa->nama;
-                })
+                // ->addColumn('akun_coa', function ($row) {
+                //     return $row->akun_coa->nama;
+                // })
                 ->addColumn('unit', function ($row) {
                     return $row->unit->nama;
                 })
@@ -74,7 +74,7 @@ class ItemController extends Controller
         $attr = $request->validated();
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
-        $attr['akun_coa_id'] = $request->akun_coa;
+        // $attr['akun_coa_id'] = $request->akun_coa;
         $attr['stok'] = $request->soh;
         $attr['harga_estimasi'] = $request->harga_estimasi;
 
@@ -129,7 +129,7 @@ class ItemController extends Controller
         $attr = $request->validated();
         $attr['category_id'] = $request->category;
         $attr['unit_id'] = $request->unit;
-        $attr['akun_coa_id'] = $request->akun_coa;
+        // $attr['akun_coa_id'] = $request->akun_coa;
         $attr['stok'] = $request->soh;
         $attr['harga_estimasi'] = $request->harga_estimasi;
 
@@ -194,13 +194,20 @@ class ItemController extends Controller
         return response()->json($item, 200);
     }
 
+    /**
+     * Tracking stok item
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function tracking($id)
     {
-        $item = Item::select('id', 'category_id', 'akun_coa_id', 'unit_id', 'kode', 'nama', 'type', 'stok', 'deskripsi', 'foto')
+        // 'akun_coa_id',
+        $item = Item::select('id', 'category_id', 'unit_id', 'kode', 'nama', 'type', 'stok', 'deskripsi', 'foto')
             ->with(
                 'unit:id,nama',
                 'category:id,nama',
-                'akun_coa:id,nama',
+                // 'akun_coa:id,nama',
                 'detail_items',
                 'detail_items.supplier:id,nama',
 
@@ -222,7 +229,6 @@ class ItemController extends Controller
     /**
      * Generate unique & auto increment code by date.
      *
-     * @param  String $tanggal
      * @return \Illuminate\Http\Response
      */
     public function generateKode()

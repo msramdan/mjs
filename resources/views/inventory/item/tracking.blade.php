@@ -76,11 +76,11 @@
                             </div>
 
                             <div class="col-md-8">
-                                <div class="form-group mb-3">
+                                {{-- <div class="form-group mb-3">
                                     <label class="form-label" for="akun_coa">Akun COA</label>
                                     <input class="form-control" type="text" id="akun_coa" name="akun_coa"
                                         placeholder="akun_coa" value="{{ $item->akun_coa->nama }}" disabled />
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group mb-3">
                                     <label class="form-label" for="type">Type</label>
