@@ -17,7 +17,7 @@ class CreateItemsTable extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('unit_id')->constrained('units');
-            $table->foreignId('akun_coa_id')->constrained('account_coa');
+            // $table->foreignId('akun_coa_id')->constrained('account_coa');
             $table->string('kode', 30);
             $table->string('nama', 100);
             $table->string('type', 20);

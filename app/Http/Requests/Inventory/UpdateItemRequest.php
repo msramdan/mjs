@@ -30,9 +30,10 @@ class UpdateItemRequest extends FormRequest
             'nama' => 'required|string|min:3|max:50',
             'type' => 'required|in:Consumable,Services',
             'deskripsi' => 'required|string|min:3',
-            'akun_coa' => 'required|integer',
+            // 'akun_coa' => 'required|integer',
             'foto' => 'nullable|max:1024|image|mimes:png,jpg,jpeg',
-            'stok' => 'nullable|integer'
+            'stok' => 'nullable|integer',
+            'supplier' => 'required'
         ];
     }
 }

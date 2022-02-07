@@ -66,48 +66,43 @@
                                     @enderror
                                 </div>
                             </div>
-
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="deskripsi">Deskripsi</label>
-                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
-                                    name="deskripsi" placeholder="Deskripsi" rows="5"
-                                    required>{{ old('deskripsi') }}</textarea>
-                                @error('deskripsi')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="category">Category</label>
-                                <select class="form-select @error('category') is-invalid @enderror" id="category"
-                                    name="category" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($category as $each)
-                                        <option value="{{ $each->id }}">{{ $each->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @error('category')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="category">Category</label>
+                                        <select class="form-select @error('category') is-invalid @enderror" id="category"
+                                            name="category" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($category as $each)
+                                                <option value="{{ $each->id }}">{{ $each->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('category')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="unit">Unit</label>
+                                        <select class="form-select @error('unit') is-invalid @enderror" id="unit"
+                                            name="unit" required>
+                                            <option value="" disabled selected>-- Pilih --</option>
+                                            @foreach ($unit as $each)
+                                                <option value="{{ $each->id }}">{{ $each->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('unit')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="unit">Unit</label>
-                                <select class="form-select @error('unit') is-invalid @enderror" id="unit" name="unit"
-                                    required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($unit as $each)
-                                        <option value="{{ $each->id }}">{{ $each->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @error('unit')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
+                            {{-- <div class="form-group mb-3">
                                 <label class="form-label" for="akun_coa">Akun COA</label>
                                 <select class="form-select @error('akun_coa') is-invalid @enderror" id="akun_coa"
                                     name="akun_coa" required>
@@ -119,7 +114,7 @@
                                 @error('akun_coa')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
+                            </div> --}}
 
                             <label class="mb-2">Type</label>
                             <br>
@@ -137,8 +132,19 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="foto">Foto</label>
                                 <input class="form-control @error('foto') is-invalid @enderror" type="file" id="foto"
-                                    name="foto" placeholder="Foto" value="{{ old('foto') }}" required />
+                                    name="foto" placeholder="Foto" required />
                                 @error('foto')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="deskripsi">Deskripsi</label>
+                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
+                                    name="deskripsi" placeholder="Deskripsi" required>{{ old('deskripsi') }}</textarea>
+                                @error('deskripsi')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -164,8 +170,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="harga-beli">Harga Beli</label>
                                 <input class="form-control @error('harga_beli') is-invalid @enderror" type="number"
-                                    id="harga-beli" name="harga_beli" placeholder="Harga Beli"
-                                    value="{{ old('harga_beli') }}" />
+                                    id="harga-beli" name="harga_beli" placeholder="Harga Beli" />
                             </div>
                         </div>
                         <div class="col-md-2">

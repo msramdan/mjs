@@ -17,7 +17,7 @@ class Item extends Model
     protected $fillable = [
         'category_id',
         'unit_id',
-        'akun_coa_id',
+        // 'akun_coa_id',
         'kode',
         'nama',
         'type',
@@ -37,10 +37,10 @@ class Item extends Model
         return $this->belongsTo(Unit::class);
     }
 
-    public function akun_coa()
-    {
-        return $this->belongsTo(AkunCoa::class, 'akun_coa_id');
-    }
+    // public function akun_coa()
+    // {
+    //     return $this->belongsTo(AkunCoa::class, 'akun_coa_id');
+    // }
 
     public function detail_items()
     {
