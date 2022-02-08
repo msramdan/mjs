@@ -6,7 +6,8 @@ use App\Http\Controllers\Accounting\{
     AkunGrupController,
     AkunHeaderController,
     BillingController,
-    InvoiceController
+    InvoiceController,
+    JurnalUmumController
 };
 use App\Http\Controllers\Contact\{
     CustomerController,
@@ -79,6 +80,8 @@ Route::prefix('contact')->middleware('auth')->group(function () {
     Route::resource('customer', CustomerController::class);
 });
 
+Route::middleware('auth')->resource('/request-form', RequestFormController::class);
+
 // Master Data
 Route::prefix('master')->middleware('auth')->group(function () {
     Route::resource('category', CategoryController::class);
@@ -129,16 +132,19 @@ Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
     Route::get('/item/get-item-by-id/{itemId}', [ItemController::class, 'getItemById']);
     Route::get('/item/get-item-and-supplier/{itemId}/{supplierId}', [ItemController::class, 'getItemAndSupplier']);
+
     Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
     Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
     Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
 
-
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
     Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);
 
-    Route::get('/bac-terima/download/{file}', [BacTerimaController::class, 'download'])->name('bac-terima.download');
-    Route::get('/bac-pakai/download/{file}', [BacPakaiController::class, 'download'])->name('bac-pakai.download');
+    Route::get('/bac-terima/download/{file}', [BacTerimaController::class, 'download'])
+        ->name('bac-terima.download');
+
+    Route::get('/bac-pakai/download/{file}', [BacPakaiController::class, 'download'])
+        ->name('bac-pakai.download');
 
     Route::get('/bac-pakai/generate-kode/{tanggal}', [BacPakaiController::class, 'generateKode']);
     Route::get('/bac-terima/generate-kode/{tanggal}', [BacTerimaController::class, 'generateKode']);
@@ -179,12 +185,13 @@ Route::middleware('auth')->prefix('setting')->group(function () {
 // Request Form
 Route::middleware('auth')->group(function () {
     Route::get('/request-form/generate-kode/{tanggal}', [RequestFormController::class, 'generateKode']);
-    Route::get('/request-form/download/{file}', [RequestFormController::class, 'download'])->name('request-form.download');
-    Route::post('/request-form/set-status', [RequestFormController::class, 'setStatus'])->name('request-form.set-status');
+
+    Route::get('/request-form/download/{file}', [RequestFormController::class, 'download'])
+        ->name('request-form.download');
+
+    Route::post('/request-form/set-status', [RequestFormController::class, 'setStatus'])
+        ->name('request-form.set-status');
 });
-
-Route::middleware('auth')->resource('/request-form', RequestFormController::class);
-
 
 // accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {
@@ -194,12 +201,14 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::get('/invoice/{id}/print', [InvoiceController::class, 'print'])->name('invoice.print');
     Route::get('/billing/{id}/print', [BillingController::class, 'print'])->name('billing.print');
 
-
     Route::resource('invoice', InvoiceController::class);
     Route::resource('billing', BillingController::class);
     Route::resource('akun-grup', AkunGrupController::class);
     Route::resource('akun-header', AkunHeaderController::class);
     Route::resource('akun-coa', AkunCoaController::class);
+    Route::resource('akun-coa', AkunCoaController::class);
+
+    Route::resource('jurnal-umum', JurnalUmumController::class);
 });
 
 // Payroll
