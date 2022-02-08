@@ -1,5 +1,5 @@
-
-<?php // routes/breadcrumbs.php
+<?php
+// routes/breadcrumbs.php
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 
@@ -618,6 +618,21 @@ Breadcrumbs::for('header_edit', function (BreadcrumbTrail $trail) {
     $trail->push('Edit');
 });
 
+//jurnal umum
+Breadcrumbs::for('jurnal_umum_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push(trans('sidebar.sub_menu.jurnal_umum'), route('jurnal-umum.index'));
+});
+
+Breadcrumbs::for('jurnal_umum_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('jurnal_umum_index');
+    $trail->push('Create', route('jurnal-umum.create'));
+});
+
+Breadcrumbs::for('jurnal_umum_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('jurnal_umum_index');
+    $trail->push('Edit');
+});
 
 
 //COA
