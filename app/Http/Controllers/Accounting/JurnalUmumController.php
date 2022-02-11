@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounting\AkunCoa;
 use App\Models\Accounting\JurnalUmum;
 use Illuminate\Http\Request;
+
 
 class JurnalUmumController extends Controller
 {
@@ -25,7 +27,8 @@ class JurnalUmumController extends Controller
      */
     public function create()
     {
-        dd('create');
+        $coa = AkunCoa::get()->all();
+        return view('accounting.jurnal-umum.create', compact(['coa']));
     }
 
     /**

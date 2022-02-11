@@ -44,6 +44,7 @@
                                         <th>Description</th>
                                         <th>Debet</th>
                                         <th>Kredit</th>
+                                        <th>Ref No.</th>
                                         {{-- @canany(['edit unit', 'delete unit']) --}}
                                         <th>Action</th>
                                         {{-- @endcanany --}}
