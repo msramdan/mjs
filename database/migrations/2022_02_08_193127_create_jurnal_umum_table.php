@@ -6,15 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateJurnalUmumTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('jurnal_umum', function (Blueprint $table) {
             $table->id();
+            $table->date('tanggal');
+            $table->string('no_bukti');
+            $table->foreignId('account_coa_id')->constrained('account_coa');
+            $table->string('deskripsi');
+            $table->integer('debit');
+            $table->integer('kredit');
             $table->timestamps();
         });
     }
