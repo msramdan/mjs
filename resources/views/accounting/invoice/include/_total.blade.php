@@ -131,9 +131,9 @@
                     @endif
                 </button>
 
-                <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
+                {{-- <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
                     Print
-                </a>
+                </a> --}}
 
                 <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
                     {{ !$invoice ? 'disabled' : '' }}>Cancel</a>
