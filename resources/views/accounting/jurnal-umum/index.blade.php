@@ -40,11 +40,10 @@
                                         <th>Tangal</th>
                                         <th>No. Bukti</th>
                                         <th>No. Akun</th>
-                                        <th>Nama Akun</th>
+                                        {{-- <th>Nama Akun</th> --}}
                                         <th>Description</th>
                                         <th>Debet</th>
                                         <th>Kredit</th>
-                                        <th>Ref No.</th>
                                         {{-- @canany(['edit unit', 'delete unit']) --}}
                                         <th>Action</th>
                                         {{-- @endcanany --}}
@@ -67,28 +66,37 @@
 @push('js')
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
-    {{-- <script>
+    <script>
         const action =
             '{{ auth()->user()->can('edit unit') ||
             auth()->user()->can('delete unit')
                 ? 'yes yes yes'
                 : '' }}'
-
-        let columns = [{
-                data: 'nama',
-                name: 'nama'
+        let columns =
+        [
+            {
+                data: 'tanggal',
+                name: 'tanggal'
             },
             {
-                data: 'status',
-                name: 'status'
+                data: 'no_bukti',
+                name: 'no_bukti'
             },
             {
-                data: 'created_at',
-                name: 'created_at'
+                data: 'account_coa_id',
+                name: 'account_coa_id'
             },
             {
-                data: 'updated_at',
-                name: 'updated_at'
+                data: 'deskripsi',
+                name: 'deskripsi'
+            },
+            {
+                data: 'debit',
+                name: 'debit'
+            },
+            {
+                data: 'kredit',
+                name: 'kredit'
             },
         ]
 
@@ -104,8 +112,8 @@
         $('#data-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('unit.index') }}",
+            ajax: "{{ route('jurnal-umum.index') }}",
             columns: columns
         });
-    </script> --}}
+    </script>
 @endpush

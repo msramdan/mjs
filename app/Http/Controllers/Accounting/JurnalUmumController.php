@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounting;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\AkunCoa;
 use App\Models\Accounting\JurnalUmum;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 
 
@@ -17,7 +18,14 @@ class JurnalUmumController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            $query = JurnalUmum::query();
+            return Datatables::of($query)
+                ->addColumn('action', 'accounting.jurnal-umum._action')
+                ->toJson();
+        }
         return view('accounting.jurnal-umum.index');
+
     }
 
     /**
