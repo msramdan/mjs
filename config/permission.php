@@ -350,6 +350,15 @@ return [
             ],
         ],
         [
+            'group' => 'jurnal-umum',
+            'lists' => [
+                'view jurnal-umum',
+                'create jurnal-umum',
+                'edit jurnal-umum',
+                'delete jurnal-umum',
+            ],
+        ],
+        [
             'group' => 'purchase',
             'lists' => [
                 'view purchase',
@@ -473,5 +482,6 @@ return [
                 'setting aplikasi',
             ],
         ],
+
     ]
 ];
