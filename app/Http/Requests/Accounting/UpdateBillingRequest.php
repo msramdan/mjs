@@ -29,7 +29,7 @@ class UpdateBillingRequest extends FormRequest
             'attn' => 'required|string',
             'tanggal_billing' => 'required|date',
             'tanggal_dibayar' => 'nullable|required_if:status_billing,Paid|date|after_or_equal:tanggal_billing',
-            'catatan' => 'required|string',
+            'catatan' => 'nullable|string',
             'status_billing' => 'required|in:Unpaid,Paid',
             'nominal_billing' => 'required',
         ];

@@ -68,11 +68,11 @@
                             {{ $purchase ? $purchase->request_form->tanggal->format('d/m/Y') : '' }}
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td width="35">Status</td>
                         <td>:</td>
                         <td id="status">{{ $purchase ? $purchase->request_form->status : '' }}</td>
-                    </tr>
+                    </tr> --}}
                 </table>
             </div>
         </div>

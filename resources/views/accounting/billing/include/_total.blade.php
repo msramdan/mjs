@@ -54,7 +54,7 @@
             <div class="form-group mb-2">
                 <label class="form-label" for="catatan">Catatan Billing</label>
                 <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan Billing"
-                    rows="8" required></textarea>
+                    rows="8"></textarea>
             </div>
         </div>
         {{-- end of col-md-4 --}}
@@ -118,26 +118,5 @@
             {{-- end of col-md-4 --}}
         </div>
         {{-- end of row --}}
-    @endif
-
-    @if (!$show)
-        <div class="col-md-12 mt-2">
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success me-2" id="btn-save" {{ !$billing ? 'disabled' : '' }}>
-                    @if (!$billing)
-                        Simpan
-                    @else
-                        Update
-                    @endif
-                </button>
-
-                {{-- <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2">
-                    Print
-                </a> --}}
-
-                <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
-                    {{ !$billing ? 'disabled' : '' }}>Cancel</a>
-            </div>
-        </div>
     @endif
 </div>

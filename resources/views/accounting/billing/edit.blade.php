@@ -210,6 +210,22 @@
             }
         })
 
+        tglDibayar.change(function() {
+            let statusBilling = $('#status-billing')
+            let akunBeban = $('#col-akun-beban')
+            let akunSumber = $('#col-akun-sumber')
+
+            if ($(this).val()) {
+                statusBilling.val('Paid')
+                akunBeban.show()
+                akunSumber.show()
+            } else {
+                statusBilling.val('Unpaid')
+                akunBeban.hide()
+                akunSumber.hide()
+            }
+        })
+
         function getKode() {
             kode.val('Loading...')
 

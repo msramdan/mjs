@@ -29,7 +29,7 @@ class StoreBillingRequest extends FormRequest
             'attn' => 'required|string',
             'tanggal_billing' => 'required|date',
             'dibayar' => 'required|integer|min:1|max:' . request()->sisa_hidden,
-            'catatan' => 'required|string'
+            'catatan' => 'nullable|string'
         ];
     }
 }

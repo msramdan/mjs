@@ -284,17 +284,6 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // // list list COA
-        // View::composer([
-        //     'accounting.coa.create',
-        //     'accounting.coa.edit',
-        // ], function ($view) {
-        //     return $view->with(
-        //         'listCoa',
-        //         Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
-        //     );
-        // });
-
         // list spal
         View::composer([
             'sale.sale.create',
@@ -394,6 +383,17 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
+        // list list COA
+        View::composer([
+            'accounting.billing.create',
+            'accounting.billing.edit',
+        ], function ($view) {
+            return $view->with(
+                'coas',
+                AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
+            );
+        });
+
         // list purchases approve
         View::composer([
             'accounting.billing.create',
@@ -408,7 +408,6 @@ class ViewServiceProvider extends ServiceProvider
                     ->get()
             );
         });
-
 
         // list purchases
         View::composer([
