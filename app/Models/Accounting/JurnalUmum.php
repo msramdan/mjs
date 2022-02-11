@@ -8,4 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class JurnalUmum extends Model
 {
     use HasFactory;
+
+    protected $table = 'jurnal_umum';
+
+    protected $fillable = [
+        'tanggal',
+        'no_bukti',
+        'account_coa_id',
+        'deskripsi',
+        'debit',
+        'kredit',
+    ];
+
+    public function akun_coa()
+    {
+        return $this->belongsTo(AccountCoa::class, 'account_coa_id');
+    }
 }
