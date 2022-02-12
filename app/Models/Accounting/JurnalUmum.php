@@ -20,8 +20,10 @@ class JurnalUmum extends Model
         'kredit',
     ];
 
+    protected $casts = ['tanggal' => 'date:d/m/Y'];
+
     public function akun_coa()
     {
-        return $this->belongsTo(AccountCoa::class, 'account_coa_id');
+        return $this->belongsTo(AkunCoa::class, 'account_coa_id');
     }
 }

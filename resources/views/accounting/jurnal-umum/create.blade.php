@@ -3,9 +3,7 @@
 
 @section('content')
     <div id="content" class="app-content">
-
         {{ Breadcrumbs::render('jurnal_umum_create') }}
-
         <div class="panel panel-inverse">
             <div class="panel-heading">
                 <h4 class="panel-title">{{ trans('sidebar.sub_menu.jurnal_umum') }}</h4>
@@ -21,54 +19,64 @@
                     </a>
                 </div>
             </div>
-            <form action="">
+            <form id="form-jurnal">
                 <div class="panel-body">
                     <div class="row form-group">
                         <div class="col-md-4 mb-1">
-                            <label class="form-label" for="start_date">Tanggal Transaksi</label>
+                            <label class="form-label" for="tanggal">Tanggal Transaksi</label>
 
                             <div class="input-group mb-3">
-                                <input required="" class="form-control" required type="date" id="tanggal"
-                                    name="start_date" placeholder="Tanggal Transaksi">
+                                <input class="form-control" type="date" id="tanggal" name="tanggal"
+                                    placeholder="Tanggal Transaksi" required>
                             </div>
                         </div>
                         <div class="col-md-4 mb-1">
-                            <label class="form-label" for="end_date">No. Bukti</label>
+                            <label class="form-label" for="no_bukti">No. Bukti</label>
                             <div class="input-group mb-3">
-                                <input required="" class="form-control" required type="text" id="no_bukti" name="end_date"
-                                    placeholder="No. Bukti">
+                                <input class="form-control" type="text" id="no_bukti" name="no_bukti"
+                                    placeholder="No. Bukti" required>
                             </div>
                         </div>
                     </div>
                     <button style="margin-bottom: 10px;" type="button" name="add_berkas" id="add_berkas"
-                        class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
-                    <table class="table table-bordered " id="dynamic_field">
-                        <tr>
-                            <th style="width:20%">Nama Akun </th>
-                            <th style="width:35%">Deksripsi</th>
-                            <th style="width:20%">Debit</th>
-                            <th style="width:20%">Kredit</th>
-                            <th style="width:5%">Action</th>
-                        </tr>
+                        class="btn btn-success btn-sm">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Add
+                    </button>
+
+                    <table class="table table-bordered table-responsive" id="dynamic_field">
+                        <thead>
+                            <tr>
+                                <th style="width:20%">Nama Akun </th>
+                                <th style="width:35%">Deksripsi</th>
+                                <th style="width:20%">Debit</th>
+                                <th style="width:20%">Kredit</th>
+                                <th style="width:5%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
                     </table>
 
-                    <table class="table " id="">
+                    <table class="table" id="">
                         <tr>
                             <td style="width:20%">
-                                <button id="simpan_data" type="submit" class="btn btn-danger"><i class="fas fa-save"></i>
+                                <button id="simpan_data" type="submit" class="btn btn-danger">
+                                    <i class="fas fa-save"></i>
                                     Create</button>
-                                <a href="{{ route('jurnal-umum.index') }}" class="btn btn-info"><i
-                                        class="fas fa-undo"></i> Kembali</a>
+                                <a href="{{ route('jurnal-umum.index') }}" class="btn btn-info">
+                                    <i class="fas fa-undo"></i> Kembali
+                                </a>
                             </td>
                             <td style="width:35%"></td>
-                            <td style="width:20%;font-size:14px"> <b>Total Debit :</b> <br> <span id="sum_debit"></span>
+                            <td style="width:20%;font-size:14px"> <b>Total Debit :</b> <br>
+                                <span id="sum_debit"></span>
                             </td>
-                            <td style="width:20%;font-size:14px"> <b>Total Kredit :</b> <br> <span id="sum_kredit"></span>
+                            <td style="width:20%;font-size:14px"> <b>Total Kredit :</b> <br>
+                                <span id="sum_kredit"></span>
                             </td>
                             <th style="width:5%"></th>
                         </tr>
                     </table>
-
                 </div>
             </form>
         </div>
@@ -76,29 +84,57 @@
 @endsection
 
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     <script>
         $(document).ready(function() {
             var i = 1;
             $('#add_berkas').click(function() {
                 i++;
-                $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><select required name="account_coa_id[]" class="form-control"><option style="color: black;" value="">-- Pilih -- </option><?php foreach ($coa as $key => $data) { ?><option style="color:black" value="<?php echo $data->id; ?>"><?php echo $data->kode; ?> - <?php echo $data->nama; ?> </option><?php } ?></select></td><td><input type="text" required class="form-control" placeholder="Deskripsi" /> </td><td><input type="text" value="0" class="form-control nominal_debit_text" id="debit' +
-                    i +
-                    '"  placeholder=""  /> <input value="0" type="hidden" class="form-control nominal_debit" id="debit_asli' +
-                    i +
-                    '" name="debit[]" placeholder="" value="" /></td><td><input type="text" class="form-control nominal_kredit_text" id="kredit' +
-                    i +
-                    '" value="0"  /> <input value="0" type="hidden" class="form-control nominal_kredit" id="kredit_asli' +
-                    i +
-                    '" name="kredit[]"   /></td><td><button type="button" name="remove" id="' +
-                    i +
-                    '" class="btn btn-danger btn_remove2"><i class="fa fa-trash" aria-hidden="true"></i></button></td></tr>'
-                );
+                $('#dynamic_field tbody').append(`
+                <tr id="row${i}">
+                    <td>
+                        <div class="form-group">
+                            <select class="form-control" name="account_coa_id[]" required>
+                            <option style="color: black;" value="" disabled selected>-- Pilih -- </option>
+                            <?php foreach ($coas as $key => $data) { ?>
+                                <option style="color:black" value="<?php echo $data->id; ?>">
+                                    <?php echo $data->kode; ?> - <?php echo $data->nama; ?>
+                                </option>
+                            <?php } ?>
+                            </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="deskripsi[]" class="form-control" placeholder="Deskripsi" required/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" class="form-control nominal_debit_text" id="debit${i}"  placeholder=""  value="0"/>
+                            <input type="hidden" class="form-control nominal_debit" id="debit_asli${i}" name="debit[]" placeholder="" value="0"/>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" class="form-control nominal_kredit_text" id="kredit${i}" value="0"/>
+                            <input type="hidden" class="form-control nominal_kredit" id="kredit_asli${i}" name="kredit[]" value="0"/>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-danger btn_remove2" name="remove" id="${i}">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`);
+
                 var kredit = 'kredit' + i
                 var debit = 'debit' + i
                 var reserve = 'reserve' + i
 
                 var tanpa_rupiah_expense = document.getElementById(kredit);
+
                 if (tanpa_rupiah_expense) {
                     tanpa_rupiah_expense.addEventListener('keyup', function(e) {
                         tanpa_rupiah_expense.value = formatRupiah(this.value);
@@ -132,6 +168,7 @@
                     });
                 }
             });
+
             // untuk hadle detail remark ketika update debit
             $(document).on('keyup', '.db_debit', function() {
                 var id2 = $(this).closest('input').attr('id');
@@ -144,6 +181,7 @@
                     });
                 }
             });
+
             // untuk hadle detail remark ketika update reserve
             $(document).on('keyup', '.db_reserve', function() {
                 var id3 = $(this).closest('input').attr('id');
@@ -171,7 +209,6 @@
                 calc_total_debit();
                 calc_total_kredit();
             });
-
         });
     </script>
 
@@ -241,38 +278,82 @@
     </script>
 
     <script>
-        $("#simpan_data").click(function() {
+        $("#simpan_data").click(function(e) {
+            e.preventDefault()
+
             var tanggal = $('#tanggal').val();
             var no_bukti = $('#no_bukti').val();
+            var sum_debit = parseFloat($('#sum_debit').text().replace(/,/g, ''));
+            var sum_kredit = parseFloat($('#sum_kredit').text().replace(/,/g, ''));
+
             if (!tanggal) {
-                alert('Transaction date has not been filled in');
                 $('#tanggal').focus();
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Tanggal tidak boleh kosong',
+                })
             } else if (!no_bukti) {
-                alert('transaction number has not been filled in');
                 $('#no_bukti').focus();
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'No bukti tidak boleh kosong',
+                })
+            } else if (sum_debit != sum_kredit) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Total debit dan total kredit harus sama',
+                })
             } else {
-                if (confirm('are you sure to save this transaction?')) {
-                    $.ajax({
-                        type: "POST",
-                        url: "",
-                        data: {
-                            'process_simpan': true,
-                            'tanggal': tanggal,
-                            'no_bukti': no_bukti,
-                        },
-                        dataType: "json",
-                        success: function(result) {
-                            console.log(result)
-                        }
-
-                    });
+                var jurnal_umum = {
+                    tanggal: $('#tanggal').val(),
+                    no_bukti: $('#no_bukti').val(),
+                    account_coa_id: $('select[name="account_coa_id[]"]').map(function() {
+                        return $(this).val()
+                    }).get(),
+                    deskripsi: $('input[name="deskripsi[]"]').map(function() {
+                        return $(this).val()
+                    }).get(),
+                    kredit: $('input[name="kredit[]"]').map(function() {
+                        return $(this).val()
+                    }).get(),
+                    debit: $('input[name="debit[]"]').map(function() {
+                        return $(this).val()
+                    }).get(),
                 }
+
+                $.ajax({
+                    type: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    url: "{{ route('jurnal-umum.store') }}",
+                    data: jurnal_umum,
+                    dataType: "json",
+                    success: function(result) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Simpan data',
+                            text: 'Berhasil'
+                        }).then(function() {
+                            window.location = '{{ route('jurnal-umum.index') }}'
+                        })
+                    },
+                    error: function(xhr, status, error) {
+                        // console.log(xhr.responseText)
+                        console.error('error njir');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!'
+                        })
+                    }
+                });
             }
-
-
-
         });
     </script>
-
-
 @endpush
