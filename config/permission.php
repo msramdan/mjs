@@ -350,12 +350,12 @@ return [
             ],
         ],
         [
-            'group' => 'jurnal-umum',
+            'group' => 'jurnal umum',
             'lists' => [
-                'view jurnal-umum',
-                'create jurnal-umum',
-                'edit jurnal-umum',
-                'delete jurnal-umum',
+                'view jurnal umum',
+                'create jurnal umum',
+                'edit jurnal umum',
+                'delete jurnal umum',
             ],
         ],
         [

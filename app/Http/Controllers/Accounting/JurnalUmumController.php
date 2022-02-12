@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Accounting\StoreJurnalUmumRequest;
-use App\Http\Requests\Accounting\UpdateJurnalUmumRequest;
-use App\Models\Accounting\AkunCoa;
+use App\Http\Requests\Accounting\{StoreJurnalUmumRequest, UpdateJurnalUmumRequest};
 use App\Models\Accounting\JurnalUmum;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class JurnalUmumController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view jurnal umum')->only('index');
+        $this->middleware('permission:create jurnal umum')->only('create', 'store');
+        $this->middleware('permission:edit jurnal umum')->only('edit', 'update');
+        // $this->middleware('permission:delete jurnal umum')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *

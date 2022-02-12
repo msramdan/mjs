@@ -273,16 +273,16 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list Akun Coa
-        View::composer([
-            'inventory.item.create',
-            'inventory.item.edit'
-        ], function ($view) {
-            return $view->with(
-                'akunCoa',
-                AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
-            );
-        });
+        // // list Akun Coa
+        // View::composer([
+        //     'inventory.item.create',
+        //     'inventory.item.edit'
+        // ], function ($view) {
+        //     return $view->with(
+        //         'akunCoa',
+        //         AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
+        //     );
+        // });
 
         // list spal
         View::composer([
