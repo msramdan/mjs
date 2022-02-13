@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounting\AkunCoa;
+use App\Http\Requests\Accounting\{StoreJurnalUmumRequest, UpdateJurnalUmumRequest};
 use App\Models\Accounting\JurnalUmum;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class JurnalUmumController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view jurnal umum')->only('index');
+        $this->middleware('permission:create jurnal umum')->only('create', 'store');
+        $this->middleware('permission:edit jurnal umum')->only('edit', 'update');
+        // $this->middleware('permission:delete jurnal umum')->only('delete');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,13 +26,20 @@ class JurnalUmumController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = JurnalUmum::query();
+            $query = JurnalUmum::with('akun_coa:id,kode,nama');
+
             return Datatables::of($query)
+                ->addColumn('coa_kode', function ($row) {
+                    return $row->akun_coa->kode;
+                })
+                ->addColumn('coa_nama', function ($row) {
+                    return $row->akun_coa->nama;
+                })
                 ->addColumn('action', 'accounting.jurnal-umum._action')
                 ->toJson();
         }
-        return view('accounting.jurnal-umum.index');
 
+        return view('accounting.jurnal-umum.index');
     }
 
     /**
@@ -35,8 +49,7 @@ class JurnalUmumController extends Controller
      */
     public function create()
     {
-        $coa = AkunCoa::get()->all();
-        return view('accounting.jurnal-umum.create', compact(['coa']));
+        return view('accounting.jurnal-umum.create');
     }
 
     /**
@@ -45,21 +58,40 @@ class JurnalUmumController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreJurnalUmumRequest $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $jurnalUmum = [];
+
+            foreach ($request->account_coa_id as $key => $req) {
+                $jurnalUmum[] = [
+                    'tanggal' => $request->tanggal,
+                    'no_bukti' => $request->no_bukti,
+                    'account_coa_id' => $request->account_coa_id[$key],
+                    'deskripsi' => $request->deskripsi[$key],
+                    'debit' => $request->debit[$key],
+                    'kredit' => $request->kredit[$key],
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
+                ];
+            }
+
+            JurnalUmum::insert($jurnalUmum);
+        });
+
+        return response()->json(['success'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\JurnalUmum  $jurnalUmum
-     * @return \Illuminate\Http\Response
-     */
-    public function show(JurnalUmum $jurnalUmum)
-    {
-        //
-    }
+    // /**
+    //  * Display the specified resource.
+    //  *
+    //  * @param  \App\Models\Accounting\JurnalUmum  $jurnalUmum
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function show(JurnalUmum $jurnalUmum)
+    // {
+    //     //
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -69,7 +101,10 @@ class JurnalUmumController extends Controller
      */
     public function edit(JurnalUmum $jurnalUmum)
     {
-        //
+        // jurnal yg no buktinya sama
+        $relatedJurnals = JurnalUmum::where('no_bukti', $jurnalUmum->no_bukti)->get();
+
+        return view('accounting.jurnal-umum.edit', compact('relatedJurnals', 'jurnalUmum'));
     }
 
     /**
@@ -79,19 +114,41 @@ class JurnalUmumController extends Controller
      * @param  \App\Models\Accounting\JurnalUmum  $jurnalUmum
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, JurnalUmum $jurnalUmum)
+    public function update(UpdateJurnalUmumRequest $request, JurnalUmum $jurnalUmum)
     {
-        //
+        // hapus semua jurnal lama dengan berdasarkan no bukti
+        JurnalUmum::where('no_bukti', $jurnalUmum->no_bukti)->delete();
+
+        DB::transaction(function () use ($request) {
+            $jurnalUmum = [];
+
+            foreach ($request->account_coa_id as $key => $req) {
+                $jurnalUmum[] = [
+                    'tanggal' => $request->tanggal,
+                    'no_bukti' => $request->no_bukti,
+                    'account_coa_id' => $request->account_coa_id[$key],
+                    'deskripsi' => $request->deskripsi[$key],
+                    'debit' => $request->debit[$key],
+                    'kredit' => $request->kredit[$key],
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
+                ];
+            }
+
+            JurnalUmum::insert($jurnalUmum);
+        });
+
+        return response()->json(['success'], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Accounting\JurnalUmum  $jurnalUmum
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(JurnalUmum $jurnalUmum)
-    {
-        //
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  \App\Models\Accounting\JurnalUmum  $jurnalUmum
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy(JurnalUmum $jurnalUmum)
+    // {
+    //     //
+    // }
 }

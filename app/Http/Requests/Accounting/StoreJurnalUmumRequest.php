@@ -4,7 +4,7 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBillingRequest extends FormRequest
+class StoreJurnalUmumRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class StoreBillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode' => 'required|unique:billings,kode',
-            'purchase' => 'required|integer',
-            'attn' => 'required|string',
-            'tanggal_billing' => 'required|date',
-            'dibayar' => 'required|integer|min:1|max:' . request()->sisa_hidden,
-            'catatan' => 'nullable|string'
+            'tanggal' => 'required|date',
+            'no_bukti' => 'required|string',
+            'account_coa_id.*' => 'required|exists:account_coa,id',
+            'deskripsi.*' => 'required|string',
+            'debit.*' => 'required|numeric',
+            'kredit.*' => 'required|numeric',
         ];
     }
 }

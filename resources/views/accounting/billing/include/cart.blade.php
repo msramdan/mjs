@@ -42,50 +42,6 @@
                             value="{{ $billing ? $billing->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
                     </div>
                 </div>
-
-
-                @if ($billing)
-                    <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="nominal-billing">Nominal billing</label>
-                            <input class="form-control" type="text" id="nominal-billing" name="nominal_billing"
-                                placeholder="Nominal billing" value="{{ number_format($billing->dibayar) }}" required
-                                {{ $show ? 'disabled' : 'readonly' }} />
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="tanggal-dibayar">Tanggal Dibayar</label>
-                            <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
-                                placeholder="Tanggal Dibayar"
-                                value="{{ $billing->tanggal_dibayar ? $billing->tanggal_dibayar->format('Y-m-d') : null }}"
-                                {{ $show ? 'disabled' : '' }} />
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="status-billing">Status Pembayaran</label>
-                            <input class="form-control" type="text" id="status-billing" name="status_billing"
-                                placeholder="Tanggal Dibayar" value="{{ $billing->status }}"
-                                {{ $show ? 'disabled' : 'readonly' }} />
-
-                            {{-- @if ($show)
-                                <input class="form-control" type="text" id="status-billing" name="status_billing"
-                                    placeholder="Tanggal Dibayar" value="{{ $billing->status }}" readonly />
-                            @else
-                                <select class="form-select" id="status-billing" name="status_billing">
-                                    <option value="Unpaid" {{ $billing->status == 'Unpaid' ? 'selected' : '' }}>
-                                        Unpaid
-                                    </option>
-                                    <option value="Paid" {{ $billing->status == 'Paid' ? 'selected' : '' }}>Paid
-                                    </option>
-                                </select>
-                            @endif --}}
-                        </div>
-                    </div>
-                @endif
             </div>
             {{-- End of header form --}}
 
@@ -138,7 +94,90 @@
 
             @include('accounting.billing.include._total')
 
-            @if ($show)
+            @if ($billing)
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="nominal-billing">Nominal billing</label>
+                            <input class="form-control" type="text" id="nominal-billing" name="nominal_billing"
+                                placeholder="Nominal billing" value="{{ number_format($billing->dibayar) }}" required
+                                {{ $show ? 'disabled' : 'readonly' }} />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="tanggal-dibayar">Tanggal Dibayar</label>
+                            <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
+                                placeholder="Tanggal Dibayar"
+                                value="{{ $billing->tanggal_dibayar ? $billing->tanggal_dibayar->format('Y-m-d') : null }}"
+                                {{ $show ? 'disabled' : '' }} />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="status-billing">Status Pembayaran</label>
+                            <input class="form-control" type="text" id="status-billing" name="status_billing"
+                                placeholder="Tanggal Dibayar" value="{{ $billing->status }}"
+                                {{ $show ? 'disabled' : 'readonly' }} />
+
+                            {{-- @if ($show)
+                                <input class="form-control" type="text" id="status-billing" name="status_billing"
+                                    placeholder="Tanggal Dibayar" value="{{ $billing->status }}" readonly />
+                            @else
+                                <select class="form-select" id="status-billing" name="status_billing">
+                                    <option value="Unpaid" {{ $billing->status == 'Unpaid' ? 'selected' : '' }}>
+                                        Unpaid
+                                    </option>
+                                    <option value="Paid" {{ $billing->status == 'Paid' ? 'selected' : '' }}>Paid
+                                    </option>
+                                </select>
+                            @endif --}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="col-akun-beban" style="display: none">
+                        <div class="form-group">
+                            <label for="akun-beban">Akun Beban</label>
+                            <select name="akun_beban" id="akun-beban" class="form-select">
+                                @foreach ($coas as $coa)
+                                    <option value="{{ $coa->id }}">{{ $coa->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="col-akun-sumber" style="display: none">
+                        <div class="form-group">
+                            <label for="akun-sumber">Akun Sumber</label>
+                            <select name="akun_sumber" id="akun-sumber" class="form-select">
+                                @foreach ($coas as $coa)
+                                    <option value="{{ $coa->id }}">{{ $coa->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if (!$show)
+                <div class="col-md-12 mt-2">
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success me-2" id="btn-save"
+                            {{ !$billing ? 'disabled' : '' }}>
+                            {{ !$billing ? 'Simpan' : 'Update' }}
+                        </button>
+
+                        {{-- <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2">
+                        Print
+                    </a> --}}
+
+                        <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
+                            {{ !$billing ? 'disabled' : '' }}>Cancel</a>
+                    </div>
+                </div>
+            @else
                 <div class="d-flex justify-content-end mt-2">
                     <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2">
                         Print

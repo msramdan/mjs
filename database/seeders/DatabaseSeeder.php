@@ -35,6 +35,9 @@ class DatabaseSeeder extends Seeder
             AkunGrupSeeder::class,
             AkunHeaderSeeder::class,
             AkunCoaSeeder::class,
+            ItemSeeder::class,
+            SettingCategoryRequestSeeder::class,
+            RequestFormSeeder::class,
         ]);
     }
 }

@@ -36,10 +36,20 @@ class RoleAndPermissionSeeder extends Seeder
 
         $userGm = User::find(2);
         $userGm->assignRole('gm');
-        $roleGm->givePermissionTo(['view purchase', 'approve purchase']);
+        $roleGm->givePermissionTo([
+            'view purchase',
+            'approve purchase',
+            'view request form purchase',
+            'edit request form purchase',
+        ]);
 
         $userDirektur = User::find(3);
         $userDirektur->assignRole('direktur');
-        $roleDirektur->givePermissionTo(['view purchase', 'approve purchase']);
+        $roleDirektur->givePermissionTo([
+            'view purchase',
+            'approve purchase',
+            'view request form purchase',
+            'edit request form purchase',
+        ]);
     }
 }

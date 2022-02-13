@@ -273,25 +273,14 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list Akun Coa
-        View::composer([
-            'inventory.item.create',
-            'inventory.item.edit'
-        ], function ($view) {
-            return $view->with(
-                'akunCoa',
-                AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
-            );
-        });
-
-        // // list list COA
+        // // list Akun Coa
         // View::composer([
-        //     'accounting.coa.create',
-        //     'accounting.coa.edit',
+        //     'inventory.item.create',
+        //     'inventory.item.edit'
         // ], function ($view) {
         //     return $view->with(
-        //         'listCoa',
-        //         Coa::select('id', 'kode', 'nama')->orderBy('nama')->where('parent', null)->get()
+        //         'akunCoa',
+        //         AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
         //     );
         // });
 
@@ -394,6 +383,19 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
+        // list list COA
+        View::composer([
+            'accounting.billing.create',
+            'accounting.billing.edit',
+            'accounting.jurnal-umum.create',
+            'accounting.jurnal-umum.edit',
+        ], function ($view) {
+            return $view->with(
+                'coas',
+                AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
+            );
+        });
+
         // list purchases approve
         View::composer([
             'accounting.billing.create',
@@ -408,7 +410,6 @@ class ViewServiceProvider extends ServiceProvider
                     ->get()
             );
         });
-
 
         // list purchases
         View::composer([

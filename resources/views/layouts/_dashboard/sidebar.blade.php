@@ -123,19 +123,21 @@
                             </div>
                         @endcanany
 
-                        <div class="menu-item has-sub closed">
-                            <a href="javascript:;" class="menu-link">
-                                <div class="menu-text">Report</div>
-                                <div class="menu-caret"></div>
-                            </a>
-                            <div class="menu-submenu" style="display: none;">
-                                <div class="menu-item">
-                                    <a href="{{ route('jurnal-umum.index') }}" class="menu-link">
-                                        <div class="menu-text">{{ trans('sidebar.sub_menu.jurnal_umum') }}</div>
-                                    </a>
+                        @can('view jurnal umum')
+                            <div class="menu-item has-sub closed">
+                                <a href="javascript:;" class="menu-link">
+                                    <div class="menu-text">Report</div>
+                                    <div class="menu-caret"></div>
+                                </a>
+                                <div class="menu-submenu" style="display: none;">
+                                    <div class="menu-item">
+                                        <a href="{{ route('jurnal-umum.index') }}" class="menu-link">
+                                            <div class="menu-text">{{ trans('sidebar.sub_menu.jurnal_umum') }}</div>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endcan
                     </div>
                 </div>
             @endcanany

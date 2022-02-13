@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\{StoreBillingRequest, UpdateBillingRequest};
+use App\Models\Accounting\AkunCoa;
 use App\Models\Accounting\Billing;
+use App\Models\Accounting\JurnalUmum;
 use App\Models\Purchase\Purchase;
 use App\Models\Setting\SettingApp;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use PDF;
@@ -176,6 +179,37 @@ class BillingController extends Controller
             'status' => $request->status_billing,
         ]);
 
+        if ($request->tanggal_dibayar && $request->status_billing == 'Paid') {
+            // dd('paid');
+
+            // sekarang masih static dulu
+            $noBukti = 'BKK-001';
+            $akunBeban = AkunCoa::select('id', 'kode')->where('id', $request->akun_beban)->first();
+
+            DB::table('jurnal_umum')->insert([
+                [
+                    'tanggal' => now()->toDateString(),
+                    'no_bukti' => $noBukti,
+                    'account_coa_id' => $request->akun_beban,
+                    'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $billing->kode,
+                    'debit' => $dibayar,
+                    'kredit' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'tanggal' => now()->toDateString(),
+                    'no_bukti' => $noBukti,
+                    'account_coa_id' => $request->akun_sumber,
+                    'deskripsi' => 'lorem',
+                    'debit' => 0,
+                    'kredit' => $dibayar,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            ]);
+        }
+
         Alert::toast('Update data berhasil', 'success');
 
         return redirect()->route('billing.index');
@@ -232,7 +266,7 @@ class BillingController extends Controller
         if ($checkLatestKode == null) {
             $kode = $kode . '0001';
         } else {
-            // hapus "BILL-XXXX-XX-XX-" dan ambil angka buat ditambahin
+            // hapus "BILL-YYYY-MM-DD-" dan ambil angka buat ditambahin
             // $onlyNumberKode = intval(Str::after($checkLatestKode->kode, $kode));
             $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
 

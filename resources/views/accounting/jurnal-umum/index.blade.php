@@ -37,10 +37,10 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>Tangal</th>
+                                        <th>Tanggal</th>
                                         <th>No. Bukti</th>
                                         <th>No. Akun</th>
-                                        {{-- <th>Nama Akun</th> --}}
+                                        <th>Nama Akun</th>
                                         <th>Description</th>
                                         <th>Debet</th>
                                         <th>Kredit</th>
@@ -72,9 +72,8 @@
             auth()->user()->can('delete unit')
                 ? 'yes yes yes'
                 : '' }}'
-        let columns =
-        [
-            {
+
+        let columns = [{
                 data: 'tanggal',
                 name: 'tanggal'
             },
@@ -83,8 +82,12 @@
                 name: 'no_bukti'
             },
             {
-                data: 'account_coa_id',
-                name: 'account_coa_id'
+                data: 'coa_kode',
+                name: 'coa_kode'
+            },
+            {
+                data: 'coa_nama',
+                name: 'coa_nama'
             },
             {
                 data: 'deskripsi',
@@ -92,11 +95,17 @@
             },
             {
                 data: 'debit',
-                name: 'debit'
+                name: 'debit',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
             {
                 data: 'kredit',
-                name: 'kredit'
+                name: 'kredit',
+                render: function(data, type, full, meta) {
+                    return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
             },
         ]
 

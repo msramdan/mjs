@@ -208,7 +208,7 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::resource('akun-coa', AkunCoaController::class);
     Route::resource('akun-coa', AkunCoaController::class);
 
-    Route::resource('jurnal-umum', JurnalUmumController::class);
+    Route::resource('jurnal-umum', JurnalUmumController::class)->except('show', 'delete');
 });
 
 // Payroll

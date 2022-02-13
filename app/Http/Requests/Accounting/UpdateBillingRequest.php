@@ -28,10 +28,13 @@ class UpdateBillingRequest extends FormRequest
             'purchase' => 'required|integer',
             'attn' => 'required|string',
             'tanggal_billing' => 'required|date',
-            'tanggal_dibayar' => 'nullable|required_if:status_billing,Paid|date|after_or_equal:tanggal_billing',
-            'catatan' => 'required|string',
+            'tanggal_dibayar' => 'nullable|date|required_if:status_billing,Paid|after_or_equal:tanggal_billing',
+            'catatan' => 'nullable|string',
             'status_billing' => 'required|in:Unpaid,Paid',
             'nominal_billing' => 'required',
+            'akun_beban' => 'nullable|required_if:status_billing,Paid',
+            'akun_sumber' => 'nullable|required_if:status_billing,Paid',
+
         ];
     }
 }
