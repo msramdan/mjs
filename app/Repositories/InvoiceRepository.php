@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Models\Accounting\AkunCoa;
 use App\Models\Accounting\Invoice;
 use App\Models\Sale\Sale;
 use App\Models\Setting\SettingApp;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -37,7 +39,7 @@ class InvoiceRepository
     }
 
     /**
-     * Insert newly created invoice to database.
+     * Insert newly created invoice to the database.
      *
      * @param array $request
      * @return void
@@ -52,7 +54,7 @@ class InvoiceRepository
     }
 
     /**
-     * Load the relations for edit and show view.
+     * Load the relations of invoice for edit and show view.
      *
      * @param App\Models\Accounting\Invoice $invoice
      * @return $invoice
@@ -82,8 +84,9 @@ class InvoiceRepository
         // remove coma
         $dibayar = intval(str_replace(',', '', $request['nominal_invoice']));
 
-        // kalo ada tanggal_dibayar  dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request['nominal_invoice'] + $sale->total_dibayar
+        // kalo ada tanggal_dibayar dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request['nominal_invoice'] + $sale->total_dibayar
         if ($request['tanggal_dibayar'] && $invoice->status != 'Paid') {
+            // dump('1');
 
             // kalo jumlah yg dibayarkan lebih dari grand total
             if (($sale->total_dibayar + $dibayar) > $sale->grand_total) {
@@ -91,12 +94,14 @@ class InvoiceRepository
                 Alert::toast('Update data gagal', 'error');
 
                 return redirect()->route('invoice.index');
+                // dump('2');
             }
 
             if ($sale->total_dibayar + $dibayar == $sale->grand_total) {
                 $sale->update([
                     'lunas' => 1,
                 ]);
+                // dump('3');
             }
 
             $sale->update([
@@ -108,6 +113,8 @@ class InvoiceRepository
                 'total_dibayar' => $sale->total_dibayar - $dibayar,
                 'lunas' => 0,
             ]);
+
+            // dump('4');
         }
 
         $invoice->update([
@@ -118,6 +125,41 @@ class InvoiceRepository
             'catatan' => $request['catatan'],
             'status' => $request['status_invoice'],
         ]);
+
+        if ($request['tanggal_dibayar'] && $request['status_invoice'] == 'Paid') {
+            // dump('5');
+
+            // sekarang masih static dulu
+            $noBukti = 'BKK-001';
+            $akunBeban = AkunCoa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
+
+            DB::table('jurnal_umum')->insert([
+                [
+                    'tanggal' => now()->toDateString(),
+                    'no_bukti' => $noBukti,
+                    'account_coa_id' => $request['akun_beban'],
+                    'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $invoice->kode,
+                    'debit' => $dibayar,
+                    'kredit' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'tanggal' => now()->toDateString(),
+                    'no_bukti' => $noBukti,
+                    'account_coa_id' => $request['akun_sumber'],
+                    'deskripsi' => 'lorem',
+                    'debit' => 0,
+                    'kredit' => $dibayar,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            ]);
+        } else {
+            // dump('8');
+        }
+
+        // dd('end');
     }
 
     /**

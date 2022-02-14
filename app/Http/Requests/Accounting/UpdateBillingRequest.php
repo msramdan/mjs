@@ -34,7 +34,6 @@ class UpdateBillingRequest extends FormRequest
             'nominal_billing' => 'required',
             'akun_beban' => 'nullable|required_if:status_billing,Paid',
             'akun_sumber' => 'nullable|required_if:status_billing,Paid',
-
         ];
     }
 }

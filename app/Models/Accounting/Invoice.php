@@ -26,7 +26,9 @@ class Invoice extends Model
 
     protected $casts = [
         'tanggal_dibayar' => 'date',
-        'tanggal_invoice' => 'date'
+        'tanggal_invoice' => 'date',
+        'created_at' => 'datetime:d/m/Y H:i:s',
+        'updated_at' => 'datetime:d/m/Y H:i:s',
     ];
 
     public function sale()
@@ -39,13 +41,13 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::createFromTimeString($value)->format('d m Y H:i');
-    }
+    // public function getCreatedAtAttribute($value)
+    // {
+    //     return Carbon::createFromTimeString($value)->format('d m Y H:i');
+    // }
 
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::createFromTimeString($value)->format('d m Y H:i');
-    }
+    // public function getUpdatedAtAttribute($value)
+    // {
+    //     return Carbon::createFromTimeString($value)->format('d m Y H:i');
+    // }
 }

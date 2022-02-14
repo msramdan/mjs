@@ -120,21 +120,4 @@
         </div>
         {{-- end of row --}}
     @endempty
-
-    @empty($show)
-        <div class="col-md-12 mt-2">
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success me-2" id="btn-save" {{ empty($invoice) ? 'disabled' : '' }}>
-                    {{ empty($invoice) ? 'Simpan' : 'Update' }}
-                </button>
-
-                {{-- <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
-                    Print
-                </a> --}}
-
-                <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
-                    {{ empty($invoice) ? 'disabled' : '' }}>Cancel</a>
-            </div>
-        </div>
-    @endempty
 </div>

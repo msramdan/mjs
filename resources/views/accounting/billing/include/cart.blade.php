@@ -94,6 +94,7 @@
 
             @include('accounting.billing.include._total')
 
+            {{-- coa --}}
             @if (isset($billing) && empty($show))
                 <div class="row mb-3">
                     <div class="col-md-4">
@@ -121,19 +122,6 @@
                             <input class="form-control" type="text" id="status-billing" name="status_billing"
                                 placeholder="Tanggal Dibayar" value="{{ isset($billing) ? $billing->status : '' }}"
                                 {{ isset($show) && $show ? 'disabled' : 'readonly' }} />
-
-                            {{-- @if ($show)
-                                <input class="form-control" type="text" id="status-billing" name="status_billing"
-                                    placeholder="Tanggal Dibayar" value="{{ isset($billing) && $billing->status }}" readonly />
-                            @else
-                                <select class="form-select" id="status-billing" name="status_billing">
-                                    <option value="Unpaid" {{ isset($billing) && $billing->status == 'Unpaid' ? 'selected' : '' }}>
-                                        Unpaid
-                                    </option>
-                                    <option value="Paid" {{ isset($billing) && $billing->status == 'Paid' ? 'selected' : '' }}>Paid
-                                    </option>
-                                </select>
-                            @endif --}}
                         </div>
                     </div>
 

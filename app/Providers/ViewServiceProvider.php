@@ -387,6 +387,8 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.billing.create',
             'accounting.billing.edit',
+            'accounting.invoice.create',
+            'accounting.invoice.edit',
             'accounting.jurnal-umum.create',
             'accounting.jurnal-umum.edit',
         ], function ($view) {

@@ -43,50 +43,6 @@
                             {{ isset($show) ? 'disabled' : '' }} />
                     </div>
                 </div>
-
-                @isset($invoice)
-                    <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="nominal-invoice">Nominal Invoice</label>
-                            <input class="form-control" type="text" id="nominal-invoice" name="nominal_invoice"
-                                placeholder="Nominal Invoice" value="{{ number_format($invoice->dibayar) }}" required
-                                {{ isset($show) ? 'disabled' : 'readonly' }} />
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="tanggal-dibayar">Tanggal Dibayar</label>
-                            <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
-                                placeholder="Tanggal Dibayar"
-                                value="{{ isset($invoice) && $invoice->tanggal_dibayar ? $invoice->tanggal_dibayar->format('Y-m-d') : null }}"
-                                {{ isset($show) ? 'disabled' : '' }} />
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group mb-2">
-                            <label class="form-label" for="status-invoice">Status Pembayaran</label>
-                            <input class="form-control" type="text" id="status-invoice" name="status_invoice"
-                                placeholder="Tanggal Dibayar"
-                                value="{{ isset($invoice) && $invoice->status ? $invoice->status : '' }}"
-                                {{ isset($show) ? 'disabled' : 'readonly' }} />
-
-                            {{-- @if ($show)
-                                <input class="form-control" type="text" id="status-invoice" name="status_invoice"
-                                    placeholder="Tanggal Dibayar" value="{{ isset($invoice) && $invoice->status }}" readonly />
-                            @else
-                                <select class="form-select" id="status-invoice" name="status_invoice">
-                                    <option value="Unpaid" {{ isset($invoice) && $invoice->status == 'Unpaid' ? 'selected' : '' }}>
-                                        Unpaid
-                                    </option>
-                                    <option value="Paid" {{ isset($invoice) && $invoice->status == 'Paid' ? 'selected' : '' }}>Paid
-                                    </option>
-                                </select>
-                            @endif --}}
-                        </div>
-                    </div>
-                @endisset
             </div>
             {{-- End of header form --}}
 
@@ -138,6 +94,88 @@
 
             @include('accounting.invoice.include._total')
 
+            {{-- coa --}}
+            @if (isset($invoice) && empty($show))
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="nominal-invoice">Nominal invoice</label>
+                            <input class="form-control" type="text" id="nominal-invoice" name="nominal_invoice"
+                                placeholder="Nominal invoice" value="{{ number_format($invoice->dibayar) }}" required
+                                {{ isset($show) && $show ? 'disabled' : 'readonly' }} />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="tanggal-dibayar">Tanggal Dibayar</label>
+                            <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
+                                placeholder="Tanggal Dibayar"
+                                value="{{ isset($invoice) && $invoice->tanggal_dibayar ? $invoice->tanggal_dibayar->format('Y-m-d') : null }}"
+                                {{ isset($show) && $show ? 'disabled' : '' }} />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group mb-2">
+                            <label class="form-label" for="status-invoice">Status Pembayaran</label>
+                            <input class="form-control" type="text" id="status-invoice" name="status_invoice"
+                                placeholder="Tanggal Dibayar" value="{{ isset($invoice) ? $invoice->status : '' }}"
+                                {{ isset($show) && $show ? 'disabled' : 'readonly' }} />
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="col-akun-beban" style="display: none">
+                        <div class="form-group">
+                            <label for="akun-beban">Akun Beban</label>
+                            <select name="akun_beban" id="akun-beban" class="form-select">
+                                @foreach ($coas as $coa)
+                                    <option value="{{ $coa->id }}">{{ $coa->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="col-akun-sumber" style="display: none">
+                        <div class="form-group">
+                            <label for="akun-sumber">Akun Sumber</label>
+                            <select name="akun_sumber" id="akun-sumber" class="form-select">
+                                @foreach ($coas as $coa)
+                                    <option value="{{ $coa->id }}">{{ $coa->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @empty($show)
+                <div class="col-md-12 mt-2">
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success me-2" id="btn-save"
+                            {{ empty($invoice) ? 'disabled' : '' }}>
+                            {{ empty($invoice) ? 'Simpan' : 'Update' }}
+                        </button>
+
+                        {{-- <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
+                        Print
+                    </a> --}}
+
+                        <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
+                            {{ empty($invoice) ? 'disabled' : '' }}>Cancel</a>
+                    </div>
+                </div>
+            @else
+                <div class="d-flex justify-content-end mt-2">
+                    <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
+                        Print
+                    </a>
+
+                    <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
+                        {{ empty($invoice) ? 'disabled' : '' }}>Cancel</a>
+                </div>
+            @endempty
+
             @if ($errors->any())
                 <div id="validation" class="text-danger">
                     <ul id="ul-msg">
@@ -147,17 +185,6 @@
                     </ul>
                 </div>
             @endif
-
-            @isset($show)
-                <div class="d-flex justify-content-end mt-2">
-                    <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
-                        Print
-                    </a>
-
-                    <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
-                        {{ !$invoice ? 'disabled' : '' }}>Cancel</a>
-                </div>
-            @endisset
         </div>
     </div>
 </div>

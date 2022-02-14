@@ -28,10 +28,12 @@ class UpdateInvoiceRequest extends FormRequest
             'sale' => 'required|integer',
             'attn' => 'required|string',
             'tanggal_invoice' => 'required|date',
-            'tanggal_dibayar' => 'nullable|required_if:status_invoice,Paid|date|after_or_equal:tanggal_invoice',
+            'tanggal_dibayar' => 'nullable|date|required_if:status_invoice,Paid|after_or_equal:tanggal_invoice',
             'catatan' => 'nullable|string',
             'status_invoice' => 'required|in:Unpaid,Paid',
             'nominal_invoice' => 'required',
+            'akun_beban' => 'nullable|required_if:status_invoice,Paid',
+            'akun_sumber' => 'nullable|required_if:status_invoice,Paid',
         ];
     }
 }
