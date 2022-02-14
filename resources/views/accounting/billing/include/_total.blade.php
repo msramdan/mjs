@@ -1,15 +1,16 @@
 <input type="hidden" id="grand-total-hidden" name="grand_total_hidden"
-    value="{{ $billing ? $billing->purchase->grand_total : '' }}" />
-<input type="hidden" id="total-hidden" name="total_hidden" value="{{ $billing ? $billing->purchase->total : '' }}"
-    disabled />
+    value="{{ isset($billing) && $billing ? $billing->purchase->grand_total : '' }}" />
+<input type="hidden" id="total-hidden" name="total_hidden"
+    value="{{ isset($billing) && $billing ? $billing->purchase->total : '' }}" disabled />
 <input type="hidden" name="sisa_hidden" id="sisa-hidden"
-    value="{{ $billing ? $billing->purchase->grand_total - $billing->purchase->total_dibayar : '' }}">
-<input type="hidden" id="diskon-hidden" name="diskon_hidden" value="{{ $billing ? $billing->purchase->diskon : '' }}">
+    value="{{ isset($billing) && $billing ? $billing->purchase->grand_total - $billing->purchase->total_dibayar : '' }}">
+<input type="hidden" id="diskon-hidden" name="diskon_hidden"
+    value="{{ isset($billing) && $billing ? $billing->purchase->diskon : '' }}">
 <input type="hidden" id="telah-dibayar-hidden" name="telah_dibayar_hidden"
-    value="{{ $billing ? $billing->purchase->total_dibayar : '' }}">
+    value="{{ isset($billing) && $billing ? $billing->purchase->total_dibayar : '' }}">
 
 <div class="row mt-4">
-    @if (!$billing)
+    @empty($billing)
         <div class="col-md-4">
             <div class="form-group mb-2">
                 <label class="form-label" for="total">Total</label>
@@ -81,8 +82,8 @@
                         <div class="form-group mb-2">
                             <label class="form-label" for="telah_dibayar">Telah Dibayar</label>
                             <input class="form-control" type="text" id="telah-dibayar" name="telah_dibayar"
-                                placeholder="Telah Dibayar"
-                                value="{{ number_format($billing->purchase->total_dibayar) }}" disabled />
+                                placeholder="Telah Dibayar" value="{{ number_format($billing->purchase->total_dibayar) }}"
+                                disabled />
                         </div>
 
                         <div class="form-group mb-2">
@@ -110,13 +111,12 @@
             <div class="col-md-4 me-0 pe-0">
                 <div class="form-group mb-2">
                     <label class="form-label" for="catatan">Catatan Billing</label>
-                    <textarea class="form-control" id="catatan" name="catatan" id="catatan"
-                        placeholder="Catatan Billing" rows="8"
-                        {{ $show ? 'disabled' : '' }}>{{ $billing->catatan }}</textarea>
+                    <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan Billing"
+                        rows="8" {{ isset($show) ? 'disabled' : '' }}>{{ $billing->catatan }}</textarea>
                 </div>
             </div>
             {{-- end of col-md-4 --}}
         </div>
         {{-- end of row --}}
-    @endif
+    @endempty
 </div>

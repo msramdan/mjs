@@ -18,21 +18,21 @@
             <div class="form-group mb-2">
                 <label class="form-label" for="purchase">Purchase</label>
                 <select class="form-select" id="purchase" name="purchase" required
-                    {{ $show || $billing ? 'readonly' : '' }}>
-                    {{-- @if (!$show)
+                    {{ isset($show) || isset($billing) ? 'readonly' : '' }}>
+                    {{-- @if (empty($show))
 
                     @endif --}}
 
-                    @if ($billing)
+                    @isset($billing)
                         <option value="{{ $billing->purchase->id }}" selected>{{ $billing->purchase->kode }}
                         </option>
-                    @endif
+                    @endisset
 
-                    @if (!$show && !$billing)
+                    @if (empty($show) && empty($billing))
                         <option value="" disabled selected>-- Pilih --</option>
                         @forelse ($purchaseApproves as $item)
                             <option value="{{ $item->id }}"
-                                {{ $billing && $billing->purchase_id == $item->id ? 'selected' : '' }}>
+                                {{ isset($billing) && $billing->purchase_id == $item->id ? 'selected' : '' }}>
                                 {{ $item->kode }}
                             </option>
                         @empty
@@ -54,34 +54,38 @@
                     <tr>
                         <td width="35">Request Form</td>
                         <td>:</td>
-                        <td id="request-form">{{ $billing ? $billing->purchase->request_form->kode : '' }}</td>
+                        <td id="request-form">
+                            {{ isset($billing) ? $billing->purchase->request_form->kode : '' }}
+                        </td>
                     </tr>
                     <tr>
                         <td width="35">Attn.</td>
                         <td>:</td>
-                        <td id="attn-purchase">{{ $billing ? $billing->purchase->attn : '' }}</td>
+                        <td id="attn-purchase">
+                            {{ isset($billing) ? $billing->purchase->attn : '' }}</td>
                     </tr>
                     <tr>
                         <td width="35">Tanggal</td>
                         <td>:</td>
                         <td id="tanggal-purchase">
-                            {{ $billing ? $billing->purchase->tanggal->format('d/m/Y') : '' }}
+                            {{ isset($billing) ? $billing->purchase->tanggal->format('d/m/Y') : '' }}
                         </td>
                     </tr>
                     <tr>
                         <td width="35">Status</td>
                         <td>:</td>
                         <td id="status">
-                            @if ($billing)
+                            @isset($billing)
                                 {{ $billing->purchase->lunas == 0 ? 'Belum lunas' : 'Lunas' }}
-                            @endif
+                            @endisset
                         </td>
                     </tr>
                     <tr>
                         <td width="35">Catatan Purchase</td>
                         <td>:</td>
                         <td id="catatan-purchase">
-                            {{ $billing && $billing->purchase->catatan ? $billing->purchase->catatan : '-' }}</td>
+                            {{ isset($billing) && $billing->purchase->catatan ? $billing->purchase->catatan : '-' }}
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -105,7 +109,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($billing)
+                        @isset($billing)
                             @foreach ($billing->purchase->billings as $detail)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -115,7 +119,7 @@
                                     <td>{{ $detail->status }}</td>
                                 </tr>
                             @endforeach
-                        @endif
+                        @endisset
                     </tbody>
                 </table>
             </div>
