@@ -21,7 +21,7 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="kode">Kode</label>
                         <input class="form-control" type="text" id="kode" name="kode" placeholder="kode"
-                            value="{{ $invoice ? $invoice->kode : '' }}" required readonly />
+                            value="{{ isset($invoice) ? $invoice->kode : '' }}" required readonly />
                     </div>
                 </div>
 
@@ -30,8 +30,8 @@
                         <label class="form-label" for="tanggal-invoice">Tanggal Invoice</label>
                         <input class="form-control" type="date" id="tanggal-invoice" name="tanggal_invoice"
                             placeholder="tanggal-invoice"
-                            value="{{ $invoice ? $invoice->tanggal_invoice->format('Y-m-d') : date('Y-m-d') }}"
-                            required {{ $show ? 'disabled' : '' }} />
+                            value="{{ isset($invoice) ? $invoice->tanggal_invoice->format('Y-m-d') : date('Y-m-d') }}"
+                            required {{ isset($show) ? 'disabled' : '' }} />
                     </div>
                 </div>
 
@@ -39,17 +39,18 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="attn">Attn.</label>
                         <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
-                            value="{{ $invoice ? $invoice->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
+                            value="{{ isset($invoice) ? $invoice->attn : '' }}" required
+                            {{ isset($show) ? 'disabled' : '' }} />
                     </div>
                 </div>
 
-                @if ($invoice)
+                @isset($invoice)
                     <div class="col-md-4">
                         <div class="form-group mb-2">
                             <label class="form-label" for="nominal-invoice">Nominal Invoice</label>
                             <input class="form-control" type="text" id="nominal-invoice" name="nominal_invoice"
                                 placeholder="Nominal Invoice" value="{{ number_format($invoice->dibayar) }}" required
-                                {{ $show ? 'disabled' : 'readonly' }} />
+                                {{ isset($show) ? 'disabled' : 'readonly' }} />
                         </div>
                     </div>
 
@@ -58,8 +59,8 @@
                             <label class="form-label" for="tanggal-dibayar">Tanggal Dibayar</label>
                             <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
                                 placeholder="Tanggal Dibayar"
-                                value="{{ $invoice->tanggal_dibayar ? $invoice->tanggal_dibayar->format('Y-m-d') : null }}"
-                                {{ $show ? 'disabled' : '' }} />
+                                value="{{ isset($invoice) && $invoice->tanggal_dibayar ? $invoice->tanggal_dibayar->format('Y-m-d') : null }}"
+                                {{ isset($show) ? 'disabled' : '' }} />
                         </div>
                     </div>
 
@@ -67,24 +68,25 @@
                         <div class="form-group mb-2">
                             <label class="form-label" for="status-invoice">Status Pembayaran</label>
                             <input class="form-control" type="text" id="status-invoice" name="status_invoice"
-                                placeholder="Tanggal Dibayar" value="{{ $invoice->status }}"
-                                {{ $show ? 'disabled' : 'readonly' }} />
+                                placeholder="Tanggal Dibayar"
+                                value="{{ isset($invoice) && $invoice->status ? $invoice->status : '' }}"
+                                {{ isset($show) ? 'disabled' : 'readonly' }} />
 
                             {{-- @if ($show)
                                 <input class="form-control" type="text" id="status-invoice" name="status_invoice"
-                                    placeholder="Tanggal Dibayar" value="{{ $invoice->status }}" readonly />
+                                    placeholder="Tanggal Dibayar" value="{{ isset($invoice) && $invoice->status }}" readonly />
                             @else
                                 <select class="form-select" id="status-invoice" name="status_invoice">
-                                    <option value="Unpaid" {{ $invoice->status == 'Unpaid' ? 'selected' : '' }}>
+                                    <option value="Unpaid" {{ isset($invoice) && $invoice->status == 'Unpaid' ? 'selected' : '' }}>
                                         Unpaid
                                     </option>
-                                    <option value="Paid" {{ $invoice->status == 'Paid' ? 'selected' : '' }}>Paid
+                                    <option value="Paid" {{ isset($invoice) && $invoice->status == 'Paid' ? 'selected' : '' }}>Paid
                                     </option>
                                 </select>
                             @endif --}}
                         </div>
                     </div>
-                @endif
+                @endisset
             </div>
             {{-- End of header form --}}
 
@@ -102,7 +104,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($invoice)
+                    @isset($invoice)
                         @foreach ($invoice->sale->detail_sale as $detail)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -121,8 +123,7 @@
                                 </td>
                                 <td>
                                     {{ number_format($detail->qty) }}
-                                    <input type="hidden" class="qty-hidden" name="qty[]"
-                                        value="{{ $detail->qty }}">
+                                    <input type="hidden" class="qty-hidden" name="qty[]" value="{{ $detail->qty }}">
                                 </td>
                                 <td>
                                     {{ number_format($detail->sub_total) }}
@@ -131,7 +132,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                    @endif
+                    @endisset
                 </tbody>
             </table>
 
@@ -147,7 +148,7 @@
                 </div>
             @endif
 
-            @if ($show)
+            @isset($show)
                 <div class="d-flex justify-content-end mt-2">
                     <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
                         Print
@@ -156,7 +157,7 @@
                     <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
                         {{ !$invoice ? 'disabled' : '' }}>Cancel</a>
                 </div>
-            @endif
+            @endisset
         </div>
     </div>
 </div>

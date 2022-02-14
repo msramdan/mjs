@@ -144,11 +144,10 @@ class BillingController extends Controller
      */
     public function print(int $id)
     {
-        $billing  = Billing::select('id', 'kode')->findOrFail($id);
         $data = $this->billingRepository->print($id);
 
         $pdf = PDF::loadView('accounting.billing.print', $data);
 
-        return $pdf->stream('Billing - ' . $billing->kode . '.pdf');
+        return $pdf->stream('Billing - ' . $data['billing']->kode . '.pdf');
     }
 }
