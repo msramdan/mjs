@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             ItemSeeder::class,
             SettingCategoryRequestSeeder::class,
             RequestFormSeeder::class,
+            SpalSeeder::class,
         ]);
     }
 }
