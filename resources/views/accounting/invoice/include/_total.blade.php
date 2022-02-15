@@ -1,15 +1,16 @@
 <input type="hidden" id="grand-total-hidden" name="grand_total_hidden"
-    value="{{ $invoice ? $invoice->sale->grand_total : '' }}" />
-<input type="hidden" id="total-hidden" name="total_hidden" value="{{ $invoice ? $invoice->sale->total : '' }}"
+    value="{{ isset($invoice) ? $invoice->sale->grand_total : '' }}" />
+<input type="hidden" id="total-hidden" name="total_hidden" value="{{ isset($invoice) ? $invoice->sale->total : '' }}"
     disabled />
 <input type="hidden" name="sisa_hidden" id="sisa-hidden"
-    value="{{ $invoice ? $invoice->sale->grand_total - $invoice->sale->total_dibayar : '' }}">
-<input type="hidden" id="diskon-hidden" name="diskon_hidden" value="{{ $invoice ? $invoice->sale->diskon : '' }}">
+    value="{{ isset($invoice) ? $invoice->sale->grand_total - $invoice->sale->total_dibayar : '' }}">
+<input type="hidden" id="diskon-hidden" name="diskon_hidden"
+    value="{{ isset($invoice) ? $invoice->sale->diskon : '' }}">
 <input type="hidden" id="telah-dibayar-hidden" name="telah_dibayar_hidden"
-    value="{{ $invoice ? $invoice->sale->total_dibayar : '' }}">
+    value="{{ isset($invoice) ? $invoice->sale->total_dibayar : '' }}">
 
 <div class="row mt-4">
-    @if (!$invoice)
+    @empty($invoice)
         <div class="col-md-4">
             <div class="form-group mb-2">
                 <label class="form-label" for="total">Total</label>
@@ -54,7 +55,7 @@
             <div class="form-group mb-2">
                 <label class="form-label" for="catatan">Catatan Invoice</label>
                 <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan Invoice"
-                    rows="8" required></textarea>
+                    rows="8"></textarea>
             </div>
         </div>
         {{-- end of col-md-4 --}}
@@ -111,33 +112,12 @@
                 <div class="form-group mb-2">
                     <label class="form-label" for="catatan">Catatan Invoice</label>
                     <textarea class="form-control me-0 pe-0" id="catatan" name="catatan" id="catatan"
-                        placeholder="Catatan Invoice" rows="8" required
-                        {{ $show ? 'disabled' : '' }}>{{ $invoice->catatan }}</textarea>
+                        placeholder="Catatan Invoice" rows="8"
+                        {{ isset($show) ? 'disabled' : '' }}>{{ $invoice->catatan }}</textarea>
                 </div>
             </div>
             {{-- end of col-md-4 --}}
         </div>
         {{-- end of row --}}
-    @endif
-
-    @if (!$show)
-        <div class="col-md-12 mt-2">
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success me-2" id="btn-save" {{ !$invoice ? 'disabled' : '' }}>
-                    @if (!$invoice)
-                        Simpan
-                    @else
-                        Update
-                    @endif
-                </button>
-
-                {{-- <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
-                    Print
-                </a> --}}
-
-                <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
-                    {{ !$invoice ? 'disabled' : '' }}>Cancel</a>
-            </div>
-        </div>
-    @endif
+    @endempty
 </div>

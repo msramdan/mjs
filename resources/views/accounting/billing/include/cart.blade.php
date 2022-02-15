@@ -21,7 +21,7 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="kode">Kode</label>
                         <input class="form-control" type="text" id="kode" name="kode" placeholder="kode"
-                            value="{{ $billing ? $billing->kode : '' }}" required readonly />
+                            value="{{ isset($billing) && $billing ? $billing->kode : '' }}" required readonly />
                     </div>
                 </div>
 
@@ -30,8 +30,8 @@
                         <label class="form-label" for="tanggal-billing">Tanggal billing</label>
                         <input class="form-control" type="date" id="tanggal-billing" name="tanggal_billing"
                             placeholder="tanggal-billing"
-                            value="{{ $billing ? $billing->tanggal_billing->format('Y-m-d') : date('Y-m-d') }}"
-                            required {{ $show ? 'disabled' : '' }} />
+                            value="{{ isset($billing) && $billing ? $billing->tanggal_billing->format('Y-m-d') : date('Y-m-d') }}"
+                            required {{ isset($show) && $show ? 'disabled' : '' }} />
                     </div>
                 </div>
 
@@ -39,7 +39,8 @@
                     <div class="form-group mb-2">
                         <label class="form-label" for="attn">Attn.</label>
                         <input class="form-control" type="text" id="attn" name="attn" placeholder="Attn."
-                            value="{{ $billing ? $billing->attn : '' }}" required {{ $show ? 'disabled' : '' }} />
+                            value="{{ isset($billing) && $billing ? $billing->attn : '' }}" required
+                            {{ isset($show) && $show ? 'disabled' : '' }} />
                     </div>
                 </div>
             </div>
@@ -59,7 +60,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if ($billing)
+                    @isset($billing)
                         @foreach ($billing->purchase->detail_purchase as $detail)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
@@ -78,8 +79,7 @@
                                 </td>
                                 <td>
                                     {{ number_format($detail->qty) }}
-                                    <input type="hidden" class="qty-hidden" name="qty[]"
-                                        value="{{ $detail->qty }}">
+                                    <input type="hidden" class="qty-hidden" name="qty[]" value="{{ $detail->qty }}">
                                 </td>
                                 <td>
                                     {{ number_format($detail->sub_total) }}
@@ -88,20 +88,21 @@
                                 </td>
                             </tr>
                         @endforeach
-                    @endif
+                    @endisset
                 </tbody>
             </table>
 
             @include('accounting.billing.include._total')
 
-            @if ($billing)
+            {{-- coa --}}
+            @if (isset($billing) && empty($show))
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <div class="form-group mb-2">
                             <label class="form-label" for="nominal-billing">Nominal billing</label>
                             <input class="form-control" type="text" id="nominal-billing" name="nominal_billing"
                                 placeholder="Nominal billing" value="{{ number_format($billing->dibayar) }}" required
-                                {{ $show ? 'disabled' : 'readonly' }} />
+                                {{ isset($show) && $show ? 'disabled' : 'readonly' }} />
                         </div>
                     </div>
 
@@ -110,8 +111,8 @@
                             <label class="form-label" for="tanggal-dibayar">Tanggal Dibayar</label>
                             <input class="form-control" type="date" id="tanggal-dibayar" name="tanggal_dibayar"
                                 placeholder="Tanggal Dibayar"
-                                value="{{ $billing->tanggal_dibayar ? $billing->tanggal_dibayar->format('Y-m-d') : null }}"
-                                {{ $show ? 'disabled' : '' }} />
+                                value="{{ isset($billing) && $billing->tanggal_dibayar ? $billing->tanggal_dibayar->format('Y-m-d') : null }}"
+                                {{ isset($show) && $show ? 'disabled' : '' }} />
                         </div>
                     </div>
 
@@ -119,21 +120,8 @@
                         <div class="form-group mb-2">
                             <label class="form-label" for="status-billing">Status Pembayaran</label>
                             <input class="form-control" type="text" id="status-billing" name="status_billing"
-                                placeholder="Tanggal Dibayar" value="{{ $billing->status }}"
-                                {{ $show ? 'disabled' : 'readonly' }} />
-
-                            {{-- @if ($show)
-                                <input class="form-control" type="text" id="status-billing" name="status_billing"
-                                    placeholder="Tanggal Dibayar" value="{{ $billing->status }}" readonly />
-                            @else
-                                <select class="form-select" id="status-billing" name="status_billing">
-                                    <option value="Unpaid" {{ $billing->status == 'Unpaid' ? 'selected' : '' }}>
-                                        Unpaid
-                                    </option>
-                                    <option value="Paid" {{ $billing->status == 'Paid' ? 'selected' : '' }}>Paid
-                                    </option>
-                                </select>
-                            @endif --}}
+                                placeholder="Tanggal Dibayar" value="{{ isset($billing) ? $billing->status : '' }}"
+                                {{ isset($show) && $show ? 'disabled' : 'readonly' }} />
                         </div>
                     </div>
 
@@ -161,12 +149,12 @@
                 </div>
             @endif
 
-            @if (!$show)
+            @empty($show)
                 <div class="col-md-12 mt-2">
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success me-2" id="btn-save"
-                            {{ !$billing ? 'disabled' : '' }}>
-                            {{ !$billing ? 'Simpan' : 'Update' }}
+                            {{ empty($billing) ? 'disabled' : '' }}>
+                            {{ empty($billing) ? 'Simpan' : 'Update' }}
                         </button>
 
                         {{-- <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2">
@@ -174,7 +162,7 @@
                     </a> --}}
 
                         <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
-                            {{ !$billing ? 'disabled' : '' }}>Cancel</a>
+                            {{ empty($billing) ? 'disabled' : '' }}>Cancel</a>
                     </div>
                 </div>
             @else
@@ -184,9 +172,9 @@
                     </a>
 
                     <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
-                        {{ !$billing ? 'disabled' : '' }}>Cancel</a>
+                        {{ empty($billing) ? 'disabled' : '' }}>Cancel</a>
                 </div>
-            @endif
+            @endempty
 
             @if ($errors->any())
                 <div id="validation" class="text-danger">

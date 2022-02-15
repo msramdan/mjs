@@ -18,21 +18,21 @@
             <div class="form-group mb-2">
                 <label class="form-label" for="sale">Sale</label>
                 <select class="form-select" id="sale" name="sale" required
-                    {{ $show || $invoice ? 'readonly' : '' }}>
+                    {{ isset($show) || isset($invoice) ? 'readonly' : '' }}>
                     {{-- @if (!$show)
 
                     @endif --}}
 
-                    @if ($invoice)
+                    @isset($invoice)
                         <option value="{{ $invoice->sale->id }}" selected>{{ $invoice->sale->kode }}
                         </option>
-                    @endif
+                    @endisset
 
-                    @if (!$show && !$invoice)
+                    @if (empty($show) && empty($invoice))
                         <option value="" disabled selected>-- Pilih --</option>
                         @forelse ($sales as $item)
                             <option value="{{ $item->id }}"
-                                {{ $invoice && $invoice->sale_id == $item->id ? 'selected' : '' }}>
+                                {{ isset($invoice) && $invoice->sale_id == $item->id ? 'selected' : '' }}>
                                 {{ $item->kode }}
                             </option>
                         @empty
@@ -54,33 +54,33 @@
                     <tr>
                         <td width="35">Spal</td>
                         <td>:</td>
-                        <td id="spal">{{ $invoice ? $invoice->sale->spal->kode : '' }}</td>
+                        <td id="spal">{{ isset($invoice) ? $invoice->sale->spal->kode : '' }}</td>
                     </tr>
                     <tr>
                         <td width="35">Attn.</td>
                         <td>:</td>
-                        <td id="attn-sale">{{ $invoice ? $invoice->sale->attn : '' }}</td>
+                        <td id="attn-sale">{{ isset($invoice) ? $invoice->sale->attn : '' }}</td>
                     </tr>
                     <tr>
                         <td width="35">Tanggal</td>
                         <td>:</td>
                         <td id="tanggal-sale">
-                            {{ $invoice ? $invoice->sale->tanggal->format('d/m/Y') : '' }}
+                            {{ isset($invoice) ? $invoice->sale->tanggal->format('d/m/Y') : '' }}
                         </td>
                     </tr>
                     <tr>
                         <td width="35">Status</td>
                         <td>:</td>
                         <td id="status">
-                            @if ($invoice)
+                            @isset($invoice)
                                 {{ $invoice->sale->lunas == 0 ? 'Belum lunas' : 'Lunas' }}
-                            @endif
+                            @endisset
                         </td>
                     </tr>
                     <tr>
                         <td width="35">Catatan Sale</td>
                         <td>:</td>
-                        <td id="catatan-sale">{{ $invoice ? $invoice->sale->catatan : '' }}</td>
+                        <td id="catatan-sale">{{ isset($invoice) ? $invoice->sale->catatan : '' }}</td>
                     </tr>
                 </table>
             </div>
@@ -104,7 +104,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($invoice)
+                        @isset($invoice)
                             @foreach ($invoice->sale->invoices as $detail)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
@@ -114,7 +114,7 @@
                                     <td>{{ $detail->status }}</td>
                                 </tr>
                             @endforeach
-                        @endif
+                        @endisset
                     </tbody>
                 </table>
             </div>

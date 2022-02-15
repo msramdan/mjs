@@ -203,16 +203,18 @@
         })
 
         $('#tanggal-dibayar').change(function() {
+            let statusInvoice = $('#status-invoice')
+            let akunBeban = $('#col-akun-beban')
+            let akunSumber = $('#col-akun-sumber')
+
             if ($(this).val()) {
-                $('#status-invoice').val('Paid')
-
-                // $('#status-invoice').prop('disabled', false)
-                // $('#status-invoice').prop('required', true)
+                statusInvoice.val('Paid')
+                akunBeban.show()
+                akunSumber.show()
             } else {
-                $('#status-invoice').val('Unpaid')
-
-                // $('#status-invoice').prop('disabled', true)
-                // $('#status-invoice').prop('required', false)
+                statusInvoice.val('Unpaid')
+                akunBeban.hide()
+                akunSumber.hide()
             }
         })
 
