@@ -395,6 +395,10 @@
 
         formPurchase.submit(function(e) {
             e.preventDefault()
+            btnSave.text('Loading..')
+            btnSave.prop('disabled', true)
+            btnReset.text('Loading..')
+            btnReset.prop('disabled', true)
 
             let formData = new FormData($(this)[0]);
             $.ajax({
@@ -438,6 +442,11 @@
                         }
                     })
                     $('#validation-errors').show()
+
+                    btnSave.text('Simpan')
+                    btnSave.prop('disabled', false)
+                    btnReset.text('Reset')
+                    btnReset.prop('disabled', false)
 
                     Swal.fire({
                         icon: 'error',

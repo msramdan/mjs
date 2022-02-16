@@ -437,6 +437,10 @@
 
         $('#form-purchase').submit(function(e) {
             e.preventDefault()
+            btnSave.text('Loading..')
+            btnSave.prop('disabled', true)
+            btnReset.text('Loading..')
+            btnReset.prop('disabled', true)
 
             let formData = new FormData($(this)[0])
             formData.append('_method', 'PUT')
@@ -482,6 +486,11 @@
                         }
                     })
                     $('#validation-errors').show()
+
+                    btnSave.text('Simpan')
+                    btnSave.prop('disabled', false)
+                    btnReset.text('Reset')
+                    btnReset.prop('disabled', false)
 
                     Swal.fire({
                         icon: 'error',

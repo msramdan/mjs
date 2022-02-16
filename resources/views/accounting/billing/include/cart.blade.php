@@ -130,7 +130,8 @@
                             <label for="akun-beban">Akun Beban</label>
                             <select name="akun_beban" id="akun-beban" class="form-select">
                                 @foreach ($coas as $coa)
-                                    <option value="{{ $coa->id }}">{{ $coa->nama }}</option>
+                                    <option value="{{ $coa->id }}">{{ $coa->kode . ' - ' . $coa->nama }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -141,7 +142,9 @@
                             <label for="akun-sumber">Akun Sumber</label>
                             <select name="akun_sumber" id="akun-sumber" class="form-select">
                                 @foreach ($coas as $coa)
-                                    <option value="{{ $coa->id }}">{{ $coa->nama }}</option>
+                                    <option value="{{ $coa->id }}">
+                                        {{ $coa->kode . ' - ' . $coa->nama }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
