@@ -11,7 +11,7 @@ class DetailPurchase extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sale_id',
+        'purchase_id',
         'item_id',
         'harga',
         'qty',

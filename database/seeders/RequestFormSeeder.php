@@ -17,7 +17,7 @@ class RequestFormSeeder extends Seeder
         $requestForm = RequestForm::create([
             'category_request_id' => 1,
             'user_id' => 1,
-            'kode' => 'RF-' . date('y-m-d'),
+            'kode' => 'RF-' . date('y-m-d') . '-0001',
             'tanggal' => date('y-m-d'),
             'berita_acara' => 'Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere blandit. Cras ultricies ligula sed magna dictum porta. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         ]);
