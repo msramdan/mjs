@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
 use App\Models\Inventory\{Item, DetailItem};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
 class ItemController extends Controller
@@ -35,6 +38,10 @@ class ItemController extends Controller
 
             return DataTables::of($query)
                 ->addColumn('foto', function ($row) {
+                    if ($row->foto == null) {
+                        return 'https://via.placeholder.com/250?text=No+Image+Available';
+                    }
+
                     return asset("storage/img/item/$row->foto");
                 })
                 ->addColumn('category', function ($row) {
@@ -71,35 +78,42 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        $attr = $request->validated();
-        $attr['category_id'] = $request->category;
-        $attr['unit_id'] = $request->unit;
-        // $attr['akun_coa_id'] = $request->akun_coa;
-        $attr['stok'] = $request->soh;
-        $attr['harga_estimasi'] = $request->harga_estimasi;
+        DB::transaction(function () use ($request) {
+            $attr = $request->validated();
+            $attr['category_id'] = $request->category;
+            $attr['unit_id'] = $request->unit;
+            // $attr['akun_coa_id'] = $request->akun_coa;
+            $attr['stok'] = $request->soh;
+            $attr['harga_estimasi'] = $request->harga_estimasi;
+            $attr['foto'] = null;
 
-        if ($request->file('foto') && $request->file('foto')->isValid()) {
-            $filename = time()  . '.' . $request->foto->extension();
+            if ($request->file('foto') && $request->file('foto')->isValid()) {
+                $filename = $request->foto->hashName();
 
-            $request->foto->storeAs('public/img/item/', $filename);
+                $request->foto->storeAs('public/img/item/', $filename);
 
-            $attr['foto'] = $filename;
-        }
+                $attr['foto'] = $filename;
+            }
 
-        $item = Item::create($attr);
+            $item = Item::create($attr);
 
-        foreach ($request->supplier as $i => $value) {
-            $detailItem[] = new DetailItem([
-                'supplier_id' => $value,
-                'harga_beli' => $request->harga_beli[$i]
-            ]);
-        }
+            if (is_array($request->supplier)) {
+                foreach ($request->supplier as $i => $value) {
+                    $detailItem[] = new DetailItem([
+                        'supplier_id' => $value,
+                        'harga_beli' => $request->harga_beli[$i]
+                    ]);
+                }
 
-        $item->detail_items()->saveMany($detailItem);
+                $item->detail_items()->saveMany($detailItem);
+            }
+        });
 
-        Alert::success('Simpan Data', 'Berhasil');
+        return response()->json(['success'], Response::HTTP_OK);
 
-        return redirect()->route('item.index');
+        // Alert::success('Simpan Data', 'Berhasil');
+
+        // return redirect()->route('item.index');
     }
 
     /**
@@ -124,41 +138,48 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        $item->load('detail_items');
+        DB::transaction(function () use ($request, $item) {
+            $item->load('detail_items');
 
-        $attr = $request->validated();
-        $attr['category_id'] = $request->category;
-        $attr['unit_id'] = $request->unit;
-        // $attr['akun_coa_id'] = $request->akun_coa;
-        $attr['stok'] = $request->soh;
-        $attr['harga_estimasi'] = $request->harga_estimasi;
+            $attr = $request->validated();
+            $attr['category_id'] = $request->category;
+            $attr['unit_id'] = $request->unit;
+            // $attr['akun_coa_id'] = $request->akun_coa;
+            $attr['stok'] = $request->soh;
+            $attr['harga_estimasi'] = $request->harga_estimasi;
 
-        if ($request->file('foto') && $request->file('foto')->isValid()) {
-            // delete old foto from storage
-            Storage::delete('public/img/item/' . $item->foto);
+            if ($request->file('foto') && $request->file('foto')->isValid()) {
+                // delete old foto from storage
+                Storage::delete('public/img/item/' . $item->foto);
 
-            $filename = time()  . '.' . $request->foto->extension();
+                $filename = $request->foto->hashName();
 
-            $request->foto->storeAs('public/img/item/', $filename);
+                $request->foto->storeAs('public/img/item/', $filename);
 
-            $attr['foto'] = $filename;
-        }
+                $attr['foto'] = $filename;
+            }
 
-        $item->detail_items()->delete();
-        $item->update($attr);
+            $item->update($attr);
 
-        foreach ($request->supplier as $i => $value) {
-            $detailItem[] = new DetailItem([
-                'supplier_id' => $value,
-                'harga_beli' => $request->harga_beli[$i]
-            ]);
-        }
+            if (is_array($request->supplier)) {
+                $item->detail_items()->delete();
 
-        $item->detail_items()->saveMany($detailItem);
+                foreach ($request->supplier as $i => $value) {
+                    $detailItem[] = new DetailItem([
+                        'supplier_id' => $value,
+                        'harga_beli' => $request->harga_beli[$i]
+                    ]);
 
-        Alert::toast('Update data berhasil', 'success');
+                    $item->detail_items()->saveMany($detailItem);
+                }
+            }
+        });
 
-        return redirect()->route('item.index');
+        return response()->json(['success'], Response::HTTP_OK);
+
+        // Alert::toast('Update data berhasil', 'success');
+
+        // return redirect()->route('item.index');
     }
 
     /**

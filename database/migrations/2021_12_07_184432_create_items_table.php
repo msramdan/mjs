@@ -21,9 +21,9 @@ class CreateItemsTable extends Migration
             $table->string('kode', 30);
             $table->string('nama', 100);
             $table->string('type', 20);
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->integer('stok')->nullable()->default(0);
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
