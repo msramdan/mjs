@@ -180,7 +180,7 @@ class BillingRepository
      * @param string $tanggal
      * @return string $code
      */
-    public function generateCode($tanggal)
+    public function generateCode(string $tanggal)
     {
         $tahun = date('Y', strtotime($tanggal));
         $bulan = date('m', strtotime($tanggal));

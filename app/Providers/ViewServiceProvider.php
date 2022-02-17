@@ -219,7 +219,8 @@ class ViewServiceProvider extends ServiceProvider
 
         // list supplier
         View::composer([
-            'purchase.include.cart',
+            'purchase.edit',
+            'purchase.create',
             'inventory.item.create',
             'inventory.item.edit'
         ], function ($view) {

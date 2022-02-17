@@ -135,7 +135,8 @@ Route::middleware('auth')->prefix('inventory')->group(function () {
 
     Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
     Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
-    Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
+    // Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
+    Route::get('/item/get-all', [ItemController::class, 'getAll']);
 
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
     Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);

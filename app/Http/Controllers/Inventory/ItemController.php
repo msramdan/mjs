@@ -212,7 +212,15 @@ class ItemController extends Controller
             ->where(['item_id' => $itemId, 'supplier_id' => $supplierId])
             ->first();
 
-        return response()->json($item, 200);
+        if (empty($item)) {
+            $item = Item::with('unit:id,nama')
+                ->select('id', 'unit_id', 'kode', 'nama', 'stok', 'harga_estimasi')
+                ->findOrFail($itemId);
+
+            return response()->json(['data' => $item, 'type' => 'without supplier'], 200);
+        } else {
+            return response()->json(['data' => $item, 'type' => 'with supplier'], 200);
+        }
     }
 
     /**
@@ -290,6 +298,16 @@ class ItemController extends Controller
         $item = Item::with('unit:id,nama')
             ->select('id', 'unit_id', 'kode', 'nama', 'stok')
             ->firstOrFail();
+
+        return response()->json($item, 200);
+    }
+
+    public function getAll()
+    {
+        abort_if(!request()->ajax(), 403);
+
+        $item = Item::select('id', 'kode', 'nama')
+            ->get();
 
         return response()->json($item, 200);
     }

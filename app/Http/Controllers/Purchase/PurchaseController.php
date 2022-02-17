@@ -140,11 +140,12 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         $purchase->load(
-            'request_form',
+            'request_form:id,user_id,category_request_id,kode,tanggal',
             'request_form.user:id,name',
             'request_form.category_request:id,nama',
             'detail_purchase.item:id,unit_id,kode,nama,stok',
-            'detail_purchase.item.unit:id,nama'
+            'detail_purchase.item.unit:id,nama',
+            'supplier:id,nama'
         );
 
         // sebagai penanda view dipanggil pada method show
@@ -162,7 +163,7 @@ class PurchaseController extends Controller
     public function edit(Purchase $purchase)
     {
         $purchase->load(
-            'request_form',
+            'request_form:id,user_id,category_request_id,kode,tanggal',
             'request_form.user:id,name',
             'request_form.category_request:id,nama',
 
