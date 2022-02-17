@@ -29,11 +29,13 @@ class UpdateItemRequest extends FormRequest
             'kode' => 'required|string|min:3|max:20|unique:items,kode,' . $this->item->id,
             'nama' => 'required|string|min:3|max:50',
             'type' => 'required|in:Consumable,Services',
-            'deskripsi' => 'required|string|min:3',
-            // 'akun_coa' => 'required|integer',
-            'foto' => 'nullable|max:1024|image|mimes:png,jpg,jpeg',
+            'deskripsi' => 'nullable|string|min:3',
+            'foto' => 'nullable|image|max:1024',
             'stok' => 'nullable|integer',
-            'supplier' => 'required'
+            'supplier' => 'nullable|exists:suppliers,id|array',
+            'harga_beli' => 'nullable|array',
+            'supplier.*' => 'nullable|exists:suppliers,id',
+            'harga_beli.*' => 'nullable|numeric'
         ];
     }
 }

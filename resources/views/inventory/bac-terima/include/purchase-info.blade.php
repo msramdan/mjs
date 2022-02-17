@@ -27,7 +27,7 @@
                 @endif
 
                 @if (!$show)
-                    @forelse ($purchases as $purchase)
+                    @forelse ($purchaseApproves as $purchase)
                         <option value="{{ $purchase->id }}"
                             {{ $bacTerima && $bacTerima->purchase_id == $purchase->id ? 'selected' : '' }}>
                             {{ $purchase->kode }}

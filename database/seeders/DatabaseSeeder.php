@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             SettingCategoryRequestSeeder::class,
             RequestFormSeeder::class,
             SpalSeeder::class,
+            PurchaseSeeder::class,
         ]);
     }
 }

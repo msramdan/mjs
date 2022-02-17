@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Accounting\{AkunCoa, Billing};
+use App\Models\Accounting\{AkunCoa, Billing, JurnalUmum};
 use App\Models\Purchase\Purchase;
 use App\Models\Setting\SettingApp;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ class BillingRepository
     /**
      * Get all billing from database and used datatable.
      *
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function getAll()
     {
@@ -78,78 +78,80 @@ class BillingRepository
      */
     public function update(array $request, $billing)
     {
-        $purchase = Purchase::findOrFail($request['purchase']);
+        DB::transaction(function () use ($request, $billing) {
+            $purchase = Purchase::with(
+                'detail_purchase',
+                'detail_purchase.item:id,kode,nama'
+            )->findOrFail($request['purchase']);
 
-        // remove coma
-        $dibayar = intval(str_replace(',', '', $request['nominal_billing']));
+            // remove coma
+            $dibayar = intval(str_replace(',', '', $request['nominal_billing']));
 
-        // kalo ada tanggal_dibayar dan $billing belum paid maka ubah total_dibayar pada purchases dengan $request['nominal_billing'] + $purchase->total_dibayar
-        if ($request['tanggal_dibayar'] && $billing->status != 'Paid') {
+            // kalo ada tanggal_dibayar dan $billing belum paid maka ubah total_dibayar pada purchases dengan $request['nominal_billing'] + $purchase->total_dibayar
+            if ($request['tanggal_dibayar'] && $billing->status != 'Paid') {
 
-            // kalo jumlah yg dibayarkan lebih dari grand total
-            if (($purchase->total_dibayar + $dibayar) > $purchase->grand_total) {
-                // Nominal billing lebih besar daripada sisa
-                Alert::toast('Update data gagal', 'error');
+                // kalo jumlah yg dibayarkan lebih dari grand total
+                if (($purchase->total_dibayar + $dibayar) > $purchase->grand_total) {
+                    // Nominal billing lebih besar daripada sisa
+                    Alert::toast('Update data gagal', 'error');
 
-                return redirect()->route('billing.index');
-            }
+                    return redirect()->route('billing.index');
+                }
 
-            if ($purchase->total_dibayar + $dibayar == $purchase->grand_total) {
+                if ($purchase->total_dibayar + $dibayar == $purchase->grand_total) {
+                    $purchase->update([
+                        'lunas' => 1,
+                    ]);
+                }
+
                 $purchase->update([
-                    'lunas' => 1,
+                    'total_dibayar' => $purchase->total_dibayar + $dibayar
+                ]);
+            } elseif (!$request['tanggal_dibayar'] && $billing->status == 'Paid') {
+                // kalo dari paid diubah ke unpaid
+                $purchase->update([
+                    'total_dibayar' => $purchase->total_dibayar - $dibayar,
+                    'lunas' => 0,
                 ]);
             }
 
-            $purchase->update([
-                'total_dibayar' => $purchase->total_dibayar + $dibayar
+            $billing->update([
+                'kode' => $request['kode'],
+                'attn' => $request['attn'],
+                'tanggal_billing' => $request['tanggal_billing'],
+                'tanggal_dibayar' => $request['tanggal_dibayar'],
+                'catatan' => $request['catatan'],
+                'status' => $request['status_billing'],
             ]);
-        } elseif (!$request['tanggal_dibayar'] && $billing->status == 'Paid') {
-            // kalo dari paid diubah ke unpaid
-            $purchase->update([
-                'total_dibayar' => $purchase->total_dibayar - $dibayar,
-                'lunas' => 0,
-            ]);
-        }
 
-        $billing->update([
-            'kode' => $request['kode'],
-            'attn' => $request['attn'],
-            'tanggal_billing' => $request['tanggal_billing'],
-            'tanggal_dibayar' => $request['tanggal_dibayar'],
-            'catatan' => $request['catatan'],
-            'status' => $request['status_billing'],
-        ]);
+            if ($request['tanggal_dibayar'] && $request['status_billing'] == 'Paid') {
+                // sekarang masih static dulu
+                $noBukti = 'BKK-001';
 
-        if ($request['tanggal_dibayar'] && $request['status_billing'] == 'Paid') {
-            // dd('paid');
+                $jurnals = [];
+                foreach ($purchase->detail_purchase as $dp) {
+                    $jurnals[] = [
+                        'tanggal' => now()->toDateString(),
+                        'no_bukti' => $noBukti,
+                        'account_coa_id' => $request['akun_sumber'],
+                        'deskripsi' => 'Pembelian ' . $dp->item->nama,
+                        'debit' => $dp->sub_total,
+                        'kredit' => 0
+                    ];
+                }
 
-            // sekarang masih static dulu
-            $noBukti = 'BKK-001';
-            $akunBeban = AkunCoa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
-
-            DB::table('jurnal_umum')->insert([
-                [
-                    'tanggal' => now()->toDateString(),
-                    'no_bukti' => $noBukti,
-                    'account_coa_id' => $request['akun_beban'],
-                    'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $billing->kode,
-                    'debit' => $dibayar,
-                    'kredit' => 0,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ],
-                [
+                $jurnals[] = [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
                     'account_coa_id' => $request['akun_sumber'],
-                    'deskripsi' => 'lorem',
+                    'deskripsi' => 'Pembayaran untuk no.ref ' . $billing->kode,
                     'debit' => 0,
-                    'kredit' => $dibayar,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]
-            ]);
-        }
+                    'kredit' => $purchase->total
+                ];
+
+                JurnalUmum::insert($jurnals);
+            }
+        });
     }
 
     /**

@@ -402,6 +402,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.billing.create',
             'accounting.billing.edit',
+            'inventory.bac-terima.include.purchase-info'
         ], function ($view) {
             return $view->with(
                 'purchaseApproves',
@@ -413,19 +414,19 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list purchases
-        View::composer([
-            'inventory.bac-terima.create',
-            'inventory.bac-terima.edit'
-        ], function ($view) {
-            return $view->with(
-                'purchases',
-                Purchase::select('id', 'kode')
-                    ->where('lunas', 0)
-                    ->orderBy('id')
-                    ->get()
-            );
-        });
+        // // list purchases
+        // View::composer([
+        //     'inventory.bac-terima.create',
+        //     'inventory.bac-terima.edit'
+        // ], function ($view) {
+        //     return $view->with(
+        //         'purchases',
+        //         Purchase::select('id', 'kode')
+        //             ->where('lunas', 0)
+        //             ->orderBy('id')
+        //             ->get()
+        //     );
+        // });
 
         // list akunGroup
         View::composer([

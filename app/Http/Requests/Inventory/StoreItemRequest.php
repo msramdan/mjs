@@ -29,11 +29,13 @@ class StoreItemRequest extends FormRequest
             'kode' => 'required|string|min:3|max:20|unique:items,kode',
             'nama' => 'required|string|min:3|max:50',
             'type' => 'required|in:Consumable,Services',
-            'deskripsi' => 'required|string|min:3',
-            // 'akun_coa' => 'required|integer',
-            'foto' => 'required|image|mimes:png,jpg,jpeg|max:1024',
+            'deskripsi' => 'nullable|string|min:3',
+            'foto' => 'nullable|image|max:1024',
             'stok' => 'nullable|integer',
-            'supplier' => 'required'
+            'supplier' => 'exists:suppliers,id|array',
+            'harga_beli' => 'array',
+            'supplier.*' => 'exists:suppliers,id',
+            'harga_beli.*' => 'numeric'
         ];
     }
 }

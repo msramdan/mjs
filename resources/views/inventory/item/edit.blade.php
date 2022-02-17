@@ -22,7 +22,8 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form action="{{ route('item.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('item.update', $item->id) }}" method="POST" enctype="multipart/form-data"
+                    id="form-purchase">
                     @csrf
                     @method('PUT')
 
@@ -69,8 +70,6 @@
                                     @enderror
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div class="col-md-6">
@@ -113,26 +112,16 @@
                                 </div>
                             </div>
 
-                            {{-- <div class="form-group mb-3">
-                                <label class="form-label" for="akun_coa">Akun COA</label>
-                                <select class="form-select @error('akun_coa') is-invalid @enderror" id="akun_coa"
-                                    name="akun_coa" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($akunCoa as $each)
-                                        <option value="{{ $each->id }}"
-                                            {{ $each->id == $item->akun_coa_id ? 'selected' : '' }}>{{ $each->nama }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('akun_coa')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div> --}}
-
                             <div class="row">
                                 <div class="col-md-4">
-                                    <img src="{{ asset('storage/img/item/' . $item->foto) }}" alt="Foto item"
-                                        class="img-fluid rounded"
+                                    @php
+                                        if ($item->foto == null) {
+                                            $foto = 'https://via.placeholder.com/450x350?text=No+Image+Available';
+                                        } else {
+                                            $foto = asset('storage/img/item/' . $item->foto);
+                                        }
+                                    @endphp
+                                    <img src="{{ $foto }}" alt="Foto item" class="img-fluid rounded"
                                         style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
                                 </div>
 
@@ -170,8 +159,8 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
                                 <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
-                                    name="deskripsi" placeholder="Deskripsi"
-                                    required>{{ old('deskripsi') ? old('deskripsi') : $item->deskripsi }}</textarea>
+                                    name="deskripsi"
+                                    placeholder="Deskripsi">{{ old('deskripsi') ? old('deskripsi') : $item->deskripsi }}</textarea>
                                 @error('deskripsi')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -267,6 +256,12 @@
                     <button type="reset" class="btn btn-secondary me-1" id="btn-reset">Reset</button>
                     <button type="submit" class="btn btn-success" id="btn-save">Update</button>
                 </form>
+
+                <div id="validation-errors" class="mt-4" style="display: none;">
+                    <div class="alert alert-danger">
+                        <ul class="mb-0"></ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -277,19 +272,14 @@
 
     <script>
         const kode = $('#kode')
-
         const supplier = $('#supplier')
         const hargaBeli = $('#harga-beli')
         const tblDetailItem = $('#tbl-detail-item')
-
         const btnAdd = $('#btn-add')
         const btnSave = $('#btn-save')
         const btnUpdate = $('#btn-update')
         const btnReset = $('#btn-reset')
-
         const indexTr = $('#index-tr')
-
-        // getKode()
 
         btnAdd.click(function() {
             if (!supplier.val()) {
@@ -443,20 +433,73 @@
             $(this).parent().parent().remove()
 
             generateNo()
-            cekTableLength()
         })
 
-        function cekTableLength() {
-            let cek = tblDetailItem.find('tbody tr').length
+        $('#form-purchase').submit(function(e) {
+            e.preventDefault()
+            btnSave.text('Loading..')
+            btnSave.prop('disabled', true)
+            btnReset.text('Loading..')
+            btnReset.prop('disabled', true)
 
-            if (cek > 0) {
-                btnSave.prop('disabled', false)
-                btnReset.prop('disabled', false)
-            } else {
-                btnSave.prop('disabled', true)
-                btnReset.prop('disabled', true)
-            }
-        }
+            let formData = new FormData($(this)[0])
+            formData.append('_method', 'PUT')
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('item.update', $item->id) }}',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function(res) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Update data',
+                        text: 'Berhasil'
+                    }).then(function() {
+                        window.location = '{{ route('item.index') }}'
+                    })
+
+                    $('#validation-errors .alert-danger ul').html('')
+                    $('#validation-errors').hide()
+                },
+                error: function(xhr, status, error) {
+                    // console.error(xhr.responseText)
+
+                    let validationErrors = $('#validation-errors')
+                    let validationUl = $('#validation-errors .alert-danger ul')
+
+                    validationUl.html('')
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        if (Array.isArray(value)) {
+                            $.each(value, function(i, v) {
+                                validationUl.append(
+                                    `<li class="m-0 p-0">${v}</li>`)
+                            })
+                        } else {
+                            validationUl.append(
+                                `<li class="m-0 p-0">${value}</li>`)
+                        }
+                    })
+                    $('#validation-errors').show()
+
+                    btnSave.text('Simpan')
+                    btnSave.prop('disabled', false)
+                    btnReset.text('Reset')
+                    btnReset.prop('disabled', false)
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                    })
+                }
+            })
+        })
 
         function clearForm() {
             supplier.val('')
@@ -473,22 +516,6 @@
             tblDetailItem.find('tbody tr').each(function() {
                 $(this).find('td:nth-child(1)').html(no)
                 no++
-            })
-        }
-
-        function getKode() {
-            kode.prop('disabled', true)
-            kode.val('Loading...')
-
-            $.ajax({
-                url: '/inventory/item/generate-kode/',
-                method: 'GET',
-                success: function(res) {
-                    setTimeout(() => {
-                        kode.val(res.kode)
-                        kode.prop('disabled', false)
-                    }, 500)
-                }
             })
         }
     </script>

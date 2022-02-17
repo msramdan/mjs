@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <form action="{{ route('item.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('item.store') }}" method="POST" enctype="multipart/form-data" id="form-purchase">
                     @csrf
                     @method('POST')
 
@@ -48,9 +48,9 @@
 
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label" for="harga_estimasi">Harga Estimasi</label>
+                                    <label class="form-label" for="harga-estimasi">Harga Estimasi</label>
                                     <input class="form-control @error('harga_estimasi') is-invalid @enderror" type="number"
-                                        id="harga_estimasi" name="harga_estimasi" placeholder="Harga Estimasi"
+                                        id="harga-estimasi" name="harga_estimasi" placeholder="Harga Estimasi"
                                         value="{{ old('harga_estimasi') }}" />
                                     @error('harga_estimasi')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -132,7 +132,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="foto">Foto</label>
                                 <input class="form-control @error('foto') is-invalid @enderror" type="file" id="foto"
-                                    name="foto" placeholder="Foto" required />
+                                    name="foto" placeholder="Foto" />
                                 @error('foto')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -143,7 +143,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
                                 <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
-                                    name="deskripsi" placeholder="Deskripsi" required>{{ old('deskripsi') }}</textarea>
+                                    name="deskripsi" placeholder="Deskripsi">{{ old('deskripsi') }}</textarea>
                                 @error('deskripsi')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -207,6 +207,12 @@
                     <button type="reset" class="btn btn-secondary me-1" id="btn-reset">Reset</button>
                     <button type="submit" class="btn btn-success" id="btn-save">Simpan</button>
                 </form>
+
+                <div id="validation-errors" class="mt-4" style="display: none;">
+                    <div class="alert alert-danger">
+                        <ul class="mb-0"></ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -228,6 +234,7 @@
         const btnReset = $('#btn-reset')
 
         const indexTr = $('#index-tr')
+        const formPurchase = $('#form-purchase')
 
         getKode()
 
@@ -383,20 +390,84 @@
             $(this).parent().parent().remove()
 
             generateNo()
-            cekTableLength()
+            // cekTableLength()
         })
 
-        function cekTableLength() {
-            let cek = tblDetailItem.find('tbody tr').length
+        formPurchase.submit(function(e) {
+            e.preventDefault()
+            btnSave.text('Loading..')
+            btnSave.prop('disabled', true)
+            btnReset.text('Loading..')
+            btnReset.prop('disabled', true)
 
-            if (cek > 0) {
-                btnSave.prop('disabled', false)
-                btnReset.prop('disabled', false)
-            } else {
-                btnSave.prop('disabled', true)
-                btnReset.prop('disabled', true)
-            }
-        }
+            let formData = new FormData($(this)[0]);
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('item.store') }}',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                data: formData,
+                contentType: false,
+                processData: false,
+                cache: false,
+                success: function(response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Simpan data',
+                        text: 'Berhasil'
+                    }).then(function() {
+                        window.location = '{{ route('item.index') }}'
+                    })
+
+                    $('#validation-errors .alert-danger ul').html('')
+                    $('#validation-errors').hide()
+                },
+                error: function(xhr, status, error) {
+                    // console.error(xhr.responseText)
+
+                    let validationErrors = $('#validation-errors')
+                    let validationUl = $('#validation-errors .alert-danger ul')
+
+                    validationUl.html('')
+                    $.each(xhr.responseJSON.errors, function(key, value) {
+                        if (Array.isArray(value)) {
+                            $.each(value, function(i, v) {
+                                validationUl.append(
+                                    `<li class="m-0 p-0">${v}</li>`)
+                            })
+                        } else {
+                            validationUl.append(
+                                `<li class="m-0 p-0">${value}</li>`)
+                        }
+                    })
+                    $('#validation-errors').show()
+
+                    btnSave.text('Simpan')
+                    btnSave.prop('disabled', false)
+                    btnReset.text('Reset')
+                    btnReset.prop('disabled', false)
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                    })
+                }
+            })
+        })
+
+        // function cekTableLength() {
+        //     let cek = tblDetailItem.find('tbody tr').length
+
+        //     if (cek > 0) {
+        //         btnSave.prop('disabled', false)
+        //         btnReset.prop('disabled', false)
+        //     } else {
+        //         btnSave.prop('disabled', true)
+        //         btnReset.prop('disabled', true)
+        //     }
+        // }
 
         function clearForm() {
             supplier.val('')
