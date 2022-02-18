@@ -26,7 +26,7 @@ class StoreJurnalUmumRequest extends FormRequest
         return [
             'tanggal' => 'required|date',
             'no_bukti' => 'required|string',
-            'account_coa_id.*' => 'required|exists:account_coa,id',
+            'coa_id.*' => 'required|exists:account_coa,id',
             'deskripsi.*' => 'required|string',
             'debit.*' => 'required|numeric',
             'kredit.*' => 'required|numeric',

@@ -14,7 +14,7 @@ class JurnalUmum extends Model
     protected $fillable = [
         'tanggal',
         'no_bukti',
-        'account_coa_id',
+        'coa_id',
         'deskripsi',
         'debit',
         'kredit',
@@ -22,8 +22,8 @@ class JurnalUmum extends Model
 
     protected $casts = ['tanggal' => 'date:d/m/Y'];
 
-    public function akun_coa()
+    public function coa()
     {
-        return $this->belongsTo(AkunCoa::class, 'account_coa_id');
+        return $this->belongsTo(Coa::class, 'coa_id');
     }
 }

@@ -65,11 +65,11 @@
                                 <tr id="row{{ $i }}">
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="account_coa_id[]" required>
+                                            <select class="form-control" name="coa_id[]" required>
                                                 <option value="" disabled selected>-- Pilih -- </option>
                                                 @foreach ($coas as $coa)
                                                     <option value="{{ $coa->id }}"
-                                                        {{ $jurnal->account_coa_id == $coa->id ? 'selected' : '' }}>
+                                                        {{ $jurnal->coa_id == $coa->id ? 'selected' : '' }}>
                                                         {{ $coa->kode }} - {{ $coa->nama }}
                                                     </option>
                                                 @endforeach
@@ -155,7 +155,7 @@
                 <tr id="row${i}">
                     <td>
                         <div class="form-group">
-                            <select class="form-control" name="account_coa_id[]" required>
+                            <select class="form-control" name="coa_id[]" required>
                             <option value="" disabled selected>-- Pilih -- </option>
                             <?php foreach ($coas as $key => $data) { ?>
                                 <option style="color:black" value="<?php echo $data->id; ?>">
@@ -372,7 +372,7 @@
                 var jurnal_umum = {
                     tanggal: $('#tanggal').val(),
                     no_bukti: $('#no_bukti').val(),
-                    account_coa_id: $('select[name="account_coa_id[]"]').map(function() {
+                    coa_id: $('select[name="coa_id[]"]').map(function() {
                         return $(this).val()
                     }).get(),
                     deskripsi: $('input[name="deskripsi[]"]').map(function() {

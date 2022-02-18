@@ -26,14 +26,14 @@ class JurnalUmumController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = JurnalUmum::with('akun_coa:id,kode,nama');
+            $query = JurnalUmum::with('coa:id,kode,nama');
 
             return Datatables::of($query)
                 ->addColumn('coa_kode', function ($row) {
-                    return $row->akun_coa->kode;
+                    return $row->coa->kode;
                 })
                 ->addColumn('coa_nama', function ($row) {
-                    return $row->akun_coa->nama;
+                    return $row->coa->nama;
                 })
                 ->addColumn('action', 'accounting.jurnal-umum._action')
                 ->toJson();
@@ -63,11 +63,11 @@ class JurnalUmumController extends Controller
         DB::transaction(function () use ($request) {
             $jurnalUmum = [];
 
-            foreach ($request->account_coa_id as $key => $req) {
+            foreach ($request->coa_id as $key => $req) {
                 $jurnalUmum[] = [
                     'tanggal' => $request->tanggal,
                     'no_bukti' => $request->no_bukti,
-                    'account_coa_id' => $request->account_coa_id[$key],
+                    'coa_id' => $request->coa_id[$key],
                     'deskripsi' => $request->deskripsi[$key],
                     'debit' => $request->debit[$key],
                     'kredit' => $request->kredit[$key],
@@ -81,17 +81,6 @@ class JurnalUmumController extends Controller
 
         return response()->json(['success'], 200);
     }
-
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  \App\Models\Accounting\JurnalUmum  $jurnalUmum
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show(JurnalUmum $jurnalUmum)
-    // {
-    //     //
-    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -122,11 +111,11 @@ class JurnalUmumController extends Controller
         DB::transaction(function () use ($request) {
             $jurnalUmum = [];
 
-            foreach ($request->account_coa_id as $key => $req) {
+            foreach ($request->coa_id as $key => $req) {
                 $jurnalUmum[] = [
                     'tanggal' => $request->tanggal,
                     'no_bukti' => $request->no_bukti,
-                    'account_coa_id' => $request->account_coa_id[$key],
+                    'coa_id' => $request->coa_id[$key],
                     'deskripsi' => $request->deskripsi[$key],
                     'debit' => $request->debit[$key],
                     'kredit' => $request->kredit[$key],

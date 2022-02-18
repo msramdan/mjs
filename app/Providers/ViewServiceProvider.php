@@ -395,7 +395,8 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'coas',
-                AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
+                // AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
+                Coa::select('id', 'kode', 'nama')->where('kategori', 'Detail')->orderBy('nama')->get()
             );
         });
 
