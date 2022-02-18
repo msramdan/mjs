@@ -65,7 +65,8 @@
             @endcanany
 
             {{-- Akuntansi --}}
-            @canany(['view invoice', 'view billing', 'view account group', 'view account header', 'view coa'])
+            {{-- , 'view account group', 'view account header', 'view coa' --}}
+            @canany(['view invoice', 'view billing'])
                 <div class="menu-item has-sub">
                     <a href="javascript:;" class="menu-link">
                         <div class="menu-icon">
@@ -87,9 +88,15 @@
                                     <div class="menu-text">{{ trans('sidebar.sub_menu.billing') }}</div>
                                 </a>
                             @endcan
+
+                            {{-- @can('view billing') --}}
+                            <a href="{{ route('coa.index') }}" class="menu-link">
+                                <div class="menu-text">COA</div>
+                            </a>
+                            {{-- @endcan --}}
                         </div>
 
-                        @canany(['view account group', 'view account header', 'view coa'])
+                        {{-- @canany(['view account group', 'view account header', 'view coa'])
                             <div class="menu-item has-sub closed">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Account</div>
@@ -121,7 +128,7 @@
                                     @endcan
                                 </div>
                             </div>
-                        @endcanany
+                        @endcanany --}}
 
                         @can('view jurnal umum')
                             <div class="menu-item has-sub closed">

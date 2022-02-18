@@ -1,8 +1,6 @@
 <?php
-// routes/breadcrumbs.php
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
-
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
 // Home
@@ -638,12 +636,12 @@ Breadcrumbs::for('jurnal_umum_edit', function (BreadcrumbTrail $trail) {
 //COA
 Breadcrumbs::for('coa_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
-    $trail->push('COA', route('akun-coa.index'));
+    $trail->push('COA', route('coa.index'));
 });
 
 Breadcrumbs::for('coa_create', function (BreadcrumbTrail $trail) {
     $trail->parent('coa_index');
-    $trail->push('Create', route('akun-coa.create'));
+    $trail->push('Create', route('coa.create'));
 });
 
 Breadcrumbs::for('coa_edit', function (BreadcrumbTrail $trail) {

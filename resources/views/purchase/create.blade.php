@@ -53,6 +53,10 @@
 
         const tblCart = $('#tbl-cart')
 
+        const allProduks = []
+
+        getAll()
+
         getKode()
 
         tanggal.change(function() {
@@ -112,9 +116,24 @@
                                 )
                             })
                         } else {
+                            // listProduk.push(
+                            //     `<option value="" disabled selected>Data tidak ditemukan</option>`
+                            // )
+
                             listProduk.push(
-                                `<option value="" disabled selected>Data tidak ditemukan</option>`
-                            )
+                                `<option value="" disabled selected>-- Pilih --</option>`)
+
+                            for (let i = 0; i < allProduks[0].length; i++) {
+                                listProduk.push(
+                                    `<option value="${allProduks[0][i].id}">${allProduks[0][i].kode +' - '+allProduks[0][i].nama}</option>`
+                                )
+                            }
+
+                            // $.each(allProduks, function(index, value) {
+                            //     listProduk.push(
+                            //         `<option value="${value[index].id}">${value[index].kode +' - '+value[index].nama}</option>`
+                            //     )
+                            // })
                         }
 
                         if (!attn.val()) {
@@ -159,20 +178,44 @@
                     method: 'GET',
                     success: function(res) {
 
-                        stok.val(res.item.stok)
-                        kodeProduk.val(res.item.kode)
-                        unitProduk.val(res.item.unit.nama)
+                        // console.log(res);
 
-                        setTimeout(() => {
-                            harga.prop('type', 'number')
-                            harga.prop('disabled', false)
-                            harga.val(res.harga_beli)
+                        if (res.type == 'with supplier') {
+                            stok.val(res.data.item.stok)
+                            kodeProduk.val(res.data.item.kode)
+                            unitProduk.val(res.data.item.unit.nama)
 
-                            qty.prop('type', 'number')
-                            qty.prop('disabled', false)
-                            qty.val('')
-                            qty.focus()
-                        }, 500)
+                            setTimeout(() => {
+                                harga.prop('type', 'number')
+                                harga.prop('disabled', false)
+                                harga.val(res.data.harga_beli)
+
+                                qty.prop('type', 'number')
+                                qty.prop('disabled', false)
+                                qty.val('')
+                                qty.focus()
+                            }, 500)
+
+                            // console.log('with supp');
+                        } else {
+                            // console.log('no supp');
+
+                            stok.val(res.data.stok)
+                            kodeProduk.val(res.data.kode)
+                            unitProduk.val(res.data.unit.nama)
+
+                            setTimeout(() => {
+                                harga.prop('type', 'number')
+                                harga.prop('disabled', false)
+                                harga.val(res.data.harga_estimasi)
+
+                                qty.prop('type', 'number')
+                                qty.prop('disabled', false)
+                                qty.val('')
+                                qty.focus()
+                            }, 500)
+                        }
+
                     }
                 })
             }
@@ -501,7 +544,7 @@
                     })
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText)
+                    // console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
@@ -588,6 +631,16 @@
                     setTimeout(() => {
                         kode.val(res.kode)
                     }, 500)
+                }
+            })
+        }
+
+        function getAll() {
+            $.ajax({
+                url: '/inventory/item/get-all/',
+                method: 'GET',
+                success: function(res) {
+                    allProduks.push(res)
                 }
             })
         }

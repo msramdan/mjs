@@ -137,7 +137,7 @@ class InvoiceRepository
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
-                    'account_coa_id' => $request['akun_beban'],
+                    'coa_id' => $request['akun_beban'],
                     'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $invoice->kode,
                     'debit' => $dibayar,
                     'kredit' => 0,
@@ -147,7 +147,7 @@ class InvoiceRepository
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
-                    'account_coa_id' => $request['akun_sumber'],
+                    'coa_id' => $request['akun_sumber'],
                     'deskripsi' => 'lorem',
                     'debit' => 0,
                     'kredit' => $dibayar,

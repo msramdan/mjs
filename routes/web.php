@@ -6,6 +6,7 @@ use App\Http\Controllers\Accounting\{
     AkunGrupController,
     AkunHeaderController,
     BillingController,
+    CoaController,
     InvoiceController,
     JurnalUmumController
 };
@@ -135,7 +136,8 @@ Route::middleware('auth')->prefix('inventory')->group(function () {
 
     Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
     Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
-    Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
+    // Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
+    Route::get('/item/get-all', [ItemController::class, 'getAll']);
 
     Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
     Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);
@@ -203,10 +205,10 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
 
     Route::resource('invoice', InvoiceController::class);
     Route::resource('billing', BillingController::class);
-    Route::resource('akun-grup', AkunGrupController::class);
-    Route::resource('akun-header', AkunHeaderController::class);
-    Route::resource('akun-coa', AkunCoaController::class);
-    Route::resource('akun-coa', AkunCoaController::class);
+    // Route::resource('akun-grup', AkunGrupController::class);
+    // Route::resource('akun-header', AkunHeaderController::class);
+    // Route::resource('akun-coa', AkunCoaController::class);
+    Route::resource('coa', CoaController::class);
 
     Route::resource('jurnal-umum', JurnalUmumController::class)->except('show', 'delete');
 });

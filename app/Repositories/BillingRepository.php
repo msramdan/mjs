@@ -133,7 +133,7 @@ class BillingRepository
                     $jurnals[] = [
                         'tanggal' => now()->toDateString(),
                         'no_bukti' => $noBukti,
-                        'account_coa_id' => $request['akun_sumber'],
+                        'coa_id' => $request['akun_beban'],
                         'deskripsi' => 'Pembelian ' . $dp->item->nama,
                         'debit' => $dp->sub_total,
                         'kredit' => 0
@@ -143,7 +143,7 @@ class BillingRepository
                 $jurnals[] = [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
-                    'account_coa_id' => $request['akun_sumber'],
+                    'coa_id' => $request['akun_sumber'],
                     'deskripsi' => 'Pembayaran untuk no.ref ' . $billing->kode,
                     'debit' => 0,
                     'kredit' => $purchase->total
@@ -180,7 +180,7 @@ class BillingRepository
      * @param string $tanggal
      * @return string $code
      */
-    public function generateCode($tanggal)
+    public function generateCode(string $tanggal)
     {
         $tahun = date('Y', strtotime($tanggal));
         $bulan = date('m', strtotime($tanggal));

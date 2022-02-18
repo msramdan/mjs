@@ -4,7 +4,7 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreJurnalUmumRequest extends FormRequest
+class UpdateCoaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,10 @@ class StoreJurnalUmumRequest extends FormRequest
     public function rules()
     {
         return [
-            'tanggal' => 'required|date',
-            'no_bukti' => 'required|string',
-            'coa_id.*' => 'required|exists:account_coa,id',
-            'deskripsi.*' => 'required|string',
-            'debit.*' => 'required|numeric',
-            'kredit.*' => 'required|numeric',
+            'kode' => 'required|min:3|max:30|unique:coas,kode,' . $this->coa,
+            'nama' => 'required|min:3|max:30',
+            'tipe' => 'required',
+            'parent' => 'nullable'
         ];
     }
 }

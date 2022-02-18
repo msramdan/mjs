@@ -32,14 +32,15 @@ class DatabaseSeeder extends Seeder
             DataPotonganSeeder::class,
             DataBenefitSeeder::class,
             SettingAppSeeder::class,
-            AkunGrupSeeder::class,
-            AkunHeaderSeeder::class,
-            AkunCoaSeeder::class,
+            // AkunGrupSeeder::class,
+            // AkunHeaderSeeder::class,
+            // AkunCoaSeeder::class,
             ItemSeeder::class,
             SettingCategoryRequestSeeder::class,
             RequestFormSeeder::class,
             SpalSeeder::class,
             PurchaseSeeder::class,
+            CoaSeeder::class,
         ]);
     }
 }
