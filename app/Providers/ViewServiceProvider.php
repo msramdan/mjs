@@ -476,5 +476,99 @@ class ViewServiceProvider extends ServiceProvider
                 User::select('id', 'name')->orderBy('name')->get()
             );
         });
+
+        // list coaParents
+        View::composer([
+            'accounting.coa.create',
+            'accounting.coa.edit'
+        ], function ($view) {
+            return $view->with(
+                'coaParents',
+                Coa::select('id', 'kode', 'nama')->where('parent', null)->get()
+            );
+        });
+
+        // list coaCategories
+        View::composer([
+            'accounting.coa.create',
+            'accounting.coa.edit'
+        ], function ($view) {
+            return $view->with(
+                'coaCategories',
+                collect([
+                    (object)[
+                        'kode' => 'Header',
+                        'nama' => 'Header'
+                    ],
+                    (object)[
+                        'kode' => 'Detail',
+                        'nama' => 'Detail'
+                    ],
+                ])
+            );
+        });
+
+        // list coaTypes
+        View::composer([
+            'accounting.coa.create',
+            'accounting.coa.edit'
+        ], function ($view) {
+            return $view->with(
+                'coaTypes',
+                collect([
+                    (object)[
+                        'kode' => 'Asset',
+                        'nama' => 'Asset',
+                    ],
+                    (object)[
+                        'kode' => 'Bank',
+                        'nama' => 'Bank'
+                    ],
+                    (object)[
+                        'kode' => 'Account Receivable',
+                        'nama' => 'Account Receivable',
+                    ],
+                    (object)[
+                        'kode' => 'Fixed Assets',
+                        'nama' => 'Fixed Assets',
+                    ],
+                    (object)[
+                        'kode' => 'Liability',
+                        'nama' => 'Liability',
+                    ], (object)[
+                        'kode' => 'Account Payable',
+                        'nama' => 'Account Payable',
+                    ],
+                    (object)[
+                        'kode' => 'Long Term Liability',
+                        'nama' => 'Long Term Liability',
+                    ],
+                    (object)[
+                        'kode' => 'Euqity',
+                        'nama' => 'Euqity',
+                    ],
+                    (object)[
+                        'kode' =>  'Income',
+                        'nama' =>  'Income',
+                    ],
+                    (object)[
+                        'kode' =>  'Expense',
+                        'nama' =>  'Expense',
+                    ],
+                    (object)[
+                        'kode' =>  'Other Current Asset',
+                        'nama' =>  'Other Current Asset',
+                    ],
+                    (object)[
+                        'kode' =>   'Other Income',
+                        'nama' =>   'Other Income',
+                    ],
+                    (object)[
+                        'kode' =>  'Other Expenses',
+                        'nama' =>  'Other Expenses'
+                    ],
+                ])
+            );
+        });
     }
 }

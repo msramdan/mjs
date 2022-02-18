@@ -6,6 +6,7 @@ use App\Http\Controllers\Accounting\{
     AkunGrupController,
     AkunHeaderController,
     BillingController,
+    CoaController,
     InvoiceController,
     JurnalUmumController
 };
@@ -204,10 +205,10 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
 
     Route::resource('invoice', InvoiceController::class);
     Route::resource('billing', BillingController::class);
-    Route::resource('akun-grup', AkunGrupController::class);
-    Route::resource('akun-header', AkunHeaderController::class);
-    Route::resource('akun-coa', AkunCoaController::class);
-    Route::resource('akun-coa', AkunCoaController::class);
+    // Route::resource('akun-grup', AkunGrupController::class);
+    // Route::resource('akun-header', AkunHeaderController::class);
+    // Route::resource('akun-coa', AkunCoaController::class);
+    Route::resource('coa', CoaController::class);
 
     Route::resource('jurnal-umum', JurnalUmumController::class)->except('show', 'delete');
 });
