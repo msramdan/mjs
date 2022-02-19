@@ -2,31 +2,17 @@
 
 namespace App\Providers;
 
-use App\Models\Accounting\AkunCoa;
-use App\Models\Accounting\AkunGrup;
-use App\Models\Accounting\AkunHeader;
 use App\Models\Accounting\Coa;
-use App\Models\Contact\Customer;
-use App\Models\Contact\Supplier;
+use App\Models\Contact\{Customer, Supplier};
 use App\Models\ElectronicDocument\CategoryDocument;
-use App\Models\Inventory\BacPakai;
-use App\Models\Inventory\BacTerima;
-use App\Models\Inventory\Item;
-use App\Models\Master\Category;
-use App\Models\Master\CategoryRequest;
-use App\Models\Master\Divisi;
-use App\Models\Master\Jabatan;
-use App\Models\Master\Lokasi;
-use App\Models\Master\StatusKaryawan;
-use App\Models\Master\Unit;
+use App\Models\Inventory\{BacPakai, BacTerima, Item};
+use App\Models\Master\{Category, CategoryRequest, Divisi, Jabatan, Lokasi, StatusKaryawan, Unit};
 use App\Models\Purchase\Purchase;
 use App\Models\RequestForm\RequestForm;
-use App\Models\Sale\Sale;
-use App\Models\Sale\Spal;
+use App\Models\Sale\{Sale, Spal};
 use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class ViewServiceProvider extends ServiceProvider
@@ -195,17 +181,6 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list permissions
-        // View::composer([
-        //     'setting.user.create',
-        //     'setting.user.edit'
-        // ], function ($view) {
-        //     return $view->with(
-        //         'permissions',
-        //         Permission::select('id', 'name')->get()
-        //     );
-        // });
-
         // list customer
         View::composer([
             'sale.spal.create',
@@ -273,17 +248,6 @@ class ViewServiceProvider extends ServiceProvider
                 CategoryRequest::select('id', 'nama')->orderBy('nama')->get()
             );
         });
-
-        // // list Akun Coa
-        // View::composer([
-        //     'inventory.item.create',
-        //     'inventory.item.edit'
-        // ], function ($view) {
-        //     return $view->with(
-        //         'akunCoa',
-        //         AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
-        //     );
-        // });
 
         // list spal
         View::composer([
@@ -384,18 +348,43 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list list COA
+        // list list akunSumber
         View::composer([
-            'accounting.billing.create',
+            // 'accounting.billing.create',
             'accounting.billing.edit',
-            'accounting.invoice.create',
+            // 'accounting.invoice.create',
             'accounting.invoice.edit',
+            // 'accounting.jurnal-umum.create',
+            // 'accounting.jurnal-umum.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunSumber',
+                Coa::select('id', 'kode', 'nama')->where(['kategori' => 'Detail', 'tipe' => 'Bank'])->orderBy('nama')->get()
+            );
+        });
+
+        // list list akunBeban
+        View::composer([
+            // 'accounting.billing.create',
+            'accounting.billing.edit',
+            // 'accounting.invoice.create',
+            'accounting.invoice.edit',
+            // 'accounting.jurnal-umum.create',
+            // 'accounting.jurnal-umum.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunBeban',
+                Coa::select('id', 'kode', 'nama')->where(['kategori' => 'Detail', 'tipe' => 'Expense'])->orderBy('nama')->get()
+            );
+        });
+
+        // list list akun detail
+        View::composer([
             'accounting.jurnal-umum.create',
             'accounting.jurnal-umum.edit',
         ], function ($view) {
             return $view->with(
-                'coas',
-                // AkunCoa::select('id', 'kode', 'nama')->orderBy('nama')->get()
+                'akunDetail',
                 Coa::select('id', 'kode', 'nama')->where('kategori', 'Detail')->orderBy('nama')->get()
             );
         });
@@ -412,57 +401,6 @@ class ViewServiceProvider extends ServiceProvider
                     ->where('lunas', 0)
                     ->where('approve_by_gm', '!=', null)
                     ->orderBy('id')
-                    ->get()
-            );
-        });
-
-        // // list purchases
-        // View::composer([
-        //     'inventory.bac-terima.create',
-        //     'inventory.bac-terima.edit'
-        // ], function ($view) {
-        //     return $view->with(
-        //         'purchases',
-        //         Purchase::select('id', 'kode')
-        //             ->where('lunas', 0)
-        //             ->orderBy('id')
-        //             ->get()
-        //     );
-        // });
-
-        // list akunGroup
-        View::composer([
-            'accounting.akun-header.create',
-            'accounting.akun-header.edit',
-        ], function ($view) {
-            return $view->with(
-                'akunGroup',
-                AkunGrup::select('id', 'nama')->orderBy('nama')->get()
-            );
-        });
-
-        // list akunHeader
-        View::composer([
-            'accounting.coa.create',
-            'accounting.coa.edit',
-        ], function ($view) {
-            return $view->with(
-                'akunHeader',
-                AkunHeader::select('id', 'nama')->orderBy('nama')->get()
-            );
-        });
-
-        // list treeview
-        View::composer([
-            'accounting.coa._treeview',
-        ], function ($view) {
-            return $view->with(
-                'treeview',
-                AkunGrup::select('id', 'nama', 'report')
-                    ->with(
-                        'akun_header:id,kode,nama,account_group_id',
-                        'akun_header.akun_coa:id,kode,nama,account_header_id'
-                    )
                     ->get()
             );
         });
@@ -485,7 +423,7 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'coaParents',
-                Coa::select('id', 'kode', 'nama')->where('parent', null)->get()
+                Coa::select('id', 'kode', 'nama')->get()
             );
         });
 

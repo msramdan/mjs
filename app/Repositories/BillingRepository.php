@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Accounting\{AkunCoa, Billing, JurnalUmum};
+use App\Models\Accounting\{Billing, JurnalUmum};
 use App\Models\Purchase\Purchase;
 use App\Models\Setting\SettingApp;
 use Illuminate\Support\Facades\DB;

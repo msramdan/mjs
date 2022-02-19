@@ -17,6 +17,7 @@ class CoaSeeder extends Seeder
         Coa::insert([
             // Aktiva
             [
+                // 1
                 'kode' => '1-0000',
                 'nama' => 'Aktiva',
                 'tipe' => 'Asset',
@@ -26,15 +27,57 @@ class CoaSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                // 2
                 'kode' => '1-1000',
                 'nama' => 'Aktiva Lancar',
                 'tipe' => 'Asset',
-                'kategori' => 'Detail',
+                'kategori' => 'Header',
                 'parent'  => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
+                // 3
+                'kode' => '1-1100',
+                'nama' => 'Kas & Bank',
+                'tipe' => 'Bank',
+                'kategori' => 'Detail',
+                'parent'  => 2,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 4
+                'kode' => '1-1110',
+                'nama' => 'Kas',
+                'tipe' => 'Bank',
+                'kategori' => 'Detail',
+                'parent'  => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 5
+                'kode' => '1-1110',
+                'nama' => 'Bank BCA',
+                'tipe' => 'Bank',
+                'kategori' => 'Detail',
+                'parent'  => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 6
+                'kode' => '1-1110',
+                'nama' => 'Bank BSM',
+                'tipe' => 'Bank',
+                'kategori' => 'Detail',
+                'parent'  => 3,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 7
                 'kode' => '1-2000',
                 'nama' => 'Aktiva Tidak Lancar',
                 'tipe' => 'Asset',
@@ -46,6 +89,7 @@ class CoaSeeder extends Seeder
             // End of Aktiva
             // Kewajiban
             [
+                // 8
                 'kode' => '2-0000',
                 'nama' => 'Kewajiban',
                 'tipe' => 'Bank',
@@ -55,24 +99,67 @@ class CoaSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                // 9
                 'kode' => '2-1000',
                 'nama' => 'Kewajiban Lancar',
                 'tipe' => 'Bank',
                 'kategori' => 'Detail',
-                'parent'  => 4,
+                'parent'  => 8,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
+                // 10
                 'kode' => '2-2000',
                 'nama' => 'Kewajiban Tidak Lancar',
                 'tipe' => 'Bank',
                 'kategori' => 'Detail',
-                'parent'  => 4,
+                'parent'  => 8,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             // End of Kewajiban
+
+            [
+                // 11
+                'kode' => '6-0000',
+                'nama' => 'Beban',
+                'tipe' => 'Expense',
+                'kategori' => 'Header',
+                'parent'  => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 12
+                'kode' => '6-1000',
+                'nama' => 'Beban Pokok Pendapatan Usaha',
+                'tipe' => 'Expense',
+                'kategori' => 'Header',
+                'parent'  => 11,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 13
+                'kode' => '6-1100',
+                'nama' => 'Beban Tenaga Kerja Langsung',
+                'tipe' => 'Expense',
+                'kategori' => 'Detail',
+                'parent'  => 12,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 14
+                'kode' => '6-1100',
+                'nama' => 'Beban Agenci',
+                'tipe' => 'Expense',
+                'kategori' => 'Detail',
+                'parent'  => 12,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ]);
     }
 }
