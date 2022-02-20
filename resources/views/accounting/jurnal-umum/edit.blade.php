@@ -67,10 +67,10 @@
                                         <div class="form-group">
                                             <select class="form-control" name="coa_id[]" required>
                                                 <option value="" disabled selected>-- Pilih -- </option>
-                                                @foreach ($coas as $coa)
-                                                    <option value="{{ $coa->id }}"
-                                                        {{ $jurnal->coa_id == $coa->id ? 'selected' : '' }}>
-                                                        {{ $coa->kode }} - {{ $coa->nama }}
+                                                @foreach ($akunDetail as $i => $ad)
+                                                    <option value="{{ $ad->id }}"
+                                                        {{ $jurnal->coa_id == $ad->id ? 'selected' : '' }}>
+                                                        {{ $ad->kode }} - {{ $ad->nama }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -157,9 +157,9 @@
                         <div class="form-group">
                             <select class="form-control" name="coa_id[]" required>
                             <option value="" disabled selected>-- Pilih -- </option>
-                            <?php foreach ($coas as $key => $data) { ?>
-                                <option style="color:black" value="<?php echo $data->id; ?>">
-                                    <?php echo $data->kode; ?> - <?php echo $data->nama; ?>
+                            <?php foreach ($akunBeban as $key => $ad) { ?>
+                                <option style="color:black" value="<?= $ad->id ?>">
+                                    <?= $ad->kode ?> - <?= $ad->nama ?>
                                 </option>
                             <?php } ?>
                             </select>

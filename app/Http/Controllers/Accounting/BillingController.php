@@ -50,7 +50,7 @@ class BillingController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBillingRequest $request)
@@ -65,7 +65,7 @@ class BillingController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Accounting\Billing  $billing
+     * @param  \App\Models\Accounting\Billing $billing
      * @return \Illuminate\Http\Response
      */
     public function show(Billing $billing)
@@ -79,7 +79,7 @@ class BillingController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Accounting\Billing  $billing
+     * @param  \App\Models\Accounting\Billing $billing
      * @return \Illuminate\Http\Response
      */
     public function edit(Billing $billing)
@@ -92,8 +92,8 @@ class BillingController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Accounting\Billing  $billing
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Accounting\Billing $billing
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateBillingRequest $request, Billing $billing)
@@ -108,7 +108,7 @@ class BillingController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Accounting\Billing  $billing
+     * @param  \App\Models\Accounting\Billing $billing
      * @return \Illuminate\Http\Response
      */
     public function destroy(Billing $billing)

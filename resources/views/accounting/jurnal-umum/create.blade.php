@@ -97,9 +97,9 @@
                         <div class="form-group">
                             <select class="form-control" name="coa_id[]" required>
                             <option style="color: black;" value="" disabled selected>-- Pilih -- </option>
-                            <?php foreach ($coas as $key => $data) { ?>
-                                <option style="color:black" value="<?php echo $data->id; ?>">
-                                    <?php echo $data->kode; ?> - <?php echo $data->nama; ?>
+                            <?php foreach ($akunDetail as $key => $ad) { ?>
+                                <option style="color:black" value="<?= $ad->id ?>">
+                                    <?= $ad->kode ?> - <?= $ad->nama ?>
                                 </option>
                             <?php } ?>
                             </select>
