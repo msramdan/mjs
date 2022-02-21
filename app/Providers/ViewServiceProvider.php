@@ -382,10 +382,11 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.jurnal-umum.create',
             'accounting.jurnal-umum.edit',
+            'accounting.buku-besar.index',
         ], function ($view) {
             return $view->with(
                 'akunDetail',
-                Coa::select('id', 'kode', 'nama')->where('kategori', 'Detail')->orderBy('nama')->get()
+                Coa::select('id', 'kode', 'nama')->where('kategori', 'Detail')->orderBy('kode')->get()
             );
         });
 

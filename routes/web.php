@@ -6,6 +6,7 @@ use App\Http\Controllers\Accounting\{
     AkunGrupController,
     AkunHeaderController,
     BillingController,
+    BukuBesarController,
     CoaController,
     InvoiceController,
     JurnalUmumController
@@ -211,6 +212,7 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::resource('coa', CoaController::class);
 
     Route::resource('jurnal-umum', JurnalUmumController::class)->except('show', 'delete');
+    Route::get('buku-besar', BukuBesarController::class)->name('buku-besar.index');
 });
 
 // Payroll

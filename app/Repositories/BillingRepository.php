@@ -168,9 +168,8 @@ class BillingRepository
                         'debit' => 0,
                         'kredit' => $request['TextFeeBank']
                     ];
-
-
                 }
+
                 JurnalUmum::insert($jurnals);
             }
         });

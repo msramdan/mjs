@@ -135,15 +135,15 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="input-group mb-3px mt-5px">
-                                <div class="input-group-text">
-                                    <input type="checkbox" class="form-check-input" id="yourBox">
-                                </div>
-                                <input type="number" id="TextFeeBank" disabled class="form-control"
-                                    name="TextFeeBank" placeholder="Additional fee bank">
-                            </div>
                         </div>
 
+                        <div class="input-group mt-3">
+                            <div class="input-group-text">
+                                <input type="checkbox" class="form-check-input" id="yourBox">
+                            </div>
+                            <input type="number" id="TextFeeBank" disabled class="form-control" name="TextFeeBank"
+                                placeholder="Additional fee bank">
+                        </div>
                     </div>
 
 

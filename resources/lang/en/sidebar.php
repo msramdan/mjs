@@ -51,5 +51,6 @@ return [
         'rf_purchase' => 'Request Form Purchase',
         'rf_loan' => 'Request Form Loan',
         'jurnal_umum' => 'General Journal',
+        'buku_besar' => 'General Ledger',
     ],
 ];

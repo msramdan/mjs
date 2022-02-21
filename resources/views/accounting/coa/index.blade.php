@@ -60,6 +60,20 @@
                                                         <ul>
                                                             <li>
                                                                 {{ $akunCoa->kode . ' - ' . $akunCoa->nama }}
+
+                                                                @php
+                                                                    $subAkunCoas = \DB::table('coas')
+                                                                        ->select('id', 'kode', 'nama')
+                                                                        ->where('parent', $akunCoa->id)
+                                                                        ->get();
+                                                                @endphp
+                                                                @foreach ($subAkunCoas as $subAkunCoa)
+                                                                    <ul>
+                                                                        <li>
+                                                                            {{ $subAkunCoa->kode . ' - ' . $subAkunCoa->nama }}
+                                                                        </li>
+                                                                    </ul>
+                                                                @endforeach
                                                             </li>
                                                         </ul>
                                                     @endforeach

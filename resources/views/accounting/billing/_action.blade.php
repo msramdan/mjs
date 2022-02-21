@@ -7,14 +7,14 @@
         <i class="fas fa-print"></i>
     </a>
 
-    @can('edit billing')
-        <a href="{{ route('billing.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
-            <i class="fas fa-edit"></i>
-        </a>
-    @endcan
+    @if ($model->status == 'Unpaid')
+        @can('edit billing')
+            <a href="{{ route('billing.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
+                <i class="fas fa-edit"></i>
+            </a>
+        @endcan
 
-    @can('delete billing')
-        @if ($model->status == 'Unpaid')
+        @can('delete billing')
             <form action="{{ route('billing.destroy', $model->id) }}" method="post" class="d-inline"
                 onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                 @csrf
@@ -24,6 +24,6 @@
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </form>
-        @endif
-    @endcan
+        @endcan
+    @endif
 </td>
