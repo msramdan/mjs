@@ -125,6 +125,28 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6" id="col-akun-sumber" style="display: none">
+                        <div class="form-group">
+                            <label for="akun-sumber">Akun Sumber</label>
+                            <select name="akun_sumber" id="akun-sumber" class="form-select">
+                                @foreach ($akunSumber as $as)
+                                    <option value="{{ $as->id }}">
+                                        {{ $as->kode . ' - ' . $as->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="input-group mb-3px mt-5px">
+                                <div class="input-group-text">
+                                    <input type="checkbox" class="form-check-input" id="yourBox">
+                                </div>
+                                <input type="number" id="TextFeeBank" disabled class="form-control"
+                                    name="TextFeeBank" placeholder="Additional fee bank">
+                            </div>
+                        </div>
+
+                    </div>
+
+
                     <div class="col-md-6" id="col-akun-beban" style="display: none">
                         <div class="form-group">
                             <label for="akun-beban">Akun Beban</label>
@@ -137,18 +159,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6" id="col-akun-sumber" style="display: none">
-                        <div class="form-group">
-                            <label for="akun-sumber">Akun Sumber</label>
-                            <select name="akun_sumber" id="akun-sumber" class="form-select">
-                                @foreach ($akunSumber as $as)
-                                    <option value="{{ $as->id }}">
-                                        {{ $as->kode . ' - ' . $as->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
+
                 </div>
             @endif
 

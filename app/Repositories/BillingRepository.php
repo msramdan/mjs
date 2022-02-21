@@ -127,7 +127,6 @@ class BillingRepository
             if ($request['tanggal_dibayar'] && $request['status_billing'] == 'Paid') {
                 // sekarang masih static dulu
                 $noBukti = 'BKK-001';
-
                 $jurnals = [];
                 foreach ($purchase->detail_purchase as $dp) {
                     $jurnals[] = [
@@ -149,6 +148,29 @@ class BillingRepository
                     'kredit' => $purchase->total
                 ];
 
+                if ($request['TextFeeBank']) {
+                    // debit
+                    $jurnals[] = [
+                        'tanggal' => now()->toDateString(),
+                        'no_bukti' => $noBukti,
+                        'coa_id' => 17,
+                        'deskripsi' => 'Bea Transafer',
+                        'debit' => $request['TextFeeBank'],
+                        'kredit' => 0
+                    ];
+
+                    // kredit
+                    $jurnals[] = [
+                        'tanggal' => now()->toDateString(),
+                        'no_bukti' => $noBukti,
+                        'coa_id' => $request['akun_sumber'],
+                        'deskripsi' => 'Bea Transafer',
+                        'debit' => 0,
+                        'kredit' => $request['TextFeeBank']
+                    ];
+
+
+                }
                 JurnalUmum::insert($jurnals);
             }
         });

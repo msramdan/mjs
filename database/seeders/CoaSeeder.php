@@ -160,6 +160,39 @@ class CoaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            // end of beban
+            // Biaya Lain lain
+            [
+                //15
+                'kode' => '9-0000',
+                'nama' => 'Biaya Lain lain',
+                'tipe' => 'Other Expenses',
+                'kategori' => 'Header',
+                'parent'  => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 16
+                'kode' => '9-1000',
+                'nama' => 'Biaya Lain-lain',
+                'tipe' => 'Other Expenses',
+                'kategori' => 'Detail',
+                'parent'  => 15,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 17
+                'kode' => '9-1100',
+                'nama' => 'Biaya Administrasi Bank/Bea Transfer',
+                'tipe' => 'Other Expenses',
+                'kategori' => 'Detail',
+                'parent'  => 15,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+
         ]);
     }
 }

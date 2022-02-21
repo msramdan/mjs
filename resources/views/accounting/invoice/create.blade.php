@@ -236,5 +236,9 @@
         function formatRibuan(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+
+        document.getElementById('yourBox').onchange = function() {
+            document.getElementById('yourText').disabled = !this.checked;
+        };
     </script>
 @endpush

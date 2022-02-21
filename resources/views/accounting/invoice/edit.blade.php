@@ -231,5 +231,7 @@
                 }
             })
         }
+
+
     </script>
 @endpush

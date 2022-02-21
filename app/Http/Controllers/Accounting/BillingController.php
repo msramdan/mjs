@@ -98,6 +98,8 @@ class BillingController extends Controller
      */
     public function update(UpdateBillingRequest $request, Billing $billing)
     {
+
+        // dd($request);
         $this->billingRepository->update($request->validated(), $billing);
 
         Alert::toast('Update data berhasil', 'success');

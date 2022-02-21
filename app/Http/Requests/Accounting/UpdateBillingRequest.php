@@ -32,6 +32,7 @@ class UpdateBillingRequest extends FormRequest
             'catatan' => 'nullable|string',
             'status_billing' => 'required|in:Unpaid,Paid',
             'nominal_billing' => 'required',
+            'TextFeeBank' => 'nullable',
             'akun_beban' => 'nullable|required_if:status_billing,Paid',
             'akun_sumber' => 'nullable|required_if:status_billing,Paid',
         ];
