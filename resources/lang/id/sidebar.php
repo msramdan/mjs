@@ -50,5 +50,6 @@ return [
         'rf_purchase' => 'Request Form Pembelian',
         'rf_loan' => 'Request Form Peminjaman Uang',
         'jurnal_umum' => 'Jurnal Umum',
+        'buku_besar' => 'Buku Besar',
     ],
 ];

@@ -243,6 +243,7 @@
         function formatRibuan(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
+
         document.getElementById('yourBox').onchange = function() {
             document.getElementById('TextFeeBank').disabled = !this.checked;
         };

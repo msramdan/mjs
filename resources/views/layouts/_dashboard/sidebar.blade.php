@@ -141,6 +141,10 @@
                                         <a href="{{ route('jurnal-umum.index') }}" class="menu-link">
                                             <div class="menu-text">{{ trans('sidebar.sub_menu.jurnal_umum') }}</div>
                                         </a>
+
+                                        <a href="{{ route('buku-besar.index') }}" class="menu-link">
+                                            <div class="menu-text">{{ trans('sidebar.sub_menu.buku_besar') }}</div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

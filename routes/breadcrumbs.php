@@ -575,46 +575,49 @@ Breadcrumbs::for('request_form_show', function (BreadcrumbTrail $trail) {
     $trail->push('Detail');
 });
 
-
 // Akun
 Breadcrumbs::for('akun', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');
     $trail->push('Akun');
 });
 
+Breadcrumbs::for('buku_besar_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push(trans('sidebar.sub_menu.buku_besar'), route('buku-besar.index'));
+});
 
 //grup
-Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('accounting');
-    $trail->push('Akun Grup', route('akun-grup.index'));
-});
+// Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
+//     $trail->parent('accounting');
+//     $trail->push('Akun Grup', route('akun-grup.index'));
+// });
 
-Breadcrumbs::for('grup_create', function (BreadcrumbTrail $trail) {
-    $trail->parent('grup_index');
-    $trail->push('Create', route('akun-grup.create'));
-});
+// Breadcrumbs::for('grup_create', function (BreadcrumbTrail $trail) {
+//     $trail->parent('grup_index');
+//     $trail->push('Create', route('akun-grup.create'));
+// });
 
-Breadcrumbs::for('grup_edit', function (BreadcrumbTrail $trail) {
-    $trail->parent('grup_index');
-    $trail->push('Edit');
-});
+// Breadcrumbs::for('grup_edit', function (BreadcrumbTrail $trail) {
+//     $trail->parent('grup_index');
+//     $trail->push('Edit');
+// });
 
 
 //Header
-Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
-    $trail->parent('accounting');
-    $trail->push('Akun Header', route('akun-header.index'));
-});
+// Breadcrumbs::for('header_index', function (BreadcrumbTrail $trail) {
+//     $trail->parent('accounting');
+//     $trail->push('Akun Header', route('akun-header.index'));
+// });
 
-Breadcrumbs::for('header_create', function (BreadcrumbTrail $trail) {
-    $trail->parent('header_index');
-    $trail->push('Create', route('akun-header.create'));
-});
+// Breadcrumbs::for('header_create', function (BreadcrumbTrail $trail) {
+//     $trail->parent('header_index');
+//     $trail->push('Create', route('akun-header.create'));
+// });
 
-Breadcrumbs::for('header_edit', function (BreadcrumbTrail $trail) {
-    $trail->parent('header_index');
-    $trail->push('Edit');
-});
+// Breadcrumbs::for('header_edit', function (BreadcrumbTrail $trail) {
+//     $trail->parent('header_index');
+//     $trail->push('Edit');
+// });
 
 //jurnal umum
 Breadcrumbs::for('jurnal_umum_index', function (BreadcrumbTrail $trail) {

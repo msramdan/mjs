@@ -84,6 +84,9 @@ class BillingController extends Controller
      */
     public function edit(Billing $billing)
     {
+        // kalo billing udah dibayar gabisa diedit
+        abort_if($billing->status == 'Paid', 403, 'billing already paid!');
+
         $this->billingRepository->loadRelations($billing);
 
         return view('accounting.billing.edit', compact('billing'));
@@ -98,8 +101,6 @@ class BillingController extends Controller
      */
     public function update(UpdateBillingRequest $request, Billing $billing)
     {
-
-        // dd($request);
         $this->billingRepository->update($request->validated(), $billing);
 
         Alert::toast('Update data berhasil', 'success');

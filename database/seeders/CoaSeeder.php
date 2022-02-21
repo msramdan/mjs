@@ -41,7 +41,7 @@ class CoaSeeder extends Seeder
                 'kode' => '1-1100',
                 'nama' => 'Kas & Bank',
                 'tipe' => 'Bank',
-                'kategori' => 'Detail',
+                'kategori' => 'Header',
                 'parent'  => 2,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -192,7 +192,6 @@ class CoaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
-
         ]);
     }
 }
