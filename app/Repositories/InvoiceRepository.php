@@ -2,8 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Accounting\AkunCoa;
-use App\Models\Accounting\Invoice;
+use App\Models\Accounting\{Coa, Invoice};
 use App\Models\Sale\Sale;
 use App\Models\Setting\SettingApp;
 use Illuminate\Support\Facades\DB;
@@ -49,8 +48,35 @@ class InvoiceRepository
         $attr = $request;
         $attr['sale_id'] = $request['sale'];
         $attr['user_id'] = auth()->id();
+        $dibayar = $this->removeComma($request['dibayar']);
 
-        Invoice::create($attr);
+        $invoice = Invoice::create($attr);
+
+        $noBukti = 'BKK-001';
+        $akunPiutang = Coa::select('id', 'kode')->findOrFail($request['akun_piutang']);
+
+        DB::table('jurnal_umum')->insert([
+            [
+                'tanggal' => now()->toDateString(),
+                'no_bukti' => $noBukti,
+                'coa_id' => $request['akun_piutang'],
+                'deskripsi' => 'Pembayaran akun beban ' . $akunPiutang->kode . ' untuk no.ref ' . $invoice->kode,
+                'debit' => $dibayar,
+                'kredit' => 0,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'tanggal' => now()->toDateString(),
+                'no_bukti' => $noBukti,
+                'coa_id' => $request['akun_pendapatan'],
+                'deskripsi' => 'lorem',
+                'debit' => 0,
+                'kredit' => $dibayar,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ]);
     }
 
     /**
@@ -82,7 +108,7 @@ class InvoiceRepository
         $sale = Sale::findOrFail($request['sale']);
 
         // remove coma
-        $dibayar = intval(str_replace(',', '', $request['nominal_invoice']));
+        $dibayar = $this->removeComma($request['nominal_invoice']);
 
         // kalo ada tanggal_dibayar dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request['nominal_invoice'] + $sale->total_dibayar
         if ($request['tanggal_dibayar'] && $invoice->status != 'Paid') {
@@ -131,7 +157,7 @@ class InvoiceRepository
 
             // sekarang masih static dulu
             $noBukti = 'BKK-001';
-            $akunBeban = AkunCoa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
+            $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
 
             DB::table('jurnal_umum')->insert([
                 [
@@ -153,13 +179,9 @@ class InvoiceRepository
                     'kredit' => $dibayar,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ]
+                ],
             ]);
-        } else {
-            // dump('8');
         }
-
-        // dd('end');
     }
 
     /**
@@ -245,5 +267,16 @@ class InvoiceRepository
             'invoice' => $invoice,
             'perusahaan' => $perusahaan
         ];
+    }
+
+    /**
+     * Remove comma from string and convert to int
+     *
+     * @param string $string
+     * @return string
+     */
+    private function removeComma(string $string)
+    {
+        return intval(str_replace(',', '', $string));
     }
 }

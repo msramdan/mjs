@@ -98,6 +98,8 @@ class InvoiceController extends Controller
      */
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
+        // return $request->validated();
+
         $this->invoiceRepository->update($request->validated(), $invoice);
 
         Alert::toast('Update data berhasil', 'success');

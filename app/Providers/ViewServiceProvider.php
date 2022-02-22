@@ -368,7 +368,7 @@ class ViewServiceProvider extends ServiceProvider
             // 'accounting.billing.create',
             'accounting.billing.edit',
             // 'accounting.invoice.create',
-            'accounting.invoice.edit',
+            // 'accounting.invoice.edit',
             // 'accounting.jurnal-umum.create',
             // 'accounting.jurnal-umum.edit',
         ], function ($view) {
@@ -387,6 +387,31 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'akunDetail',
                 Coa::select('id', 'kode', 'nama')->where('kategori', 'Detail')->orderBy('kode')->get()
+            );
+        });
+
+        // list list akunPiutang
+        View::composer([
+            'accounting.invoice.create',
+            'accounting.invoice.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunPiutang',
+                Coa::select('id', 'kode', 'nama')->where(['kategori' => 'Detail', 'tipe' => 'Euqity'])->orderBy('nama')->get()
+            );
+        });
+
+        // list list akunPendapatan
+        View::composer([
+            'accounting.invoice.create',
+            'accounting.invoice.edit',
+        ], function ($view) {
+            return $view->with(
+                'akunPendapatan',
+                Coa::select('id', 'kode', 'nama')
+                    ->where(['kategori' => 'Detail', 'tipe' => 'Income'])
+                    ->orderBy('nama')
+                    ->get()
             );
         });
 
