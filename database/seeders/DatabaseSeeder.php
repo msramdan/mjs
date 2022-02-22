@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             SpalSeeder::class,
             PurchaseSeeder::class,
             CoaSeeder::class,
+            SaleSeeder::class,
         ]);
     }
 }
