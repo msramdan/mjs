@@ -94,9 +94,9 @@
 
             @include('accounting.invoice.include._total')
 
-            {{-- coa --}}
+            {{-- ketika edit --}}
             @if (isset($invoice) && empty($show))
-                <div class="row mb-3">
+                <div class="row mb-2">
                     <div class="col-md-4">
                         <div class="form-group mb-2">
                             <label class="form-label" for="nominal-invoice">Nominal invoice</label>
@@ -124,33 +124,98 @@
                                 {{ isset($show) && $show ? 'disabled' : 'readonly' }} />
                         </div>
                     </div>
+                </div>
+            @endif
 
-                    <div class="col-md-6" id="col-akun-beban" style="display: none">
-                        <div class="form-group">
-                            <label for="akun-beban">Akun Beban</label>
-                            <select name="akun_beban" id="akun-beban" class="form-select">
-                                @foreach ($akunBeban as $ab)
-                                    <option value="{{ $ab->id }}">{{ $ab->kode . ' - ' . $ab->nama }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
+            {{-- coas --}}
+            <div class="row">
+                <div class="col-md-6 mb-2" id="col-akun-piutang">
+                    <div class="form-group">
+                        <label for="akun-piutang">Akun Piutang</label>
+                        <select name="akun_piutang" id="akun-piutang"
+                            class="form-select{{ isset($invoice) ? ' bg-secondary' : '' }}"
+                            {{ isset($invoice) ? 'disabled' : '' }}>
+                            @foreach ($akunPiutang as $apiu)
+                                <option value="{{ $apiu->id }}" @php
+                                    if (isset($invoice)) {
+                                        foreach ($invoice->jurnals as $jurnal) {
+                                            if ($jurnal->coa_id == $apiu->id) {
+                                                echo 'selected ';
+                                            }
+                                        }
+                                    }
+                                @endphp>
+                                    {{ $apiu->kode . ' - ' . $apiu->nama }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
+                </div>
 
-                    <div class="col-md-6" id="col-akun-sumber" style="display: none">
+                <div class="col-md-6 mb-2" id="col-akun-pendapatan">
+                    <div class="form-group">
+                        <label for="akun-pendapatan">Akun Pendapatan</label>
+                        <select name="akun_pendapatan" id="akun-pendapatan"
+                            class="form-select{{ isset($invoice) ? ' bg-secondary' : '' }}"
+                            {{ isset($invoice) ? 'disabled' : '' }}>
+                            @foreach ($akunPendapatan as $apndpt)
+                                <option value="{{ $apndpt->id }}" @php
+                                    if (isset($invoice)) {
+                                        foreach ($invoice->jurnals as $jurnal) {
+                                            if ($jurnal->coa_id == $apndpt->id) {
+                                                echo 'selected';
+                                            }
+                                        }
+                                    }
+                                @endphp>
+                                    {{ $apndpt->kode . ' - ' . $apndpt->nama }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                {{-- akun sumber & beban --}}
+                @isset($invoice)
+                    <div class="col-md-6" id="col-akun-sumber">
                         <div class="form-group">
                             <label for="akun-sumber">Akun Sumber</label>
                             <select name="akun_sumber" id="akun-sumber" class="form-select">
                                 @foreach ($akunSumber as $as)
-                                    <option value="{{ $as->id }}">
+                                    <option value="{{ $as->id }}" @php
+                                        foreach ($invoice->jurnals as $jurnal) {
+                                            if ($jurnal->coa_id == $as->id) {
+                                                echo 'selected';
+                                            }
+                                        }
+                                    @endphp>
                                         {{ $as->kode . ' - ' . $as->nama }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                </div>
-            @endif
+
+                    <div class="col-md-6" id="col-akun-beban">
+                        <div class="form-group">
+                            <label for="akun-beban">Akun Beban</label>
+                            <select name="akun_beban" id="akun-beban" class="form-select">
+                                @foreach ($akunPiutang as $apiu)
+                                    <option value="{{ $apiu->id }}" @php
+                                        foreach ($invoice->jurnals as $jurnal) {
+                                            if ($jurnal->coa_id == $apiu->id) {
+                                                echo 'selected ';
+                                            }
+                                        }
+                                    @endphp>
+                                        {{ $apiu->kode . ' - ' . $apiu->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endisset
+            </div>
 
             @empty($show)
                 <div class="col-md-12 mt-2">

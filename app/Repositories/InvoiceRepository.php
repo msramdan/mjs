@@ -2,8 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Accounting\AkunCoa;
-use App\Models\Accounting\Invoice;
+use App\Models\Accounting\{Coa, Invoice, JurnalUmum};
 use App\Models\Sale\Sale;
 use App\Models\Setting\SettingApp;
 use Illuminate\Support\Facades\DB;
@@ -49,8 +48,34 @@ class InvoiceRepository
         $attr = $request;
         $attr['sale_id'] = $request['sale'];
         $attr['user_id'] = auth()->id();
+        $dibayar = $this->removeComma($request['dibayar']);
 
-        Invoice::create($attr);
+        $invoice = Invoice::create($attr);
+
+        $noBukti = 'BKK-001';
+        $akunPiutang = Coa::select('id', 'kode')->findOrFail($request['akun_piutang']);
+
+        $jurnals = [];
+
+        $jurnals[] = new JurnalUmum([
+            'tanggal' => now()->toDateString(),
+            'no_bukti' => $noBukti,
+            'coa_id' => $request['akun_piutang'],
+            'deskripsi' => 'Pembayaran akun beban ' . $akunPiutang->kode . ' untuk no.ref ' . $invoice->kode,
+            'debit' => $dibayar,
+            'kredit' => 0,
+        ]);
+
+        $jurnals[] = new JurnalUmum([
+            'tanggal' => now()->toDateString(),
+            'no_bukti' => $noBukti,
+            'coa_id' => $request['akun_pendapatan'],
+            'deskripsi' => 'lorem',
+            'debit' => 0,
+            'kredit' => $dibayar,
+        ]);
+
+        $invoice->jurnals()->saveMany($jurnals);
     }
 
     /**
@@ -66,7 +91,9 @@ class InvoiceRepository
             'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'sale.detail_sale.item:id,kode,nama,unit_id',
             'sale.detail_sale.item.unit:id,nama',
-            'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status'
+            'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status',
+            'jurnals:id,coa_id,ref_type,ref_id',
+            'jurnals.coa:id,tipe'
         );
     }
 
@@ -82,7 +109,7 @@ class InvoiceRepository
         $sale = Sale::findOrFail($request['sale']);
 
         // remove coma
-        $dibayar = intval(str_replace(',', '', $request['nominal_invoice']));
+        $dibayar = $this->removeComma($request['nominal_invoice']);
 
         // kalo ada tanggal_dibayar dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request['nominal_invoice'] + $sale->total_dibayar
         if ($request['tanggal_dibayar'] && $invoice->status != 'Paid') {
@@ -131,9 +158,10 @@ class InvoiceRepository
 
             // sekarang masih static dulu
             $noBukti = 'BKK-001';
-            $akunBeban = AkunCoa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
+            $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
 
-            DB::table('jurnal_umum')->insert([
+            $jurnals = [];
+            $jurnals[] = new JurnalUmum(
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
@@ -143,7 +171,10 @@ class InvoiceRepository
                     'kredit' => 0,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],
+                ]
+            );
+
+            $jurnals[] = new JurnalUmum(
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
@@ -154,12 +185,10 @@ class InvoiceRepository
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]
-            ]);
-        } else {
-            // dump('8');
-        }
+            );
 
-        // dd('end');
+            $invoice->jurnals()->saveMany($jurnals);
+        }
     }
 
     /**
@@ -245,5 +274,16 @@ class InvoiceRepository
             'invoice' => $invoice,
             'perusahaan' => $perusahaan
         ];
+    }
+
+    /**
+     * Remove comma from string and convert to int
+     *
+     * @param string $string
+     * @return string
+     */
+    private function removeComma(string $string)
+    {
+        return intval(str_replace(',', '', $string));
     }
 }

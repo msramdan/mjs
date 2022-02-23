@@ -50,6 +50,13 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="5">Total Kredit & Debit</th>
+                                        <th>{{ number_format($totalDebit) }}</th>
+                                        <th colspan="2">{{ number_format($totalKredit) }}</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

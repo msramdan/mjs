@@ -192,6 +192,66 @@ class CoaSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                // 18
+                'kode' => '10-0000',
+                'nama' => 'Piutang',
+                'tipe' => 'Euqity',
+                'kategori' => 'Header',
+                'parent'  => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 19
+                'kode' => '10-1000',
+                'nama' => 'Piutang PT. XXX XXX',
+                'tipe' => 'Euqity',
+                'kategori' => 'Detail',
+                'parent'  => 18,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 20
+                'kode' => '10-1100',
+                'nama' => 'Piutang PT. YYY YYY',
+                'tipe' => 'Euqity',
+                'kategori' => 'Detail',
+                'parent'  => 18,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 21
+                'kode' => '11-0000',
+                'nama' => 'Pendapatan',
+                'tipe' => 'Income',
+                'kategori' => 'Header',
+                'parent'  => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 22
+                'kode' => '11-1000',
+                'nama' => 'Pendapatan Tetap',
+                'tipe' => 'Income',
+                'kategori' => 'Detail',
+                'parent'  => 21,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                // 23
+                'kode' => '11-1000',
+                'nama' => 'Pendapatan Tidak Tetap',
+                'tipe' => 'Income',
+                'kategori' => 'Detail',
+                'parent'  => 21,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ]);
     }
 }

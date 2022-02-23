@@ -39,6 +39,11 @@ class Billing extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function jurnals()
+    {
+        return $this->morphMany(JurnalUmum::class, 'ref');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::createFromTimeString($value)->format('d m Y H:i');
