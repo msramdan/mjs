@@ -25,6 +25,9 @@ class JurnalUmumController extends Controller
      */
     public function index()
     {
+        $totalKredit = JurnalUmum::sum('kredit');
+        $totalDebit = JurnalUmum::sum('debit');
+
         if (request()->ajax()) {
             $query = JurnalUmum::with('coa:id,kode,nama');
 
@@ -39,7 +42,7 @@ class JurnalUmumController extends Controller
                 ->toJson();
         }
 
-        return view('accounting.jurnal-umum.index');
+        return view('accounting.jurnal-umum.index', compact('totalKredit', 'totalDebit'));
     }
 
     /**
