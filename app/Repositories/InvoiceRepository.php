@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\Accounting\{Coa, Invoice};
+use App\Models\Accounting\{Coa, Invoice, JurnalUmum};
 use App\Models\Sale\Sale;
 use App\Models\Setting\SettingApp;
 use Illuminate\Support\Facades\DB;
@@ -55,28 +55,27 @@ class InvoiceRepository
         $noBukti = 'BKK-001';
         $akunPiutang = Coa::select('id', 'kode')->findOrFail($request['akun_piutang']);
 
-        DB::table('jurnal_umum')->insert([
-            [
-                'tanggal' => now()->toDateString(),
-                'no_bukti' => $noBukti,
-                'coa_id' => $request['akun_piutang'],
-                'deskripsi' => 'Pembayaran akun beban ' . $akunPiutang->kode . ' untuk no.ref ' . $invoice->kode,
-                'debit' => $dibayar,
-                'kredit' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'tanggal' => now()->toDateString(),
-                'no_bukti' => $noBukti,
-                'coa_id' => $request['akun_pendapatan'],
-                'deskripsi' => 'lorem',
-                'debit' => 0,
-                'kredit' => $dibayar,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]
+        $jurnals = [];
+
+        $jurnals[] = new JurnalUmum([
+            'tanggal' => now()->toDateString(),
+            'no_bukti' => $noBukti,
+            'coa_id' => $request['akun_piutang'],
+            'deskripsi' => 'Pembayaran akun beban ' . $akunPiutang->kode . ' untuk no.ref ' . $invoice->kode,
+            'debit' => $dibayar,
+            'kredit' => 0,
         ]);
+
+        $jurnals[] = new JurnalUmum([
+            'tanggal' => now()->toDateString(),
+            'no_bukti' => $noBukti,
+            'coa_id' => $request['akun_pendapatan'],
+            'deskripsi' => 'lorem',
+            'debit' => 0,
+            'kredit' => $dibayar,
+        ]);
+
+        $invoice->jurnals()->saveMany($jurnals);
     }
 
     /**
@@ -92,7 +91,9 @@ class InvoiceRepository
             'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'sale.detail_sale.item:id,kode,nama,unit_id',
             'sale.detail_sale.item.unit:id,nama',
-            'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status'
+            'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status',
+            'jurnals:id,coa_id,ref_type,ref_id',
+            'jurnals.coa:id,tipe'
         );
     }
 
@@ -159,7 +160,8 @@ class InvoiceRepository
             $noBukti = 'BKK-001';
             $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
 
-            DB::table('jurnal_umum')->insert([
+            $jurnals = [];
+            $jurnals[] = new JurnalUmum(
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
@@ -169,7 +171,10 @@ class InvoiceRepository
                     'kredit' => 0,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],
+                ]
+            );
+
+            $jurnals[] = new JurnalUmum(
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
@@ -179,8 +184,10 @@ class InvoiceRepository
                     'kredit' => $dibayar,
                     'created_at' => now(),
                     'updated_at' => now(),
-                ],
-            ]);
+                ]
+            );
+
+            $invoice->jurnals()->saveMany($jurnals);
         }
     }
 

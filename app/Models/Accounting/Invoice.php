@@ -2,11 +2,12 @@
 
 namespace App\Models\Accounting;
 
-use App\Models\Sale\Sale;
-use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Sale\Sale;
+use App\Models\Accounting\JurnalUmum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Invoice extends Model
 {
@@ -39,6 +40,11 @@ class Invoice extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function jurnals()
+    {
+        return $this->morphMany(JurnalUmum::class, 'ref');
     }
 
     // public function getCreatedAtAttribute($value)

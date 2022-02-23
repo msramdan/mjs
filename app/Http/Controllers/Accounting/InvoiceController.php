@@ -84,6 +84,10 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
+        // $invoice->load('jurnals:id,coa_id,ref_type,ref_id', 'jurnals.coa:id,tipe');
+
+        // return $invoice;
+
         $this->invoiceRepository->loadRelations($invoice);
 
         return view('accounting.invoice.edit', compact('invoice'));
@@ -115,6 +119,8 @@ class InvoiceController extends Controller
      */
     public function destroy(Invoice $invoice)
     {
+        abort_if($invoice->status == 'Paid', 403);
+
         $this->invoiceRepository->delete($invoice);
 
         Alert::toast('Hapus data berhasil', 'success');

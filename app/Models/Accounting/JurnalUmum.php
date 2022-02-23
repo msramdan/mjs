@@ -2,8 +2,8 @@
 
 namespace App\Models\Accounting;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class JurnalUmum extends Model
 {
@@ -18,6 +18,8 @@ class JurnalUmum extends Model
         'deskripsi',
         'debit',
         'kredit',
+        'ref_id',
+        'ref_type'
     ];
 
     protected $casts = ['tanggal' => 'date:d/m/Y'];
@@ -25,5 +27,10 @@ class JurnalUmum extends Model
     public function coa()
     {
         return $this->belongsTo(Coa::class, 'coa_id');
+    }
+
+    public function ref()
+    {
+        return $this->morphTo();
     }
 }
