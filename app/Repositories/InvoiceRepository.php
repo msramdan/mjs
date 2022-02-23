@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\Accounting\{Coa, Invoice, JurnalUmum};
 use App\Models\Sale\Sale;
 use App\Models\Setting\SettingApp;
-use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -93,7 +92,6 @@ class InvoiceRepository
             'sale.detail_sale.item.unit:id,nama',
             'sale.invoices:sale_id,id,kode,tanggal_dibayar,tanggal_invoice,dibayar,status',
             'jurnals:id,coa_id,ref_type,ref_id',
-            'jurnals.coa:id,tipe'
         );
     }
 
@@ -280,7 +278,7 @@ class InvoiceRepository
      * Remove comma from string and convert to int
      *
      * @param string $string
-     * @return string
+     * @return int
      */
     private function removeComma(string $string)
     {

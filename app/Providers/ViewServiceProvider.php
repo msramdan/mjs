@@ -462,6 +462,10 @@ class ViewServiceProvider extends ServiceProvider
                 'coaCategories',
                 collect([
                     (object)[
+                        'kode' => 'Parent',
+                        'nama' => 'Parent'
+                    ],
+                    (object)[
                         'kode' => 'Header',
                         'nama' => 'Header'
                     ],

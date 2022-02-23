@@ -27,6 +27,7 @@ class UpdateCoaRequest extends FormRequest
             'kode' => 'required|min:3|max:30|unique:coas,kode,' . $this->coa,
             'nama' => 'required|min:3|max:30',
             'tipe' => 'required',
+            'kategori' => 'required',
             'parent' => 'nullable'
         ];
     }

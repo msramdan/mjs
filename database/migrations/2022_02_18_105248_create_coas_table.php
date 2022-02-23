@@ -33,6 +33,7 @@ class CreateCoasTable extends Migration
                 'Other Expenses'
             ]);
             $table->enum('kategori', [
+                'Parent',
                 'Header',
                 'Detail'
             ]);

@@ -47,6 +47,21 @@
                             </div>
 
                             <div class="form-group mb-3">
+                                <label class="form-label" for="kategori">Kategori</label>
+                                <select class="form-select @error('kategori') is-invalid @enderror" name="kategori"
+                                    id="kategori">
+                                    @foreach ($coaCategories as $kategori)
+                                        <option value="{{ $kategori->kode }}">
+                                            {{ $kategori->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('kategori')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group mb-3">
                                 <label class="form-label" for="tipe">Tipe</label>
                                 <select class="form-select @error('tipe') is-invalid @enderror" name="tipe" id="tipe">
                                     @foreach ($coaTypes as $tipe)
