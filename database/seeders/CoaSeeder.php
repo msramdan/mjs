@@ -21,7 +21,7 @@ class CoaSeeder extends Seeder
                 'kode' => '1-0000',
                 'nama' => 'Aktiva',
                 'tipe' => 'Asset',
-                'kategori' => 'Header',
+                'kategori' => 'Parent',
                 'parent'  => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -93,7 +93,7 @@ class CoaSeeder extends Seeder
                 'kode' => '2-0000',
                 'nama' => 'Kewajiban',
                 'tipe' => 'Bank',
-                'kategori' => 'Header',
+                'kategori' => 'Parent',
                 'parent'  => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -125,7 +125,7 @@ class CoaSeeder extends Seeder
                 'kode' => '6-0000',
                 'nama' => 'Beban',
                 'tipe' => 'Expense',
-                'kategori' => 'Header',
+                'kategori' => 'Parent',
                 'parent'  => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -167,7 +167,7 @@ class CoaSeeder extends Seeder
                 'kode' => '9-0000',
                 'nama' => 'Biaya Lain lain',
                 'tipe' => 'Other Expenses',
-                'kategori' => 'Header',
+                'kategori' => 'Parent',
                 'parent'  => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -197,7 +197,7 @@ class CoaSeeder extends Seeder
                 'kode' => '10-0000',
                 'nama' => 'Piutang',
                 'tipe' => 'Euqity',
-                'kategori' => 'Header',
+                'kategori' => 'Parent',
                 'parent'  => null,
                 'created_at' => now(),
                 'updated_at' => now()
@@ -227,7 +227,7 @@ class CoaSeeder extends Seeder
                 'kode' => '11-0000',
                 'nama' => 'Pendapatan',
                 'tipe' => 'Income',
-                'kategori' => 'Header',
+                'kategori' => 'Parent',
                 'parent'  => null,
                 'created_at' => now(),
                 'updated_at' => now()

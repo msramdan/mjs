@@ -586,6 +586,12 @@ Breadcrumbs::for('buku_besar_index', function (BreadcrumbTrail $trail) {
     $trail->push(trans('sidebar.sub_menu.buku_besar'), route('buku-besar.index'));
 });
 
+Breadcrumbs::for('neraca_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push(trans('sidebar.sub_menu.neraca'), route('neraca.index'));
+});
+
+
 //grup
 // Breadcrumbs::for('grup_index', function (BreadcrumbTrail $trail) {
 //     $trail->parent('accounting');

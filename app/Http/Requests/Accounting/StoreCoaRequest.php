@@ -27,7 +27,8 @@ class StoreCoaRequest extends FormRequest
             'kode' => 'required|min:3|max:30|unique:coas,kode',
             'nama' => 'required|min:3|max:30',
             'tipe' => 'required',
-            'parent' => 'nullable'
+            'kategori' => 'required',
+            'parent' => 'nullable',
         ];
     }
 }

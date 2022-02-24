@@ -151,7 +151,7 @@ class BillingRepository
                 ]);
 
                 // fee bank
-                if ($request['TextFeeBank']) {
+                if (isset($request['TextFeeBank'])) {
                     // debit
                     $jurnals[] = new JurnalUmum([
                         'tanggal' => now()->toDateString(),

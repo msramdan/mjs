@@ -25,21 +25,9 @@ class CoaController extends Controller
      */
     public function index()
     {
-        $coas = Coa::get();
+        $coas = Coa::paginate(10);
 
-        // $coaHeaderIds = [];
         $coaHeaders = Coa::select('id', 'kode', 'nama')->where('parent', null)->get();
-        // foreach ($coaHeaders as $header) {
-        //     $coaHeaderIds[] = $header->id;
-        // }
-
-        // $coaSubHeaderIds = [];
-        // $coaSubHeaders = Coa::whereIn('parent_id', $coaHeaderIds)->get();
-        // foreach ($coaSubHeaders as $coaSubHeader) {
-        //     $coaSubHeaderIds[] = $coaSubHeader->id;
-        // }
-
-        // $coaAkuns = Coa::whereIn('parent_id', $coaSubHeaderIds)->get();
 
         return view('accounting.coa.index', compact('coas', 'coaHeaders'));
     }
@@ -64,13 +52,13 @@ class CoaController extends Controller
     {
         $attr = $request->validated();
 
-        if ($request->parent) {
-            $attr['kategori'] = 'Detail';
-        } else {
-            $attr['kategori'] = 'Header';
-        }
+        // if ($request->parent) {
+        //     $attr['kategori'] = 'Detail';
+        // } else {
+        //     $attr['kategori'] = 'Header';
+        // }
 
-        Coa::create($attr);
+        Coa::create($request->validated());
 
         Alert::toast('Tambah data berhasil', 'success');
 
