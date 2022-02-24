@@ -354,6 +354,7 @@ class ViewServiceProvider extends ServiceProvider
             'accounting.billing.edit',
             // 'accounting.invoice.create',
             'accounting.invoice.edit',
+            'accounting.invoice.show',
             // 'accounting.jurnal-umum.create',
             // 'accounting.jurnal-umum.edit',
         ], function ($view) {
@@ -394,6 +395,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.invoice.create',
             'accounting.invoice.edit',
+            'accounting.invoice.show',
         ], function ($view) {
             return $view->with(
                 'akunPiutang',
@@ -405,6 +407,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer([
             'accounting.invoice.create',
             'accounting.invoice.edit',
+            'accounting.invoice.show',
         ], function ($view) {
             return $view->with(
                 'akunPendapatan',

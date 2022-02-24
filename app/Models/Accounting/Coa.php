@@ -16,4 +16,9 @@ class Coa extends Model
         'kategori',
         'parent'
     ];
+
+    public function jurnals()
+    {
+        return $this->hasMany(JurnalUmum::class);
+    }
 }

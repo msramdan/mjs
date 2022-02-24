@@ -86,6 +86,7 @@ class InvoiceRepository
     public function loadRelations($invoice)
     {
         return $invoice->load(
+            'sale:id,kode,spal_id,attn,tanggal,lunas,catatan',
             'sale.spal:id,kode',
             'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
             'sale.detail_sale.item:id,kode,nama,unit_id',
@@ -111,7 +112,6 @@ class InvoiceRepository
 
         // kalo ada tanggal_dibayar dan $invoice belum paid maka ubah total_dibayar pada sales dengan $request['nominal_invoice'] + $sale->total_dibayar
         if ($request['tanggal_dibayar'] && $invoice->status != 'Paid') {
-            // dump('1');
 
             // kalo jumlah yg dibayarkan lebih dari grand total
             if (($sale->total_dibayar + $dibayar) > $sale->grand_total) {
@@ -119,14 +119,12 @@ class InvoiceRepository
                 Alert::toast('Update data gagal', 'error');
 
                 return redirect()->route('invoice.index');
-                // dump('2');
             }
 
             if ($sale->total_dibayar + $dibayar == $sale->grand_total) {
                 $sale->update([
                     'lunas' => 1,
                 ]);
-                // dump('3');
             }
 
             $sale->update([
@@ -138,8 +136,6 @@ class InvoiceRepository
                 'total_dibayar' => $sale->total_dibayar - $dibayar,
                 'lunas' => 0,
             ]);
-
-            // dump('4');
         }
 
         $invoice->update([
@@ -152,19 +148,19 @@ class InvoiceRepository
         ]);
 
         if ($request['tanggal_dibayar'] && $request['status_invoice'] == 'Paid') {
-            // dump('5');
 
             // sekarang masih static dulu
             $noBukti = 'BKK-001';
             $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
 
             $jurnals = [];
+
             $jurnals[] = new JurnalUmum(
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
-                    'coa_id' => $request['akun_beban'],
-                    'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $invoice->kode,
+                    'coa_id' => $request['akun_sumber'],
+                    'deskripsi' => 'lorem',
                     'debit' => $dibayar,
                     'kredit' => 0,
                     'created_at' => now(),
@@ -176,8 +172,8 @@ class InvoiceRepository
                 [
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
-                    'coa_id' => $request['akun_sumber'],
-                    'deskripsi' => 'lorem',
+                    'coa_id' => $request['akun_beban'],
+                    'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $invoice->kode,
                     'debit' => 0,
                     'kredit' => $dibayar,
                     'created_at' => now(),
