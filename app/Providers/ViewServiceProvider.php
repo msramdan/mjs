@@ -399,7 +399,7 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'akunPiutang',
-                Coa::select('id', 'kode', 'nama')->where(['kategori' => 'Detail', 'tipe' => 'Euqity'])->orderBy('nama')->get()
+                Coa::select('id', 'kode', 'nama')->where(['kategori' => 'Detail', 'tipe' => 'Account Receivable'])->orderBy('nama')->get()
             );
         });
 

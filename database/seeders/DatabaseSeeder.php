@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             RequestFormSeeder::class,
             SpalSeeder::class,
             PurchaseSeeder::class,
-            CoaSeeder::class,
+            // CoaSeeder::class,
             SaleSeeder::class,
         ]);
     }

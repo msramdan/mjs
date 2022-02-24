@@ -27,7 +27,10 @@ class CoaController extends Controller
     {
         $coas = Coa::paginate(10);
 
-        $coaHeaders = Coa::select('id', 'kode', 'nama')->where('parent', null)->get();
+        $coaHeaders = Coa::select('id', 'kode', 'nama')
+        ->where('parent', null)
+        ->orderBy('kode','asc')
+        ->get();
 
         return view('accounting.coa.index', compact('coas', 'coaHeaders'));
     }

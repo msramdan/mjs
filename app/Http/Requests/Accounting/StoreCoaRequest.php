@@ -24,8 +24,8 @@ class StoreCoaRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode' => 'required|min:3|max:30|unique:coas,kode',
-            'nama' => 'required|min:3|max:30',
+            'kode' => 'required|min:3|max:50|unique:coas,kode',
+            'nama' => 'required|min:3|max:50',
             'tipe' => 'required',
             'kategori' => 'required',
             'parent' => 'nullable',

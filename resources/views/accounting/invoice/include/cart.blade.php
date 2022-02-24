@@ -177,7 +177,7 @@
                 @isset($invoice)
                     <div class="col-md-6" id="col-akun-sumber">
                         <div class="form-group">
-                            <label for="akun-sumber">Akun Sumber</label>
+                            <label for="akun-sumber">Akun Dana Masuk</label>
                             <select name="akun_sumber" id="akun-sumber" class="form-select"
                                 {{ isset($show) ? 'disabled' : '' }} {!! isset($show) ? ' style="background-color: rgba(88,92,102,.5)"' : '' !!}>
                                 @foreach ($akunSumber as $as)

@@ -10,9 +10,11 @@
     @endcan
 
     @can('edit invoice')
-        <a href="{{ route('invoice.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
-            <i class="fas fa-edit"></i>
-        </a>
+        @if ($model->status == 'Unpaid')
+            <a href="{{ route('invoice.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
+                <i class="fas fa-edit"></i>
+            </a>
+        @endif
     @endcan
 
     @can('delete invoice')
