@@ -52,5 +52,6 @@ return [
         'rf_loan' => 'Request Form Loan',
         'jurnal_umum' => 'General Journal',
         'buku_besar' => 'General Ledger',
+        'neraca' => 'Neraca',
     ],
 ];

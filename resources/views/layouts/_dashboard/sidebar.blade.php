@@ -145,6 +145,10 @@
                                         <a href="{{ route('buku-besar.index') }}" class="menu-link">
                                             <div class="menu-text">{{ trans('sidebar.sub_menu.buku_besar') }}</div>
                                         </a>
+
+                                        <a href="{{ route('neraca.index') }}" class="menu-link">
+                                            <div class="menu-text">{{ trans('sidebar.sub_menu.neraca') }}</div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
