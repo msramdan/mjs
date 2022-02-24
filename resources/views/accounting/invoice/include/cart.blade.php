@@ -132,7 +132,7 @@
                 <div class="col-md-6 mb-2" id="col-akun-piutang">
                     <div class="form-group">
                         <label for="akun-piutang">Akun Piutang</label>
-                        <select name="akun_piutang" id="akun-piutang" class="form-select"
+                        <select name="akun_piutang" id="akun-piutang" class="form-select theSelect"
                             {{ isset($invoice) ? 'disabled' : '' }} {!! isset($invoice) ? ' style="background-color: rgba(88,92,102,.5)"' : '' !!}>
                             @foreach ($akunPiutang as $apiu)
                                 <option value="{{ $apiu->id }}" @php
@@ -154,7 +154,7 @@
                 <div class="col-md-6 mb-2" id="col-akun-pendapatan">
                     <div class="form-group">
                         <label for="akun-pendapatan">Akun Pendapatan</label>
-                        <select name="akun_pendapatan" id="akun-pendapatan" class="form-select"
+                        <select name="akun_pendapatan" id="akun-pendapatan" class="form-select theSelect"
                             {{ isset($invoice) ? 'disabled' : '' }} {!! isset($invoice) ? ' style="background-color: rgba(88,92,102,.5)"' : '' !!}>
                             @foreach ($akunPendapatan as $apndpt)
                                 <option value="{{ $apndpt->id }}" @php
@@ -178,7 +178,7 @@
                     <div class="col-md-6" id="col-akun-sumber">
                         <div class="form-group">
                             <label for="akun-sumber">Akun Dana Masuk</label>
-                            <select name="akun_sumber" id="akun-sumber" class="form-select"
+                            <select name="akun_sumber" id="akun-sumber" class="form-select theSelect"
                                 {{ isset($show) ? 'disabled' : '' }} {!! isset($show) ? ' style="background-color: rgba(88,92,102,.5)"' : '' !!}>
                                 @foreach ($akunSumber as $as)
                                     <option value="{{ $as->id }}" @php
@@ -201,7 +201,7 @@
                         @endphp
                         <div class="form-group">
                             <label for="akun-beban">Akun Beban</label>
-                            <select name="akun_beban" id="akun-beban" class="form-select" disabled
+                            <select name="akun_beban" id="akun-beban" class="form-select theSelect" disabled
                                 style="background-color: rgba(88,92,102,.5)">
                                 @foreach ($akunPiutang as $apiu)
                                     <option value="{{ $apiu->id }}" @php
