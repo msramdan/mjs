@@ -32,10 +32,10 @@ class UpdateItemRequest extends FormRequest
             'deskripsi' => 'nullable|string|min:3',
             'foto' => 'nullable|image|max:1024',
             'stok' => 'nullable|integer',
-            'supplier' => 'nullable|exists:suppliers,id|array',
-            'harga_beli' => 'nullable|array',
+            'supplier' => 'nullable|exists:suppliers,id',
+            'harga_beli' => 'nullable',
             'supplier.*' => 'nullable|exists:suppliers,id',
-            'harga_beli.*' => 'nullable|numeric'
+            'harga_beli.*' => 'nullable'
         ];
     }
 }
