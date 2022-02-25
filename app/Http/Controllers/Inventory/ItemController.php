@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
 use App\Models\Inventory\{Item, DetailItem};
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -33,7 +32,6 @@ class ItemController extends Controller
             $query = Item::with(
                 'category:id,nama',
                 'unit:id,nama',
-                // 'akun_coa:id,nama'
             );
 
             return DataTables::of($query)
@@ -47,9 +45,6 @@ class ItemController extends Controller
                 ->addColumn('category', function ($row) {
                     return $row->category->nama;
                 })
-                // ->addColumn('akun_coa', function ($row) {
-                //     return $row->akun_coa->nama;
-                // })
                 ->addColumn('unit', function ($row) {
                     return $row->unit->nama;
                 })
@@ -82,7 +77,6 @@ class ItemController extends Controller
             $attr = $request->validated();
             $attr['category_id'] = $request->category;
             $attr['unit_id'] = $request->unit;
-            // $attr['akun_coa_id'] = $request->akun_coa;
             $attr['stok'] = $request->soh;
             $attr['harga_estimasi'] = $request->harga_estimasi;
             $attr['foto'] = null;
@@ -144,7 +138,6 @@ class ItemController extends Controller
             $attr = $request->validated();
             $attr['category_id'] = $request->category;
             $attr['unit_id'] = $request->unit;
-            // $attr['akun_coa_id'] = $request->akun_coa;
             $attr['stok'] = $request->soh;
             $attr['harga_estimasi'] = $request->harga_estimasi;
 
@@ -169,9 +162,9 @@ class ItemController extends Controller
                         'supplier_id' => $value,
                         'harga_beli' => $request->harga_beli[$i]
                     ]);
-
-                    $item->detail_items()->saveMany($detailItem);
                 }
+
+                $item->detail_items()->saveMany($detailItem);
             }
         });
 

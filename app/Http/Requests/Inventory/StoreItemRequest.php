@@ -32,10 +32,10 @@ class StoreItemRequest extends FormRequest
             'deskripsi' => 'nullable|string|min:3',
             'foto' => 'nullable|image|max:1024',
             'stok' => 'nullable|integer',
-            'supplier' => 'exists:suppliers,id|array',
-            'harga_beli' => 'array',
-            'supplier.*' => 'exists:suppliers,id',
-            'harga_beli.*' => 'numeric'
+            'supplier' => 'nullable|exists:suppliers,id',
+            'harga_beli' => 'nullable',
+            'supplier.*' => 'nullable|exists:suppliers,id',
+            'harga_beli.*' => 'nullable'
         ];
     }
 }
