@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class BukuBesarController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view buku besar');
+    }
+
     /**
      * Handle the incoming request.
      *

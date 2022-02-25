@@ -477,6 +477,18 @@ return [
             ],
         ],
         [
+            'group' => 'buku besar',
+            'lists' => [
+                'view buku besar',
+            ],
+        ],
+        [
+            'group' => 'neraca',
+            'lists' => [
+                'view neraca',
+            ],
+        ],
+        [
             'group' => 'aplikasi',
             'lists' => [
                 'setting aplikasi',

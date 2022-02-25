@@ -130,7 +130,7 @@
                             </div>
                         @endcanany --}}
 
-                        @can('view jurnal umum')
+                        @canany(['view jurnal umum', 'view buku besar'])
                             <div class="menu-item has-sub closed">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Report</div>
@@ -138,21 +138,27 @@
                                 </a>
                                 <div class="menu-submenu" style="display: none;">
                                     <div class="menu-item">
-                                        <a href="{{ route('jurnal-umum.index') }}" class="menu-link">
-                                            <div class="menu-text">{{ trans('sidebar.sub_menu.jurnal_umum') }}</div>
-                                        </a>
+                                        @can('view jurnal umum')
+                                            <a href="{{ route('jurnal-umum.index') }}" class="menu-link">
+                                                <div class="menu-text">{{ trans('sidebar.sub_menu.jurnal_umum') }}</div>
+                                            </a>
+                                        @endcan
 
-                                        <a href="{{ route('buku-besar.index') }}" class="menu-link">
-                                            <div class="menu-text">{{ trans('sidebar.sub_menu.buku_besar') }}</div>
-                                        </a>
+                                        @can('view buku besar')
+                                            <a href="{{ route('buku-besar.index') }}" class="menu-link">
+                                                <div class="menu-text">{{ trans('sidebar.sub_menu.buku_besar') }}</div>
+                                            </a>
+                                        @endcan
 
-                                        <a href="{{ route('neraca.index') }}" class="menu-link">
-                                            <div class="menu-text">{{ trans('sidebar.sub_menu.neraca') }}</div>
-                                        </a>
+                                        @can('view neraca')
+                                            <a href="{{ route('neraca.index') }}" class="menu-link">
+                                                <div class="menu-text">{{ trans('sidebar.sub_menu.neraca') }}</div>
+                                            </a>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
-                        @endcan
+                        @endcanany
                     </div>
                 </div>
             @endcanany
