@@ -50,8 +50,8 @@ return [
         'dokumen_hrga' => 'HRGA Document',
         'rf_purchase' => 'Request Form Purchase',
         'rf_loan' => 'Request Form Loan',
-        'jurnal_umum' => 'General Journal',
-        'buku_besar' => 'General Ledger',
+        'jurnal_umum' => 'General Ledger',
+        'buku_besar' => 'Ledger',
         'neraca' => 'Neraca',
     ],
 ];

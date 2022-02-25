@@ -41,7 +41,7 @@
 
                             <div class="form-group mb-2">
                                 <label for="coa">COA</label>
-                                <select name="coa" id="coa" class="form-select" required>
+                                <select name="coa" id="coa" class="form-select theSelect" required>
                                     <option value="" selected disabled>-- Pilih COA -- </option>
                                     @foreach ($akunDetail as $ad)
                                         <option value="{{ $ad->id }}"
