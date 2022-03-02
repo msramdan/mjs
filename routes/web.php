@@ -7,7 +7,8 @@ use App\Http\Controllers\Accounting\{
     CoaController,
     InvoiceController,
     JurnalUmumController,
-    NeracaController
+    NeracaController,
+    LabarugiController
 };
 use App\Http\Controllers\Contact\{
     CustomerController,
@@ -212,6 +213,7 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::resource('jurnal-umum', JurnalUmumController::class)->except('show', 'delete');
     Route::get('buku-besar', BukuBesarController::class)->name('buku-besar.index');
     Route::get('neraca', NeracaController::class)->name('neraca.index');
+    Route::get('labarugi', LabarugiController::class)->name('labarugi.index');
 });
 
 // Payroll

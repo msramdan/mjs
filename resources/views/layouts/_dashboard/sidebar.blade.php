@@ -155,6 +155,11 @@
                                                 <div class="menu-text">{{ trans('sidebar.sub_menu.neraca') }}</div>
                                             </a>
                                         @endcan
+                                        {{-- @can('view labarugi') --}}
+                                            <a href="{{ route('labarugi.index') }}" class="menu-link">
+                                                <div class="menu-text">{{ trans('sidebar.sub_menu.labarugi') }}</div>
+                                            </a>
+                                        {{-- @endcan --}}
                                     </div>
                                 </div>
                             </div>

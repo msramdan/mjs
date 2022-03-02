@@ -53,5 +53,6 @@ return [
         'jurnal_umum' => 'General Ledger',
         'buku_besar' => 'Ledger',
         'neraca' => 'Neraca',
+        'labarugi' => 'Profit and Loss',
     ],
 ];

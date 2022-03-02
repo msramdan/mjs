@@ -38,6 +38,7 @@ class CreateCoasTable extends Migration
                 'Detail'
             ]);
             $table->tinyInteger('parent')->nullable();
+            $table->string('type_report', 30)->nullable();
             $table->timestamps();
         });
     }

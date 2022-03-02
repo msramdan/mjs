@@ -25,7 +25,7 @@
             <div class="col-md-12">
                 <div class="panel panel-inverse">
                     <div class="panel-heading">
-                        <h4 class="panel-title">Laporan Neraca</h4>
+                        <h4 class="panel-title">Laporan Laba Rugi</h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
                                 <i class="fa fa-redo"></i>
@@ -43,7 +43,7 @@
                             <table id="tree-table" class="table table-hover table-bordered">
                                 <tbody>
                                     <th>Akun COA</th>
-                                    <th>Neraca</th>
+                                    <th>Laba Rugi</th>
                                     @foreach ($coaHeaders as $header)
                                         {{-- 1 debit kredit parent --}}
 

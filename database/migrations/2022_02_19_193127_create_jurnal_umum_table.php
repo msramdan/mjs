@@ -12,7 +12,8 @@ class CreateJurnalUmumTable extends Migration
             $table->id();
             $table->date('tanggal');
             $table->string('no_bukti');
-            $table->foreignId('coa_id')->constrained('coas');
+            $table->foreignId('coa_id');
+            // $table->foreignId('coa_id')->constrained('coas');
             $table->string('deskripsi');
             $table->integer('debit');
             $table->integer('kredit');

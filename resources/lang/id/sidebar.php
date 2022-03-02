@@ -52,5 +52,6 @@ return [
         'jurnal_umum' => 'Jurnal Umum',
         'buku_besar' => 'Buku Besar',
         'neraca' => 'Neraca',
+        'labarugi' => 'Laba dan Rugi',
     ],
 ];

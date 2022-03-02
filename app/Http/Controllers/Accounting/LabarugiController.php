@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\Accounting;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Accounting\Coa;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
-use App\Models\Accounting\JurnalUmum;
 
-class NeracaController extends Controller
+class LabarugiController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request)
@@ -23,6 +21,6 @@ class NeracaController extends Controller
         ->where('type_report', 'neraca')
         ->orderBy('kode','asc')
         ->get();
-        return view('accounting.neraca.index',compact('coaHeaders'));
+        return view('accounting.labarugi.index',compact('coaHeaders'));
     }
 }
