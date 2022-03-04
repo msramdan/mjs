@@ -293,6 +293,7 @@ return [
                 'create request form purchase',
                 'edit request form purchase',
                 'delete request form purchase',
+                'approve request form purchase',
             ],
         ],
         [

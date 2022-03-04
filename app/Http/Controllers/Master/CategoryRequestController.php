@@ -86,9 +86,6 @@ class CategoryRequestController extends Controller
      */
     public function update(UpdateCategoryRequestRequest $request, CategoryRequest $categoryRequest)
     {
-
-        // return $request;
-
         $categoryRequest->load('setting_category_requests');
 
         if (isset($request->user)) {

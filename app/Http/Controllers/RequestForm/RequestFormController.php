@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\RequestForm;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RequestForm\StoreRequestFormRequest;
-use App\Http\Requests\RequestForm\UpdateRequestFormRequest;
+use App\Http\Requests\RequestForm\{StoreRequestFormRequest, UpdateRequestFormRequest};
 use App\Models\Master\SettingCategoryRequest;
-use App\Models\RequestForm\DetailRequestForm;
-use App\Models\RequestForm\RequestForm;
-use App\Models\RequestForm\StatusRequestForm;
+use App\Models\RequestForm\{DetailRequestForm, StatusRequestForm, RequestForm};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -23,6 +20,7 @@ class RequestFormController extends Controller
         $this->middleware('permission:create request form purchase')->only('create', 'store');
         $this->middleware('permission:edit request form purchase')->only('edit', 'update');
         $this->middleware('permission:delete request form purchase')->only('delete');
+        $this->middleware('permission:approve request form purchase')->only('setStatus');
     }
 
     /**
@@ -318,7 +316,10 @@ class RequestFormController extends Controller
      */
     public function setStatus(Request $request)
     {
-        $statusRequest = StatusRequestForm::where('setting_category_request_form_id', $request->setting_category_request_form_id)->firstOrFail();
+        $statusRequest = StatusRequestForm::where([
+            'setting_category_request_form_id' => $request->setting_category_request_form_id,
+            'request_form_id' => $request->request_form_id
+        ])->firstOrFail();
 
         $statusRequest->update(['status' => $request->status_rf]);
 
