@@ -20,7 +20,8 @@ class CreateRequestFormsTable extends Migration
             $table->string('kode', 30);
             $table->date('tanggal');
             $table->text('berita_acara');
-            // $table->enum('status', ['Aktif', 'Non-aktif']);
+            // 0 kalo ga ada purchase, 1 kalo udah ada purchase
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
