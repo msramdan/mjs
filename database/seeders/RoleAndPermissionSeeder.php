@@ -41,6 +41,7 @@ class RoleAndPermissionSeeder extends Seeder
             'approve purchase',
             'view request form purchase',
             'edit request form purchase',
+            'approve request form purchase'
         ]);
 
         $userDirektur = User::find(3);
@@ -50,6 +51,7 @@ class RoleAndPermissionSeeder extends Seeder
             'approve purchase',
             'view request form purchase',
             'edit request form purchase',
+            'approve request form purchase'
         ]);
     }
 }

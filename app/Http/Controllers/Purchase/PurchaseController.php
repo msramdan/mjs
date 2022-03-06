@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Purchase;
 use App\Http\Controllers\Controller;
 use App\Models\Inventory\{DetailBacTerima, DetailItem};
 use App\Models\Purchase\{Purchase, DetailPurchase};
+use App\Models\RequestForm\RequestForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -126,6 +127,9 @@ class PurchaseController extends Controller
             }
 
             $purchase->detail_purchase()->saveMany($detailPurch);
+
+            // set request form status jadi '1' =  udah ada purchase
+            $purchase->request_form->update(['status' => 1]);
         });
 
         return response()->json(['success'], 200);
@@ -190,7 +194,10 @@ class PurchaseController extends Controller
      */
     public function update(Request $request, Purchase $purchase)
     {
-        $purchase->load('detail_purchase', 'bac_terima');
+        $purchase->load('detail_purchase', 'bac_terima', 'request_form');
+
+        // set request form lama status jadi '0' =  belom ada purchase
+        $purchase->request_form->update(['status' => 0]);
 
         // kembalikan stok
         // foreach ($purchase->detail_purchase as $detail) {
@@ -247,6 +254,9 @@ class PurchaseController extends Controller
             if ($purchase->bac_terima) {
                 $purchase->bac_terima->detail_bac_terima()->saveMany($detailBac);
             }
+
+            // set request form lama status jadi '1' =  udah ada purchase
+            $purchase->request_form->update(['status' => 1]);
         });
 
         return response()->json(['success'], 200);
@@ -260,8 +270,13 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
+        $purchase->load('request_form');
+
         try {
             $purchase->delete();
+
+            // set request form status jadi '0' = ga ada purchase
+            $purchase->request_form->update(['status' => 0]);
 
             Alert::toast('Hapus data berhasil', 'success');
 
