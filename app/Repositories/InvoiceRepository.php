@@ -202,6 +202,8 @@ class InvoiceRepository
             ]);
         }
 
+        $invoice->jurnals()->delete();
+
         $invoice->delete();
     }
 
