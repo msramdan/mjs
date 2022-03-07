@@ -35,6 +35,7 @@
                     <div class="col-md-6">
                         <input type="hidden" name="stok" id="stok">
                         <input type="hidden" name="qty" id="qty">
+                        <input type="hidden" name="qty_terima" id="qty-terima">
                         <input type="hidden" name="kode_produk" id="kode-produk">
                         <input type="hidden" name="unit_produk" id="unit-produk">
                         <input type="hidden" name="index_tr" id="index-tr">
@@ -82,7 +83,8 @@
                         <th width="30">#</th>
                         <th>Kode - Nama</th>
                         <th>Unit</th>
-                        <th>Qty</th>
+                        <th>Qty Beli</th>
+                        <th>Qty Terima</th>
                         <th>Qty Validasi</th>
                         @if (!$show)
                             <th>Action</th>
@@ -108,6 +110,11 @@
                                     {{ $detail->qty }}
                                     <input type="hidden" class="qty-hidden" name="qty[]"
                                         value="{{ $detail->qty }}">
+                                </td>
+                                <td>
+                                    {{ $detail->qty_terima }}
+                                    <input type="hidden" class="qty-terima-hidden" name="qty_terima[]"
+                                        value="{{ $detail->qty_terima }}">
                                 </td>
                                 <td>
                                     {{ $detail->qty_validasi }}

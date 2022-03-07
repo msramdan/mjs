@@ -36,6 +36,7 @@
         const unitProduk = $('#unit-produk')
         // const stok = $('#stok')
         const qtyValidasi = $('#qty-validasi')
+        const qtyTerima = $('#qty-terima')
         const qty = $('#qty')
         const diskon = $('#diskon')
         const catatan = $('#catatan')
@@ -59,7 +60,7 @@
 
             tblCart.find('tbody').html(`
             <tr>
-                <td colspan="6" class="text-center">Loading...</td>
+                <td colspan="8" class="text-center">Loading...</td>
             </tr>
             `)
 
@@ -105,6 +106,10 @@
                                 <td>
                                     ${value.qty}
                                     <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
+                                </td>
+                                <td>
+                                    ${value.qty_terima}
+                                    <input type="hidden" class="qty-terima-hidden" name="qty_terima[]" value="${value.qty_terima}">
                                 </td>
                                 <td>
                                     0
@@ -189,6 +194,10 @@
                         <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
                     </td>
                     <td>
+                        ${qtyTerima.val()}
+                        <input type="hidden" class="qty-terima-hidden" name="qty_terima[]" value="${qtyTerima.val()}">
+                    </td>
+                    <td>
                         ${qtyValidasi.val()}
                         <input type="hidden" class="qty-validasi-hidden" name="qty_validasi[]" value="${qtyValidasi.val()}">
                     </td>
@@ -217,6 +226,7 @@
 
             produk.val($('.produk-hidden:eq(' + index + ')').val())
             qty.val($('.qty-hidden:eq(' + index + ')').val())
+            qtyTerima.val($('.qty-terima-hidden:eq(' + index + ')').val())
             qtyValidasi.val($('.qty-validasi-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
 
@@ -224,6 +234,11 @@
 
             btnUpdate.prop('disabled', false)
             btnUpdate.removeClass('disabled')
+
+            console.log(qtyTerima.val())
+            console.log(qty.val())
+            console.log('index: ' + index);
+
         })
 
         $('#form-received').submit(function(e) {
@@ -289,6 +304,7 @@
             produk.val('')
             unitProduk.val('')
             qtyValidasi.val('')
+            qtyTerima.val('')
             qty.val('')
         }
 
