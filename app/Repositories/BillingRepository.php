@@ -125,11 +125,34 @@ class BillingRepository
             ]);
 
             if ($request['tanggal_dibayar'] && $request['status_billing'] == 'Paid') {
-                // sekarang masih static dulu
-                $noBukti = 'BKK-001';
-
+                if ($request['akun_sumber']==4) {
+                    $q = DB::select("SELECT MAX(RIGHT(no_bukti,4)) AS kd_max FROM jurnal_umum where SUBSTR(no_bukti,1,3)='BKK'");
+                    if (count($q) > 0) {
+                        foreach ($q as $k) {
+                            $tmp = ((int)$k->kd_max) + 1;
+                            $kd = sprintf("%04s", $tmp);
+                        }
+                    } else if (count($q) == null) {
+                        $kd = "0001";
+                    } else if (count($q) == 0) {
+                        $kd = "0001";
+                    }
+                    $noBukti = 'BKK-' . $kd;
+                } else {
+                    $q = DB::select("SELECT MAX(RIGHT(no_bukti,4)) AS kd_max FROM jurnal_umum where SUBSTR(no_bukti,1,3)='BBK'");
+                    if (count($q) > 0) {
+                        foreach ($q as $k) {
+                            $tmp = ((int)$k->kd_max) + 1;
+                            $kd = sprintf("%04s", $tmp);
+                        }
+                    } else if (count($q) == null) {
+                        $kd = "0001";
+                    } else if (count($q) == 0) {
+                        $kd = "0001";
+                    }
+                    $noBukti = 'BBK-' . $kd;
+                }
                 $jurnals = [];
-
                 foreach ($purchase->detail_purchase as $dp) {
                     $jurnals[] = new JurnalUmum([
                         'tanggal' => now()->toDateString(),
@@ -145,7 +168,7 @@ class BillingRepository
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
                     'coa_id' => $request['akun_sumber'],
-                    'deskripsi' => 'Pembayaran untuk no.ref ' . $billing->kode,
+                    'deskripsi' => 'Pembayaran untuk ' . $billing->kode,
                     'debit' => 0,
                     'kredit' => $purchase->total
                 ]);

@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Models\Accounting\{Coa, Invoice, JurnalUmum};
 use App\Models\Sale\Sale;
+use App\Models\Sale\Spal;
 use App\Models\Setting\SettingApp;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceRepository
 {
@@ -48,10 +50,21 @@ class InvoiceRepository
         $attr['sale_id'] = $request['sale'];
         $attr['user_id'] = auth()->id();
         $dibayar = $this->removeComma($request['dibayar']);
+        $q = DB::select("SELECT MAX(RIGHT(no_bukti,4)) AS kd_max FROM jurnal_umum where SUBSTR(no_bukti,1,3)='INV'");
+
+        if (count($q) > 0) {
+            foreach ($q as $k) {
+                $tmp = ((int)$k->kd_max) + 1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        } else if (count($q) == null) {
+            $kd = "0001";
+        } else if (count($q) == 0) {
+            $kd = "0001";
+        }
 
         $invoice = Invoice::create($attr);
-
-        $noBukti = 'BKK-001';
+        $noBukti = 'INV-' . $kd;
         $akunPiutang = Coa::select('id', 'kode')->findOrFail($request['akun_piutang']);
 
         $jurnals = [];
@@ -60,7 +73,7 @@ class InvoiceRepository
             'tanggal' => now()->toDateString(),
             'no_bukti' => $noBukti,
             'coa_id' => $request['akun_piutang'],
-            'deskripsi' => 'Pembayaran akun beban ' . $akunPiutang->kode . ' untuk no.ref ' . $invoice->kode,
+            'deskripsi' => 'Invoice No. ' . $attr['kode'],
             'debit' => $dibayar,
             'kredit' => 0,
         ]);
@@ -69,7 +82,7 @@ class InvoiceRepository
             'tanggal' => now()->toDateString(),
             'no_bukti' => $noBukti,
             'coa_id' => $request['akun_pendapatan'],
-            'deskripsi' => 'lorem',
+            'deskripsi' => 'Invoice No. ' . $attr['kode'],
             'debit' => 0,
             'kredit' => $dibayar,
         ]);
@@ -106,7 +119,7 @@ class InvoiceRepository
     public function update(array $request, $invoice)
     {
         $sale = Sale::findOrFail($request['sale']);
-
+        $spal = Spal::with('customer:id,nama')->find($sale['spal_id']);
         // remove coma
         $dibayar = $this->removeComma($request['nominal_invoice']);
 
@@ -149,8 +162,19 @@ class InvoiceRepository
 
         if ($request['tanggal_dibayar'] && $request['status_invoice'] == 'Paid') {
 
-            // sekarang masih static dulu
-            $noBukti = 'BKK-001';
+            $q = DB::select("SELECT MAX(RIGHT(no_bukti,4)) AS kd_max FROM jurnal_umum where SUBSTR(no_bukti,1,3)='BBM'");
+            if (count($q) > 0) {
+                foreach ($q as $k) {
+                    $tmp = ((int)$k->kd_max) + 1;
+                    $kd = sprintf("%04s", $tmp);
+                }
+            } else if (count($q) == null) {
+                $kd = "0001";
+            } else if (count($q) == 0) {
+                $kd = "0001";
+            }
+
+            $noBukti = 'BBM-' . $kd;
             $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
 
             $jurnals = [];
@@ -160,7 +184,7 @@ class InvoiceRepository
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
                     'coa_id' => $request['akun_sumber'],
-                    'deskripsi' => 'lorem',
+                    'deskripsi' => 'Pembayaran ' . $invoice['kode'] . ' ' . $spal->customer->nama,
                     'debit' => $dibayar,
                     'kredit' => 0,
                     'created_at' => now(),
@@ -173,7 +197,7 @@ class InvoiceRepository
                     'tanggal' => now()->toDateString(),
                     'no_bukti' => $noBukti,
                     'coa_id' => $request['akun_beban'],
-                    'deskripsi' => 'Pembayaran akun beban ' . $akunBeban->kode . ' untuk no.ref ' . $invoice->kode,
+                    'deskripsi' => 'Pembayaran ' . $invoice['kode'] . ' ' . $spal->customer->nama,
                     'debit' => 0,
                     'kredit' => $dibayar,
                     'created_at' => now(),
