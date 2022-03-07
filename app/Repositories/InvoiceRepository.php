@@ -279,14 +279,23 @@ class InvoiceRepository
      */
     public function print(int $id)
     {
-        $invoice = Invoice::select('id', 'sale_id', 'kode', 'tanggal_invoice', 'status', 'catatan')->with(
-            'sale:id,spal_id,kode,diskon,grand_total',
-            'sale.spal:id,kode,customer_id',
-            'sale.spal.customer:id,kode,nama,email,alamat,telp',
-            'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
-            'sale.detail_sale.item:id,kode,nama',
-            'user:id,name'
-        )->findOrFail($id);
+        $invoice = Invoice::select(
+            'id',
+            'sale_id',
+            'attn',
+            'kode',
+            'tanggal_invoice',
+            'status',
+            'catatan'
+        )
+            ->with(
+                'sale:id,spal_id,kode,diskon,grand_total',
+                'sale.spal:id,kode,customer_id',
+                'sale.spal.customer:id,kode,nama,email,alamat,telp',
+                'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
+                'sale.detail_sale.item:id,kode,nama',
+                'user:id,name'
+            )->findOrFail($id);
 
         $perusahaan = SettingApp::first();
 

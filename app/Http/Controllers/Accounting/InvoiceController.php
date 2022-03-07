@@ -150,6 +150,11 @@ class InvoiceController extends Controller
     {
         $data = $this->invoiceRepository->print($id);
 
+        // dump($data['perusahaan']->logo_perusahaan);
+
+        // return '<img src="/storage/logo/' .  $data['perusahaan']->logo_perusahaan . '" alt="Logo Perusahaan">"';
+
+
         $pdf = PDF::loadView('accounting.invoice.print', $data);
 
         return $pdf->stream('Invoice - ' . $data['invoice']->kode . '.pdf');
