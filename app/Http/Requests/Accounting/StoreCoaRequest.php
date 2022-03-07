@@ -25,7 +25,7 @@ class StoreCoaRequest extends FormRequest
     {
         return [
             'kode' => 'required|min:3|max:50|unique:coas,kode',
-            'nama' => 'required|min:3|max:50',
+            'nama' => 'required|min:3|max:100',
             'tipe' => 'required',
             'kategori' => 'required',
             'parent' => 'nullable',

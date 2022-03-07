@@ -46,33 +46,27 @@
                                     <th>Laba Rugi</th>
                                     @foreach ($coaHeaders as $header)
                                         {{-- 1 debit kredit parent --}}
-
                                         @php
                                             $coaSubHeaders = \DB::table('coas')
                                                 ->select('id', 'kode', 'nama')
                                                 ->where('parent', $header->id)
+                                                ->orderBy('kode', 'asc')
                                                 ->get();
+
                                         @endphp
                                         @foreach ($coaSubHeaders as $coaSubHeader)
                                             @php
                                                 $cek_list = \DB::table('coas')
                                                     ->select('id', 'kode', 'nama')
                                                     ->where('parent', $coaSubHeader->id)
+                                                    ->orderBy('kode', 'asc')
                                                     ->get();
                                             @endphp
                                             @foreach ($cek_list as $list_coa)
                                                 @php
-                                                    $akunCoas = \DB::table('coas')
-                                                        ->select('id', 'kode', 'nama')
-                                                        ->where('parent', $list_coa->id)
-                                                        ->get();
+                                                    $list[] = $list_coa->id;
+
                                                 @endphp
-                                                @foreach ($akunCoas as $akunCoa)
-                                                    @php
-                                                        // 1
-                                                        $list[] = $akunCoa->id;
-                                                    @endphp
-                                                @endforeach
                                             @endforeach
                                         @endforeach
                                         @php
@@ -99,7 +93,9 @@
                                             $coaSubHeaders = \DB::table('coas')
                                                 ->select('id', 'kode', 'nama')
                                                 ->where('parent', $header->id)
+                                                ->orderBy('kode', 'asc')
                                                 ->get();
+
                                         @endphp
                                         @foreach ($coaSubHeaders as $coaSubHeader)
                                             {{-- 2 ini untuk cek list under coa header --}}
@@ -107,21 +103,15 @@
                                                 $cek_list = \DB::table('coas')
                                                     ->select('id', 'kode', 'nama')
                                                     ->where('parent', $coaSubHeader->id)
+                                                    ->orderBy('kode', 'asc')
                                                     ->get();
+
                                             @endphp
                                             @foreach ($cek_list as $list_coa)
                                                 @php
-                                                    $akunCoas = \DB::table('coas')
-                                                        ->select('id', 'kode', 'nama')
-                                                        ->where('parent', $list_coa->id)
-                                                        ->get();
+                                                    // 2
+                                                    $list[] = $list_coa->id;
                                                 @endphp
-                                                @foreach ($akunCoas as $akunCoa)
-                                                    @php
-                                                        // 2
-                                                        $list[] = $akunCoa->id;
-                                                    @endphp
-                                                @endforeach
                                             @endforeach
                                             @php
                                                 $debit_grup = DB::table('jurnal_umum')
@@ -148,55 +138,27 @@
                                                 $akunCoas = \DB::table('coas')
                                                     ->select('id', 'kode', 'nama')
                                                     ->where('parent', $coaSubHeader->id)
+                                                    ->orderBy('kode', 'asc')
                                                     ->get();
                                             @endphp
                                             @foreach ($akunCoas as $akunCoa)
                                                 {{-- debit kredit header kas dan bank --}}
                                                 @php
-                                                    $debit_header = DB::table('jurnal_umum')
-                                                        ->join('coas', 'jurnal_umum.coa_id', '=', 'coas.id')
-                                                        ->where('parent', $akunCoa->id)
-                                                        ->select('jurnal_umum.debit', 'coas.parent')
+                                                    $debit = DB::table('jurnal_umum')
+                                                        ->where('coa_id', $akunCoa->id)
                                                         ->sum('debit');
 
-                                                    $kredit_header = DB::table('jurnal_umum')
-                                                        ->join('coas', 'jurnal_umum.coa_id', '=', 'coas.id')
-                                                        ->where('parent', $akunCoa->id)
-                                                        ->select('jurnal_umum.kredit', 'coas.parent')
+                                                    $kredit = DB::table('jurnal_umum')
+                                                        ->where('coa_id', $akunCoa->id)
                                                         ->sum('kredit');
                                                 @endphp
-
                                                 <tr data-id="{{ $akunCoa->id }}" data-parent="{{ $coaSubHeader->id }}"
                                                     data-level="3">
                                                     <td data-column="name">
                                                         {{ $akunCoa->kode . ' - ' . $akunCoa->nama }}</td>
-                                                    <td>{{ \Myhelper::indo_currency($debit_header - $kredit_header) }}
+                                                    <td>{{ \Myhelper::indo_currency($debit - $kredit) }}
                                                     </td>
                                                 </tr>
-                                                @php
-                                                    $subAkunCoas = \DB::table('coas')
-                                                        ->select('id', 'kode', 'nama')
-                                                        ->where('parent', $akunCoa->id)
-                                                        ->get();
-                                                @endphp
-                                                @foreach ($subAkunCoas as $subAkunCoa)
-                                                    {{-- debit kredit coa terkecil --}}
-                                                    @php
-                                                        $debit = DB::table('jurnal_umum')
-                                                            ->where('coa_id', $subAkunCoa->id)
-                                                            ->sum('debit');
-
-                                                        $kredit = DB::table('jurnal_umum')
-                                                            ->where('coa_id', $subAkunCoa->id)
-                                                            ->sum('kredit');
-                                                    @endphp
-                                                    <tr data-id="{{ $subAkunCoa->id }}"
-                                                        data-parent="{{ $akunCoa->id }}" data-level="4">
-                                                        <td data-column="name">
-                                                            {{ $subAkunCoa->kode . ' - ' . $subAkunCoa->nama }}</td>
-                                                        <td>{{ \Myhelper::indo_currency($debit - $kredit) }}</td>
-                                                    </tr>
-                                                @endforeach
                                             @endforeach
                                         @endforeach
                                     @endforeach

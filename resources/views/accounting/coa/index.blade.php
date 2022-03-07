@@ -117,6 +117,7 @@
                                             $coaSubHeaders = \DB::table('coas')
                                                 ->select('id', 'kode', 'nama')
                                                 ->where('parent', $header->id)
+                                                ->orderBy('kode', 'asc')
                                                 ->get();
                                         @endphp
                                         @foreach ($coaSubHeaders as $coaSubHeader)
@@ -128,6 +129,7 @@
                                                         $akunCoas = \DB::table('coas')
                                                             ->select('id', 'kode', 'nama')
                                                             ->where('parent', $coaSubHeader->id)
+                                                            ->orderBy('kode', 'asc')
                                                             ->get();
                                                     @endphp
                                                     @foreach ($akunCoas as $akunCoa)
@@ -139,6 +141,7 @@
                                                                     $subAkunCoas = \DB::table('coas')
                                                                         ->select('id', 'kode', 'nama')
                                                                         ->where('parent', $akunCoa->id)
+                                                                        ->orderBy('kode', 'asc')
                                                                         ->get();
                                                                 @endphp
                                                                 @foreach ($subAkunCoas as $subAkunCoa)

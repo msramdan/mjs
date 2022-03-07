@@ -77,7 +77,7 @@
 
                             <div class="form-group mb-3">
                                 <label class="form-label" for="parent">Parent</label>
-                                <select class="form-select @error('parent') is-invalid @enderror" name="parent" id="parent">
+                                <select class="form-select theSelect @error('parent') is-invalid @enderror" name="parent" id="parent">
                                     <option value="" selected disabled>-- Pilih parent -- </option>
                                     <option value="">No Parent</option>
                                     @foreach ($coaParents as $parent)

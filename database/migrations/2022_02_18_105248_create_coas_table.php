@@ -16,7 +16,7 @@ class CreateCoasTable extends Migration
         Schema::create('coas', function (Blueprint $table) {
             $table->id();
             $table->string('kode', 30);
-            $table->string('nama', 50);
+            $table->string('nama', 100);
             $table->enum('tipe', [
                 'Asset',
                 'Bank',

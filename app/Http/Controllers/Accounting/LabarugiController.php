@@ -18,9 +18,11 @@ class LabarugiController extends Controller
     {
         $coaHeaders = Coa::select('id', 'kode', 'nama')
         ->where('parent', null)
-        ->where('type_report', 'neraca')
+        ->where('type_report', 'laba_rugi')
         ->orderBy('kode','asc')
         ->get();
+        // return $coaHeaders;
+
         return view('accounting.labarugi.index',compact('coaHeaders'));
     }
 }
