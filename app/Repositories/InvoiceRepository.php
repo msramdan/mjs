@@ -2,9 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Accounting\{Coa, Invoice, JurnalUmum};
-use App\Models\Sale\Sale;
-use App\Models\Sale\Spal;
+use App\Models\Accounting\{Invoice, JurnalUmum};
+use App\Models\Sale\{Spal, Sale};
 use App\Models\Setting\SettingApp;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -65,7 +64,7 @@ class InvoiceRepository
 
         $invoice = Invoice::create($attr);
         $noBukti = 'INV-' . $kd;
-        $akunPiutang = Coa::select('id', 'kode')->findOrFail($request['akun_piutang']);
+        // $akunPiutang = Coa::select('id', 'kode')->findOrFail($request['akun_piutang']);
 
         $jurnals = [];
 
@@ -175,7 +174,7 @@ class InvoiceRepository
             }
 
             $noBukti = 'BBM-' . $kd;
-            $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
+            // $akunBeban = Coa::select('id', 'kode')->where('id', $request['akun_beban'])->first();
 
             $jurnals = [];
 
@@ -245,19 +244,19 @@ class InvoiceRepository
 
         $code = 'INV-' . $tahun . '-' . $bulan . '-' . $hari  . '-';
 
-        $checkLatestKode = Invoice::select('id', 'tanggal_invoice', 'kode')
+        $checkLatestCode = Invoice::select('id', 'tanggal_invoice', 'kode')
             ->whereYear('tanggal_invoice', $tahun)
             ->whereMonth('tanggal_invoice', $bulan)
             ->whereDay('tanggal_invoice', $hari)
             ->latest()
             ->first();
 
-        if ($checkLatestKode == null) {
+        if ($checkLatestCode == null) {
             $code = $code . '0001';
         } else {
             // hapus "INV-XXXX-XX-XX-" dan ambil angka buat ditambahin
-            // $onlyNumberKode = intval(Str::after($checkLatestKode->kode, $code));
-            $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
+            // $onlyNumberKode = intval(Str::after($checkLatestCode->kode, $code));
+            $onlyNumberKode = intval(substr($checkLatestCode->kode, -4));
 
             if ($onlyNumberKode < 100) {
                 $code = $code . '000' . ($onlyNumberKode + 1);
@@ -274,34 +273,22 @@ class InvoiceRepository
     /**
      * Select some field on invoice table, load the relations, and get data about the company(PT).
      *
-     * @param int $id
+     * @param int $invoiceId
      * @return array
      */
-    public function print(int $id)
+    public function print(int $invoiceId)
     {
-        $invoice = Invoice::select(
-            'id',
-            'sale_id',
-            'attn',
-            'kode',
-            'tanggal_invoice',
-            'status',
-            'catatan'
-        )
-            ->with(
-                'sale:id,spal_id,kode,diskon,grand_total',
-                'sale.spal:id,kode,customer_id',
-                'sale.spal.customer:id,kode,nama,email,alamat,telp',
-                'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
-                'sale.detail_sale.item:id,kode,nama',
-                'user:id,name'
-            )->findOrFail($id);
+        $invoice = Invoice::print()->findOrFail($invoiceId);
+
+        // $relatedInvoice = Sale::relatedInvoice($invoiceId)->find($invoice->sale_id);
+        $relatedInvoices = Sale::relatedInvoice($invoiceId)->get();
 
         $perusahaan = SettingApp::first();
 
         return [
             'invoice' => $invoice,
-            'perusahaan' => $perusahaan
+            'perusahaan' => $perusahaan,
+            'related_invoices' => $relatedInvoices
         ];
     }
 

@@ -50,4 +50,26 @@ class Sale extends Model
     {
         return Carbon::createFromTimeString($value)->format('d m Y H:i');
     }
+
+    /**
+     * Scope a query to to get related invoice with same sale.id.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopeRelatedInvoice($query, $invoiceId)
+    {
+        // $query->select('id', 'kode')->with('invoices:id,sale_id,status,tanggal_dibayar,dibayar')
+        //     ->whereHas('invoices', function ($query) use ($invoiceId) {
+        //         // $query->where('tanggal_dibayar', '!=', null);
+        //         $query->where('status', 'Paid')->where('id', '!=', $invoiceId);
+        //     });
+
+        $query->select('sales.id', 'invoices.id', 'invoices.tanggal_dibayar', 'invoices.dibayar')
+            ->join('invoices', 'invoices.sale_id', '=', 'sales.id')
+            ->where('invoices.id', '!=', $invoiceId)
+            ->where('invoices.status', 'Paid');
+        // ->where('sales.id', '=', $invoiceId)
+        // ->get();
+    }
 }
