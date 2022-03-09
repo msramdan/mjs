@@ -16,9 +16,11 @@
         }
 
         hr {
-            border: 1px solid #000;
+            border-top: 1px solid #000;
             border-bottom: 1px solid #000;
             padding: 1px;
+            border-left: none;
+            border-right: none;
         }
 
         .bordered-table {
@@ -48,8 +50,8 @@
         }
 
         img {
-            width: 150px;
-            height: 100px;
+            width: 220px;
+            height: 120px;
             border-radius: 10%;
             object-fit: cover;
         }
@@ -58,9 +60,59 @@
 </head>
 
 <body>
+    @php
+        $no = 2;
+        $totalDibayar = 0;
+
+        function penyebut($nilai)
+        {
+            $nilai = abs($nilai);
+
+            $huruf = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
+
+            $temp = '';
+
+            if ($nilai < 12) {
+                $temp = ' ' . $huruf[$nilai];
+            } elseif ($nilai < 20) {
+                $temp = penyebut($nilai - 10) . ' belas';
+            } elseif ($nilai < 100) {
+                $temp = penyebut($nilai / 10) . ' puluh' . penyebut($nilai % 10);
+            } elseif ($nilai < 200) {
+                $temp = ' seratus' . penyebut($nilai - 100);
+            } elseif ($nilai < 1000) {
+                $temp = penyebut($nilai / 100) . ' ratus' . penyebut($nilai % 100);
+            } elseif ($nilai < 2000) {
+                $temp = ' seribu' . penyebut($nilai - 1000);
+            } elseif ($nilai < 1000000) {
+                $temp = penyebut($nilai / 1000) . ' ribu' . penyebut($nilai % 1000);
+            } elseif ($nilai < 1000000000) {
+                $temp = penyebut($nilai / 1000000) . ' juta' . penyebut($nilai % 1000000);
+            } elseif ($nilai < 1000000000000) {
+                $temp = penyebut($nilai / 1000000000) . ' milyar' . penyebut(fmod($nilai, 1000000000));
+            } elseif ($nilai < 1000000000000000) {
+                $temp = penyebut($nilai / 1000000000000) . ' trilyun' . penyebut(fmod($nilai, 1000000000000));
+            }
+
+            return $temp;
+        }
+
+        function terbilang($nilai)
+        {
+            if ($nilai < 0) {
+                $hasil = 'minus ' . trim(penyebut($nilai));
+            } else {
+                $hasil = trim(penyebut($nilai));
+            }
+
+            return ucwords($hasil) . ' Rupiah';
+        }
+    @endphp
+
     <center>
         @if ($perusahaan->logo_perusahaan != null)
-            <img src="https://lh5.googleusercontent.com/cZa50BVIn6L4bPNloBLPluqyceKScQTtID5BrZXRYI7D4_JPhunRHyUczoKgFfM_Euqfe0SYAOKh0vbz" alt="Logo Perusahaan">
+            <img src="https://lh5.googleusercontent.com/cZa50BVIn6L4bPNloBLPluqyceKScQTtID5BrZXRYI7D4_JPhunRHyUczoKgFfM_Euqfe0SYAOKh0vbz"
+                alt="Logo Perusahaan">
         @else
             <img src="https://www.zonefresh.co.id/assets/images/product/default.jpg" alt="Logo Perusahaan">
         @endif
@@ -148,42 +200,53 @@
             <tr>
                 <td>1</td>
                 <td colspan="1">
-                    <div>
-                        {{ $invoice->catatan }}
-                    </div>
+                    <p>{{ $invoice->catatan ? $invoice->catatan : 'Tidak ada catatan' }}</p>
                 </td>
-                <td >Rp. <span style="float: right">150.000</span> </td>
+                <td>
+                    <p>Rp.
+                        <span style="float: right">{{ number_format($invoice->dibayar) }}</span>
+                    </p>
+                </td>
             </tr>
 
-            <tr>
-                <td>2</td>
-                <td colspan="1">
-                    <div>
-                        Pembayaran tanggl 07 maret 2022
-                    </div>
-                </td>
-                <td >Rp. <span style="float: right">150.000</span> </td>
-            </tr>
+            @foreach ($related_invoices as $ri)
+                <tr>
+                    <td>
+                        <p>{{ $no++ }}</p>
+                    </td>
+                    <td colspan="1">
+                        <p>Pembayaran tgl
+                            {{ date('d M Y', strtotime($ri->tanggal_dibayar)) }}
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            Rp.
+                            <span style="float: right">({{ number_format($ri->dibayar) }})</span>
+                        </p>
+                    </td>
+                </tr>
+                @php
+                    $totalDibayar += $ri->dibayar;
+                @endphp
+            @endforeach
 
-            <tr>
-                <td>3</td>
-                <td colspan="1">
-                    <div>
-                        Pembayaran tanggl 09 maret 2022
-                    </div>
-                </td>
-                <td >Rp. <span style="float: right">150.000</span> </td>
-            </tr>
             <tr>
                 <td></td>
-                <td colspan="1">
-                    <div>
+                <td>
+                    <p>
                         <b><u>Muatan : </u></b>
                         <br>
-                            7.500 Ton x Rp.77.000/Ton <span style="float: right">Rp 577.000.000</span>
+                        {{ $invoice->sale->spal->jml_muatan }} Ton x
+                        Rp.{{ number_format($invoice->sale->spal->harga_unit) }}/Ton
+
+                        <span style="float: right">
+                            Rp
+                            {{ number_format($invoice->sale->spal->jml_muatan * $invoice->sale->spal->harga_unit) }}
+                        </span>
                         <br>
                         <br>
-                    </div>
+                    </p>
                 </td>
                 <td></td>
             </tr>
@@ -193,11 +256,18 @@
                 <td colspan="2">
                     <b style="float: right">TOTAL</b>
                 </td>
-                <td ><b> Rp. </b> <span style="float: right"> <b>150.000</b> </span> </td>
+                <td>
+                    <b> Rp. </b>
+                    <span style="float: right">
+                        <b>{{ number_format($invoice->sale->grand_total - $totalDibayar) }}</b>
+                    </span>
+                </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <b>Terbilang: Dua ratus juta rupiah</b>
+                    <b>Terbilang:
+                        {{ terbilang($invoice->sale->grand_total - $totalDibayar) }}#
+                    </b>
                 </td>
             </tr>
         </tfoot>
@@ -219,13 +289,12 @@
         </tr>
     </table>
 
-
     <!-- ttd -->
     <div class="sign">
         <center>
             <p>Batam, {{ date('d F Y') }}</p>
 
-            <br><br><br><br>
+            <br><br><br><br><br>
 
             <p>Siti Khoerunisah</p>
         </center>

@@ -56,4 +56,32 @@ class Invoice extends Model
     // {
     //     return Carbon::createFromTimeString($value)->format('d m Y H:i');
     // }
+
+
+    /**
+     * Scope a query to get some fields data for print page.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return void
+     */
+    public function scopePrint($qeury)
+    {
+        $qeury->select(
+            'id',
+            'sale_id',
+            'attn',
+            'kode',
+            'tanggal_invoice',
+            // 'status',
+            'dibayar',
+            'catatan'
+        )
+            ->with(
+                'sale:id,spal_id,kode,diskon,grand_total',
+                'sale.spal:id,kode,customer_id,jml_muatan,harga_unit',
+                'sale.spal.customer:id,kode,nama,email,alamat,telp',
+                // 'sale.detail_sale:id,sale_id,item_id,harga,qty,sub_total',
+                // 'sale.detail_sale.item:id,kode,nama',
+            );
+    }
 }
