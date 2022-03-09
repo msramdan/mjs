@@ -128,7 +128,8 @@
                     <div class="col-md-6" id="col-akun-sumber" style="display: none">
                         <div class="form-group">
                             <label for="akun-sumber">Akun Sumber</label>
-                            <select name="akun_sumber" id="akun-sumber" class="form-select theSelect">
+                            <select required name="akun_sumber" id="akun-sumber" class="form-select theSelect">
+                                <option value="">-- Pilih --</option>
                                 @foreach ($akunSumber as $as)
                                     <option value="{{ $as->id }}">
                                         {{ $as->kode . ' - ' . $as->nama }}
@@ -150,7 +151,8 @@
                     <div class="col-md-6" id="col-akun-beban" style="display: none">
                         <div class="form-group">
                             <label for="akun-beban">Akun Beban</label>
-                            <select name="akun_beban" id="akun-beban" class="form-select theSelect">
+                            <select required name="akun_beban" id="akun-beban" class="form-select theSelect">
+                                <option value="">-- Pilih --</option>
                                 @foreach ($akunBeban as $ab)
                                     <option value="{{ $ab->id }}">{{ $ab->kode . ' - ' . $ab->nama }}
                                     </option>

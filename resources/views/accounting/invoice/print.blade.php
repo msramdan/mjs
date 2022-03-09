@@ -10,6 +10,9 @@
     <style>
         body {
             font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            font-size: 11px;
+            padding-right: 50px;
+            padding-left: 50px;
         }
 
         hr {
@@ -57,7 +60,7 @@
 <body>
     <center>
         @if ($perusahaan->logo_perusahaan != null)
-            <img src="{{ asset('/storage/logo/' . $perusahaan->logo_perusahaan) }}" alt="Logo Perusahaan">
+            <img src="https://lh5.googleusercontent.com/cZa50BVIn6L4bPNloBLPluqyceKScQTtID5BrZXRYI7D4_JPhunRHyUczoKgFfM_Euqfe0SYAOKh0vbz" alt="Logo Perusahaan">
         @else
             <img src="https://www.zonefresh.co.id/assets/images/product/default.jpg" alt="Logo Perusahaan">
         @endif
@@ -66,7 +69,7 @@
     <hr>
 
     <center>
-        <h3>INVOICE</h3>
+        <h2>INVOICE</h2>
     </center>
 
     <table class="bordered-table">
@@ -108,6 +111,17 @@
             <td> : </td>
             <td class="border-right">{{ $perusahaan->telp }} <br></td>
         </tr>
+
+        <tr>
+            <td></td>
+            <td> </td>
+            <td class="border-right"></td>
+
+            <td style="color: white">.</td>
+            <td></td>
+            <td class="border-right"></td>
+        </tr>
+
     </table>
 
     <table class="bordered-table" style="margin-top: 25px;" border="1">
@@ -119,7 +133,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($invoice->sale->detail_sale as $ds)
+            {{-- @foreach ($invoice->sale->detail_sale as $ds)
                 <tr>
                     <td>1</td>
                     <td>
@@ -129,42 +143,57 @@
                     </td>
                     <td>Rp. {{ number_format($ds->sub_total, 0, ',', '.') }}</td>
                 </tr>
-            @endforeach
+            @endforeach --}}
 
             <tr>
-                <td colspan="3">
+                <td>1</td>
+                <td colspan="1">
                     <div>
-                        <br>
-                        <br>
-                        <b><u>Note : </u></b>
-                        <br>
-
-                        {{-- {{ $invoice->catatan }} --}}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus.
-                        <br>
-                        <br>
+                        {{ $invoice->catatan }}
                     </div>
+                </td>
+                <td >Rp. <span style="float: right">150.000</span> </td>
+            </tr>
 
+            <tr>
+                <td>2</td>
+                <td colspan="1">
+                    <div>
+                        Pembayaran tanggl 07 maret 2022
+                    </div>
+                </td>
+                <td >Rp. <span style="float: right">150.000</span> </td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td colspan="1">
+                    <div>
+                        Pembayaran tanggl 09 maret 2022
+                    </div>
+                </td>
+                <td >Rp. <span style="float: right">150.000</span> </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="1">
                     <div>
                         <b><u>Muatan : </u></b>
                         <br>
-
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam natus adipisci pariatur aut
-                        consequuntur sapiente animi tempora nihil rem officia.
+                            7.500 Ton x Rp.77.000/Ton <span style="float: right">Rp 577.000.000</span>
                         <br>
                         <br>
                     </div>
                 </td>
+                <td></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="2">
-                    <b>TOTAL</b>
+                    <b style="float: right">TOTAL</b>
                 </td>
-                <td>
-                    <b>Rp. 200,000,000</b>
-                </td>
+                <td ><b> Rp. </b> <span style="float: right"> <b>150.000</b> </span> </td>
             </tr>
             <tr>
                 <td colspan="3">
@@ -198,7 +227,7 @@
 
             <br><br><br><br>
 
-            <p>{{ auth()->user()->name }}</p>
+            <p>Siti Khoerunisah</p>
         </center>
     </div>
 </body>
