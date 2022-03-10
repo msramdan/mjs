@@ -53,5 +53,6 @@ return [
         'buku_besar' => 'Buku Besar',
         'neraca' => 'Neraca',
         'labarugi' => 'Laba dan Rugi',
+        'time_sheet' => 'Time Sheet',
     ],
 ];
