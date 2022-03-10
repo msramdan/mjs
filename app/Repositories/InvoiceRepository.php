@@ -280,13 +280,21 @@ class InvoiceRepository
     {
         $invoice = Invoice::print()->findOrFail($invoiceId);
 
-        // $relatedInvoice = Sale::relatedInvoice($invoiceId)->find($invoice->sale_id);
         $relatedInvoices = Sale::relatedInvoice($invoiceId)->get();
+
+
+        $jml = DB::table("invoices")
+       ->where('sale_id', '=', $invoice->sale_id)
+       ->where('status', '=', 'Paid')
+       ->count();
+
+
 
         $perusahaan = SettingApp::first();
 
         return [
             'invoice' => $invoice,
+            'jml_invoce_terkait' => $jml,
             'perusahaan' => $perusahaan,
             'related_invoices' => $relatedInvoices
         ];

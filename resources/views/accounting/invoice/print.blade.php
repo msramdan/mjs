@@ -35,10 +35,10 @@
             width: 85%;
         }
 
-        table tr td {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
+        /* table tr td {
+            padding-left: 5px;
+            padding-right: 5pt;
+        } */
 
         .border-right {
             border-right: 1pt solid black;
@@ -108,122 +108,116 @@
             return ucwords($hasil) . ' Rupiah';
         }
     @endphp
-
     <center>
-        @if ($perusahaan->logo_perusahaan != null)
-            <img src="https://lh5.googleusercontent.com/cZa50BVIn6L4bPNloBLPluqyceKScQTtID5BrZXRYI7D4_JPhunRHyUczoKgFfM_Euqfe0SYAOKh0vbz"
-                alt="Logo Perusahaan">
-        @else
-            <img src="https://www.zonefresh.co.id/assets/images/product/default.jpg" alt="Logo Perusahaan">
-        @endif
+        <img src="{{ 'template/logo.png' }}" alt="" style="width:350px">
     </center>
-
     <hr>
-
     <center>
         <h2>INVOICE</h2>
     </center>
-
-    <table class="bordered-table">
+    <table class="bordered-table" border="1">
         <tr>
-            <td>To</td>
-            <td> : </td>
-            <td class="border-right"> {{ $invoice->sale->spal->customer->nama }}</td>
-
-            <td>Date</td>
-            <td> : </td>
-            <td class="border-right">{{ $invoice->tanggal_invoice->format('d-M-Y') }}</td>
+            <td style="width: 50%">
+                <table class="table">
+                    <tr>
+                        <td style="width: 25%">To</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $invoice->sale->spal->customer->nama }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">Address</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $invoice->sale->spal->customer->alamat }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">Attn</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $invoice->attn }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; color:white">.</td>
+                        <td style="width: 5%; color:white">.</td>
+                        <td style="width: 75%; color:white">.</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; color:white">.</td>
+                        <td style="width: 5%; color:white">.</td>
+                        <td style="width: 75%; color:white">.</td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width: 50%">
+                <table class="table">
+                    <tr>
+                        <td style="width: 25%">Date</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $invoice->tanggal_invoice->format('d-M-Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">Invoice No</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $invoice->kode }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">Address</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $perusahaan->alamat_perusahaan }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">Phone</td>
+                        <td style="width: 5%">:</td>
+                        <td style="width: 75%">{{ $perusahaan->telp }}</td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%; color:white">.</td>
+                        <td style="width: 5%; color:white">.</td>
+                        <td style="width: 75%; color:white">.</td>
+                    </tr>
+                </table>
+            </td>
         </tr>
-        <tr>
-            <td>Attn.</td>
-            <td> : </td>
-            <td class="border-right">{{ $invoice->attn }}</td>
-
-            <td>Invoice No </td>
-            <td> : </td>
-            <td class="border-right">{{ $invoice->kode }}</td>
-        </tr>
-        <tr>
-            {{-- address customer --}}
-            <td>Address</td>
-            <td> : </td>
-            <td class="border-right">{{ $invoice->sale->spal->customer->alamat }}</td>
-
-            <td>Address</td>
-            <td> : </td>
-            {{-- Str::limit($perusahaan->alamat_perusahaan, 50) --}}
-            <td class="border-right">{{ $perusahaan->alamat_perusahaan }}</td>
-        </tr>
-        <tr>
-            <td>Phone</td>
-            <td> : </td>
-            <td class="border-right">{{ $invoice->sale->spal->customer->telp }} <br></td>
-
-            <td>Phone</td>
-            <td> : </td>
-            <td class="border-right">{{ $perusahaan->telp }} <br></td>
-        </tr>
-
-        <tr>
-            <td></td>
-            <td> </td>
-            <td class="border-right"></td>
-
-            <td style="color: white">.</td>
-            <td></td>
-            <td class="border-right"></td>
-        </tr>
-
     </table>
+
 
     <table class="bordered-table" style="margin-top: 25px;" border="1">
         <thead>
             <tr>
-                <th width="40">No</th>
-                <th>DESCRIPTION</th>
-                <th>PRICE(IDR)</th>
+                <th style="width: 5%">No</th>
+                <th style="width: 45%">DESCRIPTION</th>
+                <th style="width: 50%">PRICE(IDR)</th>
             </tr>
         </thead>
         <tbody>
-            {{-- @foreach ($invoice->sale->detail_sale as $ds)
-                <tr>
-                    <td>1</td>
-                    <td>
-                        <b>{{ $ds->item->nama }}</b>
-                        <br>
-                        Lorem ipsum dolor sit amet.
-                    </td>
-                    <td>Rp. {{ number_format($ds->sub_total, 0, ',', '.') }}</td>
-                </tr>
-            @endforeach --}}
-
             <tr>
-                <td>1</td>
-                <td colspan="1">
-                    <p>{{ $invoice->catatan ? $invoice->catatan : 'Tidak ada catatan' }}</p>
-                </td>
-                <td>
-                    <p>Rp.
-                        <span style="float: right">{{ number_format($invoice->dibayar) }}</span>
-                    </p>
-                </td>
+                <td style="padding:5px; height:150px;vertical-align: text-top;border-bottom-style: none;">1</td>
+                <td style="padding:5px;vertical-align: text-top;border-bottom-style: none; ">
+                    {{ $invoice->catatan ? $invoice->catatan : 'Tidak ada catatan' }}</td>
+                <td style="padding:5px;vertical-align: text-top;border-bottom-style: none;">Rp. <span
+                        style="float: right">{{ number_format($invoice->dibayar) }}</span></td>
             </tr>
 
+            <?php
+                if ($jml_invoce_terkait > 0) { ?>
+                <tr>
+                    <td style="border-top-style: none;border-bottom-style: none;padding:5px"></td>
+                    <td style="border-top-style: none;border-bottom-style: none;padding:5px">
+                       <b><u>Histori Pembayaran</u></b>
+                    </td>
+                    <td style="border-top-style: none;border-bottom-style: none;padding:5px"> </td>
+                </tr>
+            <?php   } ?>
             @foreach ($related_invoices as $ri)
                 <tr>
-                    <td>
-                        <p>{{ $no++ }}</p>
+                    <td style="border-top-style: none;border-bottom-style: none;padding:5px">
+                        {{-- {{ $no++ }} --}}
                     </td>
-                    <td colspan="1">
-                        <p>Pembayaran tgl
-                            {{ date('d M Y', strtotime($ri->tanggal_dibayar)) }}
-                        </p>
+                    <td style="border-top-style: none;border-bottom-style: none;padding:5px">
+                       - Pembayaran Tanggal
+                        {{ date('d M Y', strtotime($ri->tanggal_dibayar)) }}
                     </td>
-                    <td>
-                        <p>
-                            Rp.
-                            <span style="float: right">({{ number_format($ri->dibayar) }})</span>
-                        </p>
+                    <td style="border-top-style: none;border-bottom-style: none;padding:5px">
+                        Rp.
+                        <span style="float: right">({{ number_format($ri->dibayar) }})</span>
                     </td>
                 </tr>
                 @php
@@ -232,11 +226,10 @@
             @endforeach
 
             <tr>
-                <td></td>
-                <td>
+                <td style="border-top-style: none;padding:5px"></td>
+                <td style="border-top-style: none;padding:5px">
                     <p>
-                        <b><u>Muatan : </u></b>
-                        <br>
+                        <b><u>Muatan : </u></b> <br>
                         {{ $invoice->sale->spal->jml_muatan }} Ton x
                         Rp.{{ number_format($invoice->sale->spal->harga_unit) }}/Ton
 
@@ -244,22 +237,20 @@
                             Rp
                             {{ number_format($invoice->sale->spal->jml_muatan * $invoice->sale->spal->harga_unit) }}
                         </span>
-                        <br>
-                        <br>
-                    </p>
+                    </p><br>
                 </td>
-                <td></td>
+                <td style="border-top-style: none;padding:5px"></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="2">
-                    <b style="float: right">TOTAL</b>
+                    <b style="float: right;padding-right:5px">TOTAL</b>
                 </td>
                 <td>
-                    <b> Rp. </b>
+                    <b style="padding-left: 5px"> Rp. </b>
                     <span style="float: right">
-                        <b>{{ number_format($invoice->sale->grand_total - $totalDibayar) }}</b>
+                        <b>{{ number_format($invoice->dibayar) }}</b>
                     </span>
                 </td>
             </tr>
@@ -274,7 +265,7 @@
     </table>
 
     <!-- transfer ke -->
-    <table class="borderless-table" style="margin-top: 25px;" cellspacing="0" cellpadding="0">
+    <table class="borderless-table" style="margin-top: 5px;" cellspacing="0" cellpadding="0">
         <tr>
             <td>Mohon ditransfer ke : </td>
             <td>
