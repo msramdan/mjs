@@ -34,6 +34,7 @@ class StoreSpalRequest extends FormRequest
             'harga_unit' => 'required|min:1',
             'nama_file.*' => 'required|string|min:2',
             'file.*' => 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
+            'harga_demorage' => 'nullable',
         ];
     }
 }
