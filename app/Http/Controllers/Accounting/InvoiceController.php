@@ -150,14 +150,6 @@ class InvoiceController extends Controller
     {
         $print = $this->invoiceRepository->print($id);
 
-        // return $print;
-
-        // return view('accounting.invoice.print', [
-        //     'invoice' => $print['invoice'],
-        //     'perusahaan' => $print['perusahaan'],
-        //     'related_invoices' => $print['related_invoices']
-        // ]);
-
         $pdf = PDF::loadView('accounting.invoice.print', $print);
 
         return $pdf->stream('Invoice - ' . $print['invoice']->kode . '.pdf');
