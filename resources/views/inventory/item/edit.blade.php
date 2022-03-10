@@ -126,17 +126,32 @@
                                 </div>
 
                                 <div class="col-md-8">
-                                    <label class="mb-2">Type</label>
-                                    <br>
-                                    <div class="form-check form-check-inline mb-3">
-                                        <input class="form-check-input" type="radio" name="type" id="consumable"
-                                            value="Consumable" {{ $item->type == 'Consumable' ? 'checked' : '' }} />
-                                        <label class="form-check-label" for="consumable">Consumable</label>
-                                    </div>
-                                    <div class="form-check form-check-inline mb-3">
-                                        <input class="form-check-input" type="radio" name="type" id="services"
-                                            value="Services" {{ $item->type == 'Services' ? 'checked' : '' }} />
-                                        <label class="form-check-label" for="services">Services</label>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <label class="mb-2">Type</label>
+                                            <br>
+                                            <div class="form-check form-check-inline mb-3">
+                                                <input class="form-check-input" type="radio" name="type" id="consumable"
+                                                    value="Consumable"
+                                                    {{ $item->type == 'Consumable' ? 'checked' : '' }} />
+                                                <label class="form-check-label" for="consumable">Consumable</label>
+                                            </div>
+                                            <div class="form-check form-check-inline mb-3">
+                                                <input class="form-check-input" type="radio" name="type" id="services"
+                                                    value="Services" {{ $item->type == 'Services' ? 'checked' : '' }} />
+                                                <label class="form-check-label" for="services">Services</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <label class="mb-2">Is Demorage</label>
+                                            <br>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                                    name="is_demorage" value="1"
+                                                    {{ $item->is_demorage == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Ya</label>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="form-group mb-3">

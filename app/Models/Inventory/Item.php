@@ -24,7 +24,8 @@ class Item extends Model
         'deskripsi',
         'stok',
         'foto',
-        'harga_estimasi'
+        'harga_estimasi',
+        'is_demorage'
     ];
 
     public function category()

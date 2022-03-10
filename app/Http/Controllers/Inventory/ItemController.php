@@ -5,8 +5,7 @@ namespace App\Http\Controllers\Inventory;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{UpdateItemRequest, StoreItemRequest};
 use App\Models\Inventory\{Item, DetailItem};
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\{DB, Storage};
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -29,10 +28,7 @@ class ItemController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Item::with(
-                'category:id,nama',
-                'unit:id,nama',
-            );
+            $query = Item::with('category:id,nama', 'unit:id,nama');
 
             return DataTables::of($query)
                 ->addColumn('foto', function ($row) {
@@ -80,6 +76,7 @@ class ItemController extends Controller
             $attr['stok'] = $request->soh;
             $attr['harga_estimasi'] = $request->harga_estimasi;
             $attr['foto'] = null;
+            $attr['is_demorage'] = isset($request->is_demorage) ? 1 : 0;
 
             if ($request->file('foto') && $request->file('foto')->isValid()) {
                 $filename = $request->foto->hashName();
@@ -140,6 +137,7 @@ class ItemController extends Controller
             $attr['unit_id'] = $request->unit;
             $attr['stok'] = $request->soh;
             $attr['harga_estimasi'] = $request->harga_estimasi;
+            $attr['is_demorage'] = isset($request->is_demorage) ? 1 : 0;
 
             if ($request->file('foto') && $request->file('foto')->isValid()) {
                 // delete old foto from storage
