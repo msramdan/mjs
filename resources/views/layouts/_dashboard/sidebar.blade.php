@@ -219,6 +219,11 @@
                                     <div class="menu-text">{{ trans('sidebar.sub_menu.penjualan') }}</div>
                                 </a>
                             @endcan
+
+                            <a href="{{ route('sale.index') }}" class="menu-link">
+                                <div class="menu-text">{{ trans('sidebar.sub_menu.time_sheet') }}</div>
+                            </a>
+
                         </div>
                     </div>
                 </div>
