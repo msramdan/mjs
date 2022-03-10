@@ -220,7 +220,7 @@
                                 </a>
                             @endcan
 
-                            <a href="{{ route('sale.index') }}" class="menu-link">
+                            <a href="{{ route('time_sheet.index') }}" class="menu-link">
                                 <div class="menu-text">{{ trans('sidebar.sub_menu.time_sheet') }}</div>
                             </a>
 

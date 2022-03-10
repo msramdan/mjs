@@ -15,6 +15,7 @@ class CreateTimeSheetsTable extends Migration
     {
         Schema::create('time_sheets', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_time_sheet');
             $table->foreignId('spal_id')->constrained('spal');
             $table->float('qty');
             $table->integer('hari');

@@ -51,7 +51,8 @@ use App\Http\Controllers\Purchase\PurchaseController;
 use App\Http\Controllers\RequestForm\RequestFormController;
 use App\Http\Controllers\Sale\{
     SpalController,
-    SaleController
+    SaleController,
+    TimeSheetController
 };
 use App\Http\Controllers\Setting\{
     UserController,
@@ -116,6 +117,7 @@ Route::middleware('auth')->prefix('sale')->group(function () {
 
     Route::resource('sale', SaleController::class);
     Route::resource('spal', SpalController::class);
+    Route::resource('time_sheet', TimeSheetController::class);
 });
 
 // Purchase
