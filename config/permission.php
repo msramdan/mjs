@@ -388,6 +388,15 @@ return [
             ],
         ],
         [
+            'group' => 'time sheet',
+            'lists' => [
+                'view time sheet',
+                'create time sheet',
+                'edit time sheet',
+                'delete time sheet',
+            ],
+        ],
+        [
             'group' => 'item',
             'lists' => [
                 'view item',

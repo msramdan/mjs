@@ -54,11 +54,11 @@
                                 </a>
                             @endcan
 
-                            @can('view request form peminjaman')
+                            {{-- @can('view request form peminjaman')
                                 <a href="#" class="menu-link">
                                     <div class="menu-text">{{ trans('sidebar.sub_menu.rf_loan') }}</div>
                                 </a>
-                            @endcan
+                            @endcan --}}
                         </div>
                     </div>
                 </div>
@@ -220,9 +220,11 @@
                                 </a>
                             @endcan
 
+                            @can('view time sheet')
                             <a href="{{ route('time_sheet.index') }}" class="menu-link">
                                 <div class="menu-text">{{ trans('sidebar.sub_menu.time_sheet') }}</div>
                             </a>
+                            @endcan
 
                         </div>
                     </div>

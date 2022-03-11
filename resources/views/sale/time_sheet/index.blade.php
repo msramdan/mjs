@@ -6,9 +6,9 @@
 
         {{ Breadcrumbs::render('time_sheet_index') }}
 
-        @can('create spal')
+        @can('create time sheet')
             <div class="d-flex justify-content-end">
-                <a href="{{ route('spal.create') }}" class="btn btn-primary mb-3">
+                <a href="{{ route('time_sheet.create') }}" class="btn btn-primary mb-3">
                     <i class="fas fa-plus me-1"></i>
                     Create
                 </a>
@@ -37,18 +37,50 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
-                                        {{-- <th>File</th> --}}
+                                        <th>#</th>
                                         <th>Kode</th>
-                                        <th>Spal</th>
+                                        <th>time_sheet</th>
                                         <th>jumlah Waktu</th>
                                         <th>Created At</th>
-                                        <th>Updated At</th>
-                                        {{-- @canany(['edit spal', 'delete spal'])
-                                            <th>Action</th>
-                                        @endcanany --}}
+                                        {{-- @canany(['edit time_sheet', 'delete time_sheet']) --}}
+                                        <th>Action</th>
+                                        {{-- @endcanany --}}
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    @foreach ($data as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->kode_time_sheet }}</td>
+                                            <td>{{ $item->kode }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ $item->created_at }}</td>
+                                            <td>
+                                                @can('edit time sheet')
+                                                    <a href="{{ route('time_sheet.edit', $item->id) }}"
+                                                        class="btn btn-primary btn-xs mb-1">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                @endcan
+
+                                                @can('delete time sheet')
+                                                    <form action="{{ route('time_sheet.destroy', $item->id) }}" method="post"
+                                                        class="d-inline"
+                                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                        @csrf
+                                                        @method('delete')
+
+                                                        <button class="btn btn-danger btn-xs mb-1">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </form>
+                                                @endcan
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -57,4 +89,3 @@
         </div>
     </div>
 @endsection
-
