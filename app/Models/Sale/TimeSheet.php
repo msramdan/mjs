@@ -17,6 +17,12 @@ class TimeSheet extends Model
         'menit',
     ];
 
+    protected $casts = [
+        'qty' => 'float',
+        'created_at' => 'datetime:d/m/Y H:i',
+        'updeated_at' => 'datetime:d/m/Y H:i',
+    ];
+
     public function spal()
     {
         return $this->belongsTo(Spal::class);

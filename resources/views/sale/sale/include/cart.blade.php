@@ -3,8 +3,8 @@
         <div class="panel-heading">
             <h4 class="panel-title">Sale</h4>
             <div class="panel-heading-btn">
-                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
-                        class="fa fa-redo"></i>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
+                    <i class="fa fa-redo"></i>
                 </a>
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse">
                     <i class="fa fa-minus"></i>
@@ -37,7 +37,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-md-{{ !$show ? '6' : '12' }}">
                     <div class="form-group mb-2">
                         <label class="form-label" for="attn">Attn.</label>
@@ -50,6 +49,7 @@
                         <input type="hidden" name="kode_produk" id="kode-produk">
                         <input type="hidden" name="unit_produk" id="unit-produk">
                         <input type="hidden" name="index_tr" id="index-tr">
+                        <input type="hidden" name="is_demorage" id="is-demorage-hidden">
 
                         <div class="form-group mb-2">
                             <label class="form-label" for="produk">Produk</label>
@@ -65,13 +65,13 @@
                         <div class="row form-group">
                             <div class="col-md-6 mb-2">
                                 <label class="form-label" for="harga">Harga</label>
-                                <input class="form-control" type="number" id="harga" name="Harga"
-                                    placeholder="Harga" />
+                                <input class="form-control" type="text" id="harga" name="Harga" placeholder="Harga" />
                             </div>
 
                             <div class="col-md-6 mb-2">
                                 <label class="form-label" for="qty">Qty</label>
                                 <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
+                                <small id="lama-waktu-small" style="display: none;"></small>
                             </div>
                         </div>
                     @endif
@@ -117,6 +117,9 @@
                                     {{ $detail->item->kode . ' - ' . $detail->item->nama }}
                                     <input type="hidden" class="produk-hidden" name="produk[]"
                                         value="{{ $detail->item_id }}">
+                                    <input type="hidden" class="is-demorage-hidden" name="is_demorage[]"
+                                        value="{{ $detail->item->is_demorage == 1 ? 'true' : '' }}">
+                                    {{-- @dump($detail->item->is_demorage) --}}
                                 </td>
                                 <td>{{ $detail->item->unit->nama }}</td>
                                 <td>
@@ -167,8 +170,8 @@
 
                     <div class="form-group mb-2">
                         <label class="form-label" for="diskon">Diskon</label>
-                        <input class="form-control" type="number" id="diskon" name="diskon" placeholder="Diskon"
-                            min="1" value="{{ $sale ? $sale->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
+                        <input class="form-control" type="text" id="diskon" name="diskon" placeholder="Diskon" min="1"
+                            value="{{ $sale ? $sale->diskon : '' }}" {{ $show ? 'disabled' : '' }} />
                     </div>
 
                     <div class="form-group mb-2">

@@ -34,6 +34,11 @@ class Spal extends Model
         return $this->hasMany(FileSpal::class);
     }
 
+    public function time_sheets()
+    {
+        return $this->hasMany(TimeSheet::class);
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return date('d m Y H:i', strtotime($value));
