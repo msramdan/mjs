@@ -27,10 +27,7 @@ class SaleController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Sale::with(
-                'spal:id,customer_id,kode',
-                'spal.customer:id,nama',
-            );
+            $query = Sale::with('spal:id,customer_id,kode', 'spal.customer:id,nama');
 
             return DataTables::of($query)
                 ->addColumn('spal', function ($row) {
@@ -65,7 +62,7 @@ class SaleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -148,7 +145,7 @@ class SaleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @param  \App\Models\Sale\Sale  $sale
      * @return \Illuminate\Http\Response
      */
@@ -232,7 +229,7 @@ class SaleController extends Controller
     /**
      * Generate unique & auto increment code by date.
      *
-     * @param  String $tanggal
+     * @param string $tanggal
      * @return \Illuminate\Http\Response
      */
     public function generateKode($tanggal)

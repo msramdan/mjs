@@ -34,6 +34,7 @@ class UpdateSpalRequest extends FormRequest
             'harga_unit' => 'required|min:1',
             'nama.*' => 'nullable|string|min:2',
             'file.*' => 'nullable|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
+            'harga_demorage' => 'nullable',
         ];
     }
 }

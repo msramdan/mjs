@@ -41,7 +41,7 @@
                                 <label class="form-label" for="nama_kapal">Nama Kapal</label>
                                 <input class="form-control @error('nama_kapal') is-invalid @enderror" type="text"
                                     id="nama_kapal" name="nama_kapal" placeholder="Nama Kapal"
-                                    value="{{ old('nama_kapal') }}" required autofocus />
+                                    value="{{ old('nama_kapal') }}" required />
                                 @error('nama_kapal')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -53,7 +53,7 @@
                                         <label class="form-label" for="nama_muatan">Nama Muatan</label>
                                         <input class="form-control @error('nama_muatan') is-invalid @enderror" type="text"
                                             id="nama_muatan" name="nama_muatan" placeholder="Nama Muatan"
-                                            value="{{ old('nama_muatan') }}" required autofocus />
+                                            value="{{ old('nama_muatan') }}" required />
                                         @error('nama_muatan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -64,7 +64,7 @@
                                         <label class="form-label" for="jml_muatan">Jumlah Muatan</label>
                                         <input class="form-control @error('jml_muatan') is-invalid @enderror" type="text"
                                             id="jml_muatan" name="jml_muatan" placeholder="Jumlah Muatan"
-                                            value="{{ old('jml_muatan') }}" required autofocus />
+                                            value="{{ old('jml_muatan') }}" required />
                                         @error('jml_muatan')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -88,16 +88,35 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="harga_unit">Harga/Unit</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">Rp</span>
-                                    <input class="form-control @error('harga_unit') is-invalid @enderror" type="text"
-                                        id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
-                                        value="{{ old('harga_unit') }}" required autofocus />
-                                    @error('harga_unit')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="harga_unit">Harga/Unit</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Rp</span>
+                                            <input class="form-control @error('harga_unit') is-invalid @enderror"
+                                                type="text" id="harga_unit" name="harga_unit" placeholder="Harga/Unit"
+                                                value="{{ old('harga_unit') }}" required />
+                                            @error('harga_unit')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="harga_demorage">Harga Demorage</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">Rp</span>
+                                            <input class="form-control @error('harga_demorage') is-invalid @enderror"
+                                                type="text" id="harga_demorage" name="harga_demorage"
+                                                placeholder="Harga Demorage" value="{{ old('harga_demorage') }}" />
+                                            @error('harga_demorage')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -226,6 +245,7 @@
         const jml_muatan = new Cleave("#jml_muatan", config)
 
         const harga_unit = new Cleave("#harga_unit", config);
+        const harga_demorage = new Cleave("#harga_demorage", config);
 
         const tableFile = $('#tbl-file tbody')
 

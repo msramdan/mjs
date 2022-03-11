@@ -85,6 +85,7 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label class="form-label" for="unit">Unit</label>
@@ -100,33 +101,31 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
 
-                            {{-- <div class="form-group mb-3">
-                                <label class="form-label" for="akun_coa">Akun COA</label>
-                                <select class="form-select @error('akun_coa') is-invalid @enderror" id="akun_coa"
-                                    name="akun_coa" required>
-                                    <option value="" disabled selected>-- Pilih --</option>
-                                    @foreach ($akunCoa as $each)
-                                        <option value="{{ $each->id }}">{{ $each->nama }}</option>
-                                    @endforeach
-                                </select>
-                                @error('akun_coa')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div> --}}
+                                <div class="col-md-6">
+                                    <label class="mb-2">Type</label>
+                                    <br>
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input" type="radio" name="type" id="consumable"
+                                            value="Consumable" required />
+                                        <label class="form-check-label" for="consumable">Consumable</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input" type="radio" name="type" id="services"
+                                            value="Services" required />
+                                        <label class="form-check-label" for="services">Services</label>
+                                    </div>
+                                </div>
 
-                            <label class="mb-2">Type</label>
-                            <br>
-                            <div class="form-check form-check-inline mb-3">
-                                <input class="form-check-input" type="radio" name="type" id="consumable" value="Consumable"
-                                    required />
-                                <label class="form-check-label" for="consumable">Consumable</label>
-                            </div>
-                            <div class="form-check form-check-inline mb-3">
-                                <input class="form-check-input" type="radio" name="type" id="services" value="Services"
-                                    required />
-                                <label class="form-check-label" for="services">Services</label>
+                                <div class="col-md-6">
+                                    <label class="mb-2">Is Demorage</label>
+                                    <br>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                            name="is_demorage" value="1">
+                                        <label class="form-check-label" for="flexSwitchCheckDefault">Ya</label>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="form-group mb-3">

@@ -24,7 +24,12 @@ class Item extends Model
         'deskripsi',
         'stok',
         'foto',
-        'harga_estimasi'
+        'harga_estimasi',
+        'is_demorage'
+    ];
+
+    protected $casts = [
+        'is_demorage' => 'boolean'
     ];
 
     public function category()

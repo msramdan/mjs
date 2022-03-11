@@ -111,6 +111,8 @@
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
                     method: 'get',
                     success: function(res) {
+                        console.log(res);
+
                         // stok.val(res.stok)
                         kodeProduk.val(res.kode)
                         unitProduk.val(res.unit.nama)

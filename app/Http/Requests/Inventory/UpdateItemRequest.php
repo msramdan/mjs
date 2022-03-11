@@ -35,7 +35,8 @@ class UpdateItemRequest extends FormRequest
             'supplier' => 'nullable|exists:suppliers,id',
             'harga_beli' => 'nullable',
             'supplier.*' => 'nullable|exists:suppliers,id',
-            'harga_beli.*' => 'nullable'
+            'harga_beli.*' => 'nullable',
+            'is_demorage' => 'nullable'
         ];
     }
 }

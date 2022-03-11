@@ -13,7 +13,7 @@ class SpalController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view spal')->only('index');
+        $this->middleware('permission:view spal')->only('index', 'download');
         $this->middleware('permission:create spal')->only('create', 'store');
         $this->middleware('permission:edit spal')->only('edit', 'update');
         $this->middleware('permission:delete spal')->only('delete');
@@ -53,7 +53,7 @@ class SpalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreSpalRequest $request)
@@ -62,6 +62,7 @@ class SpalController extends Controller
         $attr['customer_id'] = $request->customer;
         $attr['jml_muatan'] = $this->removeCommas($request->jml_muatan);
         $attr['harga_unit'] = $this->removeCommas($request->harga_unit);
+        $attr['harga_demorage'] = $this->removeCommas($request->harga_demorage);
 
         $spal = Spal::create($attr);
 
@@ -86,7 +87,7 @@ class SpalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Sale\Spal  $spal
+     * @param  \App\Models\Sale\Spal $spal
      * @return \Illuminate\Http\Response
      */
     public function edit(Spal $spal)
@@ -99,8 +100,8 @@ class SpalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Sale\Spal  $spal
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Models\Sale\Spal $spal
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateSpalRequest $request, Spal $spal)
@@ -111,6 +112,7 @@ class SpalController extends Controller
         $attr['customer_id'] = $request->customer;
         $attr['jml_muatan'] = $this->removeCommas($request->jml_muatan);
         $attr['harga_unit'] = $this->removeCommas($request->harga_unit);
+        $attr['harga_demorage'] = $this->removeCommas($request->harga_demorage);
 
 
         if ($request->file) {
@@ -146,7 +148,7 @@ class SpalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Sale\Spal  $spal
+     * @param  \App\Models\Sale\Spal $spal
      * @return \Illuminate\Http\Response
      */
     public function destroy(Spal $spal)

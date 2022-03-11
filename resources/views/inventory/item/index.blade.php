@@ -43,6 +43,7 @@
                                         <th>Category</th>
                                         <th>Unit</th>
                                         <th>Type</th>
+                                        <th>Is Demorage</th>
                                         <th>SOH</th>
                                         <th>Deskripsi</th>
                                         {{-- <th>Akun COA</th> --}}
@@ -103,6 +104,15 @@
             {
                 data: 'type',
                 name: 'type'
+            },
+            {
+                data: 'is_demorage',
+                name: 'is_demorage',
+                searchable: false,
+                orderable: false,
+                render: function(data, type, full, meta) {
+                    return data == 1 ? 'Ya' : 'No';
+                }
             },
             {
                 data: 'stok',

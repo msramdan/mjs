@@ -21,6 +21,7 @@ class Spal extends Model
         'pelabuhan_muat',
         'pelabuhan_bongkar',
         'harga_unit',
+        'harga_demorage',
     ];
 
     public function customer()
