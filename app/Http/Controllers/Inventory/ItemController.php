@@ -14,7 +14,7 @@ class ItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view item')->only('index', 'tracking');
+        $this->middleware('permission:view item')->only('index', 'tracking', 'getItemAndSupplier', 'generateKode', 'getItemById', 'getAll');
         $this->middleware('permission:create item')->only('create', 'store');
         $this->middleware('permission:edit item')->only('edit', 'update');
         $this->middleware('permission:delete item')->only('delete');
@@ -287,8 +287,8 @@ class ItemController extends Controller
         abort_if(!request()->ajax(), 403);
 
         $item = Item::with('unit:id,nama')
-            ->select('id', 'unit_id', 'kode', 'nama', 'stok')
-            ->firstOrFail();
+            ->select('id', 'unit_id', 'kode', 'nama', 'stok', 'is_demorage')
+            ->findOrFail($id);
 
         return response()->json($item, 200);
     }

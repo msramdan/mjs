@@ -28,6 +28,10 @@ class Item extends Model
         'is_demorage'
     ];
 
+    protected $casts = [
+        'is_demorage' => 'boolean'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
