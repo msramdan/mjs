@@ -46,6 +46,7 @@
                                         <th>Pelabuhan Muat</th>
                                         <th>Pelabuhan Bongkar</th>
                                         <th>Harga/Unit</th>
+                                        <th>Harga Demorage</th>
                                         <th>Created At</th>
                                         <th>Updated At</th>
                                         @canany(['edit spal', 'delete spal'])
@@ -125,6 +126,13 @@
                 name: 'harga_unit',
                 render: function(data, type, full, meta) {
                     return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+            },
+            {
+                data: 'harga_demorage',
+                name: 'harga_demorage',
+                render: function(data, type, full, meta) {
+                    return data ? data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '-';
                 }
             },
             {

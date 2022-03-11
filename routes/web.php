@@ -153,7 +153,7 @@ Route::middleware('auth')->prefix('inventory')->group(function () {
     Route::get('/bac-pakai/generate-kode/{tanggal}', [BacPakaiController::class, 'generateKode']);
     Route::get('/bac-terima/generate-kode/{tanggal}', [BacTerimaController::class, 'generateKode']);
 
-    Route::resource('item', ItemController::class);
+    Route::resource('item', ItemController::class)->except('show');
     Route::resource('bac-terima', BacTerimaController::class);
     Route::resource('bac-pakai', BacPakaiController::class);
     Route::resource('aso', AsoController::class);
