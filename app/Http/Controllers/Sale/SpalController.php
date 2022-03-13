@@ -172,7 +172,7 @@ class SpalController extends Controller
         }
     }
 
-    public function download($filename)
+    public function download(string $filename)
     {
         $path = public_path() . "/spal/$filename";
 
@@ -192,12 +192,16 @@ class SpalController extends Controller
         return response()->download($path, $filename, $headers);
     }
 
-    public function getSpalById($id)
+    public function getSpalById(int $id)
     {
-        return Spal::with('customer:id,nama')->findOrFail($id);
+        abort_if(!request()->ajax(), 403);
+
+        return Spal::select('id', 'customer_id', 'kode', 'nama_kapal', 'nama_muatan', 'jml_muatan', 'pelabuhan_muat', 'pelabuhan_bongkar', 'harga_unit', 'harga_demorage',)
+            ->with('customer:id,nama', 'time_sheets:id,spal_id,qty,hari,jam,menit')
+            ->findOrFail($id);
     }
 
-    protected function removeCommas($number)
+    protected function removeCommas(string $number)
     {
         return intval(preg_replace('/[^\d.]/', '', $number));
     }

@@ -21,6 +21,10 @@
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"
+        integrity="sha512-KaIyHb30iXTXfGyI9cyKFUIRSSuekJt6/vqXtyQKhQP6ozZEGY8nOtRS6fExqE4+RbYHus2yGyYg1BrqxzV6YA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script>
         const spal = $('#spal')
         const kode = $('#kode')
@@ -53,6 +57,17 @@
 
         const tblCart = $('#tbl-cart')
 
+        const lamaWaktuHidden = $('#lama-waktu-hidden')
+        const isDemorage = $('#is-demorage-hidden')
+
+        const config = {
+            numeral: true,
+            numeralThousandsGroupStyle: 'thousand'
+        }
+
+        const hargaCleave = new Cleave("#harga", config)
+        const diskonCleave = new Cleave("#diskon", config)
+
         tanggal.change(function() {
             getKode()
         })
@@ -66,11 +81,22 @@
             pelabuhanMuat.text('Loading...')
             pelabuhanBongkar.text('Loading...')
             hargaUnit.text('Loading...')
+            hargaDemorage.text('Loading...')
 
             $.ajax({
                 url: '/sale/spal/get-spal-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
+                    // console.log(res)
+
+                    if (res.time_sheets.length != 0) {
+                        lamaWaktuHidden.val(
+                            `${res.time_sheets[0].hari + ' Hari, ' + res.time_sheets[0].jam + ' Jam, '+ res.time_sheets[0].menit + ' Menit'}`
+                        )
+                    } else {
+                        lamaWaktuHidden.val('')
+                    }
+
                     setTimeout(() => {
                         customer.val(res.customer.nama)
 
@@ -79,13 +105,18 @@
                         jmlMuatan.text(res.jml_muatan)
                         pelabuhanMuat.text(res.pelabuhan_muat)
                         pelabuhanBongkar.text(res.pelabuhan_bongkar)
-                        hargaUnit.text(res.harga_unit)
+                        hargaUnit.text(formatRibuan(res.harga_unit))
+                        hargaDemorage.text(res.harga_demorage ? formatRibuan(res
+                            .harga_demorage) : '-')
                     }, 500)
                 },
             })
         })
 
         produk.change(function() {
+            btnAdd.prop('disabled', true)
+            btnUpdate.prop('disabled', true)
+
             if (!spal.val()) {
                 spal.focus()
                 produk.val('')
@@ -109,19 +140,38 @@
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
                     method: 'get',
                     success: function(res) {
+                        // console.log(res)
+
                         // stok.val(res.stok)
                         kodeProduk.val(res.kode)
                         unitProduk.val(res.unit.nama)
+                        isDemorage.val(res.is_demorage)
 
                         setTimeout(() => {
-                            harga.prop('type', 'number')
-                            harga.prop('disabled', false)
-                            harga.val(parseInt(hargaUnit.text()))
-
                             qty.prop('type', 'number')
                             qty.prop('disabled', false)
                             qty.val(parseInt(jmlMuatan.text()))
+
+                            // harga.prop('type', 'number')
+                            harga.prop('disabled', false)
+
+                            if (res.is_demorage) {
+                                harga.val(hargaDemorage.text() != '-' ? hargaDemorage.text() :
+                                    hargaUnit.text())
+                                if (lamaWaktuHidden.val()) {
+                                    $('#lama-waktu-small')
+                                        .text(`Note: ${lamaWaktuHidden.val()}`)
+                                        .show()
+                                }
+                            } else {
+                                harga.val(hargaUnit.text())
+                                $('#lama-waktu-small').text('').hide()
+                            }
+
                             harga.focus()
+
+                            btnAdd.prop('disabled', false)
+                            btnUpdate.prop('disabled', false)
                         }, 500)
                     }
                 })
@@ -129,6 +179,7 @@
         })
 
         btnAdd.click(function() {
+
             if (!spal.val()) {
                 spal.focus()
 
@@ -198,11 +249,7 @@
                     }
                 })
 
-                let subtotal = harga.val() * qty.val()
-
-                //             <input type="hidden" class="stok-hidden" name="stok[]" value="${stok.val()}">
-                //             <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
-                //         </td>
+                let subtotal = parseInt(removeComma(harga.val())) * qty.val()
 
                 tblCart.find('tbody').append(`
                     <tr>
@@ -210,11 +257,12 @@
                         <td>
                             ${produk.find('option:selected').text()}
                             <input type="hidden" class="produk-hidden" name="produk[]" value="${produk.val()}">
+                            <input type="hidden" class="is-demorage-hidden" name="is_demorage[]" value="${isDemorage.val()}">
                         </td>
                         <td>${unitProduk.val()}</td>
                         <td>
                             ${formatRibuan(harga.val())}
-                            <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
+                            <input type="hidden" class="harga-hidden" name="harga[]" value="${removeComma(harga.val())}">
                             <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
                         </td>
                         <td>
@@ -243,6 +291,8 @@
                 cekTableLength()
 
                 produk.focus()
+
+                $('#lama-waktu-small').text('').hide()
             }
         })
 
@@ -294,18 +344,19 @@
                     }
                 })
 
-                let subtotal = harga.val() * qty.val()
+                let subtotal = parseInt(removeComma(harga.val())) * qty.val()
 
                 $('#tbl-cart tbody tr:eq(' + index + ')').html(`
                     <td></td>
                     <td>
                         ${produk.find('option:selected').text()}
                         <input type="hidden" class="produk-hidden" name="produk[]" value="${produk.val()}">
+                        <input type="hidden" class="is-demorage-hidden" name="is_demorage[]" value="${isDemorage.val()}">
                     </td>
                     <td>${unitProduk.val()}</td>
                     <td>
                         ${formatRibuan(harga.val())}
-                        <input type="hidden" class="harga-hidden" name="harga[]" value="${harga.val()}">
+                        <input type="hidden" class="harga-hidden" name="harga[]" value="${removeComma(harga.val())}">
                         <input type="hidden" class="unit-hidden" name="unit[]" value="${unitProduk.val()}">
                     </td>
                     <td>
@@ -333,6 +384,8 @@
 
                 btnUpdate.hide()
                 btnAdd.show()
+
+                $('#lama-waktu-small').text('').hide()
             }
         })
 
@@ -343,14 +396,22 @@
             let index = $(this).parent().parent().index()
 
             btnAdd.hide()
-
             btnUpdate.show()
 
             produk.val($('.produk-hidden:eq(' + index + ')').val())
-            harga.val($('.harga-hidden:eq(' + index + ')').val())
+            harga.val(formatRibuan($('.harga-hidden:eq(' + index + ')').val()))
             qty.val($('.qty-hidden:eq(' + index + ')').val())
             // stok.val($('.stok-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
+            isDemorage.val($('.is-demorage-hidden:eq(' + index + ')').val())
+
+            if ($('.is-demorage-hidden:eq(' + index + ')').val() == 'true' && lamaWaktuHidden.val() != '') {
+                // console.log(`item ini demorage`)
+                $('#lama-waktu-small').text(`Note: ${lamaWaktuHidden.val()}`).show()
+            } else {
+                // console.log(`item ini bukan demorage`)
+                $('#lama-waktu-small').text(``).hide()
+            }
 
             $('#index-tr').val(index)
         })
@@ -405,7 +466,7 @@
                 success: function(res) {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Simpan data',
+                        title: 'Update data',
                         text: 'Berhasil'
                     }).then(function() {
                         setTimeout(() => {
@@ -432,7 +493,7 @@
 
         function hitungDiskon() {
             xTotal = parseInt($('#total-hidden').val())
-            xDiskon = (xTotal - parseInt($('#diskon').val()))
+            xDiskon = (xTotal - parseInt(removeComma($('#diskon').val())))
 
             if (Number.isNaN(xDiskon)) {
                 grandTotal.val(formatRibuan(xTotal))
@@ -504,6 +565,10 @@
                     }, 500)
                 }
             })
+        }
+
+        function removeComma(number) {
+            return parseFloat(number.replace(/,/g, ''))
         }
     </script>
 @endpush
