@@ -74,7 +74,17 @@
                 <tr>
                     <td width="35">Harga Unit</td>
                     <td>:</td>
-                    <td id="harga-unit">{{ $sale ? $sale->spal->harga_unit : '' }}</td>
+                    <td id="harga-unit">{{ $sale ? number_format($sale->spal->harga_unit) : '' }}</td>
+                </tr>
+
+                <tr>
+                    <td width="35">Harga Demorage</td>
+                    <td>:</td>
+                    <td id="harga-demorage">
+                        {{ $sale ? number_format($sale->spal->harga_demorage) : '' }}
+                    </td>
+                    <input type="hidden" name="lama_waktu_hidden" id="lama-waktu-hidden"
+                        value="{{ isset($sale) && isset($sale->spal->time_sheets)? $sale->spal->time_sheets[0]->hari .' Hari, ' .$sale->spal->time_sheets[0]->jam .' Jam, ' .$sale->spal->time_sheets[0]->menit .' Menit': '' }}">
                 </tr>
             </table>
         </div>

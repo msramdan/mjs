@@ -73,18 +73,18 @@ class SaleController extends Controller
                 'spal_id' => $request->spal,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
-                'grand_total' => $request->grand_total,
-                'total' => $request->total,
-                'diskon' => $request->diskon,
+                'grand_total' => $this->removeComma($request->grand_total),
+                'total' => $this->removeComma($request->total),
+                'diskon' => $this->removeComma($request->diskon),
                 'catatan' => $request->catatan,
             ]);
 
             foreach ($request->produk as $i => $prd) {
                 $detailSale[] = new DetailSale([
                     'item_id' => $prd,
-                    'harga' => $request->harga[$i],
-                    'qty' => $request->qty[$i],
-                    'sub_total' => $request->subtotal[$i],
+                    'harga' => $this->removeComma($request->harga[$i]),
+                    'qty' => $this->removeComma($request->qty[$i]),
+                    'sub_total' => $this->removeComma($request->subtotal[$i]),
                 ]);
 
                 // Update stok barang
@@ -133,9 +133,13 @@ class SaleController extends Controller
             'spal',
             'spal.customer:id,nama',
             'detail_sale',
-            'detail_sale.item:id,unit_id,kode,nama,stok',
-            'detail_sale.item.unit:id,nama'
+            'detail_sale.item:id,unit_id,kode,nama,stok,is_demorage',
+            'detail_sale.item.unit:id,nama',
+            'spal.time_sheets:id,spal_id,qty,hari,jam,menit'
         );
+
+        // return $sale;
+        // die;
 
         $show = false;
 
@@ -171,9 +175,9 @@ class SaleController extends Controller
                 'spal_id' => $request->spal,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
-                'grand_total' => $request->grand_total,
-                'total' => $request->total,
-                'diskon' => $request->diskon,
+                'grand_total' => $this->removeComma($request->grand_total),
+                'total' => $this->removeComma($request->total),
+                'diskon' => $this->removeComma($request->diskon),
                 'catatan' => $request->catatan,
             ]);
 
@@ -181,9 +185,9 @@ class SaleController extends Controller
             foreach ($request->produk as $i => $prd) {
                 $detailSale[] = new DetailSale([
                     'item_id' => $prd,
-                    'harga' => $request->harga[$i],
-                    'qty' => $request->qty[$i],
-                    'sub_total' => $request->subtotal[$i],
+                    'harga' => $this->removeComma($request->harga[$i]),
+                    'qty' => $this->removeComma($request->qty[$i]),
+                    'sub_total' => $this->removeComma($request->subtotal[$i]),
                 ]);
 
                 // Update stok barang
@@ -206,9 +210,13 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        $sale->delete();
+        try {
+            $sale->delete();
 
-        Alert::toast('Hapus data berhasil', 'success');
+            Alert::toast('Hapus data berhasil', 'success');
+        } catch (\Throwable $th) {
+            Alert::toast('Hapus data gagal', 'error');
+        }
 
         return redirect()->route('sale.index');
     }
@@ -253,7 +261,7 @@ class SaleController extends Controller
         if ($checkLatestKode == null) {
             $kode = $kode . '0001';
         } else {
-            // hapus "SO-XXXX-XX-XX-" dan ambil angka buat ditambahin
+            // hapus "SO-YYYY-MM-D-" dan ambil angka buat ditambahin
             // $onlyNumberKode = intval(Str::after($checkLatestKode->kode, $kode));
             $onlyNumberKode = intval(substr($checkLatestKode->kode, -4));
 
@@ -267,5 +275,16 @@ class SaleController extends Controller
         }
 
         return response()->json(['kode' => $kode], 200);
+    }
+
+    /**
+     * Remove comma from string and convert to int
+     *
+     * @param string $string
+     * @return int
+     */
+    private function removeComma(string $string)
+    {
+        return intval(str_replace(',', '', $string));
     }
 }
