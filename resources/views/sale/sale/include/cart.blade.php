@@ -50,7 +50,8 @@
                         <input type="hidden" name="unit_produk" id="unit-produk">
                         <input type="hidden" name="index_tr" id="index-tr">
                         <input type="hidden" name="is_demorage" id="is-demorage-hidden">
-                        <input type="hidden" name="qty_time_sheet" id="qty-time-sheet-hidden">
+                        <input type="hidden" name="qty_time_sheet" id="qty-time-sheet-hidden"
+                            value="{{ $sale && isset($sale->spal->time_sheets) ? $sale->spal->time_sheets[0]->qty : '' }}">
 
                         <div class="form-group mb-2">
                             <label class="form-label" for="produk">Produk</label>
