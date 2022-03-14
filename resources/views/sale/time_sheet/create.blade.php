@@ -29,7 +29,7 @@
                             <div class="form-group mb-2">
                                 <label class="form-label" for="spal">Time Sheet</label>
                                 <select class="form-select theSelect " id="spal" name="spal" required>
-                                    <option value="">-- Pilih --</option>
+                                    <option>-- Pilih --</option>
                                     @foreach ($data as $item)
                                         <option value="{{ $item->id }}">{{ $item->kode }}</option>
                                         </option>
@@ -162,7 +162,7 @@
             $('#add_berkas').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required /></td><td><input type="time" name="from[]" placeholder="from" class="form-control nama_berkas" required /></td><td><input type="time" name="to[]" placeholder="to" class="form-control nama_berkas" required /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input class="form-check-input" type="checkbox" id="flexCheckChecked" name="is_count[]"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required /></td><td><input type="time" name="from[]" placeholder="from" class="form-control nama_berkas" required /></td><td><input type="time" name="to[]" placeholder="to" class="form-control nama_berkas" required /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required /></td><td><button type="button" name="remove" id="' +
                     i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
             });
 
@@ -214,16 +214,6 @@
                 data: $('#form-time-sheet').serialize(),
                 success: function(res) {
                     console.log(res);
-                    // Swal.fire({
-                    //     title: 'Success',
-                    //     text: 'Data Berhasil Disimpan',
-                    //     type: 'success',
-                    //     confirmButtonText: 'Ok'
-                    // }).then((result) => {
-                    //     if (result.value) {
-                    //         window.location.href = '/sale/time-sheet'
-                    //     }
-                    // })
                 },
             });
         })

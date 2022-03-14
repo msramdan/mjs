@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Sale\StoreTimeSheetRequest;
+use App\Http\Requests\Sale\UpdateTimeSheetRequest;
+use App\Models\Sale\DetailTimeSheet;
 use App\Models\Sale\TimeSheet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,11 +41,32 @@ class TimeSheetController extends Controller
     public function store(Request $request)
     {
         return $request;
+
         // DB::transaction(function () use ($request) {
         //     $timeSheet = TimeSheet::create([
         //         'spal_id' => $request->spal,
+        //         'kode_time_sheet' => 'TS001',
+        //         'qty' => 6,
+        //         'hari' => 4,
+        //         'jam' => 8,
+        //         'menit' => 10,
         //     ]);
+
+        //     $detail = [];
+        //     foreach ($request->date as $i => $d) {
+        //         $detail[] = new DetailTimeSheet([
+        //             'date' => $d,
+        //             'remark' => $request->remark[$i],
+        //             'from' => $request->from[$i],
+        //             'to' => $request->to[$i],
+        //             'keterangan' => $request->keterangan[$i],
+        //         ]);
+        //     }
+
+        //     $timeSheet->detail_time_sheet($detail);
         // });
+
+        // return response()->json(['success'], 200);
     }
 
     /**
@@ -74,7 +98,7 @@ class TimeSheetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTimeSheetRequest $request, $id)
     {
         //
     }
