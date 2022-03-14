@@ -156,9 +156,9 @@
                                             </a>
                                         @endcan
                                         {{-- @can('view labarugi') --}}
-                                            <a href="{{ route('labarugi.index') }}" class="menu-link">
-                                                <div class="menu-text">{{ trans('sidebar.sub_menu.labarugi') }}</div>
-                                            </a>
+                                        <a href="{{ route('labarugi.index') }}" class="menu-link">
+                                            <div class="menu-text">{{ trans('sidebar.sub_menu.labarugi') }}</div>
+                                        </a>
                                         {{-- @endcan --}}
                                     </div>
                                 </div>
@@ -221,9 +221,9 @@
                             @endcan
 
                             @can('view time sheet')
-                            <a href="{{ route('time_sheet.index') }}" class="menu-link">
-                                <div class="menu-text">{{ trans('sidebar.sub_menu.time_sheet') }}</div>
-                            </a>
+                                <a href="{{ route('time_sheet.index') }}" class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.time_sheet') }}</div>
+                                </a>
                             @endcan
 
                         </div>
