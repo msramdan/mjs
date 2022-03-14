@@ -22,8 +22,8 @@ class TimeSheetController extends Controller
     public function create()
     {
         $data = DB::table('spal')
-        ->select('kode','id')
-        ->get();
+            ->select('kode', 'id')
+            ->get();
         return view('sale.time_sheet.create')->with([
             'data' => $data
         ]);
@@ -37,7 +37,12 @@ class TimeSheetController extends Controller
      */
     public function store(Request $request)
     {
-        echo "ramdan";
+        return $request;
+        // DB::transaction(function () use ($request) {
+        //     $timeSheet = TimeSheet::create([
+        //         'spal_id' => $request->spal,
+        //     ]);
+        // });
     }
 
     /**

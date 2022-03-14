@@ -280,11 +280,15 @@ class SaleController extends Controller
     /**
      * Remove comma from string and convert to int
      *
-     * @param string $string
+     * @param mixed $number
      * @return int
      */
-    private function removeComma(string $string)
+    private function removeComma(mixed $number)
     {
-        return intval(str_replace(',', '', $string));
+        if (is_int($number)) {
+            return $number;
+        } else {
+            return intval(str_replace(',', '', $number));
+        }
     }
 }

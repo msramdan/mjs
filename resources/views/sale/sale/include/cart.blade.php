@@ -50,6 +50,7 @@
                         <input type="hidden" name="unit_produk" id="unit-produk">
                         <input type="hidden" name="index_tr" id="index-tr">
                         <input type="hidden" name="is_demorage" id="is-demorage-hidden">
+                        <input type="hidden" name="qty_time_sheet" id="qty-time-sheet-hidden">
 
                         <div class="form-group mb-2">
                             <label class="form-label" for="produk">Produk</label>
@@ -190,8 +191,8 @@
                 <div class="col-md-{{ !$show ? '6' : '8' }}">
                     <div class="form-group mb-2">
                         <label class="form-label" for="catatan">Catatan</label>
-                        <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan"
-                            rows="8" {{ $show ? 'disabled' : '' }}>{{ $sale ? $sale->catatan : '' }}</textarea>
+                        <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan" rows="8"
+                            {{ $show ? 'disabled' : '' }}>{{ $sale ? $sale->catatan : '' }}</textarea>
                     </div>
                 </div>
 
