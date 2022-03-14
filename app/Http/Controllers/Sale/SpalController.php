@@ -93,7 +93,6 @@ class SpalController extends Controller
     public function edit(Spal $spal)
     {
         $spal->load('file_spal');
-
         return view('sale.spal.edit', compact('spal'));
     }
 
