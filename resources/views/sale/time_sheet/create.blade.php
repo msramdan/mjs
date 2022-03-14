@@ -1,11 +1,11 @@
 @extends('layouts.master')
-@section('title', 'Create Spal')
+@section('title', 'Create Time Sheet')
 
 @section('content')
     <div id="content" class="app-content">
 
         {{ Breadcrumbs::render('time_sheet_create') }}
-        <form action="{{ route('spal.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('time_sheet.store') }}" method="POST" id="form-time-sheet">
             @csrf
             @method('POST')
             <div class="row">
@@ -14,8 +14,8 @@
                         <div class="panel-heading ui-sortable-handle">
                             <h4 class="panel-title">Spal</h4>
                             <div class="panel-heading-btn">
-                                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
-                                        class="fa fa-redo"></i>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
+                                    <i class="fa fa-redo"></i>
                                 </a>
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse">
                                     <i class="fa fa-minus"></i>
@@ -27,8 +27,8 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group mb-2">
-                                <label class="form-label" for="spal">Spal</label>
-                                <select class="form-select theSelect " id="spal_id" name="spal_id" required="">
+                                <label class="form-label" for="spal">Time Sheet</label>
+                                <select class="form-select theSelect " id="spal" name="spal" required>
                                     <option value="">-- Pilih --</option>
                                     @foreach ($data as $item)
                                         <option value="{{ $item->id }}">{{ $item->kode }}</option>
@@ -44,7 +44,7 @@
                             <h4 class="panel-title">Detail Spal</h4>
                         </div>
                         <div class="panel-body">
-                            <table class="table" id="tbl-detail-spal">
+                            <table class="table" id="tbl-detail-time_sheet">
                                 <tbody>
                                     <tr>
                                         <td width="35">Nama Kapal</td>
@@ -111,31 +111,32 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                        <input class="form-check-input" type="checkbox" name="is_count[]"
+                                            id="flexCheckChecked">
                                     </td>
                                     <td>
                                         <input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas"
-                                            required="" />
+                                            required />
                                     </td>
                                     <td>
                                         <input style="width: 210px" type="text" name="remark[]" placeholder="Remark"
-                                            class="form-control nama_berkas" required="" />
+                                            class="form-control nama_berkas" required />
                                     </td>
                                     <td>
                                         <input type="time" name="from[]" placeholder="from" class="form-control nama_berkas"
-                                            required="" />
+                                            required />
                                     </td>
                                     <td>
                                         <input type="time" name="to[]" placeholder="to" class="form-control nama_berkas"
-                                            required="" />
+                                            required />
                                     </td>
                                     <td>
                                         <input style="width: 100px" type="text" name="keterangan[]"
-                                            placeholder="Description" class="form-control nama_berkas" required="" />
+                                            placeholder="Description" class="form-control nama_berkas" required />
                                     </td>
                                     <td style="width:20px">
-                                        <button type="button" name="add_berkas" id="add_berkas" class="btn btn-success"><i
-                                                class="fa fa-plus" aria-hidden="true"></i></button>
+                                        <button type="button" name="add_berkas" id="add_berkas" class="btn btn-success">
+                                            <i class="fa fa-plus" aria-hidden="true"></i></button>
                                     </td>
                                 </tr>
                             </table>
@@ -150,6 +151,7 @@
                     </div>
 
                 </div>
+            </div>
         </form>
     </div>
 @endsection
@@ -160,7 +162,7 @@
             $('#add_berkas').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required="" /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required="" /></td><td><input type="time" name="from[]" placeholder="from" class="form-control nama_berkas" required="" /></td><td><input type="time" name="to[]" placeholder="to" class="form-control nama_berkas" required="" /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required="" /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required /></td><td><input type="time" name="from[]" placeholder="from" class="form-control nama_berkas" required /></td><td><input type="time" name="to[]" placeholder="to" class="form-control nama_berkas" required /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required /></td><td><button type="button" name="remove" id="' +
                     i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
             });
 
@@ -171,7 +173,7 @@
 
         });
 
-        const spal_id = $('#spal_id')
+        const spal = $('#spal')
         const customer = $('#customer')
         const namaKapal = $('#nama-kapal')
         const namaMuatan = $('#nama-muatan')
@@ -180,7 +182,7 @@
         const pelabuhanBongkar = $('#pelabuhan-bongkar')
         const hargaUnit = $('#harga-unit')
 
-        spal_id.change(function() {
+        spal.change(function() {
             namaKapal.text('Loading...')
             namaMuatan.text('Loading...')
             jmlMuatan.text('Loading...')
@@ -199,6 +201,29 @@
                         pelabuhanBongkar.text(res.pelabuhan_bongkar)
                         hargaUnit.text(res.harga_unit)
                     }, 500)
+                },
+            });
+        })
+
+        $('#form-time-sheet').submit(function(e) {
+            e.preventDefault()
+
+            $.ajax({
+                url: '{{ route('time_sheet.store') }}',
+                type: 'post',
+                data: $('#form-time-sheet').serialize(),
+                success: function(res) {
+                    console.log(res);
+                    // Swal.fire({
+                    //     title: 'Success',
+                    //     text: 'Data Berhasil Disimpan',
+                    //     type: 'success',
+                    //     confirmButtonText: 'Ok'
+                    // }).then((result) => {
+                    //     if (result.value) {
+                    //         window.location.href = '/sale/time-sheet'
+                    //     }
+                    // })
                 },
             });
         })

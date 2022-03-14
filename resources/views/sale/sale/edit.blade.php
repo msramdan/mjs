@@ -59,11 +59,12 @@
 
         const lamaWaktuHidden = $('#lama-waktu-hidden')
         const isDemorage = $('#is-demorage-hidden')
+        const qtyTimeSheet = $('#qty-time-sheet-hidden')
 
         const config = {
             numeral: true,
             numeralThousandsGroupStyle: 'thousand'
-        }
+        };
 
         const hargaCleave = new Cleave("#harga", config)
         const diskonCleave = new Cleave("#diskon", config)
@@ -87,7 +88,7 @@
                 url: '/sale/spal/get-spal-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
-                    // console.log(res)
+                    // console.log(res);
 
                     if (res.time_sheets.length != 0) {
                         lamaWaktuHidden.val(
@@ -108,6 +109,8 @@
                         hargaUnit.text(formatRibuan(res.harga_unit))
                         hargaDemorage.text(res.harga_demorage ? formatRibuan(res
                             .harga_demorage) : '-')
+
+                        qtyTimeSheet.val(res.time_sheets[0].qty)
                     }, 500)
                 },
             })
@@ -140,7 +143,7 @@
                     url: '/inventory/item/get-item-by-id/' + $(this).val(),
                     method: 'get',
                     success: function(res) {
-                        // console.log(res)
+                        // console.log(res);
 
                         // stok.val(res.stok)
                         kodeProduk.val(res.kode)
@@ -150,7 +153,12 @@
                         setTimeout(() => {
                             qty.prop('type', 'number')
                             qty.prop('disabled', false)
-                            qty.val(parseInt(jmlMuatan.text()))
+
+                            if (qtyTimeSheet.val()) {
+                                qty.val(parseInt(qtyTimeSheet.val()))
+                            } else {
+                                qty.val(parseInt(jmlMuatan.text()))
+                            }
 
                             // harga.prop('type', 'number')
                             harga.prop('disabled', false)

@@ -60,6 +60,7 @@
 
         const lamaWaktuHidden = $('#lama-waktu-hidden')
         const isDemorage = $('#is-demorage-hidden')
+        const qtyTimeSheet = $('#qty-time-sheet-hidden')
 
         const config = {
             numeral: true,
@@ -111,6 +112,8 @@
                         hargaUnit.text(formatRibuan(res.harga_unit))
                         hargaDemorage.text(res.harga_demorage ? formatRibuan(res
                             .harga_demorage) : '-')
+
+                        qtyTimeSheet.val(res.time_sheets[0].qty)
                     }, 500)
                 },
             })
@@ -153,7 +156,12 @@
                         setTimeout(() => {
                             qty.prop('type', 'number')
                             qty.prop('disabled', false)
-                            qty.val(parseInt(jmlMuatan.text()))
+
+                            if (qtyTimeSheet.val()) {
+                                qty.val(parseInt(qtyTimeSheet.val()))
+                            } else {
+                                qty.val(parseInt(jmlMuatan.text()))
+                            }
 
                             // harga.prop('type', 'number')
                             harga.prop('disabled', false)
@@ -478,7 +486,7 @@
                     })
                 },
                 error: function(xhr, status, error) {
-                    // console.error(xhr.responseText)
+                    console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
