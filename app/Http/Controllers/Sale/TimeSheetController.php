@@ -3,28 +3,30 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sale\TimeSheet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TimeSheetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('sale.time_sheet.index');
+        $data = TimeSheet::join('spal', 'spal.id', '=', 'time_sheets.spal_id')
+            ->get(['time_sheets.*', 'spal.kode']);
+        return view('sale.time_sheet.index')->with([
+            'data' => $data
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $data = DB::table('spal')
+        ->select('kode','id')
+        ->get();
+        return view('sale.time_sheet.create')->with([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -35,7 +37,7 @@ class TimeSheetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo "ramdan";
     }
 
     /**
