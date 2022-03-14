@@ -41,7 +41,7 @@ class TimeSheetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo "ramdan";
     }
 
     /**
