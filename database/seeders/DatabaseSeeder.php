@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             PurchaseSeeder::class,
             CoaSeeder::class,
             SaleSeeder::class,
+            TimeSheetSeeder::class,
         ]);
     }
 }

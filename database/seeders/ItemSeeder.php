@@ -57,5 +57,18 @@ class ItemSeeder extends Seeder
             'supplier_id' => 5,
             'harga_beli' => 90000
         ]);
+
+        $item3 = Item::create([
+            'category_id' => 3,
+            'unit_id' => 3,
+            'kode' => 'IT-MJS-002',
+            'nama' => 'Product 3',
+            'type' => 'Services',
+            'deskripsi' => 'tes',
+            'stok' => 0,
+            'foto' => '1644558359.png',
+            'harga_estimasi' => 200000,
+            'is_demorage' => 1,
+        ]);
     }
 }

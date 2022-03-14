@@ -34,6 +34,7 @@
         const pelabuhanMuat = $('#pelabuhan-muat')
         const pelabuhanBongkar = $('#pelabuhan-bongkar')
         const hargaUnit = $('#harga-unit')
+        const hargaDemorage = $('#harga-demorage')
 
         const tanggal = $('#tanggal')
         const attn = $('#attn')
@@ -164,7 +165,8 @@
                             harga.prop('disabled', false)
 
                             if (res.is_demorage) {
-                                harga.val(hargaDemorage.text() != '-' ? hargaDemorage.text() :
+                                harga.val(hargaDemorage.text() != '-' ? hargaDemorage.text()
+                                    .replace(/\s+/g, ' ').trim() :
                                     hargaUnit.text())
                                 if (lamaWaktuHidden.val()) {
                                     $('#lama-waktu-small')
