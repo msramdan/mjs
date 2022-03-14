@@ -401,7 +401,6 @@
             produk.val($('.produk-hidden:eq(' + index + ')').val())
             harga.val(formatRibuan($('.harga-hidden:eq(' + index + ')').val()))
             qty.val($('.qty-hidden:eq(' + index + ')').val())
-            // stok.val($('.stok-hidden:eq(' + index + ')').val())
             unitProduk.val($('.unit-hidden:eq(' + index + ')').val())
             isDemorage.val($('.is-demorage-hidden:eq(' + index + ')').val())
 
