@@ -111,7 +111,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input class="form-check-input" type="checkbox" name="is_count[]"
+                                        <input class="form-check-input form-check-timesheet-input" type="checkbox" name="is_count[]"
                                             id="flexCheckChecked">
                                     </td>
                                     <td>
@@ -123,11 +123,11 @@
                                             class="form-control nama_berkas" required />
                                     </td>
                                     <td>
-                                        <input type="time" name="from[]" placeholder="from" class="form-control nama_berkas"
+                                        <input type="time" name="from[]" placeholder="from" class="form-control startTime"
                                             required />
                                     </td>
                                     <td>
-                                        <input type="time" name="to[]" placeholder="to" class="form-control nama_berkas"
+                                        <input type="time" name="to[]" placeholder="to" class="form-control endTime"
                                             required />
                                     </td>
                                     <td>
@@ -141,7 +141,7 @@
                                 </tr>
                             </table>
                             <div style="float: left">
-                                <b><span style="font-size: 14px;color:white"> Total Waktu : </span></b>
+                                <p style="font-weight: bold; font-size: 14px;">Total Waktu : <span style="font-size: 14px;color:white; font-weight:normal;" id="totalWaktuValue"></span></p>
                             </div>
                             <div style="float: right">
                                 <button type="submit" class="btn btn-danger"> Simpan</button>
@@ -157,12 +157,48 @@
 @endsection
 @push('js')
     <script>
+
+        function calculateTimeSheet(startTime, endTime) {
+            console.log(startTime + " DAN " + endTime)
+            // get total minutes between startime endtime using pure js
+            let startTimeMinutes = parseInt(startTime.split(':')[0]) * 60 + parseInt(startTime.split(':')[1]);
+            let endTimeMinutes = parseInt(endTime.split(':')[0]) * 60 + parseInt(endTime.split(':')[1]);
+            let totalMinutes = endTimeMinutes - startTimeMinutes;
+            
+            return totalMinutes
+        }
+
+        function calculateTotalTimesheet(){
+
+            let minutes = 0
+
+            $('.form-check-timesheet-input').each((e) => {
+                if($('.form-check-timesheet-input').eq(e).is(':checked')){
+                    let startTime = $('.startTime').eq(e).val()
+                    let endTime = $('.endTime').eq(e).val()
+
+                    let startTimeSplit = startTime.split(':')
+                    let endTimeSplit = endTime.split(':')
+
+                    let startTimeMinutes = parseInt(startTimeSplit[0]) * 60 + parseInt(startTimeSplit[1])
+                    let endTimeMinutes = parseInt(endTimeSplit[0]) * 60 + parseInt(endTimeSplit[1])
+
+                    minutes += endTimeMinutes - startTimeMinutes
+                }
+            })
+
+            let hours = Math.floor(minutes / 60)
+            let minutesLeft = minutes % 60
+
+            $('#totalWaktuValue').text(`${hours} jam ${minutesLeft} menit`)
+        }
+
         $(document).ready(function() {
             var i = 1;
             $('#add_berkas').click(function() {
                 i++;
                 $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><input class="form-check-input" type="checkbox" value="" id="flexCheckChecked"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required /></td><td><input type="time" name="from[]" placeholder="from" class="form-control nama_berkas" required /></td><td><input type="time" name="to[]" placeholder="to" class="form-control nama_berkas" required /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required /></td><td><button type="button" name="remove" id="' +
+                    '"><td><input class="form-check-input form-check-timesheet-input" type="checkbox" value="" id="flexCheckChecked"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required /></td><td><input type="time" name="from[]" placeholder="from" class="form-control startTime" required /></td><td><input type="time" name="to[]" placeholder="to" class="form-control endTime" required /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required /></td><td><button type="button" name="remove" id="' +
                     i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
             });
 
@@ -204,6 +240,20 @@
                 },
             });
         })
+
+        $(document).on('change','.form-check-timesheet-input', function() {
+            calculateTotalTimesheet()
+        })
+
+        $(document).on('change','.startTime', function() {
+            calculateTotalTimesheet()
+        })
+
+        $(document).on('change','.endTime', function() {
+            calculateTotalTimesheet()
+        })
+
+        
 
         $('#form-time-sheet').submit(function(e) {
             e.preventDefault()
