@@ -21,6 +21,7 @@ class CreateDetailTimeSheetsTable extends Migration
             $table->time('from');
             $table->time('to');
             $table->string('keterangan');
+            $table->tinyInteger('is_count')->default(0);
             $table->timestamps();
         });
     }

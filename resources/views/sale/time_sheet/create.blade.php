@@ -5,9 +5,11 @@
     <div id="content" class="app-content">
 
         {{ Breadcrumbs::render('time_sheet_create') }}
+
         <form action="{{ route('time_sheet.store') }}" method="POST" id="form-time-sheet">
             @csrf
             @method('POST')
+
             <div class="row">
                 <div class="col-md-3 ui-sortable">
                     <div class="panel panel-inverse">
@@ -86,8 +88,8 @@
                         <div class="panel-heading ui-sortable-handle">
                             <h4 class="panel-title">Time Sheet</h4>
                             <div class="panel-heading-btn">
-                                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
-                                        class="fa fa-redo"></i>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
+                                    <i class="fa fa-redo"></i>
                                 </a>
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse">
                                     <i class="fa fa-minus"></i>
@@ -97,61 +99,73 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="panel-body" style="overflow-x: scroll;">
-                            <table class="table table-bordered table-sm" id="dynamic_field"
-                                style="overflow-x: scroll;width:100%">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Date</th>
-                                    <th>Remark</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Description</th>
-                                    <th>Action</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input class="form-check-input form-check-timesheet-input" type="checkbox"
-                                            name="is_count[]" id="flexCheckChecked">
-                                    </td>
-                                    <td>
-                                        <input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas"
-                                            required />
-                                    </td>
-                                    <td>
-                                        <input style="width: 210px" type="text" name="remark[]" placeholder="Remark"
-                                            class="form-control nama_berkas" required />
-                                    </td>
-                                    <td>
-                                        <input type="time" name="from[]" placeholder="from" class="form-control startTime"
-                                            required />
-                                    </td>
-                                    <td>
-                                        <input type="time" name="to[]" placeholder="to" class="form-control endTime"
-                                            required />
-                                    </td>
-                                    <td>
-                                        <input style="width: 100px" type="text" name="keterangan[]"
-                                            placeholder="Description" class="form-control nama_berkas" required />
-                                    </td>
-                                    <td style="width:20px">
-                                        <button type="button" name="add_berkas" id="add_berkas" class="btn btn-success">
-                                            <i class="fa fa-plus" aria-hidden="true"></i></button>
-                                    </td>
-                                </tr>
-                            </table>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm table-hover" id="dynamic-field">
+                                    <thead>
+                                        <tr>
+                                            <th width="40">#</th>
+                                            <th>Date</th>
+                                            <th>Remark</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th>Description</th>
+                                            <th>Is Count</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                <input type="date" name="date[]" placeholder="Date" class="form-control"
+                                                    required />
+                                            </td>
+                                            <td>
+                                                <input type="text" name="remark[]" placeholder="Remark"
+                                                    class="form-control" required />
+                                            </td>
+                                            <td>
+                                                <input type="time" name="from[]" placeholder="from"
+                                                    class="form-control start-time" required />
+                                            </td>
+                                            <td>
+                                                <input type="time" name="to[]" placeholder="to"
+                                                    class="form-control end-time" required />
+                                            </td>
+                                            <td>
+                                                <input type="text" name="keterangan[]" placeholder="Description"
+                                                    class="form-control" required />
+                                            </td>
+                                            <td class="text-center">
+                                                <input class="form-check-input mt-2 form-check-timesheet-input"
+                                                    type="checkbox" name="is_count[]" value="null">
+                                            </td>
+                                            <td style="width:20px">
+                                                <button type="button" name="add-berkas" id="add-berkas"
+                                                    class="btn btn-success">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <div style="float: left">
-                                <p style="font-weight: bold; font-size: 14px;">Total Waktu : <span
-                                        style="font-size: 14px;color:white; font-weight:normal;"
-                                        id="totalWaktuValue"></span></p>
+                                <p style="font-weight: bold; font-size: 14px;">Total Waktu :
+                                    <span style="font-size: 14px;color:white; font-weight:normal;"
+                                        id="total-waktu-value"></span>
+                                </p>
                             </div>
                             <div style="float: right">
-                                <button type="submit" class="btn btn-danger" id="btn-save">Simpan</button>
-                                <a href="{{ route('time_sheet.index') }}" class="btn btn-info" id="btn-back"> Back</a>
+                                <button type="submit" class="btn btn-primary" id="btn-save">Simpan</button>
+                                <a href="{{ route('time_sheet.index') }}" class="btn btn-info" id="btn-back">Back</a>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -162,7 +176,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <script>
-        const spal = $('#spal')
         const customer = $('#customer')
         const namaKapal = $('#nama-kapal')
         const namaMuatan = $('#nama-muatan')
@@ -171,24 +184,16 @@
         const pelabuhanBongkar = $('#pelabuhan-bongkar')
         const hargaUnit = $('#harga-unit')
 
-        function calculateTimeSheet(startTime, endTime) {
-            console.log(startTime + " DAN " + endTime)
-            // get total minutes between startime endtime using pure js
-            let startTimeMinutes = parseInt(startTime.split(':')[0]) * 60 + parseInt(startTime.split(':')[1]);
-            let endTimeMinutes = parseInt(endTime.split(':')[0]) * 60 + parseInt(endTime.split(':')[1]);
-            let totalMinutes = endTimeMinutes - startTimeMinutes;
-
-            return totalMinutes
-        }
-
         function calculateTotalTimesheet() {
-
             let minutes = 0
 
-            $('.form-check-timesheet-input').each((e) => {
-                if ($('.form-check-timesheet-input').eq(e).is(':checked')) {
-                    let startTime = $('.startTime').eq(e).val()
-                    let endTime = $('.endTime').eq(e).val()
+            $('.form-check-timesheet-input').each((i) => {
+                if ($('.form-check-timesheet-input').eq(i).is(':checked') &&
+                    $('.start-time').eq(i).val() &&
+                    $('.end-time').eq(i).val()
+                ) {
+                    let startTime = $('.start-time').eq(i).val()
+                    let endTime = $('.end-time').eq(i).val()
 
                     let startTimeSplit = startTime.split(':')
                     let endTimeSplit = endTime.split(':')
@@ -203,35 +208,61 @@
             let hours = Math.floor(minutes / 60)
             let minutesLeft = minutes % 60
 
-            $('#totalWaktuValue').text(`${hours} jam ${minutesLeft} menit`)
+            $('#total-waktu-value').text(`${hours} jam ${minutesLeft} menit`)
         }
 
-        $(document).ready(function() {
-            var i = 1;
-            $('#add_berkas').click(function() {
-                i++;
-                $('#dynamic_field').append('<tr id="row' + i +
-                    '"><td><input class="form-check-input form-check-timesheet-input" type="checkbox" value="" id="flexCheckChecked"></td><td><input type="date" name="date[]" placeholder="Date" class="form-control nama_berkas" required /></td><td><input style="width: 210px" type="text" name="remark[]" placeholder="Remark"class="form-control nama_berkas" required /></td><td><input type="time" name="from[]" placeholder="from" class="form-control startTime" required /></td><td><input type="time" name="to[]" placeholder="to" class="form-control endTime" required /></td><td><input style="width: 100px" type="text" name="keterangan[]" placeholder="Description" class="form-control nama_berkas" required /></td><td><button type="button" name="remove" id="' +
-                    i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
-            });
+        $('#add-berkas').click(function() {
+            $('#dynamic-field tbody').append(`
+            <tr>
+                <td>
+                    <input class="form-check-input form-check-timesheet-input" type="checkbox" value="">
+                </td>
+                <td>
+                    <input type="date" name="date[]" placeholder="Date" class="form-control" required />
+                </td>
+                <td>
+                    <input type="text" name="remark[]" placeholder="Remark"class="form-control" required />
+                </td>
+                <td>
+                    <input type="time" name="from[]" placeholder="from" class="form-control start-time" required />
+                </td>
+                <td>
+                    <input type="time" name="to[]" placeholder="to" class="form-control end-time" required />
+                </td>
+                <td>
+                    <input type="text" name="keterangan[]" placeholder="Description" class="form-control" required />
+                </td>
+                <td class="text-center">
+                    <input class="form-check-input mt-2 form-check-timesheet-input" type="checkbox" name="is_count[]" value="null">
+                </td>
+                <td>
+                    <button type="button" name="remove" class="btn btn-danger btn-remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </td>
+            </tr>`);
 
-            $(document).on('click', '.btn_remove', function() {
-                var button_id = $(this).attr("id");
-                $('#row' + button_id + '').remove();
-            });
+            generateNo()
+        })
 
-        });
+        $(document).on('click', '.btn-remove', function() {
+            // parent 1 td, parent 2 tr
+            $(this).parent().parent().remove()
+            generateNo()
+            calculateTotalTimesheet()
+        })
 
-        spal.change(function() {
+        $('#spal').change(function() {
             namaKapal.text('Loading...')
             namaMuatan.text('Loading...')
             jmlMuatan.text('Loading...')
             pelabuhanMuat.text('Loading...')
             pelabuhanBongkar.text('Loading...')
             hargaUnit.text('Loading...')
+
             $.ajax({
                 url: '/sale/spal/get-spal-by-id/' + $(this).val(),
-                type: 'get',
+                type: 'GET',
                 success: function(res) {
                     setTimeout(() => {
                         namaKapal.text(res.nama_kapal)
@@ -239,7 +270,7 @@
                         jmlMuatan.text(res.jml_muatan)
                         pelabuhanMuat.text(res.pelabuhan_muat)
                         pelabuhanBongkar.text(res.pelabuhan_bongkar)
-                        hargaUnit.text(res.harga_unit)
+                        hargaUnit.text(thousandFormat(res.harga_unit))
                     }, 500)
                 },
             });
@@ -249,39 +280,40 @@
             calculateTotalTimesheet()
         })
 
-        $(document).on('change', '.startTime', function() {
+        $(document).on('change', '.start-time', function() {
             calculateTotalTimesheet()
         })
 
-        $(document).on('change', '.endTime', function() {
+        $(document).on('change', '.end-time', function() {
             calculateTotalTimesheet()
         })
 
         $('#form-time-sheet').submit(function(e) {
             e.preventDefault()
-            $('#btn-save').prop('disabled', true)
-            $('#btn-save').text('Loading...')
 
-            $('#btn-back').prop('disabled', true)
-            $('#btn-back').text('Loading...')
+            // $('#btn-save').prop('disabled', true)
+            // $('#btn-save').text('Loading...')
+
+            // $('#btn-back').prop('disabled', true)
+            // $('#btn-back').text('Loading...')
 
             $.ajax({
                 url: '{{ route('time_sheet.store') }}',
                 type: 'post',
-                data: $('#form-time-sheet').serialize() + '&lama_waktu=' + $('#totalWaktuValue').text(),
+                data: $('#form-time-sheet').serialize() + '&lama_waktu=' + $('#total-waktu-value').text(),
                 success: function(res) {
-                    // console.log(res);
+                    console.log(res);
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Simpan data',
-                        text: 'Berhasil'
-                    }).then(function() {
-                        window.location = '{{ route('time_sheet.index') }}'
-                    })
+                    // Swal.fire({
+                    //     icon: 'success',
+                    //     title: 'Simpan data',
+                    //     text: 'Berhasil'
+                    // }).then(function() {
+                    //     window.location = '{{ route('time_sheet.index') }}'
+                    // })
                 },
                 error: function(xhr, status, error) {
-                    // console.error(xhr.responseText)
+                    console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
@@ -291,5 +323,18 @@
                 }
             });
         })
+
+        function generateNo() {
+            let no = 1
+
+            $('#dynamic-field').find('tbody tr').each(function() {
+                $(this).find('td:nth-child(1)').html(no)
+                no++
+            })
+        }
+
+        function thousandFormat(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
     </script>
 @endpush

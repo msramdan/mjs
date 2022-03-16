@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Sale\StoreTimeSheetRequest;
-use App\Http\Requests\Sale\UpdateTimeSheetRequest;
-use App\Models\Sale\DetailTimeSheet;
-use App\Models\Sale\TimeSheet;
+use App\Http\Requests\Sale\{StoreTimeSheetRequest, UpdateTimeSheetRequest};
+use App\Models\Sale\{TimeSheet, DetailTimeSheet};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -16,32 +14,28 @@ class TimeSheetController extends Controller
 
     public function index()
     {
-        $data = TimeSheet::join('spal', 'spal.id', '=', 'time_sheets.spal_id')
-            ->get(['time_sheets.*', 'spal.kode']);
-        return view('sale.time_sheet.index')->with([
-            'data' => $data
-        ]);
+        $time_sheets = TimeSheet::join('spal', 'spal.id', '=', 'time_sheets.spal_id')->get(['time_sheets.*', 'spal.kode']);
+
+        return view('sale.time_sheet.index', compact('time_sheets'));
     }
 
     public function create()
     {
-        $spal = DB::table('spal')
-            ->select('kode', 'id')
-            ->get();
+        $spal = DB::table('spal')->select('kode', 'id')->orderByDesc('updated_at')->get();
 
-        return view('sale.time_sheet.create')->with([
-            'spal' => $spal
-        ]);
+        return view('sale.time_sheet.create', compact('spal'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \IlluminateHttp\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTimeSheetRequest $request)
+    public function store(Request $request)
     {
+        return $request;
+
         $lamaWaktu = $this->calculateDay(explode(' ', $request->lama_waktu));
 
         // return 48 % 24;
@@ -77,25 +71,14 @@ class TimeSheetController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show($id)
-    // {
-    //     //
-    // }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $spal = DB::table('spal')->select('kode', 'id')->get();
+        $spal = DB::table('spal')->select('kode', 'id')->orderByDesc('updated_at')->get();
 
         $timeSheet = TimeSheet::with('detail_time_sheets')->findOrFail($id);
 
@@ -105,8 +88,8 @@ class TimeSheetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \IlluminateHttp\Request  $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateTimeSheetRequest $request, $id)
@@ -147,7 +130,7 @@ class TimeSheetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
