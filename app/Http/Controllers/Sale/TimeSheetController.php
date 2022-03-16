@@ -34,9 +34,15 @@ class TimeSheetController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        // return $request->is_count[5] == 'true' ? 1 : 0;
 
-        $lamaWaktu = $this->calculateDay(explode(' ', $request->lama_waktu));
+        /**
+         * will generate array like:
+         * ['1', 'hari', '8', 'jam', '3', 'menit']
+         */
+        $lamaWaktu = explode(' ', $request->lama_waktu);
+
+        // return $lamaWaktu;
 
         // return 48 % 24;
         // return explode(' ', $request->lama_waktu)[0];
@@ -47,10 +53,10 @@ class TimeSheetController extends Controller
             $timeSheet = TimeSheet::create([
                 'spal_id' => $request->spal,
                 'kode_time_sheet' => $this->generateCode(),
-                'qty' => isset($lamaWaktu['hari']) ? floatval($lamaWaktu['hari'] . '.' . $lamaWaktu['jam']) : 1,
-                'hari' => isset($lamaWaktu['hari']) ? $lamaWaktu['hari'] : 0,
-                'jam' => $lamaWaktu['jam'],
-                'menit' => $lamaWaktu['menit'],
+                'qty' => floatval($lamaWaktu[0] . '.' . $lamaWaktu[2]),
+                'hari' => $lamaWaktu[0],
+                'jam' => $lamaWaktu[2],
+                'menit' => $lamaWaktu[4],
             ]);
 
             $detail = [];
@@ -61,6 +67,7 @@ class TimeSheetController extends Controller
                     'from' => $request->from[$i],
                     'to' => $request->to[$i],
                     'keterangan' => $request->keterangan[$i],
+                    'is_count' => $request->is_count[$i] == 'true' ? 1 : 0,
                 ]);
             }
 
@@ -92,19 +99,20 @@ class TimeSheetController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTimeSheetRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $timeSheet = TimeSheet::with('detail_time_sheets')->findOrFail($id);
 
-        $lamaWaktu = $this->calculateDay(explode(' ', $request->lama_waktu));
+        $lamaWaktu = explode(' ', $request->lama_waktu);
 
         DB::transaction(function () use ($request, $lamaWaktu, $timeSheet) {
             $timeSheet->update([
                 'spal_id' => $request->spal,
-                'qty' => isset($lamaWaktu['hari']) ? floatval($lamaWaktu['hari'] . '.' . $lamaWaktu['jam']) : 1,
-                'hari' => isset($lamaWaktu['hari']) ? $lamaWaktu['hari'] : 0,
-                'jam' => $lamaWaktu['jam'],
-                'menit' => $lamaWaktu['menit'],
+                'kode_time_sheet' => $this->generateCode(),
+                'qty' => floatval($lamaWaktu[0] . '.' . $lamaWaktu[2]),
+                'hari' => $lamaWaktu[0],
+                'jam' => $lamaWaktu[2],
+                'menit' => $lamaWaktu[4],
             ]);
 
             // hapus data detail lama
@@ -118,6 +126,7 @@ class TimeSheetController extends Controller
                     'from' => $request->from[$i],
                     'to' => $request->to[$i],
                     'keterangan' => $request->keterangan[$i],
+                    'is_count' => $request->is_count[$i] == 'true' ? 1 : 0,
                 ]);
             }
 

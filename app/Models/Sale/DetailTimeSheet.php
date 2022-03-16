@@ -16,10 +16,12 @@ class DetailTimeSheet extends Model
         'from',
         'to',
         'keterangan',
+        'is_count'
     ];
 
     protected $casts = [
         'date' => 'date',
+        'is_count' => 'boolean'
     ];
 
     public function time_sheet()

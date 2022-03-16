@@ -202,13 +202,28 @@
                     let endTimeMinutes = parseInt(endTimeSplit[0]) * 60 + parseInt(endTimeSplit[1])
 
                     minutes += endTimeMinutes - startTimeMinutes
+
+                    let hours = Math.floor(minutes / 60)
+                    let minutesLeft = minutes % 60
+
+                    splitTime(hours + '.' + minutesLeft)
                 }
             })
+        }
 
-            let hours = Math.floor(minutes / 60)
-            let minutesLeft = minutes % 60
+        function splitTime(numberOfHours) {
+            let days = Math.floor(numberOfHours / 24)
+            let remainder = numberOfHours % 24
+            let hours = Math.floor(remainder)
+            let minutes = Math.floor(60 * (remainder - hours))
 
-            $('#total-waktu-value').text(`${hours} jam ${minutesLeft} menit`)
+            // console.log({
+            //     "days": days,
+            //     "hours": hours,
+            //     "minutes": minutes
+            // });
+
+            $('#total-waktu-value').text(`${days} Hari ${hours} Jam ${minutes} menit`)
         }
 
         $('#add-berkas').click(function() {
@@ -291,12 +306,12 @@
         $('#form-time-sheet').submit(function(e) {
             e.preventDefault()
 
-            // $('#btn-save').prop('disabled', true)
-            // $('#btn-save').text('Loading...')
+            $('#btn-save').prop('disabled', true)
+            $('#btn-save').text('Loading...')
 
-            // $('#btn-back').prop('disabled', true)
-            // $('#btn-back').text('Loading...')
-            
+            $('#btn-back').prop('disabled', true)
+            $('#btn-back').text('Loading...')
+
             // include unchecklist checkbox to be inside form data
             let formData = new FormData()
             $('.form-check-timesheet-input').each((i) => {
@@ -310,14 +325,12 @@
             // serialize data then append to formData
             let data = $(this).serializeArray()
             data.forEach((item) => {
-
-                if(item.name != 'is_count[]') {
+                if (item.name != 'is_count[]') {
                     formData.append(item.name, item.value)
                 }
-
             })
 
-            formData.append('lama_waktu',$('#total-waktu-value').text())
+            formData.append('lama_waktu', $('#total-waktu-value').text())
 
             // delete data with is_count[] == null from formData
             formData.forEach((item, index) => {
@@ -325,7 +338,6 @@
                     formData.delete(index)
                 }
             })
-            
 
             $.ajax({
                 url: '{{ route('time_sheet.store') }}',
@@ -334,18 +346,18 @@
                 processData: false,
                 contentType: false,
                 success: function(res) {
-                    console.log(res);
+                    // console.log(res);
 
-                    // Swal.fire({
-                    //     icon: 'success',
-                    //     title: 'Simpan data',
-                    //     text: 'Berhasil'
-                    // }).then(function() {
-                    //     window.location = '{{ route('time_sheet.index') }}'
-                    // })
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Simpan data',
+                        text: 'Berhasil'
+                    }).then(function() {
+                        window.location = '{{ route('time_sheet.index') }}'
+                    })
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText)
+                    // console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
