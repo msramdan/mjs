@@ -400,6 +400,11 @@ Breadcrumbs::for('time_sheet_create', function (BreadcrumbTrail $trail) {
     $trail->push('Create Time Sheet', route('time_sheet.create'));
 });
 
+Breadcrumbs::for('time_sheet_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('time_sheet_index');
+    $trail->push('Edit');
+});
+
 
 // purchase
 Breadcrumbs::for('purchase_index', function (BreadcrumbTrail $trail) {

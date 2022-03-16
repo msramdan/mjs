@@ -18,6 +18,10 @@ class DetailTimeSheet extends Model
         'keterangan',
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function time_sheet()
     {
         return $this->belongsTo(TimeSheet::class);

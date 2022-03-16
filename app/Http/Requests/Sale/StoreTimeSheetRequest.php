@@ -24,7 +24,7 @@ class StoreTimeSheetRequest extends FormRequest
     public function rules()
     {
         return [
-            'spal_id' => 'required|exists:spal,id',
+            'spal' => 'required|exists:spal,id',
             'qty' => 'nullable',
             'hari' => 'nullable',
             'jam' => 'nullable',

@@ -16,6 +16,7 @@ class TimeSheetSeeder extends Seeder
     {
         $timeSheet = TimeSheet::create([
             'spal_id' => 1,
+            'kode_time_sheet' => 'TS0001',
             'qty' => 6,
             'hari' => 5,
             'jam' => 9,

@@ -15,7 +15,7 @@ class CreateDetailTimeSheetsTable extends Migration
     {
         Schema::create('detail_time_sheets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('time_sheet_id')->constrained('time_sheets');
+            $table->foreignId('time_sheet_id')->constrained('time_sheets')->cascadeOnDelete();
             $table->date('date');
             $table->string('remark');
             $table->time('from');
