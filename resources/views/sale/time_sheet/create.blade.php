@@ -296,11 +296,17 @@
 
             // $('#btn-back').prop('disabled', true)
             // $('#btn-back').text('Loading...')
+            
+            let dataSerialized = $(this).serialize()
+
+            // check if is_count from dataSerialized is null, change it to false, else set it to true
+            dataSerialized = dataSerialized.replace(/is_count%5B%5D=null/g, 'is_count%5B%5D=false')
+            dataSerialized = dataSerialized.replace(/is_count%5B%5D=true/g, 'is_count%5B%5D=true')
 
             $.ajax({
                 url: '{{ route('time_sheet.store') }}',
                 type: 'post',
-                data: $('#form-time-sheet').serialize() + '&lama_waktu=' + $('#total-waktu-value').text(),
+                data: dataSerialized + '&lama_waktu=' + $('#total-waktu-value').text(),
                 success: function(res) {
                     console.log(res);
 
