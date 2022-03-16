@@ -296,11 +296,43 @@
 
             // $('#btn-back').prop('disabled', true)
             // $('#btn-back').text('Loading...')
+            
+            // include unchecklist checkbox to be inside form data
+            let formData = new FormData()
+            $('.form-check-timesheet-input').each((i) => {
+                if (!$('.form-check-timesheet-input').eq(i).is(':checked')) {
+                    formData.append('is_count[]', 'false')
+                } else {
+                    formData.append('is_count[]', 'true')
+                }
+            })
+
+            // serialize data then append to formData
+            let data = $(this).serializeArray()
+            data.forEach((item) => {
+
+                if(item.name != 'is_count[]') {
+                    formData.append(item.name, item.value)
+                }
+
+            })
+
+            formData.append('lama_waktu',$('#total-waktu-value').text())
+
+            // delete data with is_count[] == null from formData
+            formData.forEach((item, index) => {
+                if (item.name === 'is_count[]' && item.value == 'null') {
+                    formData.delete(index)
+                }
+            })
+            
 
             $.ajax({
                 url: '{{ route('time_sheet.store') }}',
-                type: 'post',
-                data: $('#form-time-sheet').serialize() + '&lama_waktu=' + $('#total-waktu-value').text(),
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function(res) {
                     console.log(res);
 
