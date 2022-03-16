@@ -301,7 +301,6 @@
 
             // check if is_count from dataSerialized is null, change it to false, else set it to true
             dataSerialized = dataSerialized.replace(/is_count%5B%5D=null/g, 'is_count%5B%5D=false')
-            dataSerialized = dataSerialized.replace(/is_count%5B%5D=true/g, 'is_count%5B%5D=true')
 
             $.ajax({
                 url: '{{ route('time_sheet.store') }}',
