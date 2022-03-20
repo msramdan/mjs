@@ -50,7 +50,8 @@
                         <input type="hidden" name="unit_produk" id="unit-produk">
                         <input type="hidden" name="index_tr" id="index-tr">
                         <input type="hidden" name="is_demorage" id="is-demorage-hidden">
-                        <input type="hidden" name="qty_time_sheet" id="qty-time-sheet-hidden">
+                        <input type="hidden" name="qty_time_sheet" id="qty-time-sheet-hidden"
+                            value="{{ $sale && isset($sale->spal->time_sheets) ? $sale->spal->time_sheets[0]->qty : '' }}">
 
                         <div class="form-group mb-2">
                             <label class="form-label" for="produk">Produk</label>
@@ -68,18 +69,11 @@
                                 <label class="form-label" for="harga">Harga</label>
                                 <input class="form-control" type="text" id="harga" name="Harga" placeholder="Harga" />
                             </div>
-                            {{-- jika sale biasa  --}}
+
                             <div class="col-md-6 mb-2">
                                 <label class="form-label" for="qty">Qty</label>
                                 <input class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
                                 <small id="lama-waktu-small" style="display: none;"></small>
-                            </div>
-
-                            {{-- jika demorrage --}}
-                            <div class="col-md-6 mb-2">
-                                <label class="form-label" for="qty">Qty (Menit)</label>
-                                <input readonly class="form-control" type="number" id="qty" name="qty" placeholder="Qty" />
-                                <span style="color: white">*Note : 5 Hari 2 Jam 3 Menit</span>
                             </div>
                         </div>
                     @endif

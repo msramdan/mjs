@@ -11,6 +11,7 @@ class TimeSheet extends Model
 
     protected $fillable = [
         'spal_id',
+        'kode_time_sheet',
         'qty',
         'hari',
         'jam',

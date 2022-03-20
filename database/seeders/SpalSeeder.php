@@ -23,6 +23,7 @@ class SpalSeeder extends Seeder
             'pelabuhan_muat' => 'Pelabuhan 1',
             'pelabuhan_bongkar' => 'Pelabuhan 2',
             'harga_unit' => 100000,
+            'harga_demorage' => 25000000
         ]);
 
         $spal->file_spal()->create([

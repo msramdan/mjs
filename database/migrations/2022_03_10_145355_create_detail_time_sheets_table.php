@@ -15,12 +15,13 @@ class CreateDetailTimeSheetsTable extends Migration
     {
         Schema::create('detail_time_sheets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('time_sheet_id')->constrained('time_sheets');
+            $table->foreignId('time_sheet_id')->constrained('time_sheets')->cascadeOnDelete();
             $table->date('date');
             $table->string('remark');
             $table->time('from');
             $table->time('to');
             $table->string('keterangan');
+            $table->tinyInteger('is_count')->default(0);
             $table->timestamps();
         });
     }

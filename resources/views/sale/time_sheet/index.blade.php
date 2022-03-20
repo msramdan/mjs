@@ -39,22 +39,24 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Kode</th>
-                                        <th>time_sheet</th>
+                                        <th>Time Sheet</th>
                                         <th>jumlah Waktu</th>
                                         <th>Created At</th>
-                                        {{-- @canany(['edit time_sheet', 'delete time_sheet']) --}}
-                                        <th>Action</th>
-                                        {{-- @endcanany --}}
+                                        <th>Updated At</th>
+                                        @canany(['edit time sheet', 'delete time sheet'])
+                                            <th>Action</th>
+                                        @endcanany
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
+                                    @foreach ($time_sheets as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->kode_time_sheet }}</td>
                                             <td>{{ $item->kode }}</td>
                                             <td>{{ $item->qty }}</td>
                                             <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->updated_at }}</td>
                                             <td>
                                                 @can('edit time sheet')
                                                     <a href="{{ route('time_sheet.edit', $item->id) }}"
@@ -76,10 +78,8 @@
                                                     </form>
                                                 @endcan
                                             </td>
-
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>

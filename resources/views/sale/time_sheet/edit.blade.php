@@ -1,14 +1,13 @@
 @extends('layouts.master')
-@section('title', 'Create Time Sheet')
+@section('title', 'Edit Time Sheet')
 
 @section('content')
     <div id="content" class="app-content">
 
-        {{ Breadcrumbs::render('time_sheet_create') }}
-
-        <form action="{{ route('time_sheet.store') }}" method="POST" id="form-time-sheet">
+        {{ Breadcrumbs::render('time_sheet_edit') }}
+        <form action="{{ route('time_sheet.update', $timeSheet->id) }}" method="POST" id="form-time-sheet">
             @csrf
-            @method('POST')
+            @method('PUT')
 
             <div class="row">
                 <div class="col-md-3 ui-sortable">
@@ -33,7 +32,9 @@
                                 <select class="form-select theSelect " id="spal" name="spal" required>
                                     <option value="" disabled selected>-- Pilih --</option>
                                     @foreach ($spal as $item)
-                                        <option value="{{ $item->id }}">{{ $item->kode }}</option>
+                                        <option value="{{ $item->id }}"
+                                            {{ $item->id == $timeSheet->spal_id ? 'selected' : 'disabled' }}>
+                                            {{ $item->kode }}</option>
                                         </option>
                                     @endforeach
                                 </select>
@@ -88,8 +89,8 @@
                         <div class="panel-heading ui-sortable-handle">
                             <h4 class="panel-title">Time Sheet</h4>
                             <div class="panel-heading-btn">
-                                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
-                                    <i class="fa fa-redo"></i>
+                                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+                                        class="fa fa-redo"></i>
                                 </a>
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse">
                                     <i class="fa fa-minus"></i>
@@ -115,53 +116,66 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                1
-                                            </td>
-                                            <td>
-                                                <input type="date" name="date[]" placeholder="Date" class="form-control"
-                                                    required />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="remark[]" placeholder="Remark"
-                                                    class="form-control" required />
-                                            </td>
-                                            <td>
-                                                <input type="time" name="from[]" placeholder="from"
-                                                    class="form-control start-time" required />
-                                            </td>
-                                            <td>
-                                                <input type="time" name="to[]" placeholder="to"
-                                                    class="form-control end-time" required />
-                                            </td>
-                                            <td>
-                                                <input type="text" name="keterangan[]" placeholder="Description"
-                                                    class="form-control" required />
-                                            </td>
-                                            <td class="text-center">
-                                                <input class="form-check-input mt-2 form-check-timesheet-input"
-                                                    type="checkbox" name="is_count[]" value="null">
-                                            </td>
-                                            <td style="width:20px">
-                                                <button type="button" name="add-berkas" id="add-berkas"
-                                                    class="btn btn-success">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        @foreach ($timeSheet->detail_time_sheets as $detail)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <input type="date" name="date[]" placeholder="Date"
+                                                        class="form-control"
+                                                        value="{{ $detail->date->format('Y-m-d') }}" required />
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="remark[]" placeholder="Remark"
+                                                        class="form-control" value="{{ $detail->remark }}" required />
+                                                </td>
+                                                <td>
+                                                    <input type="time" name="from[]" placeholder="from"
+                                                        class="form-control start-time"
+                                                        value="{{ date('H:i', strtotime($detail->from)) }}" required />
+                                                </td>
+                                                <td>
+                                                    <input type="time" name="to[]" placeholder="to"
+                                                        class="form-control end-time"
+                                                        value="{{ date('H:i', strtotime($detail->to)) }}" required />
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="keterangan[]" placeholder="Description"
+                                                        class="form-control" value="{{ $detail->keterangan }}"
+                                                        required />
+                                                </td>
+                                                <td class="text-center">
+                                                    <input class="form-check-input mt-2 form-check-timesheet-input"
+                                                        type="checkbox" name="is_count[]"
+                                                        {{ $detail->is_count ? 'checked' : '' }}>
+                                                </td>
+                                                <td style="width:20px">
+                                                    @if ($loop->iteration == 1)
+                                                        <button type="button" name="add-berkas" id="add-berkas"
+                                                            class="btn btn-success">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    @else
+                                                        <button type="button" name="remove"
+                                                            class="btn btn-danger btn-remove">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
 
                             <div style="float: left">
                                 <p style="font-weight: bold; font-size: 14px;">Total Waktu :
-                                    <span style="font-size: 14px;color:white; font-weight:normal;"
-                                        id="total-waktu-value"></span>
+                                    <span style="font-size: 14px;color:white; font-weight:normal;" id="total-waktu-value">
+                                        {{ "$timeSheet->hari Hari $timeSheet->jam Jam $timeSheet->menit Menit" }}
+                                    </span>
                                 </p>
                             </div>
                             <div style="float: right">
-                                <button type="submit" class="btn btn-primary" id="btn-save">Simpan</button>
+                                <button type="submit" class="btn btn-primary" id="btn-save">Update</button>
                                 <a href="{{ route('time_sheet.index') }}" class="btn btn-info" id="btn-back">Back</a>
                             </div>
                         </div>
@@ -183,6 +197,8 @@
         const pelabuhanMuat = $('#pelabuhan-muat')
         const pelabuhanBongkar = $('#pelabuhan-bongkar')
         const hargaUnit = $('#harga-unit')
+
+        getSpal()
 
         function calculateTotalTimesheet() {
             let minutes = 0
@@ -268,27 +284,7 @@
         })
 
         $('#spal').change(function() {
-            namaKapal.text('Loading...')
-            namaMuatan.text('Loading...')
-            jmlMuatan.text('Loading...')
-            pelabuhanMuat.text('Loading...')
-            pelabuhanBongkar.text('Loading...')
-            hargaUnit.text('Loading...')
-
-            $.ajax({
-                url: '/sale/spal/get-spal-by-id/' + $(this).val(),
-                type: 'GET',
-                success: function(res) {
-                    setTimeout(() => {
-                        namaKapal.text(res.nama_kapal)
-                        namaMuatan.text(res.nama_muatan)
-                        jmlMuatan.text(res.jml_muatan)
-                        pelabuhanMuat.text(res.pelabuhan_muat)
-                        pelabuhanBongkar.text(res.pelabuhan_bongkar)
-                        hargaUnit.text(thousandFormat(res.harga_unit))
-                    }, 500)
-                },
-            });
+            getSpal()
         })
 
         $(document).on('change', '.form-check-timesheet-input', function() {
@@ -331,6 +327,9 @@
             })
 
             formData.append('lama_waktu', $('#total-waktu-value').text())
+            // formData.append('_token', $('[name="_token"]').val())
+            // formData.append('_method', 'PUT')
+            formData.append('_method', 'PUT')
 
             // delete data with is_count[] == null from formData
             formData.forEach((item, index) => {
@@ -339,8 +338,13 @@
                 }
             })
 
+            // console.log(formData);
+
             $.ajax({
-                url: '{{ route('time_sheet.store') }}',
+                url: '{{ route('time_sheet.update', $timeSheet->id) }}',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
                 type: 'POST',
                 data: formData,
                 processData: false,
@@ -350,7 +354,7 @@
 
                     Swal.fire({
                         icon: 'success',
-                        title: 'Simpan data',
+                        title: 'Update data',
                         text: 'Berhasil'
                     }).then(function() {
                         window.location = '{{ route('time_sheet.index') }}'
@@ -358,6 +362,7 @@
                 },
                 error: function(xhr, status, error) {
                     // console.error(xhr.responseText)
+                    console.error('error njir');
 
                     Swal.fire({
                         icon: 'error',
@@ -379,6 +384,30 @@
 
         function thousandFormat(number) {
             return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        }
+
+        function getSpal() {
+            namaKapal.text('Loading...')
+            namaMuatan.text('Loading...')
+            jmlMuatan.text('Loading...')
+            pelabuhanMuat.text('Loading...')
+            pelabuhanBongkar.text('Loading...')
+            hargaUnit.text('Loading...')
+
+            $.ajax({
+                url: '/sale/spal/get-spal-by-id/' + $('#spal').val(),
+                type: 'GET',
+                success: function(res) {
+                    setTimeout(() => {
+                        namaKapal.text(res.nama_kapal)
+                        namaMuatan.text(res.nama_muatan)
+                        jmlMuatan.text(res.jml_muatan)
+                        pelabuhanMuat.text(res.pelabuhan_muat)
+                        pelabuhanBongkar.text(res.pelabuhan_bongkar)
+                        hargaUnit.text(thousandFormat(res.harga_unit))
+                    }, 500)
+                },
+            });
         }
     </script>
 @endpush
