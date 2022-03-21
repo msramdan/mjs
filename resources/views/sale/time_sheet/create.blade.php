@@ -11,9 +11,9 @@
             @method('POST')
 
             <div class="row">
-                <div class="col-md-3 ui-sortable">
+                <div class="col-md-3">
                     <div class="panel panel-inverse">
-                        <div class="panel-heading ui-sortable-handle">
+                        <div class="panel-heading">
                             <h4 class="panel-title">Spal</h4>
                             <div class="panel-heading-btn">
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="panel panel-inverse">
-                        <div class="panel-heading ui-sortable-handle">
+                        <div class="panel-heading">
                             <h4 class="panel-title">Detail Spal</h4>
                         </div>
                         <div class="panel-body">
@@ -83,9 +83,9 @@
                     </div>
                 </div>
 
-                <div class="col-md-9 ui-sortable">
+                <div class="col-md-9">
                     <div class="panel panel-inverse">
-                        <div class="panel-heading ui-sortable-handle">
+                        <div class="panel-heading">
                             <h4 class="panel-title">Time Sheet</h4>
                             <div class="panel-heading-btn">
                                 <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload">
@@ -186,29 +186,93 @@
 
         function calculateTotalTimesheet() {
             let minutes = 0
+            let totalChecked = 0
 
             $('.form-check-timesheet-input').each((i) => {
                 if ($('.form-check-timesheet-input').eq(i).is(':checked') &&
                     $('.start-time').eq(i).val() &&
                     $('.end-time').eq(i).val()
                 ) {
-                    let startTime = $('.start-time').eq(i).val()
-                    let endTime = $('.end-time').eq(i).val()
+                    totalChecked++
 
-                    let startTimeSplit = startTime.split(':')
-                    let endTimeSplit = endTime.split(':')
+                    // calculate total hours and minutes on .start-time and .end-time
+                    let startTime = $('.start-time').eq(i).val().split(':')
+                    let endTime = $('.end-time').eq(i).val().split(':')
 
-                    let startTimeMinutes = parseInt(startTimeSplit[0]) * 60 + parseInt(startTimeSplit[1])
-                    let endTimeMinutes = parseInt(endTimeSplit[0]) * 60 + parseInt(endTimeSplit[1])
+                    let startHours = parseInt(startTime[0])
+                    let startMinutes = parseInt(startTime[1])
 
-                    minutes += endTimeMinutes - startTimeMinutes
+                    let endHours = parseInt(endTime[0])
+                    let endMinutes = parseInt(endTime[1])
 
-                    let hours = Math.floor(minutes / 60)
-                    let minutesLeft = minutes % 60
+                    // calculate total minutes
+                    let totalMinutes = (endHours * 60 + endMinutes) - (startHours * 60 + startMinutes)
 
-                    splitTime(hours + '.' + minutesLeft)
+                    // add total minutes to minutes
+                    minutes += totalMinutes
+
+                    // calculate total hours
+                    let totalHours = Math.floor(minutes / 60)
+
+                    // calculate total minutes
+                    let totalMinutesLeft = minutes % 60
+
+                    // // add 0 if minutes less than 10
+                    // if (totalMinutesLeft < 10) {
+                    //     totalMinutesLeft = '0' + totalMinutesLeft
+                    // }
+
+                    // // add 0 if hours less than 10
+                    // if (totalHours < 10) {
+                    //     totalHours = '0' + totalHours
+                    // }
+
+                    // add total hours and minutes to .total-waktu-value
+                    // $('#total-waktu-value').text(totalHours + ':' + totalMinutesLeft)
+
+                    // let startTime = $('.start-time').eq(i).val()
+                    // let endTime = $('.end-time').eq(i).val()
+
+                    // let startTimeSplit = startTime.split(':')
+                    // let endTimeSplit = endTime.split(':')
+
+                    // let startTimeMinutes = parseInt(startTimeSplit[0]) * 60 + parseInt(startTimeSplit[1])
+                    // let endTimeMinutes = parseInt(endTimeSplit[0]) * 60 + parseInt(endTimeSplit[1])
+
+                    // minutes += endTimeMinutes - startTimeMinutes
+
+                    // let hours = Math.floor(minutes / 60)
+                    // let minutesLeft = minutes % 60
+
+                    hoursToDays(totalHours + '.' + totalMinutesLeft)
+                }
+
+                if (totalChecked == 0) {
+                    $('#total-waktu-value').text(`0 Hari 0 Jam 0 menit`)
                 }
             })
+        }
+
+        // function to convert hours and minutes to days, hours, minutes
+        function hoursToDays(time) {
+            let timeSplit = time.split('.')
+            let hours = parseInt(timeSplit[0])
+            let minutes = parseInt(timeSplit[1])
+
+            let days = Math.floor(hours / 24)
+            let hoursLeft = hours % 24
+
+            // // add 0 if minutes less than 10
+            // if (minutes < 10) {
+            //     minutes = '0' + minutes
+            // }
+
+            // // add 0 if hours less than 10
+            // if (hoursLeft < 10) {
+            //     hoursLeft = '0' + hoursLeft
+            // }
+
+            $('#total-waktu-value').text(`${days} Hari ${hoursLeft} Jam ${minutes} menit`)
         }
 
         function splitTime(numberOfHours) {

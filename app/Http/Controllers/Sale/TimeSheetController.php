@@ -34,20 +34,11 @@ class TimeSheetController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->is_count[5] == 'true' ? 1 : 0;
-
         /**
          * will generate array like:
          * ['1', 'hari', '8', 'jam', '3', 'menit']
          */
         $lamaWaktu = explode(' ', $request->lama_waktu);
-
-        // return $lamaWaktu;
-
-        // return 48 % 24;
-        // return explode(' ', $request->lama_waktu)[0];
-
-        // return $lamaWaktu;
 
         DB::transaction(function () use ($request, $lamaWaktu) {
             $timeSheet = TimeSheet::create([
@@ -174,59 +165,5 @@ class TimeSheetController extends Controller
         }
 
         return $kode;
-    }
-
-    public function calculateDay(array $lamaWaktu)
-    {
-        // loop $lamaWaktu['jam]
-        $hari = 0;
-        $jam = intval($lamaWaktu[0]);
-        $menit = intval($lamaWaktu[2]);
-
-        for ($i = 0; $i < $lamaWaktu[0]; $i++) {
-            if ($i >= 24) {
-                if ($i % 24 === 0) {
-                    // $jam += $i % 24;
-                    $hari++;
-                } elseif ($i % 24 != 0) {
-                    $jam += $i % 24;
-                }
-            }
-
-            // if ($lamaWaktu[0] >= 24) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 24;
-            //     // hari
-            //     $lamaWaktu[4] = 1;
-            // } elseif ($lamaWaktu[0] >= 48) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 48;
-            //     $lamaWaktu[4] = 2;
-            // } elseif ($lamaWaktu[0] >= 72) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 72;
-            //     $lamaWaktu[4] = 3;
-            // } elseif ($lamaWaktu[0] >= 96) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 96;
-            //     $lamaWaktu[4] = 4;
-            // } elseif ($lamaWaktu[0] >= 120) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 120;
-            //     $lamaWaktu[4] = 5;
-            // } elseif ($lamaWaktu[0] >= 144) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 144;
-            //     $lamaWaktu[4] = 6;
-            // } elseif ($lamaWaktu[0] >= 168) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 168;
-            //     $lamaWaktu[4] = 7;
-            // } elseif ($lamaWaktu[0] >= 192) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 192;
-            //     $lamaWaktu[4] = 8;
-            // } elseif ($lamaWaktu[0] >= 216) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 216;
-            //     $lamaWaktu[4] = 9;
-            // } elseif ($lamaWaktu[0] >= 240) {
-            //     $lamaWaktu[0] = $lamaWaktu[0] - 240;
-            //     $lamaWaktu[4] = 10;
-            // }
-        }
-
-        return ['hari' => $hari, 'jam' => $jam, 'menit' => $menit];
     }
 }
