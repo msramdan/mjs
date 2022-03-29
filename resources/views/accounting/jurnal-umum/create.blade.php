@@ -95,7 +95,7 @@
                 <tr id="row${i}">
                     <td>
                         <div class="form-group">
-                            <select class="form-control" name="coa_id[]" required>
+                            <select class="form-select" name="coa_id[]" required>
                             <option style="color: black;" value="" disabled selected>-- Pilih -- </option>
                             <?php foreach ($akunDetail as $key => $ad) { ?>
                                 <option style="color:black" value="<?= $ad->id ?>">
@@ -280,6 +280,8 @@
     <script>
         $("#simpan_data").click(function(e) {
             e.preventDefault()
+            $('#simpan_data').prop('disabled', true)
+            $('#simpan_data').text('Loading...')
 
             var tanggal = $('#tanggal').val();
             var no_bukti = $('#no_bukti').val();
