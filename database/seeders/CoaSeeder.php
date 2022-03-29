@@ -206,7 +206,7 @@ class CoaSeeder extends Seeder
                 // 19
                 'kode' => '10-1000',
                 'nama' => 'Piutang PT. XXX XXX',
-                'tipe' => 'Euqity',
+                'tipe' => 'Account Receivable',
                 'kategori' => 'Detail',
                 'parent'  => 18,
                 'created_at' => now(),

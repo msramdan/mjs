@@ -65,7 +65,7 @@
                                 <tr id="row{{ $i }}">
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" name="coa_id[]" required>
+                                            <select class="form-select" name="coa_id[]" required>
                                                 <option value="" disabled selected>-- Pilih -- </option>
                                                 @foreach ($akunDetail as $i => $ad)
                                                     <option value="{{ $ad->id }}"
@@ -103,8 +103,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-danger btn_remove2" name="remove"
-                                            id="{{ $i }}">
+                                        <button type="button" class="btn btn-sm btn-danger btn_remove2"
+                                            id="{{ $i }}" >
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>
@@ -155,9 +155,9 @@
                 <tr id="row${i}">
                     <td>
                         <div class="form-group">
-                            <select class="form-control" name="coa_id[]" required>
+                            <select class="form-select" name="coa_id[]" required>
                             <option value="" disabled selected>-- Pilih -- </option>
-                            <?php foreach ($akunBeban as $key => $ad) { ?>
+                            <?php foreach ($akunDetail as $key => $ad) { ?>
                                 <option style="color:black" value="<?= $ad->id ?>">
                                     <?= $ad->kode ?> - <?= $ad->nama ?>
                                 </option>
@@ -340,6 +340,8 @@
     <script>
         $("#simpan_data").click(function(e) {
             e.preventDefault()
+            $('#simpan_data').prop('disabled', true)
+            $('#simpan_data').text('Loading...')
 
             var tanggal = $('#tanggal').val();
             var no_bukti = $('#no_bukti').val();
