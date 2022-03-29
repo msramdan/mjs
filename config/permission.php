@@ -504,6 +504,15 @@ return [
                 'setting aplikasi',
             ],
         ],
+        [
+            'group' => 'it',
+            'lists' => [
+                'view open tiket',
+                'create open tiket',
+                'edit open tiket',
+                'delete open tiket',
+            ],
+        ],
 
     ]
 ];

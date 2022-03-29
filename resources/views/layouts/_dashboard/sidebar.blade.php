@@ -381,6 +381,29 @@
                 </div>
             @endcanany
 
+            {{-- IT Support --}}
+            @canany(['view open tiket'])
+                <div class="menu-item has-sub">
+                    <a href="javascript:;" class="menu-link">
+                        <div class="menu-icon">
+                            <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="menu-text">{{ trans('sidebar.word.it') }}</div>
+                        <div class="menu-caret"></div>
+                    </a>
+                    <div class="menu-submenu">
+                        <div class="menu-item">
+                            @can('view open tiket')
+                                <a href="{{ route('open_tiket.index') }}" class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.tiket_it') }}</div>
+                                    {{-- <div class="menu-badge">10000</div> --}}
+                                </a>
+                            @endcan
+                        </div>
+                    </div>
+                </div>
+            @endcanany
+
             {{-- master data --}}
             @canany([
                 'view jabatan',

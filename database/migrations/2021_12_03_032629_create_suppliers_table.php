@@ -17,11 +17,11 @@ class CreateSuppliersTable extends Migration
             $table->id();
             $table->string('kode', 20);
             $table->string('nama', 100);
-            $table->string('email', 191);
-            $table->text('alamat');
-            $table->string('kota', 30);
-            $table->string('provinsi', 30);
-            $table->string('telp', 20);
+            $table->string('email', 191)->nullable();
+            $table->text('alamat')->nullable();
+            $table->string('kota', 30)->nullable();
+            $table->string('provinsi', 30)->nullable();
+            $table->string('telp', 20)->nullable();
             $table->string('personal_kontak', 20)->nullable();
             $table->string('website', 100)->nullable();
             $table->string('kode_pos', 20)->nullable();

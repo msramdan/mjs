@@ -78,6 +78,7 @@ class BillingRepository
      */
     public function update(array $request, $billing)
     {
+
         DB::transaction(function () use ($request, $billing) {
             $purchase = Purchase::with(
                 'detail_purchase',

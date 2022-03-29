@@ -734,3 +734,16 @@ Breadcrumbs::for('benefit_index', function (BreadcrumbTrail $trail) {
     $trail->parent('payroll');
     $trail->push('Data Benefit', route('benefit.index'));
 });
+
+
+// IT > Open tiket
+
+// Accounting
+Breadcrumbs::for('it', function (BreadcrumbTrail $trail) {
+    $trail->push('IT');
+});
+
+Breadcrumbs::for('open_tiket_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('it');
+    $trail->push('Open Tiket Helpdesk', route('open_tiket.index'));
+});

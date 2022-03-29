@@ -14,6 +14,7 @@ return [
         'elektronik_dokumen' => 'Electronic Document',
         'request_form' => 'Request Form',
         'payroll' => 'Payroll',
+        'it' => 'IT Support',
     ],
     'sub_menu' => [
         'pemasok' => 'Supplier',
@@ -55,5 +56,6 @@ return [
         'neraca' => 'Neraca',
         'labarugi' => 'Profit and Loss',
         'time_sheet' => 'Time Sheet',
+        'tiket_it' => 'Open Tiket Helpdesk',
     ],
 ];

@@ -18,8 +18,8 @@ class JurnalUmum extends Model
         'deskripsi',
         'debit',
         'kredit',
-        'ref_id',
-        'ref_type'
+        'ref_id'
+        // 'ref_type'
     ];
 
     protected $casts = ['tanggal' => 'date:d/m/Y'];

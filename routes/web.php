@@ -25,6 +25,7 @@ use App\Http\Controllers\Inventory\{
     BacTerimaController,
     ReceivedController
 };
+use App\Http\Controllers\It\OpenTiketController;
 use App\Http\Controllers\Legal\{
     KaryawanController,
     BerkasKaryawanController,
@@ -61,6 +62,8 @@ use App\Http\Controllers\Setting\{
     SettingAppController
 };
 use Illuminate\Support\Facades\{Route, Auth};
+
+
 
 
 // untuk nonaktifkan route register
@@ -222,4 +225,10 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
 Route::prefix('payroll')->middleware('auth')->group(function () {
     Route::resource('potongan', PotonganController::class)->except(['update', 'create']);
     Route::resource('benefit', BenefitController::class)->except(['update', 'create']);
+});
+
+// IT
+// Sale
+Route::middleware('auth')->prefix('it')->group(function () {
+    Route::resource('open_tiket', OpenTiketController::class);
 });

@@ -34,7 +34,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="kode">Kode</label>
                                 <input class="form-control @error('kode') is-invalid @enderror" type="text" id="kode"
-                                    name="kode" placeholder="Kode" value="{{ old('kode') }}" required autofocus />
+                                    name="kode" placeholder="Kode" value="{{ old('kode') }}"  autofocus />
                                 @error('kode')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -43,7 +43,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="nama">Nama</label>
                                 <input class="form-control @error('nama') is-invalid @enderror" type="text" id="nama"
-                                    name="nama" placeholder="Nama" value="{{ old('nama') }}" required />
+                                    name="nama" placeholder="Nama" value="{{ old('nama') }}"  />
                                 @error('nama')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -52,7 +52,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="alamat">Alamat</label>
                                 <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat"
-                                    name="alamat" placeholder="Alamat" rows="7" required>{{ old('alamat') }}</textarea>
+                                    name="alamat" placeholder="Alamat" rows="7" >{{ old('alamat') }}</textarea>
                                 @error('alamat')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -61,7 +61,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="catatan">Catatan</label>
                                 <textarea class="form-control @error('catatan') is-invalid @enderror" id="catatan"
-                                    name="catatan" placeholder="Catatan" rows="7" required>{{ old('catatan') }}</textarea>
+                                    name="catatan" placeholder="Catatan" rows="7" >{{ old('catatan') }}</textarea>
                                 @error('catatan')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -72,7 +72,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="email">Email</label>
                                 <input class="form-control @error('email') is-invalid @enderror" type="email" id="email"
-                                    name="email" placeholder="Email" value="{{ old('email') }}" required />
+                                    name="email" placeholder="Email" value="{{ old('email') }}"  />
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -81,7 +81,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="kota">Kota</label>
                                 <input class="form-control @error('kota') is-invalid @enderror" type="text" id="kota"
-                                    name="kota" placeholder="Kota" value="{{ old('kota') }}" required />
+                                    name="kota" placeholder="Kota" value="{{ old('kota') }}"  />
                                 @error('kota')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -91,7 +91,7 @@
                                 <label class="form-label" for="provinsi">Provinsi</label>
                                 <input class="form-control @error('provinsi') is-invalid @enderror" type="text"
                                     id="provinsi" name="provinsi" placeholder="Provinsi" value="{{ old('provinsi') }}"
-                                    required />
+                                     />
                                 @error('provinsi')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -100,7 +100,7 @@
                             <div class="form-group mb-3">
                                 <label class="form-label" for="telp">Telepon</label>
                                 <input class="form-control @error('telp') is-invalid @enderror" type="telp" id="telp"
-                                    name="telp" placeholder="Telepon" value="{{ old('telp') }}" required />
+                                    name="telp" placeholder="Telepon" value="{{ old('telp') }}"  />
                                 @error('telp')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
