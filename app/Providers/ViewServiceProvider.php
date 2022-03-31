@@ -428,7 +428,7 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'purchaseApproves',
                 Purchase::select('id', 'kode')
-                    ->where('lunas', 0)
+                    // ->where('lunas', 0)
                     ->where('approve_by_gm', '!=', null)
                     ->orderBy('id')
                     ->get()

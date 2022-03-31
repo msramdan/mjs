@@ -116,18 +116,18 @@
                                 )
                             })
                         } else {
-                            // listProduk.push(
-                            //     `<option value="" disabled selected>Data tidak ditemukan</option>`
-                            // )
-
                             listProduk.push(
-                                `<option value="" disabled selected>-- Pilih --</option>`)
+                                `<option value="" disabled selected>Data tidak ditemukan</option>`
+                            )
 
-                            for (let i = 0; i < allProduks[0].length; i++) {
-                                listProduk.push(
-                                    `<option value="${allProduks[0][i].id}">${allProduks[0][i].kode +' - '+allProduks[0][i].nama}</option>`
-                                )
-                            }
+                            // listProduk.push(
+                            //     `<option value="" disabled selected>-- Pilih --</option>`)
+
+                            // for (let i = 0; i < allProduks[0].length; i++) {
+                            //     listProduk.push(
+                            //         `<option value="${allProduks[0][i].id}">${allProduks[0][i].kode +' - '+allProduks[0][i].nama}</option>`
+                            //     )
+                            // }
 
                             // $.each(allProduks, function(index, value) {
                             //     listProduk.push(
