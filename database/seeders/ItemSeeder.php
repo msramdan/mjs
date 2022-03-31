@@ -61,7 +61,7 @@ class ItemSeeder extends Seeder
         $item3 = Item::create([
             'category_id' => 3,
             'unit_id' => 3,
-            'kode' => 'IT-MJS-002',
+            'kode' => 'IT-MJS-003',
             'nama' => 'Product 3',
             'type' => 'Services',
             'deskripsi' => 'tes',
