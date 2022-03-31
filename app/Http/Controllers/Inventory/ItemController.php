@@ -150,11 +150,10 @@ class ItemController extends Controller
                 $attr['foto'] = $filename;
             }
 
+            $item->detail_items()->delete();
             $item->update($attr);
 
             if (is_array($request->supplier)) {
-                $item->detail_items()->delete();
-
                 foreach ($request->supplier as $i => $value) {
                     $detailItem[] = new DetailItem([
                         'supplier_id' => $value,

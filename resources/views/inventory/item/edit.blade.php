@@ -173,8 +173,7 @@
                         <div class="col-md-12">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="deskripsi">Deskripsi</label>
-                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi"
-                                    name="deskripsi"
+                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi"
                                     placeholder="Deskripsi">{{ old('deskripsi') ? old('deskripsi') : $item->deskripsi }}</textarea>
                                 @error('deskripsi')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -483,7 +482,7 @@
                     $('#validation-errors').hide()
                 },
                 error: function(xhr, status, error) {
-                    // console.error(xhr.responseText)
+                    console.error(xhr.responseText)
 
                     let validationErrors = $('#validation-errors')
                     let validationUl = $('#validation-errors .alert-danger ul')
@@ -502,7 +501,7 @@
                     })
                     $('#validation-errors').show()
 
-                    btnSave.text('Simpan')
+                    btnSave.text('Update')
                     btnSave.prop('disabled', false)
                     btnReset.text('Reset')
                     btnReset.prop('disabled', false)
