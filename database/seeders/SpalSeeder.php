@@ -18,6 +18,7 @@ class SpalSeeder extends Seeder
             'customer_id' => 1,
             'kode' => 'SPAL-0001',
             'nama_kapal' => 'Kapal 1',
+            'nama_tongkang' => 'Tongkang 1',
             'nama_muatan' => 'Muatan 1',
             'jml_muatan' => 9,
             'pelabuhan_muat' => 'Pelabuhan 1',

@@ -18,6 +18,7 @@ class CreateSpalTable extends Migration
             $table->foreignId('customer_id')->constrained('customers');
             $table->string('kode', 30);
             $table->string('nama_kapal', 100);
+            $table->string('nama_tongkang', 100);
             $table->string('nama_muatan', 100);
             $table->integer('jml_muatan');
             $table->string('pelabuhan_muat', 100);

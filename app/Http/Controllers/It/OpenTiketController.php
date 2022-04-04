@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class OpenTiketController extends Controller
 {
@@ -46,7 +47,7 @@ class OpenTiketController extends Controller
      */
     public function create()
     {
-        //
+        return view('it.open_tiket.create');
     }
 
     /**
@@ -57,7 +58,42 @@ class OpenTiketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'judul' => "required|string",
+                'pesan' => "required|string",
+                'photo' => "required",
+                'status' => "required"
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+
+         //upload photo
+        $photo = $request->file('photo');
+        $photo->storeAs('public/it', $photo->hashName());
+
+        $tiket = OpenTiket::create([
+            'photo'     => $photo->hashName(),
+            'user_id'     => auth()->user()->id,
+            'judul'     => $request->judul,
+            'pesan'   => $request->pesan,
+            'status'   => $request->status
+        ]);
+
+        if($tiket){
+            Alert::toast('Tambah data berhasil', 'success');
+            return redirect()->route('open_tiket.index');
+        }else{
+            Alert::toast('Tambah data gagal', 'error');
+            return redirect()->route('open_tiket.index');
+        }
+
+
     }
 
     /**

@@ -228,7 +228,7 @@ Route::prefix('payroll')->middleware('auth')->group(function () {
 });
 
 // IT
-// Sale
+// Open tiket
 Route::middleware('auth')->prefix('it')->group(function () {
     Route::resource('open_tiket', OpenTiketController::class);
 });

@@ -14,6 +14,9 @@ class OpenTiket extends Model
     protected $fillable = [
         'judul',
         'user_id',
+        'pesan',
+        'photo',
+        'status',
     ];
 
     function delete_photo()
