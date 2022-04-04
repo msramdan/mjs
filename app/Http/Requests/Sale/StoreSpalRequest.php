@@ -35,6 +35,7 @@ class StoreSpalRequest extends FormRequest
             'nama_file.*' => 'required|string|min:2',
             'file.*' => 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:1024',
             'harga_demorage' => 'nullable',
+            'nama_tongkang' => 'required|string|min:1'
         ];
     }
 }
