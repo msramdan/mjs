@@ -202,6 +202,7 @@ Route::middleware('auth')->group(function () {
 
 // accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {
+    Route::get('/billing/download/{filename}', [BillingController::class, 'download'])->name('billing.download');
     Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
     Route::get('/billing/generate-kode/{tanggal}', [BillingController::class, 'generateKode']);
 

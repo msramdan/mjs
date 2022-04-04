@@ -35,6 +35,8 @@ class UpdateBillingRequest extends FormRequest
             'TextFeeBank' => 'nullable',
             'akun_beban' => 'nullable|required_if:status_billing,Paid',
             'akun_sumber' => 'nullable|required_if:status_billing,Paid',
+            'nota' => 'nullable|mimes:png,jpg,pdf,doc,docx|max:2048',
+            'bukti_bayar' => 'required|mimes:png,jpg,pdf,doc,docx|max:2048'
         ];
     }
 }

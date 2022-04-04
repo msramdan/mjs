@@ -85,7 +85,7 @@ class BillingController extends Controller
     public function edit(Billing $billing)
     {
         // kalo billing udah dibayar gabisa diedit
-        abort_if($billing->status == 'Paid', 403, 'billing already paid!');
+        abort_if($billing->status == 'Paid', 403, 'Billing already paid!');
 
         $this->billingRepository->loadRelations($billing);
 
@@ -152,5 +152,25 @@ class BillingController extends Controller
         $pdf = PDF::loadView('accounting.billing.print', $data);
 
         return $pdf->stream('Billing - ' . $data['billing']->kode . '.pdf');
+    }
+
+    /**
+     * Download the specified file from storage.
+     *
+     * @param string $filename
+     * @return \Illuminate\Http\Response
+     */
+    public function download(string $filename)
+    {
+        if (file_exists($path = public_path() . "/billings/nota/$filename")) {
+            $headers = array(
+                // type sesuai extension file
+                'Content-Type: application/' . \File::extension($filename),
+            );
+
+            return response()->download($path, $filename, $headers);
+        } else {
+            abort(404, "File doesn't exist");
+        }
     }
 }

@@ -142,11 +142,10 @@
                             <div class="input-group-text">
                                 <input type="checkbox" class="form-check-input" id="yourBox">
                             </div>
-                            <input type="number" id="TextFeeBank" disabled class="form-control" name="TextFeeBank"
-                                placeholder="Additional fee bank">
+                            <input type="number" id="TextFeeBank" class="form-control" name="TextFeeBank"
+                                placeholder="Additional fee bank" disabled>
                         </div>
                     </div>
-
 
                     <div class="col-md-6" id="col-akun-beban" style="display: none">
                         <div class="form-group">
@@ -160,8 +159,6 @@
                             </select>
                         </div>
                     </div>
-
-
                 </div>
             @endif
 
@@ -193,8 +190,8 @@
             @endempty
 
             @if ($errors->any())
-                <div id="validation" class="text-danger">
-                    <ul id="ul-msg">
+                <div class="alert alert-danger mt-3">
+                    <ul class="mb-0">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
