@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <label class="mb-2">Type</label>
                                     <br>
                                     <div class="form-check form-check-inline mb-3">
@@ -110,6 +110,13 @@
                                             value="Consumable" required />
                                         <label class="form-check-label" for="consumable">Consumable</label>
                                     </div>
+
+                                    <div class="form-check form-check-inline mb-3">
+                                        <input class="form-check-input" type="radio" name="type" id="storageable"
+                                            value="Storageable" required />
+                                        <label class="form-check-label" for="storageable">Storageable</label>
+                                    </div>
+
                                     <div class="form-check form-check-inline mb-3">
                                         <input class="form-check-input" type="radio" name="type" id="services"
                                             value="Services" required />
@@ -117,7 +124,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label class="mb-2">Is Demorage</label>
                                     <br>
                                     <div class="form-check form-switch">

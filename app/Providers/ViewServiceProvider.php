@@ -289,7 +289,7 @@ class ViewServiceProvider extends ServiceProvider
             );
         });
 
-        // list consumable
+        // list consumable and storageable
         View::composer([
             // 'purchase.create',
             // 'purchase.edit',
@@ -301,7 +301,7 @@ class ViewServiceProvider extends ServiceProvider
             return $view->with(
                 'consumable',
                 Item::select('id', 'nama', 'kode')
-                    ->where('type', 'Consumable')
+                    ->whereIn('type', ['Consumable', 'Storageable'])
                     ->orderBy('nama')
                     ->get()
             );
@@ -521,24 +521,24 @@ class ViewServiceProvider extends ServiceProvider
                         'nama' => 'Euqity',
                     ],
                     (object)[
-                        'kode' =>  'Income',
-                        'nama' =>  'Income',
+                        'kode' => 'Income',
+                        'nama' => 'Income',
                     ],
                     (object)[
-                        'kode' =>  'Expense',
-                        'nama' =>  'Expense',
+                        'kode' => 'Expense',
+                        'nama' => 'Expense',
                     ],
                     (object)[
-                        'kode' =>  'Other Current Asset',
-                        'nama' =>  'Other Current Asset',
+                        'kode' => 'Other Current Asset',
+                        'nama' => 'Other Current Asset',
                     ],
                     (object)[
-                        'kode' =>   'Other Income',
-                        'nama' =>   'Other Income',
+                        'kode' =>  'Other Income',
+                        'nama' =>  'Other Income',
                     ],
                     (object)[
-                        'kode' =>  'Other Expenses',
-                        'nama' =>  'Other Expenses'
+                        'kode' => 'Other Expenses',
+                        'nama' => 'Other Expenses'
                     ],
                 ])
             );

@@ -190,7 +190,14 @@ class ItemController extends Controller
         return redirect()->route('item.index');
     }
 
-    public function getItemAndSupplier($itemId, $supplierId)
+    /**
+     * Get item and supplier by item id & supplier id
+     *
+     * @param int $itemId
+     * @param int $supplierId
+     * @return \Illuminate\Http\Response
+     */
+    public function getItemAndSupplier(int $itemId, int $supplierId)
     {
         abort_if(!request()->ajax(), 403);
 
@@ -214,12 +221,12 @@ class ItemController extends Controller
     }
 
     /**
-     * Tracking stok item
+     * Tracking stok item by id
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function tracking($id)
+    public function tracking(int $id)
     {
         // 'akun_coa_id',
         $item = Item::select('id', 'category_id', 'unit_id', 'kode', 'nama', 'type', 'stok', 'deskripsi', 'foto')
@@ -246,7 +253,7 @@ class ItemController extends Controller
     }
 
     /**
-     * Generate unique & auto increment code by date.
+     * Generate unique & auto increment code by total items.
      *
      * @return \Illuminate\Http\Response
      */
@@ -270,7 +277,13 @@ class ItemController extends Controller
         return response()->json(['kode' => $kode], 200);
     }
 
-    public function getItemBySupplier($id)
+    /**
+     * Get item by supplier id
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getItemBySupplier(int $id)
     {
         abort_if(!request()->ajax(), 403);
 
@@ -281,6 +294,12 @@ class ItemController extends Controller
         return response()->json($item, 200);
     }
 
+    /**
+     * Get item by id
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
     public function getItemById($id)
     {
         abort_if(!request()->ajax(), 403);
@@ -292,6 +311,11 @@ class ItemController extends Controller
         return response()->json($item, 200);
     }
 
+    /**
+     * Get all items
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getAll()
     {
         abort_if(!request()->ajax(), 403);
