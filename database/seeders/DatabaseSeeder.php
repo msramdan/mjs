@@ -18,11 +18,19 @@ class DatabaseSeeder extends Seeder
             SupplierSeeder::class,
             CustomerSeeder::class,
             CategorySeeder::class,
+<<<<<<< HEAD
             UnitSeeder::class,
             // LokSeeder::class,
             // StatusKaryawanasiSeeder::class,
             JabatanSeeder::class,
             DivisiSeeder::class,
+=======
+            // UnitSeeder::class,
+            // LokasiSeeder::class,
+            // StatusKaryawanSeeder::class,
+            // JabatanSeeder::class,
+            // DivisiSeeder::class,
+>>>>>>> bda86c969d737b92412c169fffa480c638853a63
             // KaryawanSeeder::class,
             CategoryRequestSeeder::class,
             CategoryPotonganSeeder::class,
