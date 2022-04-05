@@ -41,6 +41,7 @@
                                         <th>Kode</th>
                                         <th>Customer</th>
                                         <th>Nama Kapal</th>
+                                        <th>Nama Tongkang</th>
                                         <th>Nama Muatan</th>
                                         <th>Jumlah Muatan</th>
                                         <th>Pelabuhan Muat</th>
@@ -101,6 +102,10 @@
             {
                 data: 'nama_kapal',
                 name: 'nama_kapal'
+            },
+            {
+                data: 'nama_tongkang',
+                name: 'nama_tongkang'
             },
             {
                 data: 'nama_muatan',

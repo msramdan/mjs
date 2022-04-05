@@ -27,7 +27,7 @@ class SpalController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Spal::with('customer:id,nama')->latest('updated_at');
+            $query = Spal::with('customer:id,nama');
 
             return DataTables::of($query)
                 ->addColumn('customer', function ($row) {
@@ -172,26 +172,32 @@ class SpalController extends Controller
         }
     }
 
+    /**
+     * Download the specified file from storage.
+     *
+     * @param string $filename
+     * @return \Illuminate\Http\Response
+     */
     public function download(string $filename)
     {
-        $path = public_path() . "/spal/$filename";
+        if (file_exists($path = public_path() . "/spal/$filename")) {
+            $headers = array(
+                // type sesuai extension file
+                'Content-Type: application/' . \File::extension($filename),
+            );
 
-        $extension = \File::extension($filename);
-
-        $headers = array(
-            // type sesuai extension file
-            'Content-Type: application/' . $extension,
-        );
-
-        /**
-         * params
-         * 1: lokasi file,
-         * 2: nama file ketika didownload,
-         * 3:header(optional)
-         */
-        return response()->download($path, $filename, $headers);
+            return response()->download($path, $filename, $headers);
+        } else {
+            abort(404, "File doesn't exist");
+        }
     }
 
+    /**
+     * Get spal with customer and time sheet by spal id.
+     *
+     * @param int $id
+     * @return int
+     */
     public function getSpalById(int $id)
     {
         abort_if(!request()->ajax(), 403);
@@ -201,6 +207,12 @@ class SpalController extends Controller
             ->findOrFail($id);
     }
 
+    /**
+     * Remove comma from string and convert to integer.
+     *
+     * @param string $number
+     * @return int
+     */
     protected function removeCommas(string $number)
     {
         return intval(preg_replace('/[^\d.]/', '', $number));

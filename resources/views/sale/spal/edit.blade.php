@@ -38,14 +38,30 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label class="form-label" for="nama_kapal">Nama Kapal</label>
-                                <input class="form-control @error('nama_kapal') is-invalid @enderror" type="text"
-                                    id="nama_kapal" name="nama_kapal" placeholder="Nama Kapal"
-                                    value="{{ old('nama_kapal') ? old('nama_kapal') : $spal->nama_kapal }}" required />
-                                @error('nama_kapal')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="nama_kapal">Nama Kapal</label>
+                                        <input class="form-control @error('nama_kapal') is-invalid @enderror" type="text"
+                                            id="nama_kapal" name="nama_kapal" placeholder="Nama Kapal"
+                                            value="{{ old('nama_kapal') ? old('nama_kapal') : $spal->nama_kapal }}" required />
+                                        @error('nama_kapal')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="nama_tongkang">Nama Tongkang</label>
+                                        <input class="form-control @error('nama_tongkang') is-invalid @enderror" type="text"
+                                            id="nama_tongkang" name="nama_tongkang" placeholder="Nama tongkang"
+                                            value="{{ old('nama_tongkang') ? old('nama_tongkang') : $spal->nama_tongkang }}" required />
+                                        @error('nama_tongkang')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">

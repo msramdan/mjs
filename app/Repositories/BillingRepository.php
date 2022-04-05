@@ -45,11 +45,16 @@ class BillingRepository
      */
     public function insert(array $request)
     {
-        $attributes = $request;
-        $attributes['purchase_id'] = $request['purchase'];
-        $attributes['user_id'] = auth()->id();
+        $attr = $request;
+        $filename = $request['nota']->hashName();
 
-        Billing::create($attributes);
+        $attr['purchase_id'] = $request['purchase'];
+        $attr['user_id'] = auth()->id();
+        $attr['nota'] = $filename;
+
+        $request['nota']->move(public_path('/billings/nota'), $filename);
+
+        Billing::create($attr);
     }
 
     /**
@@ -78,8 +83,18 @@ class BillingRepository
      */
     public function update(array $request, $billing)
     {
-
         DB::transaction(function () use ($request, $billing) {
+            $nota = $billing->nota;
+            $buktiBayar = $request['bukti_bayar']->hashName();
+            $request['bukti_bayar']->move(public_path('/billings/bukti-bayar'), $buktiBayar);
+
+            if(isset($request['nota']) && file_exists($oldFileNota = public_path("/billings/nota/$billing->nota"))){
+                unlink($oldFileNota);
+
+                $nota = $request['nota']->hashName();
+                $request['nota']->move(public_path('/billings/nota'), $nota);
+            }
+
             $purchase = Purchase::with(
                 'detail_purchase',
                 'detail_purchase.item:id,kode,nama'
@@ -123,10 +138,12 @@ class BillingRepository
                 'tanggal_dibayar' => $request['tanggal_dibayar'],
                 'catatan' => $request['catatan'],
                 'status' => $request['status_billing'],
+                'bukti_bayar' => $buktiBayar,
+                'nota' => $nota,
             ]);
 
             if ($request['tanggal_dibayar'] && $request['status_billing'] == 'Paid') {
-                if ($request['akun_sumber']==4) {
+                if ($request['akun_sumber'] == 4) {
                     $q = DB::select("SELECT MAX(RIGHT(no_bukti,4)) AS kd_max FROM jurnal_umum where SUBSTR(no_bukti,1,3)='BKK'");
                     if (count($q) > 0) {
                         foreach ($q as $k) {

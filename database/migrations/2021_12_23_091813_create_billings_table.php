@@ -24,6 +24,8 @@ class CreateBillingsTable extends Migration
             $table->integer('dibayar');
             $table->enum('status', ['Unpaid', 'Paid']);
             $table->text('catatan')->nullable();
+            $table->string('nota')->nullable();
+            $table->string('bukti_bayar')->nullable();
             $table->timestamps();
         });
     }

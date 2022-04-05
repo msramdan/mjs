@@ -6,9 +6,10 @@
 
         {{ Breadcrumbs::render('billing_create') }}
 
-        <form action="{{ route('billing.store') }}" method="POST" id="form-billing">
+        <form action="{{ route('billing.store') }}" method="POST" id="form-billing" enctype="multipart/form-data">
             @csrf
             @method('POST')
+
             <div class="row">
                 @include('accounting.billing.include.purchase-info')
 

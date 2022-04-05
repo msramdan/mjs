@@ -6,7 +6,7 @@
 
         {{ Breadcrumbs::render('billing_edit') }}
 
-        <form action="{{ route('billing.update', $billing->id) }}" method="POST" id="form-billing">
+        <form action="{{ route('billing.update', $billing->id) }}" method="POST" id="form-billing" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

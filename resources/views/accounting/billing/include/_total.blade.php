@@ -54,11 +54,18 @@
         <div class="col-md-4">
             <div class="form-group mb-2">
                 <label class="form-label" for="catatan">Catatan Billing</label>
-                <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan Billing"
-                    rows="8"></textarea>
+                <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan Billing" rows="8"></textarea>
             </div>
         </div>
         {{-- end of col-md-4 --}}
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="nota">Nota</label>
+                <input type="file" name="nota" id="nota" class="form-control">
+                <small>Jpg, png, word, & pdf.</small>
+            </div>
+        </div>
     @else
         <div class="row me-0 pe-0">
             <div class="col-md-8">
@@ -116,6 +123,37 @@
                 </div>
             </div>
             {{-- end of col-md-4 --}}
+
+            {{-- <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nota" class="float-start">Nota</label>
+                    <label class="float-end">
+                        <a href="#" target="_blank">Download</a>
+                    </label>
+                    <input type="text" class="form-control" id="nota" value="{{ $billing->nota }}" disabled>
+                </div>
+            </div> --}}
+
+            @if ($billing->status !== 'Paid' && $billing->tanggal_dibayar == null)
+                <div class="col-md-6 mb-2">
+                    <div class="form-group">
+                        <label for="nota" class="float-start">Nota</label>
+                        <label class="float-end">
+                            <a href="{{ route('billing.download', $billing->nota) }}" target="_blank">Download</a>
+                        </label>
+                        <input type="file" name="nota" id="nota" class="form-control">
+                        <small>Biarkan kosong jika tidak ingin diupdate. Jpg, png, word, & pdf.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-2">
+                    <div class="form-group">
+                        <label for="bukti_bayar">Bukti Bayar</label>
+                        <input type="file" name="bukti_bayar" id="bukti_bayar" class="form-control">
+                        <small>Jpg, png, word, & pdf.</small>
+                    </div>
+                </div>
+            @endif
         </div>
         {{-- end of row --}}
     @endempty

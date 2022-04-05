@@ -113,7 +113,7 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @php
                                         if ($item->foto == null) {
                                             $foto = 'https://via.placeholder.com/450x350?text=No+Image+Available';
@@ -125,7 +125,7 @@
                                         style="width: 150px; height: 120px; object-fit: cover; border-radius: 3px;">
                                 </div>
 
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <div class="row">
                                         <div class="col-md-7">
                                             <label class="mb-2">Type</label>
@@ -136,12 +136,21 @@
                                                     {{ $item->type == 'Consumable' ? 'checked' : '' }} />
                                                 <label class="form-check-label" for="consumable">Consumable</label>
                                             </div>
+
+                                            <div class="form-check form-check-inline mb-3">
+                                                <input class="form-check-input" type="radio" name="type" id="storageable"
+                                                    value="Storageable"
+                                                    {{ $item->type == 'Storageable' ? 'checked' : '' }} />
+                                                <label class="form-check-label" for="storageable">Storageable</label>
+                                            </div>
+
                                             <div class="form-check form-check-inline mb-3">
                                                 <input class="form-check-input" type="radio" name="type" id="services"
                                                     value="Services" {{ $item->type == 'Services' ? 'checked' : '' }} />
                                                 <label class="form-check-label" for="services">Services</label>
                                             </div>
                                         </div>
+
                                         <div class="col-md-5">
                                             <label class="mb-2">Is Demorage</label>
                                             <br>
