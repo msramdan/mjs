@@ -20,21 +20,18 @@ class OpenTiketController extends Controller
     public function index()
     {
 
-        if(auth()->user()->id==1){
+        if (auth()->user()->id == 1) {
             $data = DB::table('open_tiket')
-            ->select('open_tiket.*', 'users.name')
-            ->join('users', 'users.id', '=', 'open_tiket.user_id')
-            ->get();
-        }else{
+                ->select('open_tiket.*', 'users.name')
+                ->join('users', 'users.id', '=', 'open_tiket.user_id')
+                ->get();
+        } else {
             $data = DB::table('open_tiket')
-            ->select('open_tiket.*', 'users.name')
-            ->join('users', 'users.id', '=', 'open_tiket.user_id')
-            ->where('user_id',auth()->user()->id)
-            ->get();
+                ->select('open_tiket.*', 'users.name')
+                ->join('users', 'users.id', '=', 'open_tiket.user_id')
+                ->where('user_id', auth()->user()->id)
+                ->get();
         }
-
-
-
         return view('it.open_tiket.index', [
             'open_tiket' => $data
         ]);
@@ -73,9 +70,9 @@ class OpenTiketController extends Controller
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
-         //upload photo
+        //upload photo
         $photo = $request->file('photo');
-        $photo->storeAs('public/it', $photo->hashName());
+        $photo->storeAs('public/it/open_tiket', $photo->hashName());
 
         $tiket = OpenTiket::create([
             'photo'     => $photo->hashName(),
@@ -85,15 +82,13 @@ class OpenTiketController extends Controller
             'status'   => $request->status
         ]);
 
-        if($tiket){
+        if ($tiket) {
             Alert::toast('Tambah data berhasil', 'success');
             return redirect()->route('open_tiket.index');
-        }else{
+        } else {
             Alert::toast('Tambah data gagal', 'error');
             return redirect()->route('open_tiket.index');
         }
-
-
     }
 
     /**
@@ -115,27 +110,68 @@ class OpenTiketController extends Controller
      */
     public function edit(OpenTiket $openTiket)
     {
-        //
+
+        $data = OpenTiket::findOrFail($openTiket->id);
+        return view('it.open_tiket.edit', [
+            'data' => $data
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\OpenTiket  $openTiket
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, OpenTiket $openTiket)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'judul' => "required|string",
+                'pesan' => "required|string",
+                'photo' => 'image|mimes:png,jpg,jpeg,webp',
+                // 'status' => "required"
+            ],
+        );
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+
+        $openTiket = OpenTiket::findOrFail($openTiket->id);
+
+        if ($request->file('photo') == "") {
+            $openTiket->update([
+                // 'user_id'     => auth()->user()->id,
+                'judul'     => $request->judul,
+                'pesan'   => $request->pesan,
+                'status'   => $request->status
+
+            ]);
+        } else {
+            if ($request->file('photo') != "") {
+                //hapus old photo
+                $openTiket->delete_photo();
+                //upload new photo
+                $photo = $request->file('photo');
+                $photo->storeAs('public/it/open_tiket', $photo->hashName());
+                $openTiket->update([
+                    'photo'     => $photo->hashName(),
+                ]);
+            }
+            $openTiket->update([
+                // 'user_id'     => auth()->user()->id,
+                'judul'     => $request->judul,
+                'pesan'   => $request->pesan,
+                'status'   => $request->status
+
+            ]);
+        }
+        if ($openTiket) {
+            //redirect dengan pesan sukses
+            Alert::toast('Data berhasil diupdate', 'success');
+            return redirect()->route('open_tiket.index');
+        } else {
+            //redirect dengan pesan error
+            Alert::toast('Data gagal diupdate', 'error');
+            return redirect()->route('open_tiket.index');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\OpenTiket  $openTiket
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(OpenTiket $openTiket)
     {
         $openTiket = OpenTiket::findOrFail($openTiket->id);
@@ -148,5 +184,12 @@ class OpenTiketController extends Controller
             Alert::toast('Data gagal dihapus', 'error');
             return redirect()->route('open_tiket.index');
         }
+    }
+
+    public function download($id)
+    {
+        $OpenTiket = OpenTiket::findOrFail($id);
+        $file = public_path() . '/storage/it/open_tiket/' . $OpenTiket->photo;
+        return response()->download($file, $OpenTiket->photo);
     }
 }

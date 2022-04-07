@@ -51,8 +51,8 @@
                                             <td>{{ $row->judul }}</td>
                                             <td>{{ $row->pesan }}</td>
 
-                                            <td> <a href=""> <i class="fa fa-download" aria-hidden="true"></i></a></td>
-                                            @if ($row->status == 'Waiting')
+                                            <td> <a href="{{ route('download-photo', $row->id) }}"> <i class="fa fa-download" aria-hidden="true"></i></a></td>
+                                            @if ($row->status == 'Open')
                                                 <td><span class="badge bg-secondary">{{ $row->status }}</span></td>
                                             @elseif ($row->status == 'On Progress')
                                                 <td><span class="badge bg-yellow">{{ $row->status }}</span></td>

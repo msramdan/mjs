@@ -232,4 +232,5 @@ Route::prefix('payroll')->middleware('auth')->group(function () {
 // Open tiket
 Route::middleware('auth')->prefix('it')->group(function () {
     Route::resource('open_tiket', OpenTiketController::class);
+    Route::get('/download/{id}', [OpenTiketController::class, 'download'])->name('download-photo');
 });
