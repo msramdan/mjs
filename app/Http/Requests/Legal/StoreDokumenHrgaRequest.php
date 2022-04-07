@@ -25,7 +25,7 @@ class StoreDokumenHrgaRequest extends FormRequest
     {
         return [
             'nama' => 'required|string|min:2|unique:dokumen_hrga,nama',
-            'file' => 'required|mimes:png,jpg,jpeg,pdf,doc,docx|max:2048',
+            'file' => 'required|mimes:png,jpg,jpeg,pdf,doc,docx|max:4048',
             'keterangan' => 'required|string|min:3'
         ];
     }

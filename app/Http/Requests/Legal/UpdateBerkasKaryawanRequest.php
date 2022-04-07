@@ -25,7 +25,7 @@ class UpdateBerkasKaryawanRequest extends FormRequest
     {
         return [
             'nama.*' => 'required|string|min:3',
-            'file.*' => 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:2048',
+            'file.*' => 'required|mimes:pdf,doc,docx,png,jpg,jpeg|max:4048',
         ];
     }
 }
