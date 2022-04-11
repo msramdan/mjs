@@ -262,17 +262,8 @@ class ItemController extends Controller
         // kalo diakses lewat browser/url/bukan ajax
         abort_if(!request()->ajax(), 403);
 
-        $kode = 'IT-MJS-';
-        $countItem = Item::select('id')->count();
-        $countItem = $countItem + 1;
-
-        if ($countItem < 100) {
-            $kode = $kode . '000' . $countItem;
-        } elseif ($countItem >= 100 && $countItem < 1000) {
-            $kode =  $kode . '0' . $countItem;
-        } else {
-            $kode = $kode . $countItem;
-        }
+        $latestItem = Item::orderByDesc('id')->first();
+        $kode = 'IT-MJS-' . str_pad((int) $latestItem->id + 1, 4, "0", STR_PAD_LEFT);
 
         return response()->json(['kode' => $kode], 200);
     }
