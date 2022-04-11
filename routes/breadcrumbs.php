@@ -681,6 +681,28 @@ Breadcrumbs::for('coa_show', function (BreadcrumbTrail $trail) {
 });
 
 
+Breadcrumbs::for('document_accounting_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('accounting');
+    $trail->push('Document Accounting', route('document-accounting.index'));
+});
+
+Breadcrumbs::for('document_accounting_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('document_accounting_index');
+    $trail->push('Create', route('document-accounting.create'));
+});
+
+Breadcrumbs::for('document_accounting_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('document_accounting_index');
+    $trail->push('Edit');
+});
+
+// Breadcrumbs::for('document_accounting_show', function (BreadcrumbTrail $trail) {
+//     $trail->parent('document_accounting_index');
+//     $trail->push('Detail');
+// });
+
+
+
 // Invoice
 Breadcrumbs::for('invoice_index', function (BreadcrumbTrail $trail) {
     $trail->parent('accounting');

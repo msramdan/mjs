@@ -323,24 +323,24 @@ return [
                 'delete billing',
             ],
         ],
-        [
-            'group' => 'account group',
-            'lists' => [
-                'view account group',
-                'create account group',
-                'edit account group',
-                'delete account group',
-            ],
-        ],
-        [
-            'group' => 'account header',
-            'lists' => [
-                'view account header',
-                'create account header',
-                'edit account header',
-                'delete account header',
-            ],
-        ],
+        // [
+        //     'group' => 'account group',
+        //     'lists' => [
+        //         'view account group',
+        //         'create account group',
+        //         'edit account group',
+        //         'delete account group',
+        //     ],
+        // ],
+        // [
+        //     'group' => 'account header',
+        //     'lists' => [
+        //         'view account header',
+        //         'create account header',
+        //         'edit account header',
+        //         'delete account header',
+        //     ],
+        // ],
         [
             'group' => 'coa',
             'lists' => [
@@ -505,6 +505,15 @@ return [
             ],
         ],
         [
+            'group' => 'document accounting',
+            'lists' => [
+                'view document accounting',
+                'create document accounting',
+                'edit document accounting',
+                'delete document accounting',
+            ],
+        ],
+        [
             'group' => 'it',
             'lists' => [
                 'view open tiket',
@@ -513,6 +522,5 @@ return [
                 'delete open tiket',
             ],
         ],
-
     ]
 ];
