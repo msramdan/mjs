@@ -66,7 +66,7 @@
 
             {{-- Akuntansi --}}
             {{-- , 'view account group', 'view account header', 'view coa' --}}
-            @canany(['view invoice', 'view billing'])
+            @canany(['view invoice', 'view billing', 'view jurnal umum', 'view buku besar', 'view neraca'])
                 <div class="menu-item has-sub">
                     <a href="javascript:;" class="menu-link">
                         <div class="menu-icon">
@@ -89,11 +89,17 @@
                                 </a>
                             @endcan
 
-                            {{-- @can('view billing') --}}
-                            <a href="{{ route('coa.index') }}" class="menu-link">
-                                <div class="menu-text">COA</div>
-                            </a>
-                            {{-- @endcan --}}
+                            @can('view coa')
+                                <a href="{{ route('coa.index') }}" class="menu-link">
+                                    <div class="menu-text">COA</div>
+                                </a>
+                            @endcan
+
+                            @can('view document accounting')
+                                <a href="{{ route('document-accounting.index') }}" class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.document_accounting') }}</div>
+                                </a>
+                            @endcan
                         </div>
 
                         {{-- @canany(['view account group', 'view account header', 'view coa'])
@@ -130,7 +136,7 @@
                             </div>
                         @endcanany --}}
 
-                        @canany(['view jurnal umum', 'view buku besar'])
+                        @canany(['view jurnal umum', 'view buku besar', 'view neraca'])
                             <div class="menu-item has-sub closed">
                                 <a href="javascript:;" class="menu-link">
                                     <div class="menu-text">Report</div>
@@ -155,6 +161,7 @@
                                                 <div class="menu-text">{{ trans('sidebar.sub_menu.neraca') }}</div>
                                             </a>
                                         @endcan
+
                                         {{-- @can('view labarugi') --}}
                                         <a href="{{ route('labarugi.index') }}" class="menu-link">
                                             <div class="menu-text">{{ trans('sidebar.sub_menu.labarugi') }}</div>

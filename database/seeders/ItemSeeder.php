@@ -17,7 +17,7 @@ class ItemSeeder extends Seeder
         $item1 = Item::create([
             'category_id' => 1,
             'unit_id' => 1,
-            'kode' => 'IT-MJS-001',
+            'kode' => 'IT-MJS-0001',
             'nama' => 'Product 1',
             'type' => 'Consumable',
             'deskripsi' => 'tes',
@@ -39,7 +39,7 @@ class ItemSeeder extends Seeder
         $item2 = Item::create([
             'category_id' => 2,
             'unit_id' => 2,
-            'kode' => 'IT-MJS-002',
+            'kode' => 'IT-MJS-0002',
             'nama' => 'Product 2',
             'type' => 'Services',
             'deskripsi' => 'lorem',
@@ -61,7 +61,7 @@ class ItemSeeder extends Seeder
         $item3 = Item::create([
             'category_id' => 3,
             'unit_id' => 3,
-            'kode' => 'IT-MJS-003',
+            'kode' => 'IT-MJS-0003',
             'nama' => 'Product 3',
             'type' => 'Services',
             'deskripsi' => 'tes',

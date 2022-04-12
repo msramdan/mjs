@@ -10,6 +10,7 @@ use App\Http\Controllers\Accounting\{
     NeracaController,
     LabarugiController
 };
+use App\Http\Controllers\Accouting\DocumentAccountingController;
 use App\Http\Controllers\Contact\{
     CustomerController,
     SupplierController
@@ -205,6 +206,7 @@ Route::middleware('auth')->group(function () {
 // accounting
 Route::middleware('auth')->prefix('accounting')->group(function () {
     Route::get('/billing/download/{filename}', [BillingController::class, 'download'])->name('billing.download');
+    Route::get('/document-accounting/{filename}/download', [DocumentAccountingController::class, 'download'])->name('document-accounting.download');
     Route::get('/invoice/generate-kode/{tanggal}', [InvoiceController::class, 'generateKode']);
     Route::get('/billing/generate-kode/{tanggal}', [BillingController::class, 'generateKode']);
 
@@ -217,6 +219,7 @@ Route::middleware('auth')->prefix('accounting')->group(function () {
     // Route::resource('akun-header', AkunHeaderController::class);
     // Route::resource('akun-coa', AkunCoaController::class);
     Route::resource('coa', CoaController::class);
+    Route::resource('document-accounting', DocumentAccountingController::class)->except('show');
 
     Route::resource('jurnal-umum', JurnalUmumController::class)->except('show', 'delete');
     Route::get('buku-besar', BukuBesarController::class)->name('buku-besar.index');
