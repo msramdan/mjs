@@ -112,6 +112,11 @@ Route::prefix('legal')->middleware('auth')->group(function () {
     Route::resource('dokumen-hrga', DokumenHrgaController::class);
     Route::resource('absen', AbsenController::class);
 });
+// Halaman absen
+// Route::middleware('auth')->group(function () {
+    Route::get('halaman_absen', [AbsenController::class,'halaman_absen'])->name('halaman_absen.index');
+    Route::get('halaman_lock', [AbsenController::class,'halaman_lock'])->name('halaman_lock.index');
+// });
 
 // Sale
 Route::middleware('auth')->prefix('sale')->group(function () {

@@ -18,6 +18,8 @@ class SettingApp extends Model
         'nama_direktur',
         'email',
         'telp',
-        'website'
+        'website',
+        'password_un_lock_absensi',
+        'is_aktive_absensi'
     ];
 }

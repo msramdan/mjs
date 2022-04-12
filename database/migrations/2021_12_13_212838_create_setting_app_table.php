@@ -20,6 +20,8 @@ class CreateSettingAppTable extends Migration
             $table->string('alamat_perusahaan');
             $table->string('logo_perusahaan', 100)->nullable();
             $table->string('nama_direktur', 100);
+            $table->string('password_un_lock_absensi', 200);
+            $table->char('is_aktive_absensi', 1);
             $table->timestamps();
         });
     }

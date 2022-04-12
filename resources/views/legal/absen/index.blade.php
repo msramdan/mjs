@@ -37,16 +37,52 @@
                             <table class="table table-hover table-striped" id="data-table" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>User</th>
                                         <th>Tanggal</th>
                                         <th>Keterangan</th>
-                                        <th>Status</th>
+                                        <th>Status Absen</th>
                                         <th>Jam Masuk</th>
                                         <th>Jam Pulang</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    @forelse ($absen as $row)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $row->name }}</td>
+                                            <td>{{ $row->tanggal }}</td>
+                                            <td>{{ $row->keterangan }}</td>
+                                            @if ($row->status_masuk == 'Terlambat')
+                                                <td><span class="badge bg-danger">{{ $row->status_masuk }}</span></td>
+                                            @else
+                                                <td><span class="badge bg-success">{{ $row->status_masuk }}</span></td>
+                                            @endif
+                                            <td>{{ $row->jam_masuk }}</td>
+                                            <td>{{ $row->jam_pulang }}</td>
+                                            <td>
+                                                <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                                    action="{{ route('absen.destroy', $row->id) }}" method="POST">
+                                                    @can('edit kehadiran')
+                                                        <a href="{{ route('absen.edit', $row->id) }}"
+                                                            class="btn btn-primary btn-xs mb-1">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                    @endcan
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    @can('delete kehadiran')
+                                                        <button type="submit" class="btn btn-danger btn-xs mb-1">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    @endcan
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                    @endforelse
+                                </tbody>
                             </table>
                         </div>
                     </div>

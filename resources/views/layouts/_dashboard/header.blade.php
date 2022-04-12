@@ -9,6 +9,12 @@
         </button>
     </div>
     <div class="navbar-nav">
+        <div class="navbar-item dropdown">
+            <a href="{{ route('halaman_absen.index') }}" target="_blank" class="navbar-link dropdown-toggle icon">
+                <img src="{{ asset('img/image.webp') }}" alt="Halaman Website" height="27px">
+                Visit Halaman Absensi
+            </a>
+        </div>
         <div class="navbar-item navbar-form">
             <script type="text/javascript">
                 function tampilkanwaktu() {
@@ -82,12 +88,14 @@
                         {{ strtoupper(app()->getLocale()) }}
                     </a>
                 @break
+
                 @case('en')
                     <a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon" aria-expanded="false">
                         <img src="{{ asset('img/en.png') }}" alt="" width="18px" />
                         {{ strtoupper(app()->getLocale()) }}
                     </a>
                 @break
+
                 @default
             @endswitch
 

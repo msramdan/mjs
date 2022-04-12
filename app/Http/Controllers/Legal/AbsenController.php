@@ -4,16 +4,35 @@ namespace App\Http\Controllers\Legal;
 
 use App\Http\Controllers\Controller;
 use App\Models\Legal\Absen;
+use App\Models\Setting\SettingApp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AbsenController extends Controller
 {
 
     public function index()
     {
-        $absen = Absen::all();
-        return view('legal.absen.index',[
+
+        $absen = DB::table('absen')
+            ->select('absen.*', 'users.name')
+            ->join('users', 'users.id', '=', 'absen.user_id')
+            ->get();
+        return view('legal.absen.index', [
             'absen' => $absen
+        ]);
+    }
+
+    public function halaman_absen()
+    {
+        return view('legal.absen.halaman_absen');
+    }
+
+    public function halaman_lock()
+    {
+        $data = SettingApp::first();
+        return view('legal.absen.halaman_lock', [
+            'data' => $data
         ]);
     }
 
@@ -80,6 +99,5 @@ class AbsenController extends Controller
      */
     public function destroy(Absen $absen)
     {
-        //
     }
 }

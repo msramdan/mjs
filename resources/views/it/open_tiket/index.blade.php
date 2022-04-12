@@ -59,6 +59,7 @@
                                             @else
                                                 <td><span class="badge bg-success">{{ $row->status }}</span></td>
                                             @endif
+
                                             <td>
                                                 <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                     action="{{ route('open_tiket.destroy', $row->id) }}" method="POST">
