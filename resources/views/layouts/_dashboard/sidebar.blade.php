@@ -326,7 +326,7 @@
             @endcanany
 
             {{-- HR & Legal --}}
-            @canany(['view karyawan', 'view dokumen hrga'])
+            @canany(['view karyawan', 'view dokumen hrga','view kehadiran'])
                 <div class="menu-item has-sub">
                     <a href="javascript:;" class="menu-link">
                         <div class="menu-icon">
@@ -340,6 +340,11 @@
                             @can('view karyawan')
                                 <a href="{{ route('karyawan.index') }}" class="menu-link">
                                     <div class="menu-text">{{ trans('sidebar.sub_menu.karyawan') }}</div>
+                                </a>
+                            @endcan
+                            @can('view kehadiran')
+                                <a href="{{ route('absen.index') }}" class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.kehadiran') }}</div>
                                 </a>
                             @endcan
 

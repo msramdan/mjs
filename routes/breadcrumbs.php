@@ -737,8 +737,6 @@ Breadcrumbs::for('benefit_index', function (BreadcrumbTrail $trail) {
 
 
 // IT > Open tiket
-
-// Accounting
 Breadcrumbs::for('it', function (BreadcrumbTrail $trail) {
     $trail->push('IT');
 });
@@ -746,4 +744,21 @@ Breadcrumbs::for('it', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('open_tiket_index', function (BreadcrumbTrail $trail) {
     $trail->parent('it');
     $trail->push('Open Tiket Helpdesk', route('open_tiket.index'));
+});
+
+Breadcrumbs::for('open_tiket_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('open_tiket_index');
+    $trail->push('Create', route('open_tiket.create'));
+});
+
+Breadcrumbs::for('open_tiket_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('open_tiket_index');
+    $trail->push('Edit');
+});
+
+// Absen
+
+Breadcrumbs::for('absen_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('legal');
+    $trail->push('Absensi Karyawan', route('absen.index'));
 });

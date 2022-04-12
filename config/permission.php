@@ -513,6 +513,15 @@ return [
                 'delete open tiket',
             ],
         ],
+        [
+            'group' => 'kehadiran',
+            'lists' => [
+                'view kehadiran',
+                'create kehadiran',
+                'edit kehadiran',
+                'delete kehadiran',
+            ],
+        ],
 
     ]
 ];

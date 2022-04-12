@@ -56,5 +56,6 @@ return [
         'labarugi' => 'Laba dan Rugi',
         'time_sheet' => 'Time Sheet',
         'tiket_it' => 'Open Tiket Helpdesk',
+        'kehadiran' => 'Kehadiran',
     ],
 ];

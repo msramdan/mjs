@@ -57,5 +57,6 @@ return [
         'labarugi' => 'Profit and Loss',
         'time_sheet' => 'Time Sheet',
         'tiket_it' => 'Open Tiket Helpdesk',
+        'kehadiran' => 'Attendance',
     ],
 ];

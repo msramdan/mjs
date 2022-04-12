@@ -27,6 +27,7 @@ use App\Http\Controllers\Inventory\{
 };
 use App\Http\Controllers\It\OpenTiketController;
 use App\Http\Controllers\Legal\{
+    AbsenController,
     KaryawanController,
     BerkasKaryawanController,
     DokumenHrgaController
@@ -108,6 +109,7 @@ Route::prefix('legal')->middleware('auth')->group(function () {
     Route::resource('karyawan', KaryawanController::class);
     Route::resource('berkas-karyawan', BerkasKaryawanController::class);
     Route::resource('dokumen-hrga', DokumenHrgaController::class);
+    Route::resource('absen', AbsenController::class);
 });
 
 // Sale

@@ -12,11 +12,17 @@ use Illuminate\Support\Facades\Storage;
 
 class OpenTiketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+
+    public function __construct()
+    {
+        $this->middleware('permission:view open tiket')->only('index');
+        $this->middleware('permission:create open tiket')->only('create', 'store');
+        $this->middleware('permission:edit open tiket')->only('edit', 'update');
+        $this->middleware('permission:delete open tiket')->only('delete');
+    }
+
+
     public function index()
     {
 

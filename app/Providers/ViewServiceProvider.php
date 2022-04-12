@@ -283,7 +283,7 @@ class ViewServiceProvider extends ServiceProvider
                         $q->where('status', 'Approve');
                     })
                     ->select('id', 'kode')
-                    ->where('status', 0)
+                    // ->where('status', 0)
                     ->orderBy('kode')
                     ->get()
             );
