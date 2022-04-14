@@ -276,9 +276,15 @@
                                 </a>
                             @endcan
 
-                            @can('view bac terima')
+                            {{-- @can('view bac terima')
                                 <a href="{{ route('bac-terima.index') }}" class="menu-link">
                                     <div class="menu-text">{{ trans('sidebar.sub_menu.bac_terima') }}</div>
+                                </a>
+                            @endcan --}}
+
+                            @can('view bac terima')
+                                <a href="{{ route('new-bac-terima.index') }}" class="menu-link">
+                                    <div class="menu-text">{{ trans('sidebar.sub_menu.bac_terima') }} - v2</div>
                                 </a>
                             @endcan
 

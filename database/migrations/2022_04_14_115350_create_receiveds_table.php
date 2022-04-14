@@ -15,7 +15,7 @@ class CreateReceivedsTable extends Migration
     {
         Schema::create('receiveds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bac_terima_id')->constrained('bac_terima');
+            $table->foreignId('new_bac_terima_id')->constrained('new_bac_terima');
             $table->foreignId('validasi_by')->constrained('users');
             $table->date('tanggal_validasi');
             $table->timestamps();

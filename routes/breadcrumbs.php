@@ -450,7 +450,6 @@ Breadcrumbs::for('item_tracking', function (BreadcrumbTrail $trail) {
 });
 
 
-
 // BAC Terima
 Breadcrumbs::for('bac_terima_index', function (BreadcrumbTrail $trail) {
     $trail->parent('inventory');
@@ -471,6 +470,29 @@ Breadcrumbs::for('bac_terima_show', function (BreadcrumbTrail $trail) {
     $trail->parent('bac_terima_index');
     $trail->push('Detail');
 });
+
+
+// BAC Terima
+Breadcrumbs::for('new_bac_terima_index', function (BreadcrumbTrail $trail) {
+    $trail->parent('inventory');
+    $trail->push('New BAC Terima', route('new-bac-terima.index'));
+});
+
+Breadcrumbs::for('new_bac_terima_create', function (BreadcrumbTrail $trail) {
+    $trail->parent('new_bac_terima_index');
+    $trail->push('Create', route('new-bac-terima.create'));
+});
+
+Breadcrumbs::for('new_bac_terima_edit', function (BreadcrumbTrail $trail) {
+    $trail->parent('new_bac_terima_index');
+    $trail->push('Edit');
+});
+
+Breadcrumbs::for('new_bac_terima_show', function (BreadcrumbTrail $trail) {
+    $trail->parent('new_bac_terima_index');
+    $trail->push('Detail');
+});
+
 
 // BAC Pakai
 Breadcrumbs::for('bac_pakai_index', function (BreadcrumbTrail $trail) {

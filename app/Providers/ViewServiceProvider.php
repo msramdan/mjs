@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Models\Accounting\Coa;
 use App\Models\Contact\{Customer, Supplier};
 use App\Models\ElectronicDocument\CategoryDocument;
-use App\Models\Inventory\{BacPakai, BacTerima, Item};
+use App\Models\Inventory\{BacPakai, BacTerima, Item, NewBacTerima};
 use App\Models\Master\{Category, CategoryRequest, Divisi, Jabatan, Lokasi, StatusKaryawan, Unit};
 use App\Models\Purchase\Purchase;
 use App\Models\RequestForm\RequestForm;
@@ -297,6 +297,8 @@ class ViewServiceProvider extends ServiceProvider
             // 'inventory.bac-terima.edit',
             'inventory.bac-pakai.create',
             'inventory.bac-pakai.edit',
+            'inventory.new-bac-terima.create',
+            'inventory.new-bac-terima.edit',
         ], function ($view) {
             return $view->with(
                 'consumable',
@@ -328,9 +330,10 @@ class ViewServiceProvider extends ServiceProvider
         ], function ($view) {
             return $view->with(
                 'bacTerimaBT',
-                BacTerima::select('id', 'kode', 'status')
+                NewBacTerima::select('id', 'kode', 'status')
                     ->where('status', 'Belum Tervalidasi')
-                    ->orderByDesc('kode')
+                    ->orderByDesc('id')
+                    ->limit(500)
                     ->get()
             );
         });
