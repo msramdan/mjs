@@ -28,7 +28,7 @@
                     @method('PUT')
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="kode">Kode</label>
                                 <input class="form-control @error('kode') is-invalid @enderror" type="text" id="kode"
@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="tanggal">Tanggal</label>
                                 <input class="form-control @error('tanggal') is-invalid @enderror" type="date" id="tanggal"
@@ -52,8 +52,23 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="form-label" for="lokasi_id">Lokasi</label>
+                                <select class="form-select @error('lokasi_id') is-invalid @enderror" id="lokasi_id"
+                                    name="lokasi_id" required>
+                                    <option value="" disabled selected>-- Pilih --</option>
+                                    @foreach ($lokasi as $row)
+                                        <option value="{{ $row->id }}"  {{ $requestForm->lokasi_id == $row->id ? 'selected' : '' }}>{{ $row->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('lokasi_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="form-label" for="category_request">Category Request</label>
                                 <select class="form-select @error('category_request') is-invalid @enderror"

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\RequestForm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\Lokasi;
 use App\Http\Requests\RequestForm\{StoreRequestFormRequest, UpdateRequestFormRequest};
 use App\Models\Master\SettingCategoryRequest;
 use App\Models\RequestForm\{DetailRequestForm, StatusRequestForm, RequestForm};
@@ -31,7 +32,7 @@ class RequestFormController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = RequestForm::with('category_request:id,nama', 'user:id,name');
+            $query = RequestForm::with('category_request:id,nama', 'user:id,name', 'lokasi:id,nama');
 
             return DataTables::of($query)
                 ->addColumn('category_request', function ($row) {
@@ -40,6 +41,10 @@ class RequestFormController extends Controller
                 ->addColumn('user', function ($row) {
                     return $row->user->name;
                 })
+                ->addColumn('lokasi', function ($row) {
+                    return $row->lokasi->nama;
+                })
+
                 ->addColumn('tanggal', function ($row) {
                     return $row->tanggal->format('d M Y');
                 })
@@ -57,7 +62,10 @@ class RequestFormController extends Controller
      */
     public function create()
     {
-        return view('form-request.form.create');
+        $lokasi = Lokasi::all();
+        return view('form-request.form.create', [
+            'lokasi' => $lokasi
+        ]);
     }
 
     /**
@@ -71,7 +79,9 @@ class RequestFormController extends Controller
         DB::transaction(function () use ($request) {
             $attr = $request->validated();
             $attr['category_request_id'] = $request->category_request;
+            $attr['lokasi_id'] = $request->lokasi_id;
             $attr['user_id'] = auth()->id();
+
 
             $detailRequestForm = [];
             foreach ($request->nama as $key => $value) {
@@ -141,6 +151,10 @@ class RequestFormController extends Controller
      */
     public function edit(RequestForm $requestForm)
     {
+
+        $lokasi = Lokasi::all();
+
+
         $requestForm->load(
             'status_request_forms',
             'detail_request_form:id,request_form_id,nama,file',
@@ -149,7 +163,10 @@ class RequestFormController extends Controller
             'category_request:id,kode,nama',
         );
 
-        return view('form-request.form.edit', compact('requestForm'));
+        return view('form-request.form.edit', [
+            'requestForm' => $requestForm,
+            'lokasi' => $lokasi
+        ]);
     }
 
     /**
@@ -166,6 +183,7 @@ class RequestFormController extends Controller
         DB::transaction(function () use ($request, $requestForm) {
             $attr = $request->validated();
             $attr['category_request_id'] = $request->category_request;
+            $attr['lokasi_id'] = $request->lokasi_id;
             $attr['user_id'] = auth()->id();
 
             $detailRequestForm = [];
