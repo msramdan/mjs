@@ -24,14 +24,14 @@
                     @endif
 
                     @if ($received)
-                        <option value="{{ $received->bac_terima->id }}" selected>{{ $received->bac_terima->kode }}
+                        <option value="{{ $received->new_bac_terima->id }}" selected>{{ $received->new_bac_terima->kode }}
                         </option>
                     @endif
 
                     @if (!$show)
                         @forelse ($bacTerimaBT as $item)
                             <option value="{{ $item->id }}"
-                                {{ $received && $received->bac_terima_id == $item->id ? 'selected' : '' }}>
+                                {{ $received && $received->new_bac_terima_id == $item->id ? 'selected' : '' }}>
                                 {{ $item->kode }}
                             </option>
                         @empty
@@ -53,24 +53,24 @@
                     <tr>
                         <td width="35">Kode</td>
                         <td>:</td>
-                        <td id="kode">{{ $received ? $received->bac_terima->kode : '' }}</td>
+                        <td id="kode">{{ $received ? $received->new_bac_terima->kode : '' }}</td>
                     </tr>
                     <tr>
                         <td width="35">User</td>
                         <td>:</td>
-                        <td id="user">{{ $received ? $received->bac_terima->user->name : '' }}</td>
+                        <td id="user">{{ $received ? $received->new_bac_terima->user->name : '' }}</td>
                     </tr>
                     <tr>
                         <td width="35">Tanggal</td>
                         <td>:</td>
                         <td id="tanggal-bac">
-                            {{ $received ? $received->bac_terima->tanggal->format('d/m/Y') : '' }}
+                            {{ $received ? $received->new_bac_terima->tanggal->format('d/m/Y') : '' }}
                         </td>
                     </tr>
                     <tr>
                         <td width="35">Keterangan</td>
                         <td>:</td>
-                        <td id="keterangan">{{ $received ? Str::limit($received->bac_terima->keterangan, 200) : '' }}
+                        <td id="keterangan">{{ $received ? Str::limit($received->new_bac_terima->keterangan, 200) : '' }}
                         </td>
                     </tr>
                 </table>

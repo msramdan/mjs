@@ -12,16 +12,16 @@ class Received extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bac_terima_id',
+        'new_bac_terima_id',
         'tanggal_validasi',
         'validasi_by'
     ];
 
     protected $casts = ['tanggal_validasi' => 'date'];
 
-    public function bac_terima()
+    public function new_bac_terima()
     {
-        return $this->belongsTo(BacTerima::class);
+        return $this->belongsTo(NewBacTerima::class);
     }
 
     public function divalidasi_oleh()

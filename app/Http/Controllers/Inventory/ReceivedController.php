@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Inventory;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Inventory\{StoreReceivedRequest, UpdateReceivedRequest};
-use App\Models\Inventory\{Item, BacTerima, Received};
+use App\Models\Inventory\{Item, BacTerima, NewBacTerima, Received};
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
@@ -27,11 +27,11 @@ class ReceivedController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $query = Received::with('bac_terima:id,kode', 'divalidasi_oleh:id,name');
+            $query = Received::with('new_bac_terima:id,kode', 'divalidasi_oleh:id,name');
 
             return DataTables::of($query)
-                ->addColumn('bac_terima', function ($row) {
-                    return $row->bac_terima->kode;
+                ->addColumn('new_bac_terima', function ($row) {
+                    return $row->new_bac_terima->kode;
                 })
                 ->addColumn('divalidasi_oleh', function ($row) {
                     return $row->divalidasi_oleh->name;
@@ -68,17 +68,17 @@ class ReceivedController extends Controller
     {
         DB::transaction(function () use ($request) {
             Received::create([
-                'bac_terima_id' => $request->bac_terima,
+                'new_bac_terima_id' => $request->bac_terima,
                 'tanggal_validasi' =>  $request->tanggal,
                 'validasi_by' => auth()->id(),
             ]);
 
-            $bacPakai = BacTerima::with(
-                'detail_bac_terima:bac_terima_id,id,item_id,qty,qty_validasi',
-                'detail_bac_terima.item:unit_id,id,nama,kode',
+            $bac = NewBacTerima::with(
+                'new_detail_bac_terima:new_bac_terima_id,id,item_id,qty_validasi',
+                'new_detail_bac_terima.item:unit_id,id,nama,kode',
             )->findOrFail($request->bac_terima);
 
-            foreach ($bacPakai->detail_bac_terima as $i => $detail) {
+            foreach ($bac->new_detail_bac_terima as $i => $detail) {
                 $detail->update(['qty_validasi' => $request->qty_validasi[$i]]);
 
                 // Update stok barang
@@ -87,7 +87,7 @@ class ReceivedController extends Controller
                 $produkQuery->update(['stok' => ($getProduk->stok + $request->qty_validasi[$i])]);
             }
 
-            $bacPakai->update(['status' => 'Tervalidasi']);
+            $bac->update(['status' => 'Tervalidasi']);
         });
 
         return response()->json(['success'], 200);
@@ -102,11 +102,11 @@ class ReceivedController extends Controller
     public function show(Received $received)
     {
         $received->load(
-            'bac_terima',
-            'bac_terima.user:id,name',
-            'bac_terima.file_bac_terima:id,bac_terima_id,nama,file',
-            'bac_terima.detail_bac_terima.item:id,unit_id,kode,nama,stok',
-            'bac_terima.detail_bac_terima.item.unit:id,nama'
+            'new_bac_terima',
+            'new_bac_terima.user:id,name',
+            'new_bac_terima.new_file_bac_terima:id,new_bac_terima_id,nama,file',
+            'new_bac_terima.new_detail_bac_terima.item:id,unit_id,kode,nama,stok',
+            'new_bac_terima.new_detail_bac_terima.item.unit:id,nama'
         );
         $show = true;
 
@@ -122,11 +122,11 @@ class ReceivedController extends Controller
     public function edit(Received $received)
     {
         $received->load(
-            'bac_terima',
-            'bac_terima.user:id,name',
-            'bac_terima.file_bac_terima:id,bac_terima_id,nama,file',
-            'bac_terima.detail_bac_terima.item:id,unit_id,kode,nama,stok',
-            'bac_terima.detail_bac_terima.item.unit:id,nama'
+            'new_bac_terima',
+            'new_bac_terima.user:id,name',
+            'new_bac_terima.new_file_bac_terima:id,new_bac_terima_id,nama,file',
+            'new_bac_terima.new_detail_bac_terima.item:id,unit_id,kode,nama,stok',
+            'new_bac_terima.new_detail_bac_terima.item.unit:id,nama'
         );
 
         $show = false;
@@ -144,35 +144,35 @@ class ReceivedController extends Controller
     public function update(UpdateReceivedRequest $request, Received $received)
     {
         $received->load(
-            'bac_terima',
-            'bac_terima.user:id,name',
-            'bac_terima.file_bac_terima:id,bac_terima_id,nama,file',
-            'bac_terima.detail_bac_terima.item:id,unit_id,kode,nama,stok',
-            'bac_terima.detail_bac_terima.item.unit:id,nama'
+            'new_bac_terima',
+            'new_bac_terima.user:id,name',
+            'new_bac_terima.new_file_bac_terima:id,new_bac_terima_id,nama,file',
+            'new_bac_terima.new_detail_bac_terima.item:id,unit_id,kode,nama,stok',
+            'new_bac_terima.new_detail_bac_terima.item.unit:id,nama'
         );
 
         // kembalikan stok
-        foreach ($received->bac_terima->detail_bac_terima as $detail) {
+        foreach ($received->new_bac_terima->new_detail_bac_terima as $detail) {
             $produkQuery = Item::whereId($detail->item_id);
             $getProduk = $produkQuery->first();
-            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+            $produkQuery->update(['stok' => ($getProduk->stok + $detail->qty)]);
         }
 
-        $received->bac_terima()->update(['status' => 'Belum Tervalidasi']);
+        $received->new_bac_terima()->update(['status' => 'Belum Tervalidasi']);
 
         DB::transaction(function () use ($request, $received) {
             $received->update([
-                'bac_terima_id' => $request->bac_terima,
+                'new_bac_terima_id' => $request->bac_terima,
                 'tanggal_validasi' =>  $request->tanggal,
                 'validasi_by' => auth()->id(),
             ]);
 
-            $bacPakai = BacTerima::with(
-                'detail_bac_terima:bac_terima_id,id,item_id,qty,qty_validasi',
-                'detail_bac_terima.item:unit_id,id,nama,kode',
+            $bac = NewBacTerima::with(
+                'new_detail_bac_terima:new_bac_terima_id,id,item_id,qty_validasi',
+                'new_detail_bac_terima.item:unit_id,id,nama,kode',
             )->findOrFail($request->bac_terima);
 
-            foreach ($bacPakai->detail_bac_terima as $i => $detail) {
+            foreach ($bac->new_detail_bac_terima as $i => $detail) {
                 $detail->update(['qty_validasi' => $request->qty_validasi[$i]]);
 
                 // Update stok barang
@@ -181,7 +181,7 @@ class ReceivedController extends Controller
                 $produkQuery->update(['stok' => ($getProduk->stok + $request->qty_validasi[$i])]);
             }
 
-            $bacPakai->update(['status' => 'Tervalidasi']);
+            $bac->update(['status' => 'Tervalidasi']);
         });
 
         return response()->json(['success'], 200);
@@ -196,19 +196,19 @@ class ReceivedController extends Controller
     public function destroy(Received $received)
     {
         $received->load(
-            'bac_terima',
-            'bac_terima.detail_bac_terima.item:id,unit_id,kode,nama,stok',
-            'bac_terima.detail_bac_terima.item.unit:id,nama'
+            'new_bac_terima',
+            'new_bac_terima.new_detail_bac_terima.item:id,unit_id,kode,nama,stok',
+            'new_bac_terima.new_detail_bac_terima.item.unit:id,nama'
         );
 
         // kembalikan stok
-        foreach ($received->bac_terima->detail_bac_terima as $detail) {
+        foreach ($received->new_bac_terima->new_detail_bac_terima as $detail) {
             $produkQuery = Item::whereId($detail->item_id);
             $getProduk = $produkQuery->first();
-            $produkQuery->update(['stok' => ($getProduk->stok - $detail->qty)]);
+            $produkQuery->update(['stok' => ($getProduk->stok + $detail->qty)]);
         }
 
-        $received->bac_terima()->update(['status' => 'Belum Tervalidasi']);
+        $received->new_bac_terima()->update(['status' => 'Belum Tervalidasi']);
 
         $received->delete();
 

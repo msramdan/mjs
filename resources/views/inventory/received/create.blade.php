@@ -71,18 +71,22 @@
             `)
 
             $.ajax({
-                url: '/inventory/bac-terima/get-bac-terima-by-id/' + $(this).val(),
+                url: '/inventory/new-bac-terima/get-bac-terima-by-id/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
+                    console.log(res);
+
                     setTimeout(() => {
                         kodeBac.text(res.kode)
                         user.text(res.user.name)
                         keterangan.text(res.keterangan.slice(0, 200) + '...')
 
-                        let dateString = res.tanggal
-                        let dateObject = new Date(dateString)
-                        tglBac.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
-                            .join('/'))
+                        // let dateString = res.tanggal
+                        // let dateObject = new Date(dateString)
+                        // tglBac.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
+                        //     .join('/'))
+
+                        tglBac.text(res.tanggal)
 
                         let noCart = 1
                         let items = []
@@ -90,7 +94,7 @@
                         let noFile = 1
                         let files = []
 
-                        $.each(res.detail_bac_terima, function(index, value) {
+                        $.each(res.new_detail_bac_terima, function(index, value) {
                             items.push(`
                             <tr>
                                 <td>${noCart++}</td>
@@ -102,10 +106,6 @@
                                 <td>
                                     ${value.item.unit.nama}
                                     <input type="hidden" class="unit-hidden" value="${value.item.unit.nama}">
-                                </td>
-                                <td>
-                                    ${value.qty}
-                                    <input type="hidden" class="qty-hidden" name="qty[]" value="${value.qty}">
                                 </td>
                                 <td>
                                     ${value.qty_terima}
@@ -124,7 +124,7 @@
                             `)
                         })
 
-                        $.each(res.file_bac_terima, function(index, value) {
+                        $.each(res.new_file_bac_terima, function(index, value) {
                             files.push(`
                             <tr>
                                 <td>
@@ -138,7 +138,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="/inventory/bac-terima/download/${value.file}"
+                                    <a href="/inventory/new-bac-terima/download/${value.file}"
                                     target="_blank" class="btn btn-primary btn-download ms-1">
                                         <i class="fas fa-download"></i>
                                     </a>
@@ -188,10 +188,6 @@
                     <td>
                         ${unitProduk.val()}
                         <input type="hidden" class="unit-hidden" value="${unitProduk.val()}">
-                    </td>
-                    <td>
-                        ${qty.val()}
-                        <input type="hidden" class="qty-hidden" name="qty[]" value="${qty.val()}">
                     </td>
                     <td>
                         ${qtyTerima.val()}

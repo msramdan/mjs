@@ -72,10 +72,9 @@
                         </div>
                     </div>
                 @endif
-
             </div>
 
-            <h5 class="mt-2">Items</h5>
+            <h5>Items</h5>
             {{-- cart --}}
             <table class="table table-striped table-hover table-bordered mt-3" id="tbl-cart">
                 <thead>
@@ -83,7 +82,6 @@
                         <th width="30">#</th>
                         <th>Kode - Nama</th>
                         <th>Unit</th>
-                        <th>Qty Beli</th>
                         <th>Qty Terima</th>
                         <th>Qty Validasi</th>
                         @if (!$show)
@@ -93,7 +91,7 @@
                 </thead>
                 <tbody>
                     @if ($received)
-                        @foreach ($received->bac_terima->detail_bac_terima as $detail)
+                        @foreach ($received->new_bac_terima->new_detail_bac_terima as $detail)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
@@ -105,11 +103,6 @@
                                     {{ $detail->item->unit->nama }}
                                     <input type="hidden" class="unit-hidden"
                                         value="{{ $detail->item->unit->nama }}">
-                                </td>
-                                <td>
-                                    {{ $detail->qty }}
-                                    <input type="hidden" class="qty-hidden" name="qty[]"
-                                        value="{{ $detail->qty }}">
                                 </td>
                                 <td>
                                     {{ $detail->qty_terima }}
@@ -148,7 +141,7 @@
                         </thead>
                         <tbody>
                             @if ($received)
-                                @foreach ($received->bac_terima->file_bac_terima as $detail)
+                                @foreach ($received->new_bac_terima->new_file_bac_terima as $detail)
                                     <tr>
                                         <td>
                                             <div class="form-group">

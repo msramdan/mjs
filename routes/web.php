@@ -19,13 +19,6 @@ use App\Http\Controllers\ElectronicDocument\{
     DocumentController,
     CategoryDocumentController
 };
-use App\Http\Controllers\Inventory\{
-    AsoController,
-    BacPakaiController,
-    ItemController,
-    BacTerimaController,
-    ReceivedController
-};
 use App\Http\Controllers\It\OpenTiketController;
 use App\Http\Controllers\Legal\{
     AbsenController,
@@ -64,9 +57,6 @@ use App\Http\Controllers\Setting\{
     SettingAppController
 };
 use Illuminate\Support\Facades\{Route, Auth};
-
-
-
 
 // untuk nonaktifkan route register
 Auth::routes(['register' => false]);
@@ -114,8 +104,8 @@ Route::prefix('legal')->middleware('auth')->group(function () {
 });
 // Halaman absen
 // Route::middleware('auth')->group(function () {
-    Route::get('halaman_absen', [AbsenController::class,'halaman_absen'])->name('halaman_absen.index');
-    Route::get('halaman_lock', [AbsenController::class,'halaman_lock'])->name('halaman_lock.index');
+Route::get('halaman_absen', [AbsenController::class, 'halaman_absen'])->name('halaman_absen.index');
+Route::get('halaman_lock', [AbsenController::class, 'halaman_lock'])->name('halaman_lock.index');
 // });
 
 // Sale
@@ -142,34 +132,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Iinventory
-Route::middleware('auth')->prefix('inventory')->group(function () {
-    Route::get('/item/{id}/tracking', [ItemController::class, 'tracking'])->name('item.tracking');
-    Route::get('/item/get-item-by-id/{itemId}', [ItemController::class, 'getItemById']);
-    Route::get('/item/get-item-and-supplier/{itemId}/{supplierId}', [ItemController::class, 'getItemAndSupplier']);
-
-    Route::get('/item/get-item-by-supplier/{id}', [ItemController::class, 'getItemBySupplier']);
-    Route::get('/item/generate-kode', [ItemController::class, 'generateKode']);
-    // Route::get('/item/find-by-id/{id}', [ItemController::class, 'findById']);
-    Route::get('/item/get-all', [ItemController::class, 'getAll']);
-
-    Route::get('/bac-pakai/get-bac-pakai-by-id/{id}', [BacPakaiController::class, 'getBacById']);
-    Route::get('/bac-terima/get-bac-terima-by-id/{id}', [BacTerimaController::class, 'getBacById']);
-
-    Route::get('/bac-terima/download/{file}', [BacTerimaController::class, 'download'])
-        ->name('bac-terima.download');
-
-    Route::get('/bac-pakai/download/{file}', [BacPakaiController::class, 'download'])
-        ->name('bac-pakai.download');
-
-    Route::get('/bac-pakai/generate-kode/{tanggal}', [BacPakaiController::class, 'generateKode']);
-    Route::get('/bac-terima/generate-kode/{tanggal}', [BacTerimaController::class, 'generateKode']);
-
-    Route::resource('item', ItemController::class)->except('show');
-    Route::resource('bac-terima', BacTerimaController::class);
-    Route::resource('bac-pakai', BacPakaiController::class);
-    Route::resource('aso', AsoController::class);
-    Route::resource('received', ReceivedController::class);
-});
+require_once __DIR__ . '/inventory.php';
 
 // Elecronic Document
 Route::middleware('auth')->prefix('electronic-document')->group(function () {

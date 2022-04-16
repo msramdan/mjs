@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFileBacPakaiTable extends Migration
+class CreateNewFileBacTerimaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateFileBacPakaiTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_bac_pakai', function (Blueprint $table) {
+        Schema::create('new_file_bac_terima', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bac_pakai_id')->constrained('bac_pakai');
+            $table->foreignId('new_bac_terima_id')->constrained('new_bac_terima')->cascadeOnDelete();
             $table->string('nama', 100);
             $table->string('file', 100);
             $table->timestamps();
@@ -29,6 +29,6 @@ class CreateFileBacPakaiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_bac_pakais');
+        Schema::dropIfExists('new_file_bac_terima');
     }
 }
