@@ -96,9 +96,10 @@
             produk.html(`<option value="" disabled selected>Loading...</option>`)
 
             $.ajax({
-                url: '/inventory/item/get-item-by-supplier/' + supplier.val(),
+                url: '/inventory/item/get-item-by-supplier/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
+                    console.log(res);
                     setTimeout(() => {
                         let listProduk = []
 
@@ -108,13 +109,28 @@
 
                             $.each(res, function(index, value) {
                                 listProduk.push(
-                                    `<option value="${value.item_id}">${value.item.kode +' - '+value.item.nama}</option>`
+                                    `<option value="${value.id}">${value.kode +' - '+value.nama}</option>`
                                 )
                             })
                         } else {
                             listProduk.push(
                                 `<option value="" disabled selected>Data tidak ditemukan</option>`
                             )
+
+                            // listProduk.push(
+                            //     `<option value="" disabled selected>-- Pilih --</option>`)
+
+                            // for (let i = 0; i < allProduks[0].length; i++) {
+                            //     listProduk.push(
+                            //         `<option value="${allProduks[0][i].id}">${allProduks[0][i].kode +' - '+allProduks[0][i].nama}</option>`
+                            //     )
+                            // }
+
+                            // $.each(allProduks, function(index, value) {
+                            //     listProduk.push(
+                            //         `<option value="${value[index].id}">${value[index].kode +' - '+value[index].nama}</option>`
+                            //     )
+                            // })
                         }
 
                         if (!attn.val()) {
@@ -142,7 +158,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'requestForm tidak boleh kosong'
+                    text: 'Request Form tidak boleh kosong'
                 })
 
             } else {
@@ -156,22 +172,44 @@
 
                 $.ajax({
                     url: '/inventory/item/get-item-and-supplier/' + $(this).val() + '/' + supplier.val(),
-                    method: 'get',
+                    method: 'GET',
                     success: function(res) {
-                        stok.val(res.item.stok)
-                        kodeProduk.val(res.item.kode)
-                        unitProduk.val(res.item.unit.nama)
 
-                        setTimeout(() => {
-                            harga.prop('type', 'number')
-                            harga.prop('disabled', false)
-                            harga.val(res.harga_beli)
+                        console.log(res);
 
-                            qty.prop('type', 'number')
-                            qty.prop('disabled', false)
-                            qty.val('')
-                            qty.focus()
-                        }, 500)
+                        if (res.type == 'with supplier') {
+                            stok.val(res.data.item.stok)
+                            kodeProduk.val(res.data.item.kode)
+                            unitProduk.val(res.data.item.unit.nama)
+
+                            setTimeout(() => {
+                                harga.prop('type', 'number')
+                                harga.prop('disabled', false)
+                                harga.val(res.data.harga_beli)
+
+                                qty.prop('type', 'number')
+                                qty.prop('disabled', false)
+                                qty.val('')
+                                qty.focus()
+                            }, 500)
+                        } else {
+
+                            stok.val(res.data.stok)
+                            kodeProduk.val(res.data.kode)
+                            unitProduk.val(res.data.unit.nama)
+
+                            setTimeout(() => {
+                                harga.prop('type', 'number')
+                                harga.prop('disabled', false)
+                                harga.val(res.data.harga_estimasi)
+
+                                qty.prop('type', 'number')
+                                qty.prop('disabled', false)
+                                qty.val('')
+                                qty.focus()
+                            }, 500)
+                        }
+
                     }
                 })
             }

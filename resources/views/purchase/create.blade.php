@@ -103,6 +103,7 @@
                 url: '/inventory/item/get-item-by-supplier/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
+                    console.log(res);
                     setTimeout(() => {
                         let listProduk = []
 
@@ -112,7 +113,7 @@
 
                             $.each(res, function(index, value) {
                                 listProduk.push(
-                                    `<option value="${value.item_id}">${value.item.kode +' - '+value.item.nama}</option>`
+                                    `<option value="${value.id}">${value.kode +' - '+value.nama}</option>`
                                 )
                             })
                         } else {
@@ -178,7 +179,7 @@
                     method: 'GET',
                     success: function(res) {
 
-                        // console.log(res);
+                        console.log(res);
 
                         if (res.type == 'with supplier') {
                             stok.val(res.data.item.stok)
@@ -195,10 +196,7 @@
                                 qty.val('')
                                 qty.focus()
                             }, 500)
-
-                            // console.log('with supp');
                         } else {
-                            // console.log('no supp');
 
                             stok.val(res.data.stok)
                             kodeProduk.val(res.data.kode)
