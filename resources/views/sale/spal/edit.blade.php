@@ -174,7 +174,7 @@
                             </div>
 
                             <div>
-                                <button class="btn btn-primary" type="button" id="btn-add-file">
+                                <button class="btn btn-primary" type="button" id="btn-add-file" title="Add new file">
                                     <i class="fas fa-file me-1"></i>
                                     Add
                                 </button>
@@ -213,14 +213,12 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button
-                                                    class="btn btn-danger btn-delete-file{{ $loop->iteration == 1 ? ' disabled' : '' }}"
-                                                    type="button" {{ $loop->iteration == 1 ? 'disabled' : '' }}>
+                                                <button class="btn btn-danger btn-delete-file{{ $loop->iteration == 1 ? ' disabled' : '' }}"
+                                                    type="button" {{ $loop->iteration == 1 ? 'disabled' : '' }} title="Delete">
                                                     <i class="fas fa-times"></i>
                                                 </button>
 
-                                                <a href="{{ route('spal.download', $detail->file) }}" target="_blank"
-                                                    class="btn btn-primary btn-download ms-1">
+                                                <a href="{{ route('spal.download', $detail->file) }}"  target="_blank" class="btn btn-primary btn-download ms-1" title="Download">
                                                     <i class="fas fa-download"></i>
                                                 </a>
                                             </td>
@@ -230,8 +228,8 @@
                             </table>
                         </div>
 
-                        <button type="reset" class="btn btn-secondary me-1">Reset</button>
-                        <button type="submit" class="btn btn-success">Update</button>
+                        <button type="reset" class="btn btn-secondary me-1" title="Reset">Reset</button>
+                        <button type="submit" class="btn btn-success" title="Update">Update</button>
                 </form>
             </div>
         </div>
@@ -268,7 +266,7 @@
                     </div>
                 </td>
                 <td>
-                    <button class="btn btn-danger btn-delete-file" type="button">
+                    <button class="btn btn-danger btn-delete-file" type="button" title="Delete">
                         <i class="fas fa-times"></i>
                     </button>
                 </td>

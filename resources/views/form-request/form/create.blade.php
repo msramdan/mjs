@@ -86,7 +86,7 @@
                         </div>
 
                         <div>
-                            <button class="btn btn-primary" type="button" id="btn-add">
+                            <button class="btn btn-primary" type="button" id="btn-add" title="Add new file">
                                 {{-- <i class="fas fa-plus"></i> --}}
                                 Add
                             </button>
@@ -116,7 +116,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn btn-danger disabled btn-hapus" type="button" disabled>
+                                        <button class="btn btn-danger disabled btn-hapus" type="button" disabled title="Delete">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
@@ -125,8 +125,8 @@
                         </table>
                     </div>
 
-                    <button type="reset" class="btn btn-secondary me-1">Reset</button>
-                    <button type="submit" class="btn btn-success">Simpan</button>
+                    <button type="reset" class="btn btn-secondary me-1" title="Reset">Reset</button>
+                    <button type="submit" class="btn btn-success" title="Save">Simpan</button>
                 </form>
 
                 @if ($errors->any())
@@ -181,7 +181,7 @@
                     </div>
                 </td>
                 <td>
-                    <button class="btn btn-danger btn-hapus" type="button">
+                    <button class="btn btn-danger btn-hapus" type="button" title="Delete">
                         <i class="fas fa-times"></i>
                     </button>
                 </td>

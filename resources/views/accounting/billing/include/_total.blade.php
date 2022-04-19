@@ -134,7 +134,7 @@
                 </div>
             </div> --}}
 
-            @if ($billing->status !== 'Paid' && $billing->tanggal_dibayar == null)
+            @if ($billing->status !== 'Paid' && $billing->tanggal_dibayar == null && empty($show))
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
                         <label for="nota" class="float-start">Nota</label>

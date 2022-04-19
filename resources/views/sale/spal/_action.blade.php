@@ -1,6 +1,6 @@
 <td>
     @can('edit spal')
-        <a href="{{ route('spal.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
+        <a href="{{ route('spal.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1" title="Edit">
             <i class="fas fa-edit"></i>
         </a>
     @endcan
@@ -11,7 +11,7 @@
             @csrf
             @method('delete')
 
-            <button class="btn btn-danger btn-xs mb-1">
+            <button class="btn btn-danger btn-xs mb-1" title="Delete">
                 <i class="fas fa-trash-alt"></i>
             </button>
         </form>

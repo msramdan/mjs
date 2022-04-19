@@ -166,7 +166,7 @@
                 <div class="col-md-12 mt-2">
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-success me-2" id="btn-save"
-                            {{ empty($billing) ? 'disabled' : '' }}>
+                            {{ empty($billing) ? 'disabled' : '' }} title="{{ empty($billing) ? 'Save' : 'Update' }}">
                             {{ empty($billing) ? 'Simpan' : 'Update' }}
                         </button>
 
@@ -174,17 +174,17 @@
                         Print
                     </a> --}}
 
-                        <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
+                        <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel" title="Cancel"
                             {{ empty($billing) ? 'disabled' : '' }}>Cancel</a>
                     </div>
                 </div>
             @else
                 <div class="d-flex justify-content-end mt-2">
-                    <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2">
+                    <a href="{{ route('billing.print', $billing->id) }}" class="btn btn-dark me-2" title="Print">
                         Print
                     </a>
 
-                    <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel"
+                    <a href="{{ route('billing.index') }}" class="btn btn-secondary" id="btn-cancel" title="Cancel"
                         {{ empty($billing) ? 'disabled' : '' }}>Cancel</a>
                 </div>
             @endempty

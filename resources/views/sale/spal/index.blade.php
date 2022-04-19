@@ -8,7 +8,7 @@
 
         @can('create spal')
             <div class="d-flex justify-content-end">
-                <a href="{{ route('spal.create') }}" class="btn btn-primary mb-3">
+                <a href="{{ route('spal.create') }}" class="btn btn-primary mb-3" title="Create new spal">
                     <i class="fas fa-plus me-1"></i>
                     Create
                 </a>
@@ -85,11 +85,7 @@
         //         }
         //     },
 
-        const action =
-            '{{ auth()->user()->can('edit spal') ||
-            auth()->user()->can('delete spal')
-                ? 'yes yes yes'
-                : '' }}'
+        const action = '{{ auth()->user()->can('edit spal') || auth()->user()->can('delete spal') ? 'yes yes yes' : '' }}'
 
         let columns = [{
                 data: 'kode',

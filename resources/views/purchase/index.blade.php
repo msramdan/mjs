@@ -8,7 +8,7 @@
 
         @can('create purchase')
             <div class="d-flex justify-content-end">
-                <a href="{{ route('purchase.create') }}" class="btn btn-primary mb-3">
+                <a href="{{ route('purchase.create') }}" class="btn btn-primary mb-3" title="Create new purchase">
                     <i class="fas fa-plus me-1"></i>
                     Create
                 </a>
@@ -71,12 +71,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/r-2.2.9/datatables.min.js"></script>
 
     <script>
-        const action =
-            '{{ auth()->user()->can('edit purchase') ||
-            auth()->user()->can('delete purchase') ||
-            auth()->user()->can('approve purchase')
-                ? 'yes yes yes'
-                : '' }}'
+        const action = '{{ auth()->user()->can('edit purchase') || auth()->user()->can('delete purchase') || auth()->user()->can('approve purchase') ? 'yes yes yes' : '' }}'
 
         const columns = [{
                 data: 'kode',

@@ -8,7 +8,7 @@
 
         @can('create invoice')
             <div class="d-flex justify-content-end">
-                <a href="{{ route('invoice.create') }}" class="btn btn-primary mb-3">
+                <a href="{{ route('invoice.create') }}" class="btn btn-primary mb-3" title="Create new invoice">
                     <i class="fas fa-plus me-1"></i>
                     Create
                 </a>

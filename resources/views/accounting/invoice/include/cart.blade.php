@@ -230,7 +230,7 @@
             @empty($show)
                 <div class="col-md-12 mt-2">
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success me-2" id="btn-save"
+                        <button type="submit" class="btn btn-success me-2" id="btn-save" title="{{ empty($invoice) ? 'Simpan' : 'Update' }}"
                             {{ empty($invoice) ? 'disabled' : '' }}>
                             {{ empty($invoice) ? 'Simpan' : 'Update' }}
                         </button>
@@ -240,17 +240,17 @@
                     </a> --}}
 
                         <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
-                            {{ empty($invoice) ? 'disabled' : '' }}>Cancel</a>
+                            {{ empty($invoice) ? 'disabled' : '' }} title="Cancel">Cancel</a>
                     </div>
                 </div>
             @else
                 <div class="d-flex justify-content-end mt-2">
-                    <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2">
+                    <a href="{{ route('invoice.print', $invoice->id) }}" class="btn btn-dark me-2" title="Print">
                         Print
                     </a>
 
                     <a href="{{ route('invoice.index') }}" class="btn btn-secondary" id="btn-cancel"
-                        {{ empty($invoice) ? 'disabled' : '' }}>Cancel</a>
+                        {{ empty($invoice) ? 'disabled' : '' }} title="Cancel">Cancel</a>
                 </div>
             @endempty
 

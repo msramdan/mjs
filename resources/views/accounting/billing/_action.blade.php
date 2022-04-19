@@ -1,15 +1,15 @@
 <td>
-    <a href="{{ route('billing.show', $model->id) }}" class="btn btn-info btn-xs mb-1">
+    <a href="{{ route('billing.show', $model->id) }}" class="btn btn-info btn-xs mb-1" title="Detail">
         <i class="fas fa-eye"></i>
     </a>
 
-    <a href="{{ route('billing.print', $model->id) }}" class="btn btn-dark btn-xs mb-1" target="_blank">
+    <a href="{{ route('billing.print', $model->id) }}" class="btn btn-dark btn-xs mb-1" target="_blank" title="Print">
         <i class="fas fa-print"></i>
     </a>
 
     @if ($model->status == 'Unpaid')
         @can('edit billing')
-            <a href="{{ route('billing.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
+            <a href="{{ route('billing.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1" title="Edit">
                 <i class="fas fa-edit"></i>
             </a>
         @endcan
@@ -20,7 +20,7 @@
                 @csrf
                 @method('delete')
 
-                <button class="btn btn-danger btn-xs mb-1">
+                <button class="btn btn-danger btn-xs mb-1" title="Delete">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </form>

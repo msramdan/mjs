@@ -73,7 +73,7 @@ $cekStatus = [];
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="button"></label>
-                            <button type="submit" class="btn btn-primary form-control">
+                            <button type="submit" class="btn btn-primary form-control" title="Update">
                                 Update
                             </button>
                         </div>

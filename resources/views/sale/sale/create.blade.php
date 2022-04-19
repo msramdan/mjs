@@ -284,11 +284,11 @@
                             <input type="hidden" class="harga-hidden" name="subtotal[]" value="${subtotal}">
                         </td>
                         <td>
-                            <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
+                            <button class="btn btn-warning btn-xs me-1 btn-edit" type="button" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </button>
 
-                            <button class="btn btn-danger btn-xs btn-delete" type="button">
+                            <button class="btn btn-danger btn-xs btn-delete" type="button" title="Delete">
                                 <i class="fas fa-times"></i>
                             </button>
                         </td>
@@ -378,11 +378,11 @@
                         <input type="hidden" class="harga-hidden" name="subtotal[]" value="${subtotal}">
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
+                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button" title="Edit">
                             <i class="fas fa-edit"></i>
                         </button>
 
-                        <button class="btn btn-danger btn-xs btn-delete" type="button">
+                        <button class="btn btn-danger btn-xs btn-delete" type="button" title="Delete">
                             <i class="fas fa-times"></i>
                         </button>
                     </td>
