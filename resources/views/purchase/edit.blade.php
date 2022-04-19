@@ -53,9 +53,9 @@
 
         const tblCart = $('#tbl-cart')
 
-        const baruDiload = true
+        const allProduks = []
 
-        // getBarangBySupplier()
+        getAll()
 
         tanggal.change(function() {
             getKode()
@@ -87,6 +87,8 @@
                         tglRequest.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
                             .join('/'))
                         // hargaUnit.text(res.harga_unit)
+
+                        supplier.focus()
                     }, 500)
                 },
             })
@@ -109,7 +111,7 @@
 
                             $.each(res, function(index, value) {
                                 listProduk.push(
-                                    `<option value="${value.id}">${value.kode +' - '+value.nama}</option>`
+                                    `<option value="${value.item_id}">${value.kode +' - '+value.nama}</option>`
                                 )
                             })
                         } else {
@@ -240,7 +242,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'supplier tidak boleh kosong'
+                    text: 'Supplier tidak boleh kosong'
                 })
 
             } else if (!attn.val()) {
@@ -368,7 +370,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'supplier tidak boleh kosong'
+                    text: 'Supplier tidak boleh kosong'
                 })
 
             } else if (!attn.val()) {
@@ -538,7 +540,7 @@
                     })
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText)
+                    // console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
@@ -625,6 +627,16 @@
                     setTimeout(() => {
                         kode.val(res.kode)
                     }, 500)
+                }
+            })
+        }
+
+        function getAll() {
+            $.ajax({
+                url: '/inventory/item/get-all/',
+                method: 'GET',
+                success: function(res) {
+                    allProduks.push(res)
                 }
             })
         }

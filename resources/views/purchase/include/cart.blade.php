@@ -71,7 +71,7 @@
                                 @isset($listProduk)
                                     <option value="" disabled selected>-- Pilih --</option>
                                     @foreach ($listProduk as $prd)
-                                        <option value="{{ $prd->id }}">
+                                        <option value="{{ $prd->item_id }}">
                                             {{ $prd->item->kode . ' - ' . $prd->item->nama }}</option>
                                     @endforeach
                                 @else

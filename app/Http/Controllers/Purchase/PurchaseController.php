@@ -179,7 +179,8 @@ class PurchaseController extends Controller
 
         $listProduk = DetailItem::select('id', 'item_id', 'supplier_id')
             ->with('item:id,kode,nama')
-            ->where('supplier_id', $purchase->supplier_id)->get();
+            ->where('supplier_id', $purchase->supplier_id)
+            ->get();
 
         $show = false;
         return view('purchase.edit', compact('purchase', 'show', 'listProduk'));

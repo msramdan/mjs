@@ -113,7 +113,7 @@
 
                             $.each(res, function(index, value) {
                                 listProduk.push(
-                                    `<option value="${value.id}">${value.kode +' - '+value.nama}</option>`
+                                    `<option value="${value.item_id}">${value.kode +' - '+value.nama}</option>`
                                 )
                             })
                         } else {
