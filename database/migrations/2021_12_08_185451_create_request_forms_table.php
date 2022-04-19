@@ -16,6 +16,7 @@ class CreateRequestFormsTable extends Migration
         Schema::create('request_forms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_request_id')->constrained('category_request');
+            $table->integer('lokasi_id')->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->string('kode', 30);
             $table->date('tanggal');

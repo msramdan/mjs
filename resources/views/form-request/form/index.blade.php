@@ -39,6 +39,7 @@
                                     <tr>
                                         <th>Kode</th>
                                         <th>Tanggal</th>
+                                        <th>Lokasi</th>
                                         <th>Category Request</th>
                                         <th>User</th>
                                         <th>Created At</th>
@@ -71,6 +72,10 @@
             {
                 data: 'tanggal',
                 name: 'tanggal'
+            },
+            {
+                data: 'lokasi',
+                name: 'lokasi'
             },
             {
                 data: 'category_request',
