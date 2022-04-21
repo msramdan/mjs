@@ -71,7 +71,7 @@
                                 @isset($listProduk)
                                     <option value="" disabled selected>-- Pilih --</option>
                                     @foreach ($listProduk as $prd)
-                                        <option value="{{ $prd->id }}">
+                                        <option value="{{ $prd->item_id }}">
                                             {{ $prd->item->kode . ' - ' . $prd->item->nama }}</option>
                                     @endforeach
                                 @else
@@ -105,12 +105,12 @@
 
                 @if (!$show)
                     <div>
-                        <button type="button" class="btn btn-info" id="btn-update" style="display: none;">
+                        <button type="button" class="btn btn-info" id="btn-update" style="display: none;" title="Save">
                             <i class="fas fa-save me-1"></i>
                             Update
                         </button>
 
-                        <button type="button" class="btn btn-primary" id="btn-add">
+                        <button type="button" class="btn btn-primary" id="btn-add" title="Add to cart">
                             <i class="fas fa-cart-plus me-1"></i>
                             Add
                         </button>
@@ -165,11 +165,11 @@
                                 </td>
                                 @if (!$show)
                                     <td>
-                                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
+                                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
-                                        <button class="btn btn-danger btn-xs btn-delete" type="button">
+                                        <button class="btn btn-danger btn-xs btn-delete" type="button" title="Delete">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </td>
@@ -226,7 +226,7 @@
                             <br>
 
                             <button type="submit" class="btn btn-success d-block w-100 mb-2" id="btn-save"
-                                {{ !$purchase ? 'disabled' : '' }}>
+                                {{ !$purchase ? 'disabled' : '' }} title="{{ !$purchase ? 'Save' : 'Update' }}">
                                 @if (!$purchase)
                                     Simpan
                                 @else
@@ -235,7 +235,7 @@
                             </button>
 
                             <a href="{{ route('purchase.index') }}" class="btn btn-secondary d-block w-100"
-                                id="btn-cancel" {{ !$purchase ? 'disabled' : '' }}>Cancel</a>
+                                id="btn-cancel" {{ !$purchase ? 'disabled' : '' }} title="Cancel">Cancel</a>
                         </div>
                     </div>
                 @endif

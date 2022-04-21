@@ -212,7 +212,7 @@ class ItemController extends Controller
         if (empty($item)) {
             $item = Item::with('unit:id,nama')
                 ->select('id', 'unit_id', 'kode', 'nama', 'stok', 'harga_estimasi')
-                ->findOrFail($itemId);
+                ->first($itemId);
 
             return response()->json(['data' => $item, 'type' => 'without supplier'], 200);
         } else {
@@ -278,9 +278,21 @@ class ItemController extends Controller
     {
         abort_if(!request()->ajax(), 403);
 
-        $item = DetailItem::select('id', 'item_id', 'supplier_id')
-            ->with('item:id,kode,nama')
-            ->where('supplier_id', $id)->get();
+        // $item = DetailItem::select('id', 'item_id', 'supplier_id')
+        //     ->with('item:id,kode,nama')
+        //     ->whereHas('item', function($q){
+        //         $q->orderBy('nama');
+        //     })
+        //     ->where('supplier_id', $id)
+        //     ->get();
+
+        $item = DB::table('items')
+            ->select('items.id', 'items.kode', 'items.nama', 'detail_items.id', 'detail_items.item_id', 'detail_items.supplier_id',)
+            ->join('detail_items', 'detail_items.item_id', '=', 'items.id')
+            ->join('suppliers', 'suppliers.id', '=', 'detail_items.supplier_id')
+            ->where('detail_items.supplier_id', $id)
+            ->orderBy('items.nama')
+            ->get();
 
         return response()->json($item, 200);
     }

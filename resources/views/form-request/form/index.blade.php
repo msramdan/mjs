@@ -8,7 +8,7 @@
 
         @can('create request form purchase')
             <div class="d-flex justify-content-end">
-                <a href="{{ route('request-form.create') }}" class="btn btn-primary mb-3">
+                <a href="{{ route('request-form.create') }}" class="btn btn-primary mb-3" title="Create new form request">
                     <i class="fas fa-plus me-1"></i>
                     Create
                 </a>

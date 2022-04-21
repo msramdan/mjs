@@ -1,12 +1,12 @@
 <td>
     @can('view sale')
-        <a href="{{ route('sale.show', $model->id) }}" class="btn btn-info btn-xs mb-1">
+        <a href="{{ route('sale.show', $model->id) }}" class="btn btn-info btn-xs mb-1" title="Detail">
             <i class="fas fa-eye"></i>
         </a>
     @endcan
 
     @can('edit sale')
-        <a href="{{ route('sale.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1">
+        <a href="{{ route('sale.edit', $model->id) }}" class="btn btn-primary btn-xs mb-1" title="Edit">
             <i class="fas fa-edit"></i>
         </a>
     @endcan
@@ -17,7 +17,7 @@
             @csrf
             @method('delete')
 
-            <button class="btn btn-danger btn-xs mb-1">
+            <button class="btn btn-danger btn-xs mb-1" title="Delete">
                 <i class="fas fa-trash-alt"></i>
             </button>
         </form>

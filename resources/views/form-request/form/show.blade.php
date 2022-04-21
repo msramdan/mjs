@@ -88,7 +88,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('request-form.download', $detail->file) }}" target="_blank"
-                                            class="btn btn-primary btn-download">
+                                            class="btn btn-primary btn-download" title="Download">
                                             <i class="fas fa-download"></i>
                                         </a>
                                     </td>
@@ -98,7 +98,7 @@
                     </table>
                 </div>
 
-                <a href="{{ route('request-form.index') }}" class="btn btn-secondary">Back</a>
+                <a href="{{ route('request-form.index') }}" class="btn btn-secondary" title="Back">Back</a>
             </div>
         </div>
 

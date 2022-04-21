@@ -53,9 +53,9 @@
 
         const tblCart = $('#tbl-cart')
 
-        const baruDiload = true
+        const allProduks = []
 
-        // getBarangBySupplier()
+        getAll()
 
         tanggal.change(function() {
             getKode()
@@ -87,6 +87,8 @@
                         tglRequest.text(dateObject.toJSON().slice(0, 10).split('-').reverse()
                             .join('/'))
                         // hargaUnit.text(res.harga_unit)
+
+                        supplier.focus()
                     }, 500)
                 },
             })
@@ -96,9 +98,10 @@
             produk.html(`<option value="" disabled selected>Loading...</option>`)
 
             $.ajax({
-                url: '/inventory/item/get-item-by-supplier/' + supplier.val(),
+                url: '/inventory/item/get-item-by-supplier/' + $(this).val(),
                 method: 'get',
                 success: function(res) {
+                    console.log(res);
                     setTimeout(() => {
                         let listProduk = []
 
@@ -108,13 +111,28 @@
 
                             $.each(res, function(index, value) {
                                 listProduk.push(
-                                    `<option value="${value.item_id}">${value.item.kode +' - '+value.item.nama}</option>`
+                                    `<option value="${value.item_id}">${value.kode +' - '+value.nama}</option>`
                                 )
                             })
                         } else {
                             listProduk.push(
                                 `<option value="" disabled selected>Data tidak ditemukan</option>`
                             )
+
+                            // listProduk.push(
+                            //     `<option value="" disabled selected>-- Pilih --</option>`)
+
+                            // for (let i = 0; i < allProduks[0].length; i++) {
+                            //     listProduk.push(
+                            //         `<option value="${allProduks[0][i].id}">${allProduks[0][i].kode +' - '+allProduks[0][i].nama}</option>`
+                            //     )
+                            // }
+
+                            // $.each(allProduks, function(index, value) {
+                            //     listProduk.push(
+                            //         `<option value="${value[index].id}">${value[index].kode +' - '+value[index].nama}</option>`
+                            //     )
+                            // })
                         }
 
                         if (!attn.val()) {
@@ -142,7 +160,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'requestForm tidak boleh kosong'
+                    text: 'Request Form tidak boleh kosong'
                 })
 
             } else {
@@ -156,22 +174,44 @@
 
                 $.ajax({
                     url: '/inventory/item/get-item-and-supplier/' + $(this).val() + '/' + supplier.val(),
-                    method: 'get',
+                    method: 'GET',
                     success: function(res) {
-                        stok.val(res.item.stok)
-                        kodeProduk.val(res.item.kode)
-                        unitProduk.val(res.item.unit.nama)
 
-                        setTimeout(() => {
-                            harga.prop('type', 'number')
-                            harga.prop('disabled', false)
-                            harga.val(res.harga_beli)
+                        console.log(res);
 
-                            qty.prop('type', 'number')
-                            qty.prop('disabled', false)
-                            qty.val('')
-                            qty.focus()
-                        }, 500)
+                        if (res.type == 'with supplier') {
+                            stok.val(res.data.item.stok)
+                            kodeProduk.val(res.data.item.kode)
+                            unitProduk.val(res.data.item.unit.nama)
+
+                            setTimeout(() => {
+                                harga.prop('type', 'number')
+                                harga.prop('disabled', false)
+                                harga.val(res.data.harga_beli)
+
+                                qty.prop('type', 'number')
+                                qty.prop('disabled', false)
+                                qty.val('')
+                                qty.focus()
+                            }, 500)
+                        } else {
+
+                            stok.val(res.data.stok)
+                            kodeProduk.val(res.data.kode)
+                            unitProduk.val(res.data.unit.nama)
+
+                            setTimeout(() => {
+                                harga.prop('type', 'number')
+                                harga.prop('disabled', false)
+                                harga.val(res.data.harga_estimasi)
+
+                                qty.prop('type', 'number')
+                                qty.prop('disabled', false)
+                                qty.val('')
+                                qty.focus()
+                            }, 500)
+                        }
+
                     }
                 })
             }
@@ -202,7 +242,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'supplier tidak boleh kosong'
+                    text: 'Supplier tidak boleh kosong'
                 })
 
             } else if (!attn.val()) {
@@ -282,11 +322,11 @@
                             <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${subtotal}">
                         </td>
                         <td>
-                            <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
+                            <button class="btn btn-warning btn-xs me-1 btn-edit" type="button" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </button>
 
-                            <button class="btn btn-danger btn-xs btn-delete" type="button">
+                            <button class="btn btn-danger btn-xs btn-delete" type="button" title="Delete">
                                 <i class="fas fa-times"></i>
                             </button>
                         </td>
@@ -330,7 +370,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'supplier tidak boleh kosong'
+                    text: 'Supplier tidak boleh kosong'
                 })
 
             } else if (!attn.val()) {
@@ -403,11 +443,11 @@
                         <input type="hidden" class="subtotal-hidden" name="subtotal[]" value="${subtotal}">
                     </td>
                     <td>
-                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button">
+                        <button class="btn btn-warning btn-xs me-1 btn-edit" type="button" title="Edit">
                             <i class="fas fa-edit"></i>
                         </button>
 
-                        <button class="btn btn-danger btn-xs btn-delete" type="button">
+                        <button class="btn btn-danger btn-xs btn-delete" type="button" title="Delete">
                             <i class="fas fa-times"></i>
                         </button>
                     </td>
@@ -500,7 +540,7 @@
                     })
                 },
                 error: function(xhr, status, error) {
-                    console.error(xhr.responseText)
+                    // console.error(xhr.responseText)
 
                     Swal.fire({
                         icon: 'error',
@@ -587,6 +627,16 @@
                     setTimeout(() => {
                         kode.val(res.kode)
                     }, 500)
+                }
+            })
+        }
+
+        function getAll() {
+            $.ajax({
+                url: '/inventory/item/get-all/',
+                method: 'GET',
+                success: function(res) {
+                    allProduks.push(res)
                 }
             })
         }

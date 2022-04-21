@@ -169,7 +169,7 @@
                             </div>
 
                             <div>
-                                <button class="btn btn-primary" type="button" id="btn-add-file">
+                                <button class="btn btn-primary" type="button" id="btn-add-file" title="Add new file">
                                     <i class="fas fa-file me-1"></i>
                                     Add
                                 </button>
@@ -207,7 +207,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <button class="btn btn-danger disabled btn-delete-file" type="button" disabled>
+                                            <button class="btn btn-danger disabled btn-delete-file" type="button" title="Delete" disabled>
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </td>
@@ -225,11 +225,11 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success" id="btn-save">Simpan
+                                <button type="submit" class="btn btn-success" id="btn-save" title="Save">Simpan
                                 </button>
 
                                 <a href="{{ route('bac-pakai.index') }}" class="btn btn-secondary"
-                                    id="btn-cancel">Cancel</a>
+                                    id="btn-cancel" title="Cancel">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -278,7 +278,7 @@
                     </div>
                 </td>
                 <td>
-                    <button class="btn btn-danger btn-delete-file" type="button">
+                    <button class="btn btn-danger btn-delete-file" type="button" title="Delete">
                         <i class="fas fa-times"></i>
                     </button>
                 </td>
