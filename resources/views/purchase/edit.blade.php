@@ -508,6 +508,7 @@
                 diskon: diskon.val(),
                 catatan: catatan.val(),
                 total: $('#total-hidden').val(),
+                tax: $('#tax').is(":checked") ? 'yes' : null,
                 grand_total: $('#grand-total-hidden').val(),
                 produk: $('input[name="produk[]"]').map(function() {
                     return $(this).val()
@@ -531,6 +532,8 @@
                 },
                 data: purchase,
                 success: function(res) {
+                    // console.log(res);
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Update data',
@@ -555,19 +558,51 @@
             hitungDiskon()
         })
 
-        function hitungDiskon() {
-            xTotal = parseInt($('#total-hidden').val())
-            xDiskon = (xTotal - parseInt($('#diskon').val()))
+        $('#tax').change(function(){
+            hitungTax()
+        })
 
-            if (Number.isNaN(xDiskon)) {
-                grandTotal.val(formatRibuan(xTotal))
+        function hitungTax() {
+            let tax = 0
+            let diskon = $('#diskon').val() ? parseInt($('#diskon').val().replace(',', '')) : 0
+            let total = parseInt($('#total').val().replace(',', ''))
 
-                $('#grand-total-hidden').val(xTotal)
+            if ($('#tax').is(':checked')) {
+                tax = (total - diskon) * 0.11
+                console.log('cek')
+                console.log(tax)
+                $('#tax-text').text(`+ tax: ${formatRibuan(tax)}`)
             } else {
-                grandTotal.val(formatRibuan(xDiskon))
-
-                $('#grand-total-hidden').val(xDiskon)
+                console.log('ga')
+                console.log(tax)
+                $('#tax-text').text(``)
             }
+
+            $('#grand-total-hidden').val((total - diskon) + tax)
+            grandTotal.val(formatRibuan((total - diskon) + tax))
+        }
+
+        function hitungDiskon() {
+            // let xTotal = parseInt($('#total-hidden').val())
+            // let xDiskon = (xTotal - parseInt($('#diskon').val()))
+
+            // // let tax = 0
+            // // if ($(this).is(':checked')) {
+            // //     tax = xDiskon * 0.11
+            // // }
+
+            // if (Number.isNaN(xDiskon)) {
+            //     grandTotal.val(formatRibuan(xTotal))
+
+            //     $('#grand-total-hidden').val(xTotal)
+            // } else {
+            //     grandTotal.val(formatRibuan(xDiskon))
+
+            //     $('#grand-total-hidden').val(xDiskon)
+            // }
+
+            hitungTax()
+
         }
 
         function cekTableLength() {

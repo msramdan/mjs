@@ -105,7 +105,8 @@
 
                 @if (!$show)
                     <div>
-                        <button type="button" class="btn btn-info" id="btn-update" style="display: none;" title="Save">
+                        <button type="button" class="btn btn-info" id="btn-update" style="display: none;"
+                            title="Save">
                             <i class="fas fa-save me-1"></i>
                             Update
                         </button>
@@ -189,16 +190,29 @@
                             value="{{ $purchase ? number_format($purchase->total) : '' }}" required disabled />
                     </div>
 
-                    <div class="form-group mb-2">
-                        <label class="form-label" for="diskon">Diskon</label>
-                        <input class="form-control" type="{{ $show ? 'text' : 'number' }}" id="diskon"
-                            name="diskon" placeholder="Diskon" min="1"
-                            value="{{ $show ? number_format($purchase->diskon) : ($purchase ? $purchase->diskon : '') }}"
-                            {{ $show ? 'disabled' : '' }} />
+                    <div class="row mb-2">
+                        <div class="col-md-9 form-group">
+                            <label class="form-label" for="diskon">Diskon</label>
+                            <input class="form-control" type="{{ $show ? 'text' : 'number' }}" id="diskon"
+                                name="diskon" placeholder="Diskon" min="1"
+                                value="{{ $show ? number_format($purchase->diskon) : ($purchase ? $purchase->diskon : '') }}"
+                                {{ $show ? 'disabled' : '' }} />
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-check-label" for="tax">Tax(11%)</label>
+                            <div class="form-check form-switch form-control-lg">
+                                <input class="form-check-input" type="checkbox" id="tax" name="tax"
+                                    {{ $show ? 'disabled' : '' }}
+                                    {{ $purchase && $purchase->tax ? 'checked' : '' }}>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mb-2">
-                        <label class="form-label" for="grand-total">Grand Total</label>
+                        <label class="form-label" for="grand-total">
+                            Grand Total
+                            <small id="tax-text"></small>
+                        </label>
                         <input class="form-control disabled" type="text" id="grand-total" name="grand_total"
                             placeholder="Grand Total"
                             value="{{ $purchase ? number_format($purchase->grand_total) : '' }}" required disabled />
@@ -213,8 +227,7 @@
                 <div class="col-md-{{ !$show ? '6' : '8' }}">
                     <div class="form-group mb-2">
                         <label class="form-label" for="catatan">Catatan</label>
-                        <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan"
-                            rows="8"
+                        <textarea class="form-control" id="catatan" name="catatan" id="catatan" placeholder="Catatan" rows="8"
                             {{ $show ? 'disabled' : '' }}>{{ $purchase ? $purchase->catatan : '' }}</textarea>
                     </div>
                 </div>
