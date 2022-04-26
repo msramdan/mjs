@@ -24,6 +24,7 @@ class Purchase extends Model
         'total',
         'diskon',
         'catatan',
+        'tax',
         'grand_total',
         'total_dibayar',
         'lunas',

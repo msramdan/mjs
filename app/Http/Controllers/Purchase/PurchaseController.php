@@ -100,15 +100,18 @@ class PurchaseController extends Controller
     public function store(Request $request)
     {
         DB::transaction(function () use ($request) {
+            $tax = $request->tax ? round(($request->total - $request->diskon) * 0.11) : null;
+
             $purchase = Purchase::create([
                 'request_form_id' => $request->request_form,
                 'supplier_id' => $request->supplier,
                 'kode' => $request->kode,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
-                'grand_total' => $request->grand_total,
                 'total' => $request->total,
                 'diskon' => $request->diskon,
+                'tax' => $tax,
+                'grand_total' => $tax ? ($request->total - $request->diskon) + $tax : $request->total - $request->diskon,
                 'catatan' => $request->catatan,
             ]);
 
@@ -215,15 +218,18 @@ class PurchaseController extends Controller
                 DetailBacTerima::where('bac_terima_id', $purchase->bac_terima->id)->delete();
             }
 
+            $tax = $request->tax ? round(($request->total - $request->diskon) * 0.11) : null;
+
             $purchase->update([
                 'request_form_id' => $request->request_form,
                 'supplier_id' => $request->supplier,
                 'kode' => $request->kode,
                 'tanggal' => $request->tanggal,
                 'attn' => $request->attn,
-                'grand_total' => $request->grand_total,
+                'tax' => $tax,
                 'total' => $request->total,
                 'diskon' => $request->diskon,
+                'grand_total' => $tax ? ($request->total - $request->diskon) + $tax : $request->total - $request->diskon,
                 'catatan' => $request->catatan,
             ]);
 

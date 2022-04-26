@@ -23,6 +23,7 @@ class CreatePurchasesTable extends Migration
             $table->integer('total');
             $table->integer('diskon')->nullable();
             $table->integer('grand_total');
+            $table->float('tax', 10)->nullable();
             $table->text('catatan')->nullable();
             $table->timestamps();
         });
